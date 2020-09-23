@@ -9,7 +9,10 @@ namespace professionaltranslator.net.Repository
     {
         internal class Dbo
         {
-            internal static readonly string GetImage = "[dbo].[GetImage]";
+            internal class Read
+            {
+                internal static readonly string GetImage = "[dbo].[GetImage]";
+            }
         }
     }
 }
