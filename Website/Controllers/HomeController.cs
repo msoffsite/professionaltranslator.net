@@ -20,9 +20,9 @@ namespace professionaltranslator.net.Controllers
             _logger = logger;
         }
 
-        public IActionResult Index()
+        public async Task<IActionResult> Index()
         {
-            var modelImage = Repository.Image.Get();
+            var modelImage = await Repository.Image.Get(Guid.Parse("4AEE5647-691A-4C65-98B2-0AE965B67405"));
             return View();
         }
 

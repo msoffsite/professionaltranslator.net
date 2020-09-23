@@ -11,9 +11,9 @@ namespace professionaltranslator.net.Repository.DatabaseOperations.dbo.Read
 {
     internal class Image : Base
     {
-        internal static Models.Image Item(Guid? id)
+        internal static async Task<Models.Image> Item(Guid? id)
         {
-            using var cmd = new SqlCommand("[dbo].[GetImage]", new Base().SqlConnection)
+            await using var cmd = new SqlCommand("[dbo].[GetImage]", new Base().SqlConnection)
             {
                 CommandType = CommandType.StoredProcedure
             };
@@ -23,9 +23,9 @@ namespace professionaltranslator.net.Repository.DatabaseOperations.dbo.Read
             return Object.GetItem<Models.Image>(sda);
         }
 
-        internal static List<Models.Image> List()
+        internal static async Task<List<Models.Image>> List()
         {
-            using var cmd = new SqlCommand("[dbo].[GetImages]", new Base().SqlConnection)
+            await using var cmd = new SqlCommand("[dbo].[GetImages]", new Base().SqlConnection)
             {
                 CommandType = CommandType.StoredProcedure
             };

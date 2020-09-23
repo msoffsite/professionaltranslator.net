@@ -11,7 +11,7 @@ namespace professionaltranslator.net.Repository
 {
     internal class Image
     {
-        internal static Models.Image Get(Guid? id)
+        internal static Task<Models.Image> Get(Guid? id)
         {
             try
             {
@@ -23,11 +23,11 @@ namespace professionaltranslator.net.Repository
             }
         }
 
-        internal static List<Models.Image> Get()
+        internal static async Task<List<Models.Image>> Get()
         {
             try
             {
-                return dbRead.List();
+                return await dbRead.List();
             }
             catch
             {

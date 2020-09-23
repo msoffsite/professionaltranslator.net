@@ -10,9 +10,9 @@ namespace professionaltranslator.net.Repository.DatabaseOperations.dbo.Read.Loca
 {
     internal class Page : Base
     {
-        internal static Models.Localized.Page Item(string name, string culture)
+        internal static async Task<Models.Localized.Page> Item(string name, string culture)
         {
-            using var cmd = new SqlCommand("[dbo].[GetLocalizedPage]", new Base().SqlConnection)
+            await using var cmd = new SqlCommand("[dbo].[GetLocalizedPage]", new Base().SqlConnection)
             {
                 CommandType = CommandType.StoredProcedure
             };

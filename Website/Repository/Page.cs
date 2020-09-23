@@ -9,11 +9,11 @@ namespace professionaltranslator.net.Repository
 {
     internal class Page
     {
-        internal static Models.Localized.Page LocalizedItem(string name, string culture)
+        internal static async Task<Models.Localized.Page> LocalizedItem(string name, string culture)
         {
             try
             {
-                return dbLocalizedRead.Item(name, culture);
+                return await dbLocalizedRead.Item(name, culture);
             }
             catch
             {
