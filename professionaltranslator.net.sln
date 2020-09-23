@@ -1,0 +1,31 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.30413.136
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "professionaltranslator.net", "Website\professionaltranslator.net.csproj", "{562F01D7-8EF8-42BD-A720-A0C0BDA0F222}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "XUnitTest", "XUnitTest\XUnitTest.csproj", "{F0C97F3B-37DB-439D-8F20-8CDBA1212EC3}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{562F01D7-8EF8-42BD-A720-A0C0BDA0F222}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{562F01D7-8EF8-42BD-A720-A0C0BDA0F222}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{562F01D7-8EF8-42BD-A720-A0C0BDA0F222}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{562F01D7-8EF8-42BD-A720-A0C0BDA0F222}.Release|Any CPU.Build.0 = Release|Any CPU
+		{F0C97F3B-37DB-439D-8F20-8CDBA1212EC3}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F0C97F3B-37DB-439D-8F20-8CDBA1212EC3}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F0C97F3B-37DB-439D-8F20-8CDBA1212EC3}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F0C97F3B-37DB-439D-8F20-8CDBA1212EC3}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {1870746E-C21C-466D-BDFD-F95A31A06E66}
+	EndGlobalSection
+EndGlobal
