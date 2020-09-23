@@ -10,15 +10,16 @@ namespace professionaltranslator.net.Repository.DatabaseOperations.dbo.Read.Loca
 {
     internal class Page : Base
     {
-        internal static async Task<Models.Localized.Page> Item(string name, string culture)
+        internal static async Task<Models.Localized.Page> Item(string site, string name, string culture)
         {
             await using var cmd = new SqlCommand("[dbo].[GetLocalizedPage]", new Base().SqlConnection)
             {
                 CommandType = CommandType.StoredProcedure
             };
 
+            cmd.Parameters.Add("@Site", SqlDbType.NVarChar, 25).Value = site;
             cmd.Parameters.Add("@Enum", SqlDbType.NVarChar, 20).Value = name;
-            cmd.Parameters.Add("@Culture", SqlDbType.NVarChar, 3).Value = name;
+            cmd.Parameters.Add("@Culture", SqlDbType.NVarChar, 3).Value = culture;
             using var sda = new SqlDataAdapter(cmd);
             return Object.GetItem<Models.Localized.Page>(sda);
         }

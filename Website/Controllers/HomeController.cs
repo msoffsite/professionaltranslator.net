@@ -14,15 +14,22 @@ namespace professionaltranslator.net.Controllers
     public class HomeController : Bases.Mvc
     {
         private readonly ILogger<HomeController> _logger;
+        private readonly SiteSettings _configuration;
 
-        public HomeController(ILogger<HomeController> logger)
+        public HomeController(SiteSettings configuration, ILogger<HomeController> logger)
         {
+            _configuration = configuration;
             _logger = logger;
         }
 
+        //public HomeController(ILogger<HomeController> logger)
+        //{
+        //    _logger = logger;
+        //}
+
         public async Task<IActionResult> Index()
         {
-            var modelImage = await Repository.Image.Get(Guid.Parse("4AEE5647-691A-4C65-98B2-0AE965B67405"));
+            var modelImage = await Repository.Page.LocalizedItem(_configuration.Site, "About", _configuration.Culture);
             return View();
         }
 

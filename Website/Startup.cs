@@ -10,6 +10,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.Extensions.Options;
 using professionaltranslator.net.Data;
 
 namespace professionaltranslator.net
@@ -33,6 +34,7 @@ namespace professionaltranslator.net
                 .AddRoles<IdentityRole>()
                 .AddEntityFrameworkStores<efContext>();
 
+            services.AddConfiguration<SiteSettings>(Configuration, "SiteSettings");
             services.AddControllersWithViews();
             services.AddRazorPages();
         }
@@ -65,6 +67,25 @@ namespace professionaltranslator.net
                     pattern: "{controller=Home}/{action=Index}/{id?}");
                 endpoints.MapRazorPages();
             });
+        }
+    }
+
+    public static class ConfigurationExtension
+    {
+        public static void AddConfiguration<T>(
+            this IServiceCollection services,
+            IConfiguration configuration,
+            string configurationTag = null)
+            where T : class
+        {
+            if (string.IsNullOrEmpty(configurationTag))
+            {
+                configurationTag = typeof(T).Name;
+            }
+
+            var instance = Activator.CreateInstance<T>();
+            new ConfigureFromConfigurationOptions<T>(configuration.GetSection(configurationTag)).Configure(instance);
+            services.AddSingleton(instance);
         }
     }
 }

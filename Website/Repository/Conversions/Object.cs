@@ -236,10 +236,10 @@ namespace professionaltranslator.net.Repository.Conversions
             {
                 foreach (var pro in temp.GetProperties())
                 {
-                    if (pro.Name == column.ColumnName)
-                    {
-                        pro.SetValue(obj, dr[column.ColumnName], null);
-                    }
+                    if (pro.Name != column.ColumnName) continue;
+                    var value = dr[column.ColumnName].ToString();
+                    if (string.IsNullOrEmpty(value)) continue;
+                    pro.SetValue(obj, dr[column.ColumnName], null);
                 }
             }
             return obj;
