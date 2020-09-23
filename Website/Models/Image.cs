@@ -5,6 +5,7 @@ using System.Data.Common;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.Data.SqlClient;
+using professionaltranslator.net.Repository;
 using convert = professionaltranslator.net.Repository.Conversions;
 
 namespace professionaltranslator.net.Models
@@ -16,42 +17,39 @@ namespace professionaltranslator.net.Models
 
         private Image() {}
 
-        private static Image Get(DataRow dataRow)
-        {
-            if (dataRow == null) return null;
-            var output = new Image {
-                Id = convert.Nullable.Guid(dataRow["Id"]),
-                Path = convert.Implicit.String(dataRow["Path"])
-            };
-            return output;
-        }
+        //private static Image Get(DataRow dataRow)
+        //{
+        //    if (dataRow == null) return null;
+        //    var output = GetItem<Image>(dataRow);
+        //    return output;
+        //}
 
-        internal static Image Get(DbDataAdapter dataAdapter)
-        {
-            using var dataTable = new DataTable();
-            dataAdapter.Fill(dataTable);
-            if (dataTable.Rows.Count == 0) return null;
-            var dataRow = dataTable.Rows[0];
-            return dataRow == null ? null : Get(dataRow);
-        }
+        //internal static Image Get(DbDataAdapter dataAdapter)
+        //{
+        //    using var dataTable = new DataTable();
+        //    dataAdapter.Fill(dataTable);
+        //    if (dataTable.Rows.Count == 0) return null;
+        //    var dataRow = dataTable.Rows[0];
+        //    return dataRow == null ? null : Get(dataRow);
+        //}
 
-        internal List<Image> List(DbDataAdapter dataAdapter)
-        {
-            var output = new List<Image>();
+        //internal List<Image> List(DbDataAdapter dataAdapter)
+        //{
+        //    var output = new List<Image>();
 
-            using var dataTable = new DataTable();
-            dataAdapter.Fill(dataTable);
-            if (dataTable.Rows.Count <= 0) return output;
-            foreach (DataRow row in dataTable.Rows)
-            {
-                var image = Get(row);
-                if ((image.Id != null) && (!output.Contains(image)))
-                {
-                    output.Add(image);
-                }
-            }
+        //    using var dataTable = new DataTable();
+        //    dataAdapter.Fill(dataTable);
+        //    if (dataTable.Rows.Count <= 0) return output;
+        //    foreach (DataRow row in dataTable.Rows)
+        //    {
+        //        var image = Get(row);
+        //        if ((image.Id != null) && (!output.Contains(image)))
+        //        {
+        //            output.Add(image);
+        //        }
+        //    }
 
-            return output;
-        }
+        //    return output;
+        //}
     }
 }

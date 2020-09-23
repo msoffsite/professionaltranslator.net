@@ -6,10 +6,11 @@ using System.Threading.Tasks;
 using Microsoft.Data.SqlClient;
 
 using dbRead = professionaltranslator.net.Repository.StoredProcedures.Dbo.Read;
+using Object = professionaltranslator.net.Repository.Conversions.Object;
 
 namespace professionaltranslator.net.Repository
 {
-    internal class Image : Base
+    internal class Image : Object
     {
         internal static Models.Image Get(Guid? id)
         {
@@ -17,9 +18,9 @@ namespace professionaltranslator.net.Repository
 
             var connectionStrings = new ConnectionStrings();
             using var con = new SqlConnection(connectionStrings.SqlServer);
-            using var cmd = new SqlCommand(dbRead.Image.GetById, con);
+            using var cmd = new SqlCommand(dbRead.Image.ItemById, con);
             using var sda = new SqlDataAdapter(cmd);
-            return Models.Image.Get(sda);
+            return GetItem<Models.Image>(sda);
         }
     }
 }

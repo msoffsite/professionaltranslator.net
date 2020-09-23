@@ -13,9 +13,16 @@ namespace professionaltranslator.net.Repository
             {
                 internal class Image
                 {
-                    internal static readonly string GetById = "[dbo].[GetImage]";
+                    internal static readonly string ItemById = "[dbo].[GetImage]";
                 }
-                
+
+                internal class Page
+                {
+                    internal class Localized
+                    {
+                        internal static readonly string ItemByEnumCulture = "[dbo].[GetLocalizedPage]";
+                    }
+                }
             }
         }
     }
