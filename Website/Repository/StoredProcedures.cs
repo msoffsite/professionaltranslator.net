@@ -7,6 +7,9 @@ namespace professionaltranslator.net.Repository
 {
     internal class StoredProcedures
     {
-        internal static string GetImages { get; set; }
+        internal class Dbo
+        {
+            internal static readonly string GetImage = "[dbo].[GetImage]";
+        }
     }
 }
