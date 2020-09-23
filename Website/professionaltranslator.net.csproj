@@ -7,7 +7,14 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Compile Remove="Repository\OldDatabaseOperations.cs" />
+    <Compile Remove="Models\**" />
+    <Compile Remove="Repository\**" />
+    <Content Remove="Models\**" />
+    <Content Remove="Repository\**" />
+    <EmbeddedResource Remove="Models\**" />
+    <EmbeddedResource Remove="Repository\**" />
+    <None Remove="Models\**" />
+    <None Remove="Repository\**" />
   </ItemGroup>
 
   <ItemGroup>
@@ -26,6 +33,11 @@
 
   <ItemGroup>
     <Folder Include="Controllers\Api\" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Models\professionaltranslator.net.models.csproj" />
+    <ProjectReference Include="..\Repository\professionaltranslator.net.repository.csproj" />
   </ItemGroup>
 
 </Project>

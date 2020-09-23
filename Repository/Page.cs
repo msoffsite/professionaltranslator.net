@@ -7,9 +7,9 @@ using dbLocalizedRead = professionaltranslator.net.Repository.DatabaseOperations
 
 namespace professionaltranslator.net.Repository
 {
-    internal class Page
+    public class Page
     {
-        internal static async Task<Models.Localized.Page> LocalizedItem(string site, string name, string culture)
+        public static async Task<Models.Localized.Page> LocalizedItem(string site, string name, string culture)
         {
             try
             {

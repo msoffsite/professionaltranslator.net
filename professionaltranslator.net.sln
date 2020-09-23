@@ -7,6 +7,10 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "professionaltranslator.net"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "XUnitTest", "XUnitTest\XUnitTest.csproj", "{F0C97F3B-37DB-439D-8F20-8CDBA1212EC3}"
 EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "professionaltranslator.net.models", "Models\professionaltranslator.net.models.csproj", "{09124554-FD5D-411E-896C-8DEE7D9F063F}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "professionaltranslator.net.repository", "Repository\professionaltranslator.net.repository.csproj", "{9D844ABD-A25D-4175-BCC6-1D50FC3721DD}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -21,6 +25,14 @@ Global
 		{F0C97F3B-37DB-439D-8F20-8CDBA1212EC3}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{F0C97F3B-37DB-439D-8F20-8CDBA1212EC3}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{F0C97F3B-37DB-439D-8F20-8CDBA1212EC3}.Release|Any CPU.Build.0 = Release|Any CPU
+		{09124554-FD5D-411E-896C-8DEE7D9F063F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{09124554-FD5D-411E-896C-8DEE7D9F063F}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{09124554-FD5D-411E-896C-8DEE7D9F063F}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{09124554-FD5D-411E-896C-8DEE7D9F063F}.Release|Any CPU.Build.0 = Release|Any CPU
+		{9D844ABD-A25D-4175-BCC6-1D50FC3721DD}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{9D844ABD-A25D-4175-BCC6-1D50FC3721DD}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{9D844ABD-A25D-4175-BCC6-1D50FC3721DD}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{9D844ABD-A25D-4175-BCC6-1D50FC3721DD}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
