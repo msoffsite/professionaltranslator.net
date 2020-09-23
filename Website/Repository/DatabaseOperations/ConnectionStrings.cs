@@ -4,7 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.Extensions.Configuration;
 
-namespace professionaltranslator.net.Repository
+namespace professionaltranslator.net.Repository.DatabaseOperations
 {
     internal class ConnectionStrings
     {

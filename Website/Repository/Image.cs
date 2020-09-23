@@ -5,22 +5,34 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.Data.SqlClient;
 
-using dbRead = professionaltranslator.net.Repository.StoredProcedures.Dbo.Read;
-using Object = professionaltranslator.net.Repository.Conversions.Object;
+using dbRead = professionaltranslator.net.Repository.DatabaseOperations.dbo.Read.Image;
 
 namespace professionaltranslator.net.Repository
 {
-    internal class Image : Object
+    internal class Image
     {
         internal static Models.Image Get(Guid? id)
         {
-            if (!id.HasValue) return null;
+            try
+            {
+                return dbRead.Item(id);
+            }
+            catch
+            {
+                return null;
+            }
+        }
 
-            var connectionStrings = new ConnectionStrings();
-            using var con = new SqlConnection(connectionStrings.SqlServer);
-            using var cmd = new SqlCommand(dbRead.Image.ItemById, con);
-            using var sda = new SqlDataAdapter(cmd);
-            return GetItem<Models.Image>(sda);
+        internal static List<Models.Image> Get()
+        {
+            try
+            {
+                return dbRead.List();
+            }
+            catch
+            {
+                return new List<Models.Image>();
+            }
         }
     }
 }

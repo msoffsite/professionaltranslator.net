@@ -22,7 +22,7 @@ namespace professionaltranslator.net.Controllers
 
         public IActionResult Index()
         {
-            Models.Image i = Repository.Image.Get(Guid.Empty);
+            var modelImage = Repository.Image.Get();
             return View();
         }
 

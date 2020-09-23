@@ -204,21 +204,21 @@ namespace professionaltranslator.net.Repository.Conversions
             return outItem;
         }
 
-        protected static List<T> ConvertDataTable<T>(DbDataAdapter dataAdapter)
+        internal static List<T> GetList<T>(DbDataAdapter dataAdapter)
         {
             var output = new List<T>();
 
             using var dataTable = new DataTable();
             dataAdapter.Fill(dataTable);
-            return dataTable.Rows.Count <= 0 ? output : ConvertDataTable<T>(dataTable);
+            return dataTable.Rows.Count <= 0 ? output : GetList<T>(dataTable);
         }
 
-        protected static List<T> ConvertDataTable<T>(DataTable dt)
+        private static List<T> GetList<T>(DataTable dt)
         {
             return (from DataRow row in dt.Rows select GetItem<T>(row)).ToList();
         }
 
-        protected static T GetItem<T>(DbDataAdapter dataAdapter)
+        internal static T GetItem<T>(DbDataAdapter dataAdapter)
         {
             using var dataTable = new DataTable();
             dataAdapter.Fill(dataTable);
@@ -227,7 +227,7 @@ namespace professionaltranslator.net.Repository.Conversions
             return dataRow == null ? default : GetItem<T>(dataRow);
         }
 
-        protected static T GetItem<T>(DataRow dr)
+        private static T GetItem<T>(DataRow dr)
         {
             var temp = typeof(T);
             var obj = Activator.CreateInstance<T>();
