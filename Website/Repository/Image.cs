@@ -15,7 +15,7 @@ namespace professionaltranslator.net.Repository
 
             var connectionStrings = new ConnectionStrings();
             using var con = new SqlConnection(connectionStrings.SqlServer);
-            using var cmd = new SqlCommand(StoredProcedures.Dbo.Read.GetImage, con);
+            using var cmd = new SqlCommand(StoredProcedures.Dbo.Read.GetImageById, con);
             using var sda = new SqlDataAdapter(cmd);
             return Models.Image.Get(sda);
         }
