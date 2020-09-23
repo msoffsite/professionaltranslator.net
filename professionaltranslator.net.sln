@@ -3,13 +3,13 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 16
 VisualStudioVersion = 16.0.30413.136
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "professionaltranslator.net", "Website\professionaltranslator.net.csproj", "{562F01D7-8EF8-42BD-A720-A0C0BDA0F222}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "admin.professionaltranslator.net", "Admin\admin.professionaltranslator.net.csproj", "{562F01D7-8EF8-42BD-A720-A0C0BDA0F222}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "XUnitTest", "XUnitTest\XUnitTest.csproj", "{F0C97F3B-37DB-439D-8F20-8CDBA1212EC3}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "professionaltranslator.net.models", "Models\professionaltranslator.net.models.csproj", "{09124554-FD5D-411E-896C-8DEE7D9F063F}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "professionaltranslator.net.repository", "Repository\professionaltranslator.net.repository.csproj", "{9D844ABD-A25D-4175-BCC6-1D50FC3721DD}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "professionaltranslator.net.repository", "Repository\professionaltranslator.net.repository.csproj", "{9D844ABD-A25D-4175-BCC6-1D50FC3721DD}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
