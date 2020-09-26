@@ -229,12 +229,12 @@ namespace professionaltranslator.net.Repository.Conversions
 
         private static T GetItem<T>(DataRow dr)
         {
-            var temp = typeof(T);
+            Type temp = typeof(T);
             var obj = Activator.CreateInstance<T>();
 
             foreach (DataColumn column in dr.Table.Columns)
             {
-                foreach (var pro in temp.GetProperties())
+                foreach (PropertyInfo pro in temp.GetProperties())
                 {
                     if (pro.Name != column.ColumnName) continue;
                     var value = dr[column.ColumnName].ToString();

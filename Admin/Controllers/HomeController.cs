@@ -11,7 +11,7 @@ using repository = professionaltranslator.net.Repository;
 
 namespace admin.professionaltranslator.net.Controllers
 {
-    [Authorize(Roles = "Administrator")]
+    //[Authorize(Roles = "Administrator")]
     public class HomeController : Bases.Mvc
     {
         private readonly ILogger<HomeController> _logger;
@@ -30,7 +30,7 @@ namespace admin.professionaltranslator.net.Controllers
 
         public async Task<IActionResult> Index()
         {
-            var modelImage = await repository.Page.LocalizedItem(_configuration.Site, "About", _configuration.Culture);
+            Page test = await repository.Page.Get("Translator", "About");
             return View();
         }
 

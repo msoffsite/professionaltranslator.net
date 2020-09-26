@@ -4,12 +4,12 @@ using System.Collections.Generic;
 using System.Data.Common;
 using System.Linq;
 using System.Threading.Tasks;
+using professionaltranslator.net.Models;
 
 namespace professionaltranslator.net.Models
 {
-    public class Image
+    public class Image : Base
     {
-        public Guid? Id { get; set; }
         public string Path { get; set; }
 
         public Image() {}

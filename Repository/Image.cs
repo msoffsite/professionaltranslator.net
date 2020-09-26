@@ -9,30 +9,29 @@ using dbRead = professionaltranslator.net.Repository.DatabaseOperations.dbo.Read
 
 namespace professionaltranslator.net.Repository
 {
-    internal class Image
+    public class Image
     {
-        internal static Task<Models.Image> Get(Guid? id)
+        public static async Task<Models.Image> Get(Guid? id)
         {
-            try
+            if (!id.HasValue) return null;
+            Tables.dbo.Image image = await dbRead.Item(id);
+            if (image == null) return null;
+            var output = new Models.Image
             {
-                return dbRead.Item(id);
-            }
-            catch
-            {
-                return null;
-            }
+                Id = image.Id,
+                Path = image.Path
+            };
+            return output;
         }
 
-        internal static async Task<List<Models.Image>> Get()
+        public static async Task<List<Models.Image>> Get()
         {
-            try
+            List<Tables.dbo.Image> list = await dbRead.List();
+            return list.Select(n => new Models.Image
             {
-                return await dbRead.List();
-            }
-            catch
-            {
-                return new List<Models.Image>();
-            }
+                Id = n.Id,
+                Path = n.Path
+            }).ToList();
         }
     }
 }
