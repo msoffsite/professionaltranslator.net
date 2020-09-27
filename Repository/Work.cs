@@ -50,7 +50,7 @@ namespace professionaltranslator.net.Repository
         {
             if (string.IsNullOrEmpty(site)) return new List<Task<Models.Work>>();
             List<Tables.dbo.Work> list = await dbRead.List(site);
-            return Convert(list);
+            return Complete(list);
         }
 
         public static async Task<List<Models.Work>> List(string site, bool approved)
@@ -74,10 +74,10 @@ namespace professionaltranslator.net.Repository
         {
             if (string.IsNullOrEmpty(site)) return new List<Task<Models.Work>>();
             List<Tables.dbo.Work> list = await dbRead.List(site, approved);
-            return Convert(list);
+            return Complete(list);
         }
 
-        private static List<Task<Models.Work>> Convert(IEnumerable<Tables.dbo.Work> inputList)
+        private static List<Task<Models.Work>> Complete(IEnumerable<Tables.dbo.Work> inputList)
         {
             return inputList.Select(async n => new Models.Work
             {

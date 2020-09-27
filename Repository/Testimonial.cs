@@ -33,7 +33,7 @@ namespace professionaltranslator.net.Repository
             if (string.IsNullOrEmpty(site)) return new List<Task<Models.Testimonial>>();
             List<Tables.dbo.Testimonial> list = await dbRead.List(site);
             List<Tables.Localization.Testimonial> localization = await dbLocalizedRead.List(site);
-            return Merge(list, localization);
+            return Complete(list, localization);
         }
 
         public static async Task<List<Models.Testimonial>> List(string site, bool approved)
@@ -58,10 +58,10 @@ namespace professionaltranslator.net.Repository
             if (string.IsNullOrEmpty(site)) return new List<Task<Models.Testimonial>>();
             List<Tables.dbo.Testimonial> list = await dbRead.List(site, approved);
             List<Tables.Localization.Testimonial> localization = await dbLocalizedRead.List(site, approved);
-            return Merge(list, localization);
+            return Complete(list, localization);
         }
 
-        private static List<Task<Models.Testimonial>> Merge(IEnumerable<Tables.dbo.Testimonial> testimonialList,
+        private static List<Task<Models.Testimonial>> Complete(IEnumerable<Tables.dbo.Testimonial> testimonialList,
             IReadOnlyCollection<Tables.Localization.Testimonial> localizedList)
         {
             return testimonialList.Select(async n => new Models.Testimonial
