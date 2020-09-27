@@ -4,7 +4,8 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-using dbRead = professionaltranslator.net.Repository.DatabaseOperations.dbo.Read.Work;
+using dbRead = professionaltranslator.net.Repository.DatabaseOperations.dbo.Read;
+using dbWrite = professionaltranslator.net.Repository.DatabaseOperations.dbo.Write.Work;
 
 namespace professionaltranslator.net.Repository
 {
@@ -12,7 +13,7 @@ namespace professionaltranslator.net.Repository
     {
         public static async Task<Models.Work> Item(Guid id)
         {
-            Tables.dbo.Work item = await dbRead.Item(id);
+            Tables.dbo.Work item = await dbRead.Work.Item(id);
             if (item == null) return null;
             var output = new Models.Work
             {
@@ -48,7 +49,7 @@ namespace professionaltranslator.net.Repository
         private static async Task<List<Task<Models.Work>>> TaskList(string site)
         {
             if (string.IsNullOrEmpty(site)) return new List<Task<Models.Work>>();
-            List<Tables.dbo.Work> list = await dbRead.List(site);
+            List<Tables.dbo.Work> list = await dbRead.Work.List(site);
             return Complete(list);
         }
 
@@ -72,7 +73,7 @@ namespace professionaltranslator.net.Repository
         private static async Task<List<Task<Models.Work>>> TaskList(string site, bool approved)
         {
             if (string.IsNullOrEmpty(site)) return new List<Task<Models.Work>>();
-            List<Tables.dbo.Work> list = await dbRead.List(site, approved);
+            List<Tables.dbo.Work> list = await dbRead.Work.List(site, approved);
             return Complete(list);
         }
 
@@ -91,6 +92,18 @@ namespace professionaltranslator.net.Repository
             }).ToList();
         }
 
-
+        public static async Task<string> Save(string site, Models.Work work)
+        {
+            if (work == null) throw new NullReferenceException("Image cannot be null.");
+            if (string.IsNullOrEmpty(work.Title)) throw new ArgumentNullException(nameof(work.Title), "Title cannot be empty.");
+            if (string.IsNullOrEmpty(work.Authors)) throw new ArgumentNullException(nameof(work.Authors), "Authors cannot be empty.");
+            if (string.IsNullOrEmpty(work.Href)) throw new ArgumentNullException(nameof(work.Href), "Href cannot be empty.");
+            Tables.dbo.Site siteItem = await dbRead.Site.Item(site);
+            if (siteItem == null) throw new NullReferenceException("No site was found with that name. Cannot continue.");
+            string imageSaveStatus = await Image.Save(site, work.Cover);
+            if (imageSaveStatus == SaveStatus.Failed.ToString()) throw new Exception("Cover image failed to save. Cannot continue.");
+            SaveStatus output = await dbWrite.Item(siteItem.Id, work);
+            return output.ToString();
+        }
     }
 }

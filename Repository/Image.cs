@@ -44,9 +44,9 @@ namespace professionaltranslator.net.Repository
         public static async Task<string> Save(string site, Models.Image image)
         {
             if (image == null)  throw new NullReferenceException("Image cannot be null.");
-            if (string.IsNullOrEmpty(image.Path)) throw new ArgumentNullException(nameof(image), "Image path cannot be empty.");
+            if (string.IsNullOrEmpty(image.Path)) throw new ArgumentNullException(nameof(image.Path), "Path cannot be empty.");
             Tables.dbo.Site siteItem = await dbRead.Site.Item(site);
-            if (siteItem == null) throw new NullReferenceException("No site was found with that name.");
+            if (siteItem == null) throw new NullReferenceException("No site was found with that name. Cannot continue.");
             SaveStatus output = await dbWrite.Item(siteItem.Id, image);
             return output.ToString();
         }
