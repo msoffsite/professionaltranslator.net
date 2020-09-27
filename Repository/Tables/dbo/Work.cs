@@ -6,6 +6,7 @@ namespace professionaltranslator.net.Repository.Tables.dbo
 {
     public class Work : Base
     {
+        public Guid SiteId { get; set; }
         public Guid CoverId { get; set; }
         public string Title { get; set; }
         public string Authors { get; set; }

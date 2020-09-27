@@ -10,14 +10,14 @@ namespace professionaltranslator.net.Repository
 {
     public class Page
     {
-        public static async Task<Models.Page> Get(string site, string name)
+        public static async Task<Models.Page> Item(string site, string name)
         {
             try
             {
                 if ((string.IsNullOrEmpty(site)) || (string.IsNullOrEmpty(name))) return null;
                 Tables.dbo.Page page = await dbRead.Item(site, name);
                 if (page == null) return null;
-                Models.Image image = await Image.Get(page.ImageId);
+                Models.Image image = await Image.Item(page.ImageId);
                 List<Tables.Localization.Page> localizedList = await dbLocalizedRead.List(page.Id);
                 var output = new Models.Page
                 {

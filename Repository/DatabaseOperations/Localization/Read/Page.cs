@@ -8,7 +8,7 @@ using Object = professionaltranslator.net.Repository.Conversions.Object;
 
 namespace professionaltranslator.net.Repository.DatabaseOperations.Localization.Read
 {
-    internal class Page
+    internal class Page : Base
     {
         internal static async Task<List<Tables.Localization.Page>> List(Guid pageId)
         {

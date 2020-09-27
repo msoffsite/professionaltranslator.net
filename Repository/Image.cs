@@ -11,7 +11,7 @@ namespace professionaltranslator.net.Repository
 {
     public class Image
     {
-        public static async Task<Models.Image> Get(Guid? id)
+        public static async Task<Models.Image> Item(Guid? id)
         {
             if (!id.HasValue) return null;
             Tables.dbo.Image image = await dbRead.Item(id);
@@ -24,7 +24,7 @@ namespace professionaltranslator.net.Repository
             return output;
         }
 
-        public static async Task<List<Models.Image>> Get()
+        public static async Task<List<Models.Image>> List()
         {
             List<Tables.dbo.Image> list = await dbRead.List();
             return list.Select(n => new Models.Image

@@ -4,8 +4,5 @@ using System.Text;
 
 namespace professionaltranslator.net.Repository.Tables.Localization
 {
-    internal class Testimonial : Base
-    {
-        internal Guid TestimonialId { get; set; }
-    }
+    public class Testimonial : Base { }
 }
