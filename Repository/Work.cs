@@ -94,7 +94,7 @@ namespace professionaltranslator.net.Repository
 
         public static async Task<string> Save(string site, Models.Work work)
         {
-            if (work == null) throw new NullReferenceException("Image cannot be null.");
+            if (work == null) throw new NullReferenceException("Work cannot be null.");
             if (string.IsNullOrEmpty(work.Title)) throw new ArgumentNullException(nameof(work.Title), "Title cannot be empty.");
             if (string.IsNullOrEmpty(work.Authors)) throw new ArgumentNullException(nameof(work.Authors), "Authors cannot be empty.");
             if (string.IsNullOrEmpty(work.Href)) throw new ArgumentNullException(nameof(work.Href), "Href cannot be empty.");
