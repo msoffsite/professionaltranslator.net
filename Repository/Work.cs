@@ -10,9 +10,8 @@ namespace professionaltranslator.net.Repository
 {
     public class Work
     {
-        public static async Task<Models.Work> Item(Guid? id)
+        public static async Task<Models.Work> Item(Guid id)
         {
-            if (!id.HasValue) return null;
             Tables.dbo.Work item = await dbRead.Item(id);
             if (item == null) return null;
             var output = new Models.Work

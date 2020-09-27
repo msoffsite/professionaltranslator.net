@@ -17,7 +17,7 @@ namespace professionaltranslator.net.Repository
                 if ((string.IsNullOrEmpty(site)) || (string.IsNullOrEmpty(name))) return null;
                 Tables.dbo.Page page = await dbRead.Item(site, name);
                 if (page == null) return null;
-                Models.Image image = await Image.Item(page.ImageId);
+                Models.Image image = page.ImageId.HasValue ? await Image.Item(page.ImageId.Value) : null;
                 List<Tables.Localization.Page> localizedList = await dbLocalizedRead.List(page.Id);
                 var output = new Models.Page
                 {

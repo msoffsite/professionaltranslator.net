@@ -23,12 +23,13 @@ namespace professionaltranslator.net.Repository.DatabaseOperations.dbo.Read
             return Object.GetItem<Tables.dbo.Image>(sda);
         }
 
-        internal static async Task<List<Tables.dbo.Image>> List()
+        internal static async Task<List<Tables.dbo.Image>> List(string site)
         {
             await using var cmd = new SqlCommand("[dbo].[GetImages]", new Base().SqlConnection)
             {
                 CommandType = CommandType.StoredProcedure
             };
+            cmd.Parameters.Add("@Site", SqlDbType.NVarChar, 25).Value = site;
             using var sda = new SqlDataAdapter(cmd);
             return Object.GetList<Tables.dbo.Image>(sda);
         }
