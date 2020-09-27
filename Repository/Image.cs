@@ -45,6 +45,7 @@ namespace professionaltranslator.net.Repository
         {
             if (image == null)  throw new NullReferenceException("Image cannot be null.");
             if (string.IsNullOrEmpty(image.Path)) throw new ArgumentNullException(nameof(image.Path), "Path cannot be empty.");
+            if (image.Path.Length > 440) throw new ArgumentException("Path must be 440 characters or fewer.", nameof(image.Path));
             Tables.dbo.Site siteItem = await dbRead.Site.Item(site);
             if (siteItem == null) throw new NullReferenceException("No site was found with that name. Cannot continue.");
             SaveStatus output = await dbWrite.Item(siteItem.Id, image);

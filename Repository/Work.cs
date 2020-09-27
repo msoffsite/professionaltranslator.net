@@ -98,6 +98,11 @@ namespace professionaltranslator.net.Repository
             if (string.IsNullOrEmpty(work.Title)) throw new ArgumentNullException(nameof(work.Title), "Title cannot be empty.");
             if (string.IsNullOrEmpty(work.Authors)) throw new ArgumentNullException(nameof(work.Authors), "Authors cannot be empty.");
             if (string.IsNullOrEmpty(work.Href)) throw new ArgumentNullException(nameof(work.Href), "Href cannot be empty.");
+            if (string.IsNullOrEmpty(work.TestimonialLink)) throw new ArgumentNullException(nameof(work.TestimonialLink), "Testimonial link cannot be empty.");
+            if (work.Title.Length > 100) throw new ArgumentException("Title must be 100 characters or fewer.", nameof(work.Title));
+            if (work.Authors.Length > 255) throw new ArgumentException("Authors must be 255 characters or fewer.", nameof(work.Authors));
+            if (work.Href.Length > 2048) throw new ArgumentException("Href must be 2048 characters or fewer.", nameof(work.Href));
+            if (work.TestimonialLink.Length > 100) throw new ArgumentException("Testimonial link must be 100 characters or fewer.", nameof(work.TestimonialLink));
             Tables.dbo.Site siteItem = await dbRead.Site.Item(site);
             if (siteItem == null) throw new NullReferenceException("No site was found with that name. Cannot continue.");
             string imageSaveStatus = await Image.Save(site, work.Cover);
