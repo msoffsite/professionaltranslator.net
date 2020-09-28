@@ -5,24 +5,25 @@ using System.Text;
 using System.Threading.Tasks;
 using Microsoft.Data.SqlClient;
 
-using Object = professionaltranslator.net.Repository.Conversions.Object;
-
 namespace professionaltranslator.net.Repository.DatabaseOperations.dbo.Write
 {
-    internal class Image : Base
+    internal class Page : Base
     {
-        internal static async Task<SaveStatus> Item(Tables.dbo.Image item)
+        internal static async Task<SaveStatus> Item(Tables.dbo.Page item)
         {
             try
             {
-                await using var cmd = new SqlCommand("[dbo].[SaveImage]", new Base().SqlConnection)
+                await using var cmd = new SqlCommand("[dbo].[SavePage]", new Base().SqlConnection)
                 {
                     CommandType = CommandType.StoredProcedure
                 };
 
                 cmd.Parameters.Add("@SiteId", SqlDbType.UniqueIdentifier).Value = item.SiteId;
                 cmd.Parameters.Add("@Id", SqlDbType.UniqueIdentifier).Value = item.Id;
-                cmd.Parameters.Add("@Path", SqlDbType.NVarChar, 440).Value = item.Path;
+                cmd.Parameters.Add("@Name", SqlDbType.NVarChar, 20).Value = item.Name;
+                cmd.Parameters.Add("@IsService", SqlDbType.Bit).Value = item.IsService;
+                cmd.Parameters.Add("@CanHaveImage", SqlDbType.Bit).Value = item.CanHaveImage;
+                cmd.Parameters.Add("@ImageId", SqlDbType.UniqueIdentifier).Value = item.ImageId;
                 //await cmd.Connection.OpenAsync();
                 await cmd.ExecuteNonQueryAsync();
                 return SaveStatus.Succeeded;

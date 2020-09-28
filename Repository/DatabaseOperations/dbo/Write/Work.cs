@@ -13,7 +13,7 @@ namespace professionaltranslator.net.Repository.DatabaseOperations.dbo.Write
         {
             try
             {
-                await using var cmd = new SqlCommand("[dbo].[SaveImage]", new Base().SqlConnection)
+                await using var cmd = new SqlCommand("[dbo].[SaveWork]", new Base().SqlConnection)
                 {
                     CommandType = CommandType.StoredProcedure
                 };

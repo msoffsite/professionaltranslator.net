@@ -8,7 +8,6 @@ namespace professionaltranslator.net.Repository.Tables.dbo
     {
         public Guid SiteId { get; set; }
         public string Name { get; set; }
-        public string Enum { get; set; }
         public bool IsService { get; set; }
         public bool CanHaveImage { get; set; }
         public Guid? ImageId { get; set; }

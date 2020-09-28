@@ -21,7 +21,7 @@ namespace professionaltranslator.net.Repository.Conversions
         internal static void ForEach<T>(IEnumerable<T> enumeration, Action<T> action)
         {
 
-            foreach (var item in enumeration)
+            foreach (T item in enumeration)
             {
                 action(item);
             }
@@ -31,15 +31,15 @@ namespace professionaltranslator.net.Repository.Conversions
         /// Convert  list to Data Table
         /// </summary>
         /// <typeparam name="T">Target Class</typeparam>
-        /// <param name="varlist">list you want to convert it to Data Table</param>
+        /// <param name="iEnumerable">list you want to convert it to Data Table</param>
         /// <param name="fn">Delegate Function to Create Row</param>
         /// <returns>Data Table That Represent List data</returns>
-        internal static DataTable ToDataTable<T>(IEnumerable<T> varlist, CreateRowDelegate<T> fn)
+        internal static DataTable ToDataTable<T>(IEnumerable<T> iEnumerable, CreateRowDelegate<T> fn)
         {
-            var toReturn = new DataTable();
-
+            using var toReturn = new DataTable();
             // Could add a check to verify that there is an element 0
-            var topRec = varlist.ElementAtOrDefault(0);
+            IEnumerable<T> enumerable = iEnumerable.ToList();
+            T topRec = enumerable.ElementAtOrDefault(0);
 
             if (topRec == null)
                 return toReturn;
@@ -47,22 +47,22 @@ namespace professionaltranslator.net.Repository.Conversions
             // Use reflection to get property names, to create table
             // column names
 
-            var oProps = ((Type)topRec.GetType()).GetProperties();
+            PropertyInfo[] oProps = ((Type)topRec.GetType()).GetProperties();
 
-            foreach (var pi in oProps)
+            foreach (PropertyInfo pi in oProps)
             {
-                var pt = pi.PropertyType;
+                Type pt = pi.PropertyType;
                 if (pt.IsGenericType && pt.GetGenericTypeDefinition() == typeof(Nullable<>))
                     pt = System.Nullable.GetUnderlyingType(pt);
                 toReturn.Columns.Add(pi.Name, pt);
             }
 
-            foreach (var rec in varlist)
+            foreach (T rec in enumerable)
             {
-                var dr = toReturn.NewRow();
-                foreach (var pi in oProps)
+                DataRow dr = toReturn.NewRow();
+                foreach (PropertyInfo pi in oProps)
                 {
-                    var o = pi.GetValue(rec, null);
+                    object o = pi.GetValue(rec, null);
                     if (o == null)
                         dr[pi.Name] = DBNull.Value;
                     else
@@ -78,37 +78,38 @@ namespace professionaltranslator.net.Repository.Conversions
         /// Convert  list to Data Table
         /// </summary>
         /// <typeparam name="T">Target Class</typeparam>
-        /// <param name="varlist">list you want to convert it to Data Table</param>
+        /// <param name="iEnumerable">list you want to convert it to Data Table</param>
         /// <returns>Data Table That Represent List data</returns>
-        internal static DataTable ToDataTable<T>(IEnumerable<T> varlist)
+        internal static DataTable ToDataTable<T>(IEnumerable<T> iEnumerable)
         {
             var toReturn = new DataTable();
 
             // Could add a check to verify that there is an element 0
-            var TopRec = varlist.ElementAtOrDefault(0);
+            IEnumerable<T> enumerable = iEnumerable.ToList();
+            T topRec = enumerable.ElementAtOrDefault(0);
 
-            if (TopRec == null)
+            if (topRec == null)
                 return toReturn;
 
             // Use reflection to get property names, to create table
             // column names
 
-            var oProps = ((Type)TopRec.GetType()).GetProperties();
+            PropertyInfo[] oProps = ((Type)topRec.GetType()).GetProperties();
 
-            foreach (var pi in oProps)
+            foreach (PropertyInfo pi in oProps)
             {
-                var pt = pi.PropertyType;
+                Type pt = pi.PropertyType;
                 if (pt.IsGenericType && pt.GetGenericTypeDefinition() == typeof(Nullable<>))
                     pt = System.Nullable.GetUnderlyingType(pt);
                 toReturn.Columns.Add(pi.Name, pt);
             }
 
-            foreach (var rec in varlist)
+            foreach (T rec in enumerable)
             {
-                var dr = toReturn.NewRow();
-                foreach (var pi in oProps)
+                DataRow dr = toReturn.NewRow();
+                foreach (PropertyInfo pi in oProps)
                 {
-                    var o = pi.GetValue(rec, null);
+                    object o = pi.GetValue(rec, null);
 
                     if (o == null)
                         dr[pi.Name] = DBNull.Value;
@@ -132,7 +133,7 @@ namespace professionaltranslator.net.Repository.Conversions
             var temp = new List<T>();
             try
             {
-                var columnsNames = (from DataColumn dataColumn in dataTable.Columns select dataColumn.ColumnName).ToList();
+                List<string> columnsNames = (from DataColumn dataColumn in dataTable.Columns select dataColumn.ColumnName).ToList();
 
                 temp = dataTable.AsEnumerable().ToList().ConvertAll<T>(row => GetObject<T>(row, columnsNames));
                 return temp;
@@ -145,10 +146,10 @@ namespace professionaltranslator.net.Repository.Conversions
             var obj = new T();
             try
             {
-                var properties = typeof(T).GetProperties();
-                foreach (var objProperty in properties)
+                PropertyInfo[] properties = typeof(T).GetProperties();
+                foreach (PropertyInfo objProperty in properties)
                 {
-                    var columnName = columnsName.Find(name => name.ToLower() == objProperty.Name.ToLower());
+                    string columnName = columnsName.Find(name => name.ToLower() == objProperty.Name.ToLower());
                     if (string.IsNullOrEmpty(columnName)) continue;
                     var value = row[columnName].ToString();
                     if (string.IsNullOrEmpty(value)) continue;
@@ -202,6 +203,13 @@ namespace professionaltranslator.net.Repository.Conversions
             memStream.Seek(0, SeekOrigin.Begin);
             var outItem = (T)binForm.Deserialize(memStream);
             return outItem;
+        }
+
+        internal static DataTable ToDataTable(DbDataAdapter dataAdapter)
+        {
+            using var dataTable = new DataTable();
+            dataAdapter.Fill(dataTable);
+            return dataTable;
         }
 
         internal static List<T> GetList<T>(DbDataAdapter dataAdapter)

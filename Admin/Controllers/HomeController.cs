@@ -30,7 +30,7 @@ namespace admin.professionaltranslator.net.Controllers
 
         public async Task<IActionResult> Index()
         {
-            List<Work> test = await repository.Work.List("Translator");
+            List<Image> test = await repository.Image.List("Translator");
             //Work test = await repository.Work.Item(Guid.Parse("3B51C451-2D8E-42DD-8D39-015C3439A872"));
             return View();
         }

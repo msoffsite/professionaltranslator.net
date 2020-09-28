@@ -13,6 +13,17 @@ namespace professionaltranslator.net.Repository
 {
     public class Image
     {
+        internal static Tables.dbo.Image Convert(Models.Image inputItem)
+        {
+            if (inputItem == null) return null;
+            var output = new Tables.dbo.Image
+            {
+                Id = inputItem.Id ?? Guid.NewGuid(),
+                Path = inputItem.Path
+            };
+            return output;
+        }
+
         public static async Task<Models.Image> Item(Guid id)
         {
             Tables.dbo.Image image = await dbRead.Image.Item(id);
@@ -39,16 +50,22 @@ namespace professionaltranslator.net.Repository
         /// See https://stackoverflow.com/questions/39322085/how-to-save-iformfile-to-disk for admin save file.
         /// </summary>
         /// <param name="site"></param>
-        /// <param name="image"></param>
+        /// <param name="inputItem"></param>
         /// <returns></returns>
-        public static async Task<string> Save(string site, Models.Image image)
+        public static async Task<string> Save(string site, Tables.dbo.Image inputItem)
         {
-            if (image == null)  throw new NullReferenceException("Image cannot be null.");
-            if (string.IsNullOrEmpty(image.Path)) throw new ArgumentNullException(nameof(image.Path), "Path cannot be empty.");
-            if (image.Path.Length > 440) throw new ArgumentException("Path must be 440 characters or fewer.", nameof(image.Path));
+            if (inputItem == null)  throw new NullReferenceException("Image cannot be null.");
+            if (string.IsNullOrEmpty(inputItem.Path)) throw new ArgumentNullException(nameof(inputItem.Path), "Path cannot be empty.");
+            if (inputItem.Path.Length > 440) throw new ArgumentException("Path must be 440 characters or fewer.", nameof(inputItem.Path));
             Tables.dbo.Site siteItem = await dbRead.Site.Item(site);
             if (siteItem == null) throw new NullReferenceException("No site was found with that name. Cannot continue.");
-            SaveStatus output = await dbWrite.Item(siteItem.Id, image);
+            var saveItem = new Tables.dbo.Image
+            {
+                Id = inputItem.Id,
+                SiteId = siteItem.Id,
+                Path = inputItem.Path
+            };
+            SaveStatus output = await dbWrite.Item(saveItem);
             return output.ToString();
         }
     }
