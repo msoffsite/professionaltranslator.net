@@ -22,5 +22,15 @@ namespace professionaltranslator.net.Repository.DatabaseOperations.dbo.Read
             using var sda = new SqlDataAdapter(cmd);
             return Object.GetItem<Tables.dbo.Site>(sda);
         }
+
+        internal static async Task<List<Tables.dbo.Site>> List()
+        {
+            await using var cmd = new SqlCommand("[dbo].[GetSites]", new Base().SqlConnection)
+            {
+                CommandType = CommandType.StoredProcedure
+            };
+            using var sda = new SqlDataAdapter(cmd);
+            return Object.GetList<Tables.dbo.Site>(sda);
+        }
     }
 }
