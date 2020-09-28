@@ -92,22 +92,41 @@ namespace professionaltranslator.net.Repository
             }).ToList();
         }
 
-        public static async Task<string> Save(string site, Models.Work item)
+        public static async Task<string> Save(string site, Models.Work inputItem)
         {
-            if (item == null) throw new NullReferenceException("Work cannot be null.");
-            if (string.IsNullOrEmpty(item.Title)) throw new ArgumentNullException(nameof(item.Title), "Title cannot be empty.");
-            if (string.IsNullOrEmpty(item.Authors)) throw new ArgumentNullException(nameof(item.Authors), "Authors cannot be empty.");
-            if (string.IsNullOrEmpty(item.Href)) throw new ArgumentNullException(nameof(item.Href), "Href cannot be empty.");
-            if (string.IsNullOrEmpty(item.TestimonialLink)) throw new ArgumentNullException(nameof(item.TestimonialLink), "Testimonial link cannot be empty.");
-            if (item.Title.Length > 100) throw new ArgumentException("Title must be 100 characters or fewer.", nameof(item.Title));
-            if (item.Authors.Length > 255) throw new ArgumentException("Authors must be 255 characters or fewer.", nameof(item.Authors));
-            if (item.Href.Length > 2048) throw new ArgumentException("Href must be 2048 characters or fewer.", nameof(item.Href));
-            if (item.TestimonialLink.Length > 100) throw new ArgumentException("Testimonial link must be 100 characters or fewer.", nameof(item.TestimonialLink));
+            if (inputItem == null) throw new NullReferenceException("Work cannot be null.");
+            if (string.IsNullOrEmpty(inputItem.Title)) throw new ArgumentNullException(nameof(inputItem.Title), "Title cannot be empty.");
+            if (string.IsNullOrEmpty(inputItem.Authors)) throw new ArgumentNullException(nameof(inputItem.Authors), "Authors cannot be empty.");
+            if (string.IsNullOrEmpty(inputItem.Href)) throw new ArgumentNullException(nameof(inputItem.Href), "Href cannot be empty.");
+            if (string.IsNullOrEmpty(inputItem.TestimonialLink)) throw new ArgumentNullException(nameof(inputItem.TestimonialLink), "Testimonial link cannot be empty.");
+            if (inputItem.Title.Length > 100) throw new ArgumentException("Title must be 100 characters or fewer.", nameof(inputItem.Title));
+            if (inputItem.Authors.Length > 255) throw new ArgumentException("Authors must be 255 characters or fewer.", nameof(inputItem.Authors));
+            if (inputItem.Href.Length > 2048) throw new ArgumentException("Href must be 2048 characters or fewer.", nameof(inputItem.Href));
+            if (inputItem.TestimonialLink.Length > 100) throw new ArgumentException("Testimonial link must be 100 characters or fewer.", nameof(inputItem.TestimonialLink));
+
             Tables.dbo.Site siteItem = await dbRead.Site.Item(site);
             if (siteItem == null) throw new NullReferenceException("No site was found with that name. Cannot continue.");
-            string imageSaveStatus = await Image.Save(site, item.Cover);
-            if (imageSaveStatus == SaveStatus.Failed.ToString()) throw new Exception("Cover image failed to save. Cannot continue.");
-            SaveStatus output = await dbWrite.Item(siteItem.Id, item);
+
+            Tables.dbo.Image saveImage = Image.Convert(inputItem.Cover, siteItem.Id);
+            if (saveImage == null) throw new NullReferenceException("Work must have a cover image.");
+            inputItem.Cover.Id = saveImage.Id;
+            string imageSaveStatus = await Image.Save(site, inputItem.Cover);
+            if (imageSaveStatus == SaveStatus.Failed.ToString()) throw new Exception("Image failed to save.");
+
+            var saveItem = new Tables.dbo.Work
+            {
+                Id = inputItem.Id ?? Guid.NewGuid(),
+                SiteId = siteItem.Id,
+                CoverId = saveImage.Id,
+                Title = inputItem.Title,
+                Authors = inputItem.Authors,
+                Href = inputItem.Href,
+                DateCreated = inputItem.DateCreated,
+                Display = inputItem.Display,
+                TestimonialLink = inputItem.TestimonialLink
+            };
+
+            SaveStatus output = await dbWrite.Item(saveItem);
             return output.ToString();
         }
     }

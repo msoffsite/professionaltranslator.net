@@ -85,13 +85,15 @@ namespace professionaltranslator.net.Repository
             if (inputItem == null) throw new NullReferenceException("Page cannot be null.");
             if (string.IsNullOrEmpty(inputItem.Name)) throw new ArgumentNullException(nameof(inputItem.Name), "Name cannot be empty.");
             if (inputItem.Name.Length > 20) throw new ArgumentException("Name must be 20 characters or fewer.", nameof(inputItem.Name));
+
             Tables.dbo.Site siteItem = await dbRead.Site.Item(site);
             if (siteItem == null) throw new NullReferenceException("No site was found with that name. Cannot continue.");
             
-            Tables.dbo.Image saveImage = Image.Convert(inputItem.Image);
+            Tables.dbo.Image saveImage = Image.Convert(inputItem.Image, siteItem.Id);
             if (saveImage != null)
             {
-                string imageSaveStatus = await Image.Save(site, saveImage);
+                inputItem.Image.Id = saveImage.Id;
+                string imageSaveStatus = await Image.Save(site, inputItem.Image);
                 if (imageSaveStatus == SaveStatus.Failed.ToString()) throw new Exception("Image failed to save.");
             }
 

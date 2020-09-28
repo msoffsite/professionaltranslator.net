@@ -11,6 +11,17 @@ namespace professionaltranslator.net.Repository
 {
     public class Site
     {
+        internal static Tables.dbo.Site Convert(Models.Site inputItem)
+        {
+            if (inputItem == null) return null;
+            var output = new Tables.dbo.Site
+            {
+                Id = inputItem.Id ?? Guid.NewGuid(),
+                Name = inputItem.Name
+            };
+            return output;
+        }
+
         public static async Task<Models.Site> Item(string enumerator)
         {
             Tables.dbo.Site item = await dbRead.Item(enumerator);
@@ -38,7 +49,8 @@ namespace professionaltranslator.net.Repository
             if (item == null) throw new NullReferenceException("Site cannot be null.");
             if (string.IsNullOrEmpty(item.Name)) throw new ArgumentNullException(nameof(item.Name), "Name cannot be empty.");
             if (item.Name.Length > 25) throw new ArgumentException("Name must be 25 characters or fewer.", nameof(item.Name));
-            SaveStatus output = await dbWrite.Item(item);
+            Tables.dbo.Site saveItem = Convert(item);
+            SaveStatus output = await dbWrite.Item(saveItem);
             return output.ToString();
         }
     }

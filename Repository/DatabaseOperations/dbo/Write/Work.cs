@@ -9,7 +9,7 @@ namespace professionaltranslator.net.Repository.DatabaseOperations.dbo.Write
 {
     internal class Work : Base
     {
-        internal static async Task<SaveStatus> Item(Guid siteId, Models.Work work)
+        internal static async Task<SaveStatus> Item(Tables.dbo.Work item)
         {
             try
             {
@@ -18,14 +18,14 @@ namespace professionaltranslator.net.Repository.DatabaseOperations.dbo.Write
                     CommandType = CommandType.StoredProcedure
                 };
 
-                cmd.Parameters.Add("@SiteId", SqlDbType.UniqueIdentifier).Value = siteId;
-                cmd.Parameters.Add("@Id", SqlDbType.UniqueIdentifier).Value = work.Id ?? Guid.NewGuid();
-                cmd.Parameters.Add("@CoverId", SqlDbType.UniqueIdentifier).Value = work.Cover.Id;
-                cmd.Parameters.Add("@Title", SqlDbType.NVarChar, 100).Value = work.Title;
-                cmd.Parameters.Add("@Authors", SqlDbType.NVarChar, 255).Value = work.Authors;
-                cmd.Parameters.Add("@Href", SqlDbType.NVarChar, 2048).Value = work.Href;
-                cmd.Parameters.Add("@Display", SqlDbType.Bit).Value = work.Display;
-                cmd.Parameters.Add("@TestimonialLink", SqlDbType.NVarChar, 258).Value = work.TestimonialLink;
+                cmd.Parameters.Add("@SiteId", SqlDbType.UniqueIdentifier).Value = item.SiteId;
+                cmd.Parameters.Add("@Id", SqlDbType.UniqueIdentifier).Value = item.Id;
+                cmd.Parameters.Add("@CoverId", SqlDbType.UniqueIdentifier).Value = item.CoverId;
+                cmd.Parameters.Add("@Title", SqlDbType.NVarChar, 100).Value = item.Title;
+                cmd.Parameters.Add("@Authors", SqlDbType.NVarChar, 255).Value = item.Authors;
+                cmd.Parameters.Add("@Href", SqlDbType.NVarChar, 2048).Value = item.Href;
+                cmd.Parameters.Add("@Display", SqlDbType.Bit).Value = item.Display;
+                cmd.Parameters.Add("@TestimonialLink", SqlDbType.NVarChar, 258).Value = item.TestimonialLink;
                 //await cmd.Connection.OpenAsync();
                 await cmd.ExecuteNonQueryAsync();
                 return SaveStatus.Succeeded;

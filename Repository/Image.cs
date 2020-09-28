@@ -13,12 +13,13 @@ namespace professionaltranslator.net.Repository
 {
     public class Image
     {
-        internal static Tables.dbo.Image Convert(Models.Image inputItem)
+        internal static Tables.dbo.Image Convert(Models.Image inputItem, Guid siteId)
         {
             if (inputItem == null) return null;
             var output = new Tables.dbo.Image
             {
                 Id = inputItem.Id ?? Guid.NewGuid(),
+                SiteId = siteId,
                 Path = inputItem.Path
             };
             return output;
@@ -52,19 +53,14 @@ namespace professionaltranslator.net.Repository
         /// <param name="site"></param>
         /// <param name="inputItem"></param>
         /// <returns></returns>
-        public static async Task<string> Save(string site, Tables.dbo.Image inputItem)
+        public static async Task<string> Save(string site, Models.Image inputItem)
         {
             if (inputItem == null)  throw new NullReferenceException("Image cannot be null.");
             if (string.IsNullOrEmpty(inputItem.Path)) throw new ArgumentNullException(nameof(inputItem.Path), "Path cannot be empty.");
             if (inputItem.Path.Length > 440) throw new ArgumentException("Path must be 440 characters or fewer.", nameof(inputItem.Path));
             Tables.dbo.Site siteItem = await dbRead.Site.Item(site);
             if (siteItem == null) throw new NullReferenceException("No site was found with that name. Cannot continue.");
-            var saveItem = new Tables.dbo.Image
-            {
-                Id = inputItem.Id,
-                SiteId = siteItem.Id,
-                Path = inputItem.Path
-            };
+            Tables.dbo.Image saveItem = Convert(inputItem, siteItem.Id);
             SaveStatus output = await dbWrite.Item(saveItem);
             return output.ToString();
         }
