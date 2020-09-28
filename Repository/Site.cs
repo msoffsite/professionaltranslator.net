@@ -36,7 +36,7 @@ namespace professionaltranslator.net.Repository
         public static async Task<string> Save(Models.Site item)
         {
             if (item == null) throw new NullReferenceException("Site cannot be null.");
-            if (string.IsNullOrEmpty(item.Name)) throw new ArgumentNullException(nameof(item.Name), "Path cannot be empty.");
+            if (string.IsNullOrEmpty(item.Name)) throw new ArgumentNullException(nameof(item.Name), "Name cannot be empty.");
             if (item.Name.Length > 25) throw new ArgumentException("Name must be 25 characters or fewer.", nameof(item.Name));
             SaveStatus output = await dbWrite.Item(item);
             return output.ToString();
