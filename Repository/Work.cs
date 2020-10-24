@@ -129,10 +129,10 @@ namespace professionaltranslator.net.Repository
             if (saveImage == null) throw new NullReferenceException("Work must have a cover image.");
             inputItem.Cover.Id = saveImage.Id;
             string imageSaveStatus = await Image.Save(site, inputItem.Cover);
-            if (imageSaveStatus == SaveStatus.Failed.ToString()) throw new Exception("Image failed to save.");
+            if (imageSaveStatus == SaveStatus.Failed.ToString()) throw new System.Exception("Image failed to save.");
 
             Tables.dbo.Work convertItem = Convert(inputItem, siteItem.Id);
-            SaveStatus output = await dbWrite.Item(convertItem);
+            SaveStatus output = await dbWrite.Item(site, convertItem);
             return output.ToString();
         }
     }

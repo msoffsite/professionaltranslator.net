@@ -61,7 +61,7 @@ namespace professionaltranslator.net.Repository
             Tables.dbo.Site siteItem = await dbRead.Site.Item(site);
             if (siteItem == null) throw new NullReferenceException("No site was found with that name. Cannot continue.");
             Tables.dbo.Image convertItem = Convert(inputItem, siteItem.Id);
-            SaveStatus output = await dbWrite.Item(convertItem);
+            SaveStatus output = await dbWrite.Item(site, convertItem);
             return output.ToString();
         }
     }

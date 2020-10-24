@@ -13,7 +13,7 @@ namespace professionaltranslator.net.Models
         public string Name { get; set; }
         public string EmailAddress { get; set; }
         public DateTime? DateCreated { get; set; }
-        public bool Display { get; set; }
+        public bool Approved { get; set; }
         public List<Localized.Testimonial> Localization { get; set; }
     }
 }

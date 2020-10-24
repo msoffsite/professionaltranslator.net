@@ -10,7 +10,7 @@ namespace professionaltranslator.net.Repository.DatabaseOperations.dbo.Write
 {
     internal class Site : Base
     {
-        internal static async Task<SaveStatus> Item(Tables.dbo.Site site)
+        internal static async Task<SaveStatus> Item(Tables.dbo.Site inputItem)
         {
             try
             {
@@ -19,14 +19,15 @@ namespace professionaltranslator.net.Repository.DatabaseOperations.dbo.Write
                     CommandType = CommandType.StoredProcedure
                 };
 
-                cmd.Parameters.Add("@Id", SqlDbType.UniqueIdentifier).Value = site.Id;
-                cmd.Parameters.Add("@Name", SqlDbType.NVarChar, 25).Value = site.Name;
+                cmd.Parameters.Add("@Id", SqlDbType.UniqueIdentifier).Value = inputItem.Id;
+                cmd.Parameters.Add("@Name", SqlDbType.NVarChar, 25).Value = inputItem.Name;
                 //await cmd.Connection.OpenAsync();
                 await cmd.ExecuteNonQueryAsync();
                 return SaveStatus.Succeeded;
             }
-            catch (Exception)
+            catch (System.Exception ex)
             {
+                await Exception.Save(inputItem.Name, ex, "dbo.Site");
                 return SaveStatus.Failed;
             }
         }

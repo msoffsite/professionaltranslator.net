@@ -9,7 +9,7 @@ namespace professionaltranslator.net.Repository.DatabaseOperations.Localization.
 {
     internal class Page : Base
     {
-        internal static async Task<SaveStatus> Item(Tables.Localization.Page item)
+        internal static async Task<SaveStatus> Item(string site, Tables.Localization.Page item)
         {
             try
             {
@@ -26,8 +26,9 @@ namespace professionaltranslator.net.Repository.DatabaseOperations.Localization.
                 await cmd.ExecuteNonQueryAsync();
                 return SaveStatus.Succeeded;
             }
-            catch (Exception)
+            catch (System.Exception ex)
             {
+                await Exception.Save(site, ex, "Localization.Page");
                 return SaveStatus.Failed;
             }
         }

@@ -75,7 +75,7 @@ namespace professionaltranslator.net.Repository
                 Name = n.Name,
                 EmailAddress = n.EmailAddress,
                 DateCreated = n.DateCreated,
-                Display = n.Display,
+                Approved = n.Approved,
                 Localization = localizedList.Where(x => x.Id == n.Id).Select(t => new Models.Localized.Testimonial
                 {
                     Lcid = t.Lcid,
@@ -102,14 +102,14 @@ namespace professionaltranslator.net.Repository
             Tables.dbo.Work convertWork = Work.Convert(inputItem.Work, siteItem.Id);
             if (convertWork == null) throw new NullReferenceException("Work failed to convert");
             string workSaveStatus = await Work.Save(site, inputItem.Work);
-            if (workSaveStatus == SaveStatus.Failed.ToString()) throw new Exception("Work failed to save.");
+            if (workSaveStatus == SaveStatus.Failed.ToString()) throw new System.Exception("Work failed to save.");
 
             Tables.dbo.Image convertPortrait = Image.Convert(inputItem.Portrait, siteItem.Id);
             if (convertPortrait == null) throw new NullReferenceException("Portrait failed to convert.");
 
             inputItem.Portrait.Id = convertPortrait.Id;
             string portraitSaveStatus = await Image.Save(site, inputItem.Portrait);
-            if (portraitSaveStatus == SaveStatus.Failed.ToString()) throw new Exception("Image failed to save.");
+            if (portraitSaveStatus == SaveStatus.Failed.ToString()) throw new System.Exception("Image failed to save.");
 
             var saveItem = new Tables.dbo.Testimonial
             {
@@ -119,10 +119,10 @@ namespace professionaltranslator.net.Repository
                 PortraitImageId = convertPortrait.Id,
                 Name = inputItem.Name,
                 EmailAddress = inputItem.EmailAddress,
-                Display = inputItem.Display
+                Approved = inputItem.Approved
             };
 
-            SaveStatus output = await dbWrite.Item(saveItem);
+            SaveStatus output = await dbWrite.Item(site, saveItem);
             if (output == SaveStatus.Failed) return output.ToString();
 
             var saveLocalizationFailed = false;
@@ -130,7 +130,7 @@ namespace professionaltranslator.net.Repository
                 new Tables.Localization.Testimonial()))
             {
                 saveLocalization.Id = saveItem.Id;
-                SaveStatus saveStatus = await DatabaseOperations.Localization.Write.Testimonial.Item(saveLocalization);
+                SaveStatus saveStatus = await DatabaseOperations.Localization.Write.Testimonial.Item(site, saveLocalization);
                 saveLocalizationFailed = saveStatus == SaveStatus.Failed;
                 if (saveLocalizationFailed) break;
             }

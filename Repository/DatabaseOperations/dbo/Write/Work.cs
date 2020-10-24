@@ -9,7 +9,7 @@ namespace professionaltranslator.net.Repository.DatabaseOperations.dbo.Write
 {
     internal class Work : Base
     {
-        internal static async Task<SaveStatus> Item(Tables.dbo.Work item)
+        internal static async Task<SaveStatus> Item(string site, Tables.dbo.Work item)
         {
             try
             {
@@ -30,8 +30,9 @@ namespace professionaltranslator.net.Repository.DatabaseOperations.dbo.Write
                 await cmd.ExecuteNonQueryAsync();
                 return SaveStatus.Succeeded;
             }
-            catch (Exception)
+            catch (System.Exception ex)
             {
+                await Exception.Save(site, ex, "dbo.Work");
                 return SaveStatus.Failed;
             }
         }
