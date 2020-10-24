@@ -49,7 +49,7 @@ namespace professionaltranslator.net.Repository
             List<Task<Models.Page>> taskList = await TaskList(site);
             if (taskList.Count == 0) return new List<Models.Page>();
             var output = new List<Models.Page>();
-            for (var i = 0; 0 < taskList.Count; i++)
+            for (int i = 0; 0 < taskList.Count; i++)
             {
                 if (i == taskList.Count) break;
                 Models.Page item = taskList[i].Result;

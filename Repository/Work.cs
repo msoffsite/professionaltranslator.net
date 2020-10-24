@@ -11,6 +11,24 @@ namespace professionaltranslator.net.Repository
 {
     public class Work
     {
+        internal static Tables.dbo.Work Convert(Models.Work inputItem, Guid siteId)
+        {
+            if (inputItem == null) return null;
+            var output = new Tables.dbo.Work
+            {
+                Id = inputItem.Id ?? Guid.NewGuid(),
+                SiteId = siteId,
+                CoverId = inputItem.Cover.Id ?? throw new ArgumentNullException(nameof(inputItem.Cover.Id), "Cover must have an identifier."),
+                Title = inputItem.Title,
+                Authors = inputItem.Authors,
+                Href = inputItem.Href,
+                DateCreated = inputItem.DateCreated,
+                Display = inputItem.Display,
+                TestimonialLink = inputItem.TestimonialLink
+            };
+            return output;
+        }
+
         public static async Task<Models.Work> Item(Guid id)
         {
             Tables.dbo.Work item = await dbRead.Work.Item(id);
@@ -113,20 +131,8 @@ namespace professionaltranslator.net.Repository
             string imageSaveStatus = await Image.Save(site, inputItem.Cover);
             if (imageSaveStatus == SaveStatus.Failed.ToString()) throw new Exception("Image failed to save.");
 
-            var saveItem = new Tables.dbo.Work
-            {
-                Id = inputItem.Id ?? Guid.NewGuid(),
-                SiteId = siteItem.Id,
-                CoverId = saveImage.Id,
-                Title = inputItem.Title,
-                Authors = inputItem.Authors,
-                Href = inputItem.Href,
-                DateCreated = inputItem.DateCreated,
-                Display = inputItem.Display,
-                TestimonialLink = inputItem.TestimonialLink
-            };
-
-            SaveStatus output = await dbWrite.Item(saveItem);
+            Tables.dbo.Work convertItem = Convert(inputItem, siteItem.Id);
+            SaveStatus output = await dbWrite.Item(convertItem);
             return output.ToString();
         }
     }

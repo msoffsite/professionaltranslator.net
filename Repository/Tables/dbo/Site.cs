@@ -4,8 +4,8 @@ using System.Text;
 
 namespace professionaltranslator.net.Repository.Tables.dbo
 {
-    public class Site : Base
+    public class Site : Models.Site
     {
-        public string Name { get; set; }
+        public new Guid Id { get; set; }
     }
 }

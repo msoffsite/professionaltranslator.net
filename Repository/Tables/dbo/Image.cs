@@ -4,10 +4,10 @@ using System.Text;
 
 namespace professionaltranslator.net.Repository.Tables.dbo
 {
-    public class Image : Base
+    public class Image : Models.Image
     {
+        public new Guid Id { get; set; }
         public Guid SiteId { get; set; }
-        public string Path { get; set; }
 
         public Image() {}
     }
