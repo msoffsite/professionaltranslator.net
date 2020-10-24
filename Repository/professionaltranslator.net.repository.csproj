@@ -13,8 +13,4 @@
     <ProjectReference Include="..\Models\professionaltranslator.net.models.csproj" />
   </ItemGroup>
 
-  <ItemGroup>
-    <Folder Include="DatabaseOperations\Log\Write\" />
-  </ItemGroup>
-
 </Project>

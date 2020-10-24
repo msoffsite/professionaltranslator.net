@@ -11,7 +11,7 @@ namespace professionaltranslator.net.Repository.DatabaseOperations.dbo.Write
 {
     internal class Image : Base
     {
-        internal static async Task<SaveStatus> Item(Tables.dbo.Image item)
+        internal static async Task<SaveStatus> Item(string site, Tables.dbo.Image item)
         {
             try
             {
@@ -27,8 +27,9 @@ namespace professionaltranslator.net.Repository.DatabaseOperations.dbo.Write
                 await cmd.ExecuteNonQueryAsync();
                 return SaveStatus.Succeeded;
             }
-            catch (Exception)
+            catch (System.Exception ex)
             {
+                await Exception.Save(site, ex, "dbo.Image");
                 return SaveStatus.Failed;
             }
         }

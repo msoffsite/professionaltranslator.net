@@ -37,7 +37,7 @@ namespace professionaltranslator.net.Repository
                 };
                 return output;
             }
-            catch(Exception ex)
+            catch(System.Exception ex)
             {
                 Console.Write(ex.Message);
                 return null;
@@ -49,7 +49,7 @@ namespace professionaltranslator.net.Repository
             List<Task<Models.Page>> taskList = await TaskList(site);
             if (taskList.Count == 0) return new List<Models.Page>();
             var output = new List<Models.Page>();
-            for (int i = 0; 0 < taskList.Count; i++)
+            for (var i = 0; 0 < taskList.Count; i++)
             {
                 if (i == taskList.Count) break;
                 Models.Page item = taskList[i].Result;
@@ -94,7 +94,7 @@ namespace professionaltranslator.net.Repository
             {
                 inputItem.Image.Id = saveImage.Id;
                 string imageSaveStatus = await Image.Save(site, inputItem.Image);
-                if (imageSaveStatus == SaveStatus.Failed.ToString()) throw new Exception("Image failed to save.");
+                if (imageSaveStatus == SaveStatus.Failed.ToString()) throw new System.Exception("Image failed to save.");
             }
 
             var saveItem = new Tables.dbo.Page
@@ -107,14 +107,14 @@ namespace professionaltranslator.net.Repository
                 Name = inputItem.Name
             };
 
-            SaveStatus output = await dbWrite.Item(saveItem);
+            SaveStatus output = await dbWrite.Item(site, saveItem);
             if (output == SaveStatus.Failed) return output.ToString();
 
             var saveLocalizationFailed = false;
             foreach (Tables.Localization.Page saveLocalization in inputItem.Localization.Select(localizedPage => new Tables.Localization.Page()))
             {
                 saveLocalization.Id = saveItem.Id;
-                SaveStatus saveStatus = await DatabaseOperations.Localization.Write.Page.Item(saveLocalization);
+                SaveStatus saveStatus = await DatabaseOperations.Localization.Write.Page.Item(site, saveLocalization);
                 saveLocalizationFailed = saveStatus == SaveStatus.Failed;
                 if (saveLocalizationFailed) break;
             }
