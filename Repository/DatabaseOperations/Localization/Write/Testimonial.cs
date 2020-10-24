@@ -18,7 +18,7 @@ namespace professionaltranslator.net.Repository.DatabaseOperations.Localization.
                     CommandType = CommandType.StoredProcedure
                 };
 
-                cmd.Parameters.Add("@PageId", SqlDbType.UniqueIdentifier).Value = item.Id;
+                cmd.Parameters.Add("@TestimonialId", SqlDbType.UniqueIdentifier).Value = item.Id;
                 cmd.Parameters.Add("@LCID", SqlDbType.Int).Value = item.Lcid;
                 cmd.Parameters.Add("@Html", SqlDbType.NVarChar, -1).Value = item.Html;
                 //await cmd.Connection.OpenAsync();

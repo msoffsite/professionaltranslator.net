@@ -12,7 +12,7 @@ namespace professionaltranslator.net.Models
         public Image Portrait { get; set; }
         public string Name { get; set; }
         public string EmailAddress { get; set; }
-        public DateTime DateCreated { get; set; }
+        public DateTime? DateCreated { get; set; }
         public bool Display { get; set; }
         public List<Localized.Testimonial> Localization { get; set; }
     }

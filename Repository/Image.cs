@@ -60,8 +60,8 @@ namespace professionaltranslator.net.Repository
             if (inputItem.Path.Length > 440) throw new ArgumentException("Path must be 440 characters or fewer.", nameof(inputItem.Path));
             Tables.dbo.Site siteItem = await dbRead.Site.Item(site);
             if (siteItem == null) throw new NullReferenceException("No site was found with that name. Cannot continue.");
-            Tables.dbo.Image saveItem = Convert(inputItem, siteItem.Id);
-            SaveStatus output = await dbWrite.Item(saveItem);
+            Tables.dbo.Image convertItem = Convert(inputItem, siteItem.Id);
+            SaveStatus output = await dbWrite.Item(convertItem);
             return output.ToString();
         }
     }
