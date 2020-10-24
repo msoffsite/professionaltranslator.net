@@ -7,7 +7,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 
-namespace www.professionaltranslator.net
+namespace services.professionaltranslator.net
 {
     public class Program
     {
