@@ -5,7 +5,7 @@ using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.Data.SqlClient;
-
+using Repository.Professionaltranslator.Net;
 using dbRead = Repository.ProfessionalTranslator.Net.DatabaseOperations.dbo.Read;
 using dbWrite = Repository.ProfessionalTranslator.Net.DatabaseOperations.dbo.Write.Image;
 using models = Models.Professionaltranslator.Net;
@@ -54,16 +54,31 @@ namespace Repository.ProfessionalTranslator.Net
         /// <param name="site"></param>
         /// <param name="inputItem"></param>
         /// <returns></returns>
-        public static async Task<string> Save(string site, models.Image inputItem)
+        public static async Task<Result> Save(string site, models.Image inputItem)
         {
-            if (inputItem == null)  throw new NullReferenceException("Image cannot be null.");
-            if (string.IsNullOrEmpty(inputItem.Path)) throw new ArgumentNullException(nameof(inputItem.Path), "Path cannot be empty.");
-            if (inputItem.Path.Length > 440) throw new ArgumentException("Path must be 440 characters or fewer.", nameof(inputItem.Path));
+            var saveStatus = SaveStatus.Succeeded;
+            var errorMessages = new List<string>();
+            if (inputItem == null) errorMessages.Add("Image cannot be null.");
+            if (inputItem != null && string.IsNullOrEmpty(inputItem.Path)) errorMessages.Add("Path cannot be empty.");
+            if (inputItem != null && inputItem.Path.Length > 440) errorMessages.Add("Path must be 440 characters or fewer.");
+
             Tables.dbo.Site siteItem = await dbRead.Site.Item(site);
-            if (siteItem == null) throw new NullReferenceException("No site was found with that name. Cannot continue.");
-            Tables.dbo.Image convertItem = Convert(inputItem, siteItem.Id);
-            SaveStatus output = await dbWrite.Item(site, convertItem);
-            return output.ToString();
+            if (siteItem != null)
+            {
+                Tables.dbo.Image convertItem = Convert(inputItem, siteItem.Id);
+                saveStatus = errorMessages.Any() ? SaveStatus.Failed : await dbWrite.Item(site, convertItem);
+            }
+            else
+            {
+                errorMessages.Add("No site was found with that name. Cannot continue.");
+            }
+
+            var output = new Result
+            {
+                Status = errorMessages.Any() ? SaveStatus.Failed : saveStatus,
+                Messages = errorMessages
+            };
+            return output;
         }
     }
 }

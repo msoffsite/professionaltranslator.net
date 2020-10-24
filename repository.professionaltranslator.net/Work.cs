@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-
+using Repository.Professionaltranslator.Net;
 using dbRead = Repository.ProfessionalTranslator.Net.DatabaseOperations.dbo.Read;
 using dbWrite = Repository.ProfessionalTranslator.Net.DatabaseOperations.dbo.Write.Work;
 using models = Models.Professionaltranslator.Net;
@@ -129,8 +129,8 @@ namespace Repository.ProfessionalTranslator.Net
             Tables.dbo.Image saveImage = Image.Convert(inputItem.Cover, siteItem.Id);
             if (saveImage == null) throw new NullReferenceException("Work must have a cover image.");
             inputItem.Cover.Id = saveImage.Id;
-            string imageSaveStatus = await Image.Save(site, inputItem.Cover);
-            if (imageSaveStatus == SaveStatus.Failed.ToString()) throw new System.Exception("Image failed to save.");
+            Result imageSave = await Image.Save(site, inputItem.Cover);
+            if (imageSave.Status == SaveStatus.Failed) throw new System.Exception("Image failed to save.");
 
             Tables.dbo.Work convertItem = Convert(inputItem, siteItem.Id);
             SaveStatus output = await dbWrite.Item(site, convertItem);

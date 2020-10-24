@@ -4,13 +4,24 @@
     <TargetFramework>netcoreapp3.1</TargetFramework>
 
     <IsPackable>false</IsPackable>
+
+    <RootNamespace>Test.Professionaltranslator.Net</RootNamespace>
   </PropertyGroup>
+
+  <ItemGroup>
+    <Compile Remove="UnitTest1.cs" />
+  </ItemGroup>
 
   <ItemGroup>
     <PackageReference Include="Microsoft.NET.Test.Sdk" Version="16.5.0" />
     <PackageReference Include="MSTest.TestAdapter" Version="2.1.0" />
     <PackageReference Include="MSTest.TestFramework" Version="2.1.0" />
     <PackageReference Include="coverlet.collector" Version="1.2.0" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\models.professionaltranslator.net\models.professionaltranslator.net.csproj" />
+    <ProjectReference Include="..\repository.professionaltranslator.net\repository.professionaltranslator.net.csproj" />
   </ItemGroup>
 
 </Project>

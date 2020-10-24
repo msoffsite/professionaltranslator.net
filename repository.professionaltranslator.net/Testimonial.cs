@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-
+using Repository.Professionaltranslator.Net;
 using dbRead = Repository.ProfessionalTranslator.Net.DatabaseOperations.dbo.Read;
 using dbLocalizedRead = Repository.ProfessionalTranslator.Net.DatabaseOperations.Localization.Read.Testimonial;
 using dbWrite = Repository.ProfessionalTranslator.Net.DatabaseOperations.dbo.Write.Testimonial;
@@ -109,8 +109,8 @@ namespace Repository.ProfessionalTranslator.Net
             if (convertPortrait == null) throw new NullReferenceException("Portrait failed to convert.");
 
             inputItem.Portrait.Id = convertPortrait.Id;
-            string portraitSaveStatus = await Image.Save(site, inputItem.Portrait);
-            if (portraitSaveStatus == SaveStatus.Failed.ToString()) throw new System.Exception("Image failed to save.");
+            Result portraitResult = await Image.Save(site, inputItem.Portrait);
+            if (portraitResult.Status == SaveStatus.Failed) throw new System.Exception("Image failed to save.");
 
             var saveItem = new Tables.dbo.Testimonial
             {
