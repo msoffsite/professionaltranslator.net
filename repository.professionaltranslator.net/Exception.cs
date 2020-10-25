@@ -51,22 +51,33 @@ namespace Repository.ProfessionalTranslator.Net
 
         public static async Task<Result> Save(string site, models.Log.Exception inputItem)
         {
-            SaveStatus saveStatus;
-            var errorMessages = new List<string>();
-
-            if (inputItem != null && string.IsNullOrEmpty(inputItem.Message)) errorMessages.Add("Message cannot be empty.");
-            if (inputItem != null && string.IsNullOrEmpty(inputItem.Type)) errorMessages.Add("Type cannot be empty.");
-            if (inputItem != null && string.IsNullOrEmpty(inputItem.Class)) errorMessages.Add("Class cannot be empty.");
-            if (inputItem != null && inputItem.Class.Length > 2048) errorMessages.Add("Class must be 2048 characters or fewer.");
-
-            Tables.dbo.Site siteItem = await dbRead.Site.Item(site);
-            if (siteItem == null) throw new NullReferenceException("No site was found with that name.");
+            var messages = new List<string>();
 
             if (inputItem == null)
             {
-                errorMessages.Add("Exception cannot be null.");
-                saveStatus = SaveStatus.Failed;
-                return new Result(saveStatus, errorMessages);
+                return new Result(SaveStatus.Failed, "Exception cannot be null.");
+            }
+
+            Tables.dbo.Site siteItem = await dbRead.Site.Item(site);
+            if (siteItem == null)
+            {
+                return new Result(SaveStatus.Failed, "No site was found with that name.");
+            }
+
+            if (string.IsNullOrEmpty(inputItem.Message)) messages.Add("Message cannot be empty.");
+            if (string.IsNullOrEmpty(inputItem.Type)) messages.Add("Type cannot be empty.");
+            if (string.IsNullOrEmpty(inputItem.Class))
+            {
+                messages.Add("Class cannot be empty.");
+            }
+            else if (inputItem.Class.Length > 2048)
+            {
+                messages.Add("Class must be 2048 characters or fewer.");
+            }
+
+            if (messages.Any())
+            {
+                return new Result(SaveStatus.Failed, messages);
             }
 
             var convertItem = new Tables.Log.Exception
@@ -80,10 +91,8 @@ namespace Repository.ProfessionalTranslator.Net
                 DateCreated = inputItem.DateCreated ?? DateTime.Now
             };
 
-            SaveStatus dbSaveStatus = await dbWrite.Item(site, convertItem);
-            if (dbSaveStatus == SaveStatus.Failed) throw new System.Exception("Could not log exception.");
-            saveStatus = errorMessages.Any() ? SaveStatus.Failed : dbSaveStatus;
-            return new Result(saveStatus, errorMessages);
+            Result saveResult = await dbWrite.Item(site, convertItem);
+            return saveResult;
         }
     }
 }
