@@ -35,6 +35,7 @@ namespace Repository.ProfessionalTranslator.Net.DatabaseOperations.dbo.Write
             {
                 await Exception.Save(site, ex, "dbo.Image");
                 messages.Add(ex.Message);
+                saveStatus = SaveStatus.Failed;
             }
 
             return new Result(saveStatus, messages);
