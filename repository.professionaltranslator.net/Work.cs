@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics.CodeAnalysis;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -111,30 +112,78 @@ namespace Repository.ProfessionalTranslator.Net
             }).ToList();
         }
 
-        public static async Task<string> Save(string site, models.Work inputItem)
+        public static async Task<Result> Save(string site, models.Work inputItem)
         {
-            if (inputItem == null) throw new NullReferenceException("Work cannot be null.");
-            if (string.IsNullOrEmpty(inputItem.Title)) throw new ArgumentNullException(nameof(inputItem.Title), "Title cannot be empty.");
-            if (string.IsNullOrEmpty(inputItem.Authors)) throw new ArgumentNullException(nameof(inputItem.Authors), "Authors cannot be empty.");
-            if (string.IsNullOrEmpty(inputItem.Href)) throw new ArgumentNullException(nameof(inputItem.Href), "Href cannot be empty.");
-            if (string.IsNullOrEmpty(inputItem.TestimonialLink)) throw new ArgumentNullException(nameof(inputItem.TestimonialLink), "Testimonial link cannot be empty.");
-            if (inputItem.Title.Length > 100) throw new ArgumentException("Title must be 100 characters or fewer.", nameof(inputItem.Title));
-            if (inputItem.Authors.Length > 255) throw new ArgumentException("Authors must be 255 characters or fewer.", nameof(inputItem.Authors));
-            if (inputItem.Href.Length > 2048) throw new ArgumentException("Href must be 2048 characters or fewer.", nameof(inputItem.Href));
-            if (inputItem.TestimonialLink.Length > 100) throw new ArgumentException("Testimonial link must be 100 characters or fewer.", nameof(inputItem.TestimonialLink));
+            var messages = new List<string>();
+
+            if (inputItem == null)
+            {
+                return new Result(SaveStatus.Failed, "Work cannot be null.");
+            }
 
             Tables.dbo.Site siteItem = await dbRead.Site.Item(site);
-            if (siteItem == null) throw new NullReferenceException("No site was found with that name. Cannot continue.");
+            if (siteItem == null)
+            {
+                return new Result(SaveStatus.Failed, "No site was found with that name.");
+            }
 
-            Tables.dbo.Image saveImage = Image.Convert(inputItem.Cover, siteItem.Id);
-            if (saveImage == null) throw new NullReferenceException("Work must have a cover image.");
-            inputItem.Cover.Id = saveImage.Id;
-            Result imageSave = await Image.Save(site, inputItem.Cover);
-            if (imageSave.Status == SaveStatus.Failed) throw new System.Exception("Image failed to save.");
+            Tables.dbo.Image convertImage = Image.Convert(inputItem.Cover, siteItem.Id);
+            if (convertImage == null)
+            {
+                return new Result(SaveStatus.Failed, "Work must have a cover image.");
+            }
 
-            Tables.dbo.Work convertItem = Convert(inputItem, siteItem.Id);
-            SaveStatus output = await dbWrite.Item(site, convertItem);
-            return output.ToString();
+            Result saveImageResult = await Image.Save(site, inputItem.Cover);
+            if (saveImageResult.Status == SaveStatus.Failed)
+            {
+                return new Result(saveImageResult.Status, messages);
+            }
+
+            inputItem.Cover.Id = convertImage.Id;
+
+            if (string.IsNullOrEmpty(inputItem.Title))
+            {
+                messages.Add("Title cannot be empty.");
+            }
+            else if (inputItem.Title.Length > 100)
+            {
+                messages.Add("Title must be 100 characters or fewer.");
+            }
+
+            if (string.IsNullOrEmpty(inputItem.Authors))
+            {
+                messages.Add("Authors cannot be empty.");
+            }
+            else if (inputItem.Authors.Length > 255)
+            {
+                messages.Add("Authors must be 255 characters or fewer.");
+            }
+
+            if (string.IsNullOrEmpty(inputItem.Href))
+            {
+                messages.Add("Href cannot be empty.");
+            }
+            else if (inputItem.Href.Length > 2048)
+            {
+                messages.Add("Href must be 2048 characters or fewer.");
+            }
+
+            if (string.IsNullOrEmpty(inputItem.TestimonialLink))
+            {
+                messages.Add("Testimonial link cannot be empty.");
+            }
+            else if (inputItem.TestimonialLink.Length > 100)
+            {
+                messages.Add("Testimonial link must be 100 characters or fewer.");
+            }
+
+            if (messages.Any()) return new Result(SaveStatus.Failed, messages);
+
+            Tables.dbo.Work convertedWork = Convert(inputItem, siteItem.Id);
+            if (convertedWork == null) return new Result(SaveStatus.Failed, "Could not convert Work model to table.");
+            
+            Result output = await dbWrite.Item(site, convertedWork);
+            return output;
         }
     }
 }

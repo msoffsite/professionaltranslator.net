@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-
+using Repository.Professionaltranslator.Net;
 using dbRead = Repository.ProfessionalTranslator.Net.DatabaseOperations.dbo.Read.Site;
 using dbWrite = Repository.ProfessionalTranslator.Net.DatabaseOperations.dbo.Write.Site;
 using models = Models.Professionaltranslator.Net;
@@ -45,14 +45,31 @@ namespace Repository.ProfessionalTranslator.Net
             }).ToList();
         }
 
-        public static async Task<string> Save(models.Site item)
+        public static async Task<Result> Save(models.Site item)
         {
-            if (item == null) throw new NullReferenceException("Site cannot be null.");
-            if (string.IsNullOrEmpty(item.Name)) throw new ArgumentNullException(nameof(item.Name), "Name cannot be empty.");
-            if (item.Name.Length > 25) throw new ArgumentException("Name must be 25 characters or fewer.", nameof(item.Name));
-            Tables.dbo.Site saveItem = Convert(item);
-            SaveStatus output = await dbWrite.Item(saveItem);
-            return output.ToString();
+            if (item == null)
+            {
+                return new Result(SaveStatus.Failed, "Site cannot be null.");
+            }
+
+            if (string.IsNullOrEmpty(item.Name))
+            {
+                return new Result(SaveStatus.Failed, "Name cannot be empty.");
+            }
+
+            if (item.Name.Length > 25)
+            {
+                return new Result(SaveStatus.Failed, "Name must be 25 characters or fewer.");
+            }
+
+            Tables.dbo.Site convertedSite = Convert(item);
+            if (convertedSite == null)
+            {
+                return new Result(SaveStatus.Failed, "Could not convert Site model to table.");
+            }
+
+            Result saveResult = await dbWrite.Item(convertedSite);
+            return saveResult;
         }
     }
 }

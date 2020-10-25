@@ -4,13 +4,17 @@ using System.Data;
 using System.Text;
 using System.Threading.Tasks;
 using Microsoft.Data.SqlClient;
+using Repository.Professionaltranslator.Net;
 
 namespace Repository.ProfessionalTranslator.Net.DatabaseOperations.dbo.Write
 {
     internal class Work : Base
     {
-        internal static async Task<SaveStatus> Item(string site, Tables.dbo.Work item)
+        internal static async Task<Result> Item(string site, Tables.dbo.Work item)
         {
+            SaveStatus saveStatus;
+            var messages = new List<string>();
+
             try
             {
                 await using var cmd = new SqlCommand("[dbo].[SaveWork]", new Base().SqlConnection)
@@ -29,13 +33,15 @@ namespace Repository.ProfessionalTranslator.Net.DatabaseOperations.dbo.Write
                 await cmd.Connection.OpenAsync();
                 await cmd.ExecuteNonQueryAsync();
                 await cmd.Connection.CloseAsync();
-                return SaveStatus.Succeeded;
+                saveStatus = SaveStatus.Succeeded;
             }
             catch (System.Exception ex)
             {
                 await Exception.Save(site, ex, "dbo.Work");
-                return SaveStatus.Failed;
+                saveStatus = SaveStatus.Failed;
+                messages.Add(ex.Message);
             }
+            return new Result(saveStatus, messages);
         }
     }
 }

@@ -80,23 +80,46 @@ namespace Repository.ProfessionalTranslator.Net
             }).ToList();
         }
 
-        public static async Task<string> Save(string site, models.Page inputItem)
+        public static async Task<Result> Save(string site, models.Page inputItem)
         {
-            if (inputItem == null) throw new NullReferenceException("Page cannot be null.");
-            if (string.IsNullOrEmpty(inputItem.Name)) throw new ArgumentNullException(nameof(inputItem.Name), "Name cannot be empty.");
-            if (inputItem.Name.Length > 20) throw new ArgumentException("Name must be 20 characters or fewer.", nameof(inputItem.Name));
+            var saveStatus = SaveStatus.Undetermined;
+            var messages = new List<string>();
+
+            if (inputItem == null)
+            {
+                messages.Add("Page cannot be null.");
+                return new Result(SaveStatus.Failed, messages);
+            }
 
             Tables.dbo.Site siteItem = await dbRead.Site.Item(site);
-            if (siteItem == null) throw new NullReferenceException("No site was found with that name. Cannot continue.");
-            
+            if (siteItem == null)
+            {
+                messages.Add("No site was found with that name.");
+                return new Result(SaveStatus.Failed, messages);
+            }
+
             Tables.dbo.Image saveImage = Image.Convert(inputItem.Image, siteItem.Id);
             if (saveImage != null)
             {
                 inputItem.Image.Id = saveImage.Id;
-                Result imageSaveStatus = await Image.Save(site, inputItem.Image);
-                if (imageSaveStatus.Status == SaveStatus.Failed) throw new System.Exception("Image failed to save.");
+                Result imageSaveResult = await Image.Save(site, inputItem.Image);
+                if (imageSaveResult.Status == SaveStatus.Failed)
+                {
+                    messages = imageSaveResult.Messages;
+                    saveStatus = SaveStatus.PartialSuccess;
+                }
             }
 
+            if (string.IsNullOrEmpty(inputItem.Name))
+            {
+                messages.Add("Name cannot be empty.");
+            }
+
+            if (inputItem.Name.Length > 20)
+            {
+                messages.Add("Name must be 20 characters or fewer.");
+            }
+            
             var saveItem = new Tables.dbo.Page
             {
                 Id = inputItem.Id ?? Guid.NewGuid(),
@@ -107,20 +130,24 @@ namespace Repository.ProfessionalTranslator.Net
                 Name = inputItem.Name
             };
 
-            SaveStatus output = await dbWrite.Item(site, saveItem);
-            if (output == SaveStatus.Failed) return output.ToString();
+            Result savePageResult = await dbWrite.Item(site, saveItem);
+            if (savePageResult.Status == SaveStatus.Failed) return new Result(savePageResult.Status, savePageResult.Messages);
 
-            var saveLocalizationFailed = false;
             foreach (Tables.Localization.Page saveLocalization in inputItem.Localization.Select(localizedPage => new Tables.Localization.Page()))
             {
                 saveLocalization.Id = saveItem.Id;
-                SaveStatus saveStatus = await DatabaseOperations.Localization.Write.Page.Item(site, saveLocalization);
-                saveLocalizationFailed = saveStatus == SaveStatus.Failed;
-                if (saveLocalizationFailed) break;
+                Result localizedResult = await DatabaseOperations.Localization.Write.Page.Item(site, saveLocalization);
+                if (localizedResult.Status != SaveStatus.Failed) continue;
+                saveStatus = SaveStatus.PartialSuccess;
+                messages.AddRange(localizedResult.Messages);
             }
 
-            if (saveLocalizationFailed) output = SaveStatus.Failed;
-            return output.ToString();
+            if (saveStatus == SaveStatus.Undetermined)
+            {
+                saveStatus = SaveStatus.Succeeded;
+            }
+
+            return new Result(saveStatus, messages);
         }
     }
 }
