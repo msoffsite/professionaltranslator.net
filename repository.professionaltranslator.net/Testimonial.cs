@@ -85,59 +85,99 @@ namespace Repository.ProfessionalTranslator.Net
             }).ToList();
         }
 
-        public static async Task<string> Save(string site, models.Testimonial inputItem)
+        public static async Task<Result> Save(string site, models.Testimonial inputItem)
         {
-            if (inputItem == null) throw new NullReferenceException("Testimonial cannot be null.");
-            if (string.IsNullOrEmpty(inputItem.Name))
-                throw new ArgumentNullException(nameof(inputItem.Name), "Name cannot be empty.");
-            if (inputItem.Name.Length > 100)
-                throw new ArgumentException("Name must be 100 characters or fewer.", nameof(inputItem.Name));
-            if (string.IsNullOrEmpty(inputItem.EmailAddress))
-                throw new ArgumentNullException(nameof(inputItem.EmailAddress), "Email address cannot be empty.");
-            if (inputItem.EmailAddress.Length > 256) throw new ArgumentException("Email address must be 256 characters or fewer.", nameof(inputItem.EmailAddress));
+            SaveStatus saveStatus = SaveStatus.Undetermined;
+            var messages = new List<string>();
+
+            if (inputItem == null)
+            {
+                return new Result(SaveStatus.Failed, "Testimonial cannot be null.");
+            }
 
             Tables.dbo.Site siteItem = await dbRead.Site.Item(site);
             if (siteItem == null)
-                throw new NullReferenceException("No site was found with that name. Cannot continue.");
+            {
+                return new Result(SaveStatus.Failed, "No site was found with that name.");
+            }
 
-            Tables.dbo.Work convertWork = Work.Convert(inputItem.Work, siteItem.Id);
-            if (convertWork == null) throw new NullReferenceException("Work failed to convert");
-            string workSaveStatus = await Work.Save(site, inputItem.Work);
-            if (workSaveStatus == SaveStatus.Failed.ToString()) throw new System.Exception("Work failed to save.");
+            Tables.dbo.Work convertedWork = Work.Convert(inputItem.Work, siteItem.Id);
+            if (convertedWork == null)
+            {
+                return new Result(SaveStatus.Failed, "Could not convert work model to table.");
+            }
 
-            Tables.dbo.Image convertPortrait = Image.Convert(inputItem.Portrait, siteItem.Id);
-            if (convertPortrait == null) throw new NullReferenceException("Portrait failed to convert.");
+            Result saveWorkResult = await Work.Save(site, inputItem.Work);
+            if (saveWorkResult.Status == SaveStatus.Failed)
+            {
+                return saveWorkResult;
+            }
 
-            inputItem.Portrait.Id = convertPortrait.Id;
-            Result portraitResult = await Image.Save(site, inputItem.Portrait);
-            if (portraitResult.Status == SaveStatus.Failed) throw new System.Exception("Image failed to save.");
+            Tables.dbo.Image convertedPortrait = Image.Convert(inputItem.Portrait, siteItem.Id);
+            if (convertedPortrait == null)
+            {
+                return new Result(SaveStatus.Failed, "Could not convert portrait model to table.");
+            }
 
+            Result savePortraitResult = await Image.Save(site, inputItem.Portrait);
+            if (savePortraitResult.Status == SaveStatus.Failed)
+            {
+                return savePortraitResult;
+            }
+
+            inputItem.Portrait.Id = convertedPortrait.Id;
+
+            if (string.IsNullOrEmpty(inputItem.Name))
+            {
+                messages.Add("Name cannot be empty.");
+            }
+            else if (inputItem.Name.Length > 100)
+            {
+                messages.Add("Name must be 100 characters or fewer.");
+            }
+
+            if (string.IsNullOrEmpty(inputItem.EmailAddress))
+            {
+                messages.Add("Email address cannot be empty.");
+            }
+            else if (inputItem.EmailAddress.Length > 256)
+            {
+                messages.Add("Email address must be 256 characters or fewer.");
+            }
+            
             var saveItem = new Tables.dbo.Testimonial
             {
                 Id = inputItem.Id ?? Guid.NewGuid(),
                 SiteId = siteItem.Id,
-                WorkId = convertWork.Id,
-                PortraitImageId = convertPortrait.Id,
+                WorkId = convertedWork.Id,
+                PortraitImageId = convertedPortrait.Id,
                 Name = inputItem.Name,
                 EmailAddress = inputItem.EmailAddress,
                 Approved = inputItem.Approved
             };
 
-            SaveStatus output = await dbWrite.Item(site, saveItem);
-            if (output == SaveStatus.Failed) return output.ToString();
+            Result saveTestimonialResult = await dbWrite.Item(site, saveItem);
+            if (saveTestimonialResult.Status == SaveStatus.Failed)
+            {
+                return saveTestimonialResult;
+            }
 
-            var saveLocalizationFailed = false;
             foreach (Tables.Localization.Testimonial saveLocalization in inputItem.Localization.Select(localizedPage =>
                 new Tables.Localization.Testimonial()))
             {
                 saveLocalization.Id = saveItem.Id;
-                SaveStatus saveStatus = await DatabaseOperations.Localization.Write.Testimonial.Item(site, saveLocalization);
-                saveLocalizationFailed = saveStatus == SaveStatus.Failed;
-                if (saveLocalizationFailed) break;
+                Result localizedResult = await DatabaseOperations.Localization.Write.Testimonial.Item(site, saveLocalization);
+                if (localizedResult.Status != SaveStatus.Failed) continue;
+                saveStatus = SaveStatus.PartialSuccess;
+                messages.AddRange(localizedResult.Messages);
             }
 
-            if (saveLocalizationFailed) output = SaveStatus.Failed;
-            return output.ToString();
+            if (saveStatus != SaveStatus.Undetermined)
+            {
+                saveStatus = SaveStatus.Succeeded;
+            }
+            
+            return new Result(saveStatus, messages);
 
         }
     }

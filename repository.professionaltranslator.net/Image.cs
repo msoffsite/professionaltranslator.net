@@ -56,29 +56,35 @@ namespace Repository.ProfessionalTranslator.Net
         /// <returns></returns>
         public static async Task<Result> Save(string site, models.Image inputItem)
         {
-            var saveStatus = SaveStatus.Undetermined;
-            var errorMessages = new List<string>();
-            if (inputItem == null) errorMessages.Add("Image cannot be null.");
-            if (inputItem != null && string.IsNullOrEmpty(inputItem.Path)) errorMessages.Add("Path cannot be empty.");
-            if (inputItem != null && inputItem.Path.Length > 440) errorMessages.Add("Path must be 440 characters or fewer.");
+            var messages = new List<string>();
+
+            if (inputItem == null)
+            {
+                return new Result(SaveStatus.Failed, "Image cannot be null.");
+            }
 
             Tables.dbo.Site siteItem = await dbRead.Site.Item(site);
-            if (siteItem != null)
+            if (siteItem == null)
             {
-                Tables.dbo.Image convertItem = Convert(inputItem, siteItem.Id);
-                saveStatus = errorMessages.Any() ? SaveStatus.Failed : await dbWrite.Item(site, convertItem);
-            }
-            else
-            {
-                errorMessages.Add("No site was found with that name. Cannot continue.");
+                return new Result(SaveStatus.Failed, "No site was found with that name.");
             }
 
-            var output = new Result
+            if (string.IsNullOrEmpty(inputItem.Path)) messages.Add("Path cannot be empty.");
+            if (inputItem.Path.Length > 440) messages.Add("Path must be 440 characters or fewer.");
+
+            if (messages.Any())
             {
-                Status = errorMessages.Any() ? SaveStatus.Failed : saveStatus,
-                Messages = errorMessages
-            };
-            return output;
+                return new Result(SaveStatus.Failed, messages);
+            }
+
+            Tables.dbo.Image convertedImage = Convert(inputItem, siteItem.Id);
+            if (convertedImage == null)
+            {
+                return new Result(SaveStatus.Failed, "Could not convert Image model to table.");
+            }
+
+            Result saveImageResult = await dbWrite.Item(site, convertedImage);
+            return saveImageResult;
         }
     }
 }

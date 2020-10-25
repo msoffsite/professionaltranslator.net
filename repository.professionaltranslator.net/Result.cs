@@ -9,5 +9,17 @@ namespace Repository.Professionaltranslator.Net
     {
         public SaveStatus Status { get; set; }
         public List<string> Messages { get; set; }
+
+        public Result(SaveStatus status, List<string> messages)
+        {
+            Status = status;
+            Messages = messages;
+        }
+
+        public Result(SaveStatus status, string message)
+        {
+            Status = status;
+            Messages = new List<string> { message };
+        }
     }
 }

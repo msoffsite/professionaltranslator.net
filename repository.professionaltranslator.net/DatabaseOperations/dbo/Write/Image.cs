@@ -4,15 +4,18 @@ using System.Data;
 using System.Text;
 using System.Threading.Tasks;
 using Microsoft.Data.SqlClient;
-
+using Repository.Professionaltranslator.Net;
 using Object = Repository.ProfessionalTranslator.Net.Conversions.Object;
 
 namespace Repository.ProfessionalTranslator.Net.DatabaseOperations.dbo.Write
 {
     internal class Image : Base
     {
-        internal static async Task<SaveStatus> Item(string site, Tables.dbo.Image item)
+        internal static async Task<Result> Item(string site, Tables.dbo.Image item)
         {
+            var messages = new List<string>();
+            var saveStatus = SaveStatus.Undetermined;
+
             try
             {
                 await using var cmd = new SqlCommand("[dbo].[SaveImage]", new Base().SqlConnection)
@@ -26,13 +29,15 @@ namespace Repository.ProfessionalTranslator.Net.DatabaseOperations.dbo.Write
                 await cmd.Connection.OpenAsync();
                 await cmd.ExecuteNonQueryAsync();
                 await cmd.Connection.CloseAsync();
-                return SaveStatus.Succeeded;
+                saveStatus = SaveStatus.Succeeded;
             }
             catch (System.Exception ex)
             {
                 await Exception.Save(site, ex, "dbo.Image");
-                return SaveStatus.Failed;
+                messages.Add(ex.Message);
             }
+
+            return new Result(saveStatus, messages);
         }
     }
 }

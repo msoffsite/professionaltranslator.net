@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Repository.Professionaltranslator.Net;
 using dbRead = Repository.ProfessionalTranslator.Net.DatabaseOperations.dbo.Read;
 using dbReadLog = Repository.ProfessionalTranslator.Net.DatabaseOperations.Log.Read.Exception;
 using dbWrite = Repository.ProfessionalTranslator.Net.DatabaseOperations.Log.Write.Exception;
@@ -45,20 +46,28 @@ namespace Repository.ProfessionalTranslator.Net
         internal static async Task Save(string site, System.Exception inputItem, string className)
         {
             var exception = new models.Log.Exception(inputItem, $"Repository.{className}");
-            string exceptionSaveStatus = await Save(site, exception);
-            if (exceptionSaveStatus == SaveStatus.Failed.ToString()) throw new System.Exception("Could not log exception.");
+            await Save(site, exception);
         }
 
-        public static async Task<string> Save(string site, models.Log.Exception inputItem)
+        public static async Task<Result> Save(string site, models.Log.Exception inputItem)
         {
-            if (inputItem == null) throw new NullReferenceException("Exception cannot be null.");
-            if (string.IsNullOrEmpty(inputItem.Message)) throw new ArgumentNullException(nameof(inputItem.Message), "Message cannot be empty.");
-            if (string.IsNullOrEmpty(inputItem.Type)) throw new ArgumentNullException(nameof(inputItem.Type), "Type cannot be empty.");
-            if (string.IsNullOrEmpty(inputItem.Class)) throw new ArgumentNullException(nameof(inputItem.Class), "Class cannot be empty.");
-            if (inputItem.Class.Length > 2048) throw new ArgumentException("Class must be 2048 characters or fewer.", nameof(inputItem.Class));
+            SaveStatus saveStatus;
+            var errorMessages = new List<string>();
+
+            if (inputItem != null && string.IsNullOrEmpty(inputItem.Message)) errorMessages.Add("Message cannot be empty.");
+            if (inputItem != null && string.IsNullOrEmpty(inputItem.Type)) errorMessages.Add("Type cannot be empty.");
+            if (inputItem != null && string.IsNullOrEmpty(inputItem.Class)) errorMessages.Add("Class cannot be empty.");
+            if (inputItem != null && inputItem.Class.Length > 2048) errorMessages.Add("Class must be 2048 characters or fewer.");
 
             Tables.dbo.Site siteItem = await dbRead.Site.Item(site);
-            if (siteItem == null) throw new NullReferenceException("No site was found with that name. Cannot continue.");
+            if (siteItem == null) throw new NullReferenceException("No site was found with that name.");
+
+            if (inputItem == null)
+            {
+                errorMessages.Add("Exception cannot be null.");
+                saveStatus = SaveStatus.Failed;
+                return new Result(saveStatus, errorMessages);
+            }
 
             var convertItem = new Tables.Log.Exception
             {
@@ -70,8 +79,11 @@ namespace Repository.ProfessionalTranslator.Net
                 Class = inputItem.Class,
                 DateCreated = inputItem.DateCreated ?? DateTime.Now
             };
-            SaveStatus output = await dbWrite.Item(site, convertItem);
-            return output.ToString();
+
+            SaveStatus dbSaveStatus = await dbWrite.Item(site, convertItem);
+            if (dbSaveStatus == SaveStatus.Failed) throw new System.Exception("Could not log exception.");
+            saveStatus = errorMessages.Any() ? SaveStatus.Failed : dbSaveStatus;
+            return new Result(saveStatus, errorMessages);
         }
     }
 }
