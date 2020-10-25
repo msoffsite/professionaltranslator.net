@@ -144,7 +144,12 @@ namespace Repository.ProfessionalTranslator.Net
             {
                 messages.Add("Email address must be 256 characters or fewer.");
             }
-            
+
+            if (messages.Any())
+            {
+                return new Result(SaveStatus.Failed, messages);
+            }
+
             var saveItem = new Tables.dbo.Testimonial
             {
                 Id = inputItem.Id ?? Guid.NewGuid(),

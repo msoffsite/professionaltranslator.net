@@ -87,15 +87,13 @@ namespace Repository.ProfessionalTranslator.Net
 
             if (inputItem == null)
             {
-                messages.Add("Page cannot be null.");
-                return new Result(SaveStatus.Failed, messages);
+                return new Result(SaveStatus.Failed, "Page cannot be null.");
             }
 
             Tables.dbo.Site siteItem = await dbRead.Site.Item(site);
             if (siteItem == null)
             {
-                messages.Add("No site was found with that name.");
-                return new Result(SaveStatus.Failed, messages);
+                return new Result(SaveStatus.Failed, "No site was found with that name.");
             }
 
             Tables.dbo.Image saveImage = Image.Convert(inputItem.Image, siteItem.Id);
@@ -119,7 +117,12 @@ namespace Repository.ProfessionalTranslator.Net
             {
                 messages.Add("Name must be 20 characters or fewer.");
             }
-            
+
+            if (messages.Any())
+            {
+                return new Result(saveStatus, messages);
+            }
+
             var saveItem = new Tables.dbo.Page
             {
                 Id = inputItem.Id ?? Guid.NewGuid(),

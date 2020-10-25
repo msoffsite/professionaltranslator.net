@@ -47,6 +47,8 @@ namespace Repository.ProfessionalTranslator.Net
 
         public static async Task<Result> Save(models.Site item)
         {
+            var messages = new List<string>();
+
             if (item == null)
             {
                 return new Result(SaveStatus.Failed, "Site cannot be null.");
@@ -54,12 +56,16 @@ namespace Repository.ProfessionalTranslator.Net
 
             if (string.IsNullOrEmpty(item.Name))
             {
-                return new Result(SaveStatus.Failed, "Name cannot be empty.");
+                messages.Add("Name cannot be empty.");
+            }
+            else if (item.Name.Length > 25)
+            {
+                messages.Add("Name must be 25 characters or fewer.");
             }
 
-            if (item.Name.Length > 25)
+            if (messages.Any())
             {
-                return new Result(SaveStatus.Failed, "Name must be 25 characters or fewer.");
+                return new Result(SaveStatus.Failed, messages);
             }
 
             Tables.dbo.Site convertedSite = Convert(item);
