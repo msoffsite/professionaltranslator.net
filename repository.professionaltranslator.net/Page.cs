@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-
+using Repository.Professionaltranslator.Net;
 using dbRead = Repository.ProfessionalTranslator.Net.DatabaseOperations.dbo.Read;
 using dbLocalizedRead = Repository.ProfessionalTranslator.Net.DatabaseOperations.Localization.Read.Page;
 using dbWrite = Repository.ProfessionalTranslator.Net.DatabaseOperations.dbo.Write.Page;
@@ -93,8 +93,8 @@ namespace Repository.ProfessionalTranslator.Net
             if (saveImage != null)
             {
                 inputItem.Image.Id = saveImage.Id;
-                string imageSaveStatus = await Image.Save(site, inputItem.Image);
-                if (imageSaveStatus == SaveStatus.Failed.ToString()) throw new System.Exception("Image failed to save.");
+                Result imageSaveStatus = await Image.Save(site, inputItem.Image);
+                if (imageSaveStatus.Status == SaveStatus.Failed) throw new System.Exception("Image failed to save.");
             }
 
             var saveItem = new Tables.dbo.Page

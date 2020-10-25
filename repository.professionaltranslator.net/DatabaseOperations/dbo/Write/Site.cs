@@ -21,8 +21,9 @@ namespace Repository.ProfessionalTranslator.Net.DatabaseOperations.dbo.Write
 
                 cmd.Parameters.Add("@Id", SqlDbType.UniqueIdentifier).Value = inputItem.Id;
                 cmd.Parameters.Add("@Name", SqlDbType.NVarChar, 25).Value = inputItem.Name;
-                //await cmd.Connection.OpenAsync();
+                await cmd.Connection.OpenAsync();
                 await cmd.ExecuteNonQueryAsync();
+                await cmd.Connection.CloseAsync();
                 return SaveStatus.Succeeded;
             }
             catch (System.Exception ex)

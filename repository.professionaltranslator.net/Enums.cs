@@ -7,6 +7,7 @@ namespace Repository.ProfessionalTranslator.Net
     public enum SaveStatus
     {
         Failed,
-        Succeeded
+        Succeeded,
+        Undetermined
     }
 }

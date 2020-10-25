@@ -1,6 +1,6 @@
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
-namespace testrepository.professionaltranslator.net
+namespace test.professionaltranslator.net
 {
     [TestClass]
     public class UnitTest1

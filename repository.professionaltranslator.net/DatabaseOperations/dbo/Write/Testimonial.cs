@@ -25,8 +25,9 @@ namespace Repository.ProfessionalTranslator.Net.DatabaseOperations.dbo.Write
                 cmd.Parameters.Add("@Name", SqlDbType.NVarChar, 20).Value = item.Name;
                 cmd.Parameters.Add("@EmailAddress", SqlDbType.NVarChar, 256).Value = item.EmailAddress;
                 cmd.Parameters.Add("@Approved", SqlDbType.Bit).Value = item.Approved;
-                //await cmd.Connection.OpenAsync();
+                await cmd.Connection.OpenAsync();
                 await cmd.ExecuteNonQueryAsync();
+                await cmd.Connection.CloseAsync();
                 return SaveStatus.Succeeded;
             }
             catch (System.Exception ex)
