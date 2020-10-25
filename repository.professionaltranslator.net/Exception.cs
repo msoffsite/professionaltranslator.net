@@ -70,7 +70,7 @@ namespace Repository.ProfessionalTranslator.Net
                 Class = inputItem.Class,
                 DateCreated = inputItem.DateCreated ?? DateTime.Now
             };
-            SaveStatus output = await dbWrite.Item(convertItem);
+            SaveStatus output = await dbWrite.Item(site, convertItem);
             return output.ToString();
         }
     }

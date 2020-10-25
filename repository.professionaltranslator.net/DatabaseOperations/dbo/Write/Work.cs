@@ -26,8 +26,9 @@ namespace Repository.ProfessionalTranslator.Net.DatabaseOperations.dbo.Write
                 cmd.Parameters.Add("@Href", SqlDbType.NVarChar, 2048).Value = item.Href;
                 cmd.Parameters.Add("@Display", SqlDbType.Bit).Value = item.Display;
                 cmd.Parameters.Add("@TestimonialLink", SqlDbType.NVarChar, 258).Value = item.TestimonialLink;
-                //await cmd.Connection.OpenAsync();
+                await cmd.Connection.OpenAsync();
                 await cmd.ExecuteNonQueryAsync();
+                await cmd.Connection.CloseAsync();
                 return SaveStatus.Succeeded;
             }
             catch (System.Exception ex)

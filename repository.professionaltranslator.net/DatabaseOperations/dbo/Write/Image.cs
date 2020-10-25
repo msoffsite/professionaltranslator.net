@@ -23,8 +23,9 @@ namespace Repository.ProfessionalTranslator.Net.DatabaseOperations.dbo.Write
                 cmd.Parameters.Add("@SiteId", SqlDbType.UniqueIdentifier).Value = item.SiteId;
                 cmd.Parameters.Add("@Id", SqlDbType.UniqueIdentifier).Value = item.Id;
                 cmd.Parameters.Add("@Path", SqlDbType.NVarChar, 440).Value = item.Path;
-                //await cmd.Connection.OpenAsync();
+                await cmd.Connection.OpenAsync();
                 await cmd.ExecuteNonQueryAsync();
+                await cmd.Connection.CloseAsync();
                 return SaveStatus.Succeeded;
             }
             catch (System.Exception ex)

@@ -22,8 +22,9 @@ namespace Repository.ProfessionalTranslator.Net.DatabaseOperations.Localization.
                 cmd.Parameters.Add("@LCID", SqlDbType.Int).Value = item.Lcid;
                 cmd.Parameters.Add("@Title", SqlDbType.NVarChar, 100).Value = item.Title;
                 cmd.Parameters.Add("@Html", SqlDbType.NVarChar, -1).Value = item.Html;
-                //await cmd.Connection.OpenAsync();
+                await cmd.Connection.OpenAsync();
                 await cmd.ExecuteNonQueryAsync();
+                await cmd.Connection.CloseAsync();
                 return SaveStatus.Succeeded;
             }
             catch (System.Exception ex)
