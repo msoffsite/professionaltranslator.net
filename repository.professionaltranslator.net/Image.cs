@@ -56,7 +56,7 @@ namespace Repository.ProfessionalTranslator.Net
         /// <returns></returns>
         public static async Task<Result> Save(string site, models.Image inputItem)
         {
-            var saveStatus = SaveStatus.Succeeded;
+            var saveStatus = SaveStatus.Undetermined;
             var errorMessages = new List<string>();
             if (inputItem == null) errorMessages.Add("Image cannot be null.");
             if (inputItem != null && string.IsNullOrEmpty(inputItem.Path)) errorMessages.Add("Path cannot be empty.");
