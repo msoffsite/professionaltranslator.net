@@ -10,7 +10,7 @@ using Test.Professionaltranslator.Net;
 using models = Models.Professionaltranslator.Net;
 using repository = Repository.ProfessionalTranslator.Net.Image;
 
-namespace Test.Professionaltranslator.net.Repository
+namespace Test.Professionaltranslator.Net.Repository
 {
     [TestClass]
     public class Image

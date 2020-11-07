@@ -41,9 +41,10 @@ namespace Repository.ProfessionalTranslator.Net
             return output;
         }
 
-        public static async Task<models.Work> Item(Guid id)
+        public static async Task<models.Work> Item(Guid? id)
         {
-            Tables.dbo.Work item = await dbRead.Work.Item(id);
+            if (!id.HasValue) return null;
+            Tables.dbo.Work item = await dbRead.Work.Item(id.Value);
             if (item == null) return null;
             var output = new models.Work
             {

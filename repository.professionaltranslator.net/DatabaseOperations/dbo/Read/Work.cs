@@ -10,7 +10,7 @@ namespace Repository.ProfessionalTranslator.Net.DatabaseOperations.dbo.Read
 {
     internal class Work : Base
     {
-        internal static async Task<Tables.dbo.Work> Item(Guid? id)
+        internal static async Task<Tables.dbo.Work> Item(Guid id)
         {
             await using var cmd = new SqlCommand("[dbo].[GetWork]", new Base().SqlConnection)
             {
