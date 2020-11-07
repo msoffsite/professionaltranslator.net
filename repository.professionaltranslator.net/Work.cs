@@ -13,6 +13,16 @@ namespace Repository.ProfessionalTranslator.Net
 {
     public class Work
     {
+        public static async Task<Result> Delete(string site, Guid? id)
+        {
+            if (!id.HasValue)
+            {
+                return new Result(SaveStatus.Failed, "Id must be a valid GUID.");
+            }
+
+            return await dbWrite.Delete(site, id.Value);
+        }
+
         internal static Tables.dbo.Work Convert(models.Work inputItem, Guid siteId)
         {
             if (inputItem == null) return null;

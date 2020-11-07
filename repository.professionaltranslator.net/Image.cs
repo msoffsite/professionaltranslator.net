@@ -14,6 +14,16 @@ namespace Repository.ProfessionalTranslator.Net
 {
     public class Image
     {
+        public static async Task<Result> Delete(string site, Guid? id)
+        {
+            if (!id.HasValue)
+            {
+                return new Result(SaveStatus.Failed, "Id must be a valid GUID.");
+            }
+
+            return await dbWrite.Delete(site, id.Value);
+        }
+
         internal static Tables.dbo.Image Convert(models.Image inputItem, Guid siteId)
         {
             if (inputItem == null) return null;
