@@ -12,13 +12,34 @@ namespace Repository.ProfessionalTranslator.Net
 {
     public class Page
     {
+        public static async Task<Result> Delete(string site, Guid? id)
+        {
+            if (!id.HasValue)
+            {
+                return new Result(SaveStatus.Failed, "Id must be a valid GUID.");
+            }
+
+            return await dbWrite.Delete(site, id.Value);
+        }
+
+        public static async Task<models.Page> Item(Guid? id)
+        {   
+            if (!id.HasValue) return null;
+            Tables.dbo.Page page = await dbRead.Page.Item(id.Value);
+            return await Item(page);
+        }
+
         public static async Task<models.Page> Item(string site, string name)
+        {
+            if ((string.IsNullOrEmpty(site)) || (string.IsNullOrEmpty(name))) return null;
+            Tables.dbo.Page page = await dbRead.Page.Item(site, name);
+            return await Item(page);
+        }
+
+        private static async Task<models.Page> Item(Tables.dbo.Page page)
         {
             try
             {
-                if ((string.IsNullOrEmpty(site)) || (string.IsNullOrEmpty(name))) return null;
-                Tables.dbo.Page page = await dbRead.Page.Item(site, name);
-                if (page == null) return null;
                 models.Image image = page.ImageId.HasValue ? await Image.Item(page.ImageId.Value) : null;
                 List<Tables.Localization.Page> localizedList = await dbLocalizedRead.List(page.Id);
                 var output = new models.Page
@@ -37,7 +58,7 @@ namespace Repository.ProfessionalTranslator.Net
                 };
                 return output;
             }
-            catch(System.Exception ex)
+            catch (System.Exception ex)
             {
                 Console.Write(ex.Message);
                 return null;
@@ -136,9 +157,16 @@ namespace Repository.ProfessionalTranslator.Net
             Result savePageResult = await dbWrite.Item(site, saveItem);
             if (savePageResult.Status == SaveStatus.Failed) return new Result(savePageResult.Status, savePageResult.Messages);
 
-            foreach (Tables.Localization.Page saveLocalization in inputItem.Localization.Select(localizedPage => new Tables.Localization.Page()))
+            // ReSharper disable once ForeachCanBePartlyConvertedToQueryUsingAnotherGetEnumerator
+            foreach (models.Localized.Page localizedPage in inputItem.Localization)
             {
-                saveLocalization.Id = saveItem.Id;
+                var saveLocalization = new Tables.Localization.Page
+                {
+                    Id = saveItem.Id,
+                    Html = localizedPage.Html,
+                    Title = localizedPage.Title,
+                    Lcid = localizedPage.Lcid
+                };
                 Result localizedResult = await DatabaseOperations.Localization.Write.Page.Item(site, saveLocalization);
                 if (localizedResult.Status != SaveStatus.Failed) continue;
                 saveStatus = SaveStatus.PartialSuccess;

@@ -10,9 +10,21 @@ namespace Repository.ProfessionalTranslator.Net.DatabaseOperations.dbo.Read
 {
     internal class Page : Base
     {
-        internal static async Task<Tables.dbo.Page> Item(string site, string name)
+        internal static async Task<Tables.dbo.Page> Item(Guid id)
         {
             await using var cmd = new SqlCommand("[dbo].[GetPage]", new Base().SqlConnection)
+            {
+                CommandType = CommandType.StoredProcedure
+            };
+
+            cmd.Parameters.Add("@Id", SqlDbType.UniqueIdentifier).Value = id;
+            using var sda = new SqlDataAdapter(cmd);
+            return Object.GetItem<Tables.dbo.Page>(sda);
+        }
+
+        internal static async Task<Tables.dbo.Page> Item(string site, string name)
+        {
+            await using var cmd = new SqlCommand("[dbo].[GetPageBySiteName]", new Base().SqlConnection)
             {
                 CommandType = CommandType.StoredProcedure
             };

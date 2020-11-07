@@ -13,6 +13,16 @@ namespace Repository.ProfessionalTranslator.Net
 {
     public class Testimonial
     {
+        public static async Task<Result> Delete(string site, Guid? id)
+        {
+            if (!id.HasValue)
+            {
+                return new Result(SaveStatus.Failed, "Id must be a valid GUID.");
+            }
+
+            return await dbWrite.Delete(site, id.Value);
+        }
+
         public static async Task<List<models.Testimonial>> List(string site)
         {
             List<Task<models.Testimonial>> taskList = await TaskList(site);
