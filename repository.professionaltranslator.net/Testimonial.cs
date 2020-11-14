@@ -23,6 +23,44 @@ namespace Repository.ProfessionalTranslator.Net
             return await dbWrite.Delete(site, id.Value);
         }
 
+        public static async Task<models.Testimonial> Item(Guid? id)
+        {
+            if (!id.HasValue) return null;
+            Tables.dbo.Testimonial testimonial = await dbRead.Testimonial.Item(id.Value);
+            return await Item(testimonial);
+        }
+
+        private static async Task<models.Testimonial> Item(Tables.dbo.Testimonial testimonial)
+        {
+            try
+            {
+                models.Image portrait = await Image.Item(testimonial.PortraitImageId);
+                models.Work work = await Work.Item(testimonial.WorkId);
+                List<Tables.Localization.Testimonial> localizedList = await dbLocalizedRead.List(testimonial.Id);
+                var output = new models.Testimonial
+                {
+                    Id = testimonial.Id,
+                    Work = work,
+                    Portrait = portrait,
+                    Name = testimonial.Name,
+                    EmailAddress = testimonial.EmailAddress,
+                    DateCreated = testimonial.DateCreated,
+                    Approved = testimonial.Approved,
+                    Localization = localizedList.Select(n => new models.Localized.Testimonial
+                    {
+                        Lcid = n.Lcid,
+                        Html = n.Html
+                    }).ToList()
+                };
+                return output;
+            }
+            catch (System.Exception ex)
+            {
+                Console.Write(ex.Message);
+                return null;
+            }
+        }
+
         public static async Task<List<models.Testimonial>> List(string site)
         {
             List<Task<models.Testimonial>> taskList = await TaskList(site);
@@ -46,7 +84,7 @@ namespace Repository.ProfessionalTranslator.Net
             if (string.IsNullOrEmpty(site)) return new List<Task<models.Testimonial>>();
             List<Tables.dbo.Testimonial> list = await dbRead.Testimonial.List(site);
             List<Tables.Localization.Testimonial> localization = await dbLocalizedRead.List(site);
-            return Complete(list, localization);
+            return Complete(list);
         }
 
         public static async Task<List<models.Testimonial>> List(string site, bool approved)
@@ -72,12 +110,13 @@ namespace Repository.ProfessionalTranslator.Net
             if (string.IsNullOrEmpty(site)) return new List<Task<models.Testimonial>>();
             List<Tables.dbo.Testimonial> list = await dbRead.Testimonial.List(site, approved);
             List<Tables.Localization.Testimonial> localization = await dbLocalizedRead.List(site, approved);
-            return Complete(list, localization);
+            return Complete(list);
         }
 
-        private static List<Task<models.Testimonial>> Complete(IEnumerable<Tables.dbo.Testimonial> testimonialList,
-            IReadOnlyCollection<Tables.Localization.Testimonial> localizedList)
+        private static List<Task<models.Testimonial>> Complete(IEnumerable<Tables.dbo.Testimonial> testimonialList)
         {
+            return testimonialList.Select(async n => await Item(n) ).ToList();
+            /*
             return testimonialList.Select(async n => new models.Testimonial
             {
                 Id = n.Id,
@@ -93,11 +132,12 @@ namespace Repository.ProfessionalTranslator.Net
                     Html = t.Html
                 }).ToList()
             }).ToList();
+            */
         }
 
         public static async Task<Result> Save(string site, models.Testimonial inputItem)
         {
-            SaveStatus saveStatus = SaveStatus.Undetermined;
+            var saveStatus = SaveStatus.Undetermined;
             var messages = new List<string>();
 
             if (inputItem == null)
@@ -177,17 +217,22 @@ namespace Repository.ProfessionalTranslator.Net
                 return saveTestimonialResult;
             }
 
-            foreach (Tables.Localization.Testimonial saveLocalization in inputItem.Localization.Select(localizedPage =>
-                new Tables.Localization.Testimonial()))
+            // ReSharper disable once ForeachCanBePartlyConvertedToQueryUsingAnotherGetEnumerator
+            foreach (models.Localized.Testimonial localizedPage in inputItem.Localization)
             {
-                saveLocalization.Id = saveItem.Id;
+                var saveLocalization = new Tables.Localization.Testimonial
+                {
+                    Id = saveItem.Id,
+                    Html = localizedPage.Html,
+                    Lcid = localizedPage.Lcid
+                };
                 Result localizedResult = await DatabaseOperations.Localization.Write.Testimonial.Item(site, saveLocalization);
                 if (localizedResult.Status != SaveStatus.Failed) continue;
                 saveStatus = SaveStatus.PartialSuccess;
                 messages.AddRange(localizedResult.Messages);
             }
 
-            if (saveStatus != SaveStatus.Undetermined)
+            if (saveStatus == SaveStatus.Undetermined)
             {
                 saveStatus = SaveStatus.Succeeded;
             }

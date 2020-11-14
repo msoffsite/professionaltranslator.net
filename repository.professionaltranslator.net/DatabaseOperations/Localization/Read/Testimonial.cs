@@ -10,9 +10,20 @@ namespace Repository.ProfessionalTranslator.Net.DatabaseOperations.Localization.
 {
     internal class Testimonial : Base
     {
-        internal static async Task<List<Tables.Localization.Testimonial>> List(string site)
+        internal static async Task<List<Tables.Localization.Testimonial>> List(Guid testimonialId)
         {
             await using var cmd = new SqlCommand("[dbo].[GetLocalizedTestimonials]", new Base().SqlConnection)
+            {
+                CommandType = CommandType.StoredProcedure
+            };
+            cmd.Parameters.Add("@TestimonialId", SqlDbType.UniqueIdentifier).Value = testimonialId;
+            using var sda = new SqlDataAdapter(cmd);
+            return Object.GetList<Tables.Localization.Testimonial>(sda);
+        }
+
+        internal static async Task<List<Tables.Localization.Testimonial>> List(string site)
+        {
+            await using var cmd = new SqlCommand("[dbo].[GetLocalizedTestimonialsForSite]", new Base().SqlConnection)
             {
                 CommandType = CommandType.StoredProcedure
             };

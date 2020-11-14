@@ -1,13 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Text;
 using System.Threading.Tasks;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Repository.Professionaltranslator.Net;
 using Repository.ProfessionalTranslator.Net;
-using Image = Test.Professionaltranslator.Net.Repository.Image;
 using models = Models.Professionaltranslator.Net;
-using localized = Models.Professionaltranslator.Net.Localized;
 using repository = Repository.ProfessionalTranslator.Net.Work;
 
 namespace Test.Professionaltranslator.Net.Repository
@@ -57,7 +54,7 @@ namespace Test.Professionaltranslator.Net.Repository
             return await repository.List(Constants.Site);
         }
 
-        private static models.Work WriteItem()
+        internal static models.Work WriteItem()
         {
             var output = new models.Work
             {
