@@ -1,5 +1,3 @@
-using System;
-
 namespace Models.Professionaltranslator.Net
 {
     public class ErrorViewModel

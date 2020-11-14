@@ -1,12 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Repository.Professionaltranslator.Net;
 using Repository.ProfessionalTranslator.Net;
-using Test.Professionaltranslator.Net;
 using models = Models.Professionaltranslator.Net;
 using repository = Repository.ProfessionalTranslator.Net.Image;
 

@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-
-namespace Repository.ProfessionalTranslator.Net.DatabaseOperations
+﻿namespace Repository.ProfessionalTranslator.Net.DatabaseOperations
 {
     internal class ConnectionStrings
     {

@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-
-namespace Models.Professionaltranslator.Net
+﻿namespace Models.Professionaltranslator.Net
 {
     public class Site : Base
     {
