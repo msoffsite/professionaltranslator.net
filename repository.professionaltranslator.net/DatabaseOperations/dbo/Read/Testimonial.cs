@@ -11,6 +11,18 @@ namespace Repository.ProfessionalTranslator.Net.DatabaseOperations.dbo.Read
 {
     internal class Testimonial : Base
     {
+        internal static async Task<Tables.dbo.Testimonial> Item(Guid id)
+        {
+            await using var cmd = new SqlCommand("[dbo].[GetTestimonial]", new Base().SqlConnection)
+            {
+                CommandType = CommandType.StoredProcedure
+            };
+
+            cmd.Parameters.Add("@Id", SqlDbType.UniqueIdentifier).Value = id;
+            using var sda = new SqlDataAdapter(cmd);
+            return Object.GetItem<Tables.dbo.Testimonial>(sda);
+        }
+
         internal static async Task<List<Tables.dbo.Testimonial>> List(string site)
         {
             await using var cmd = new SqlCommand("[dbo].[GetTestimonials]", new Base().SqlConnection)
