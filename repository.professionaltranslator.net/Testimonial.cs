@@ -194,6 +194,18 @@ namespace Repository.ProfessionalTranslator.Net
             {
                 messages.Add("Email address must be 256 characters or fewer.");
             }
+            else
+            {
+                try
+                {
+                    // ReSharper disable once ObjectCreationAsStatement
+                    new System.Net.Mail.MailAddress(inputItem.EmailAddress);
+                }
+                catch
+                {
+                    messages.Add("Email address is invalid.");
+                }
+            }
 
             if (messages.Any())
             {
