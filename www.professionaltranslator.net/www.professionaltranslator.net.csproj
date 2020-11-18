@@ -2,11 +2,46 @@
 
   <PropertyGroup>
     <TargetFramework>netcoreapp3.1</TargetFramework>
+    <CopyRefAssembliesToPublishDirectory>false</CopyRefAssembliesToPublishDirectory>
   </PropertyGroup>
+
+  <ItemGroup>
+    <Compile Remove="wwwroot\fonts\courier-webfontkit\**" />
+    <Compile Remove="wwwroot\fonts\lato-webfontkit\**" />
+    <Compile Remove="wwwroot\fonts\Lato\**" />
+    <Compile Remove="wwwroot\fonts\merriweather-webfontkit\**" />
+    <Compile Remove="wwwroot\fonts\sofia-webfontkit\**" />
+    <Content Remove="wwwroot\fonts\courier-webfontkit\**" />
+    <Content Remove="wwwroot\fonts\lato-webfontkit\**" />
+    <Content Remove="wwwroot\fonts\Lato\**" />
+    <Content Remove="wwwroot\fonts\merriweather-webfontkit\**" />
+    <Content Remove="wwwroot\fonts\sofia-webfontkit\**" />
+    <EmbeddedResource Remove="wwwroot\fonts\courier-webfontkit\**" />
+    <EmbeddedResource Remove="wwwroot\fonts\lato-webfontkit\**" />
+    <EmbeddedResource Remove="wwwroot\fonts\Lato\**" />
+    <EmbeddedResource Remove="wwwroot\fonts\merriweather-webfontkit\**" />
+    <EmbeddedResource Remove="wwwroot\fonts\sofia-webfontkit\**" />
+    <None Remove="wwwroot\fonts\courier-webfontkit\**" />
+    <None Remove="wwwroot\fonts\lato-webfontkit\**" />
+    <None Remove="wwwroot\fonts\Lato\**" />
+    <None Remove="wwwroot\fonts\merriweather-webfontkit\**" />
+    <None Remove="wwwroot\fonts\sofia-webfontkit\**" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Content Remove="wwwroot\css\menu-borrowed.css" />
+  </ItemGroup>
 
   <ItemGroup>
     <PackageReference Include="bootstrap" Version="4.5.3" />
     <PackageReference Include="jQuery" Version="3.5.1" />
+    <PackageReference Include="Microsoft.AspNetCore.Mvc.Razor.RuntimeCompilation" Version="3.1.9" />
+    <PackageReference Include="Microsoft.Extensions.Options.ConfigurationExtensions" Version="3.1.8" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\models.professionaltranslator.net\models.professionaltranslator.net.csproj" />
+    <ProjectReference Include="..\repository.professionaltranslator.net\repository.professionaltranslator.net.csproj" />
   </ItemGroup>
 
 </Project>

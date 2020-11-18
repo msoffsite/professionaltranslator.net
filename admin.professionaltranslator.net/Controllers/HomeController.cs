@@ -11,13 +11,12 @@ namespace admin.professionaltranslator.net.Controllers
     //[Authorize(Roles = "Administrator")]
     public class HomeController : Bases.Mvc
     {
-        private readonly ILogger<HomeController> _logger;
+        //private readonly ILogger<HomeController> _logger;
         private readonly SiteSettings _configuration;
 
-        public HomeController(SiteSettings configuration, ILogger<HomeController> logger)
+        public HomeController(SiteSettings configuration)
         {
             _configuration = configuration;
-            _logger = logger;
         }
 
         //public HomeController(ILogger<HomeController> logger)
