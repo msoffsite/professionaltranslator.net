@@ -11,7 +11,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "repository.professionaltran
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "test.professionaltranslator.net", "test.professionaltranslator.net\test.professionaltranslator.net.csproj", "{B9E749F6-ED62-4D2D-9750-A9AA5E12BF49}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "www.professionaltranslator.net", "www.professionaltranslator.net\www.professionaltranslator.net.csproj", "{B1C6FA71-9138-46A7-A8FE-C471B080614B}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "www.professionaltranslator.net", "www.professionaltranslator.net\www.professionaltranslator.net.csproj", "{DF64BB00-A08A-4508-8824-3242067C57D6}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -35,10 +35,10 @@ Global
 		{B9E749F6-ED62-4D2D-9750-A9AA5E12BF49}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{B9E749F6-ED62-4D2D-9750-A9AA5E12BF49}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{B9E749F6-ED62-4D2D-9750-A9AA5E12BF49}.Release|Any CPU.Build.0 = Release|Any CPU
-		{B1C6FA71-9138-46A7-A8FE-C471B080614B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{B1C6FA71-9138-46A7-A8FE-C471B080614B}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{B1C6FA71-9138-46A7-A8FE-C471B080614B}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{B1C6FA71-9138-46A7-A8FE-C471B080614B}.Release|Any CPU.Build.0 = Release|Any CPU
+		{DF64BB00-A08A-4508-8824-3242067C57D6}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{DF64BB00-A08A-4508-8824-3242067C57D6}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{DF64BB00-A08A-4508-8824-3242067C57D6}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{DF64BB00-A08A-4508-8824-3242067C57D6}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

@@ -3,48 +3,239 @@
 <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>@ViewData["Title"] - www.professionaltranslator.net</title>
+    <title>@ViewData["Title"] - Cinta Garcia - Professional Translator</title>
     <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
-    @*<link rel="stylesheet" href="~/css/site.css" />*@
+    <link rel="stylesheet" href="~/css/fontawesome.all.min.css" />
+    <link rel="stylesheet" href="~/css/global.css" />
+    <link rel="stylesheet" href="~/css/carousel.css" />
+    <link rel="stylesheet" href="~/css/menu.css" />
 </head>
 <body>
-    <header>
-        <nav class="navbar navbar-expand-sm navbar-light bg-white border-bottom box-shadow mb-3">
-            <div class="container">
-                <a class="navbar-brand" asp-area="" asp-page="/Index">www.professionaltranslator.net</a>
-                <button class="navbar-toggler" type="button" data-toggle="collapse" data-target=".navbar-collapse" aria-controls="navbarSupportedContent"
-                        aria-expanded="false" aria-label="Toggle navigation">
-                    <span class="navbar-toggler-icon"></span>
-                </button>
-                <div class="navbar-collapse collapse d-sm-inline-flex flex-sm-row-reverse">
-                    <ul class="navbar-nav flex-grow-1">
-                        <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-page="/Index">Home</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-page="/Privacy">Privacy</a>
-                        </li>
-                    </ul>
+<div id="wrapper" class="d-flex">
+    <div class="background-light-semi-transparent border-right" id="sidebar-wrapper">
+        <div class="list-group list-group-flush">
+            <a class="list-group-item menu-link" asp-page="/Home" title="Go to home page.">
+                <h3 class="menu-title">Home</h3>
+                
+                <div class="menu-icon">
+                    <span class="line"></span>
+                    <span class="fas fa-home" aria-hidden="true"></span>
+                    <span class="line"></span>
                 </div>
-            </div>
-        </nav>
-    </header>
-    <div class="container">
-        <main role="main" class="pb-3">
-            @RenderBody()
-        </main>
-    </div>
 
-    <footer class="border-top footer text-muted">
-        <div class="container">
-            &copy; 2020 - www.professionaltranslator.net - <a asp-area="" asp-page="/Privacy">Privacy</a>
+                <h6 class="menu-subtitle subtitle">
+                    Re Translations
+                </h6>
+            </a>
+            <a class="list-group-item menu-link" asp-page="/About" title="Learn about me.">
+                <h3 class="menu-title">About</h3>
+
+                <div class="menu-icon">
+                    <span class="line"></span>
+                    <span class="fas fa-tools" aria-hidden="true"></span>
+                    <span class="line"></span>
+                </div>
+
+                <h6 class="menu-subtitle subtitle">
+                    Read Bio
+                </h6>
+            </a>
+
+            <a class="list-group-item menu-link" href="/?section=work">
+                <h3 class="menu-title">
+                    Portfolio
+                </h3>
+
+                <div class="menu-icon">
+                    <span class="line"></span>
+                    <span class="fas fa-desktop" aria-hidden="true"></span>
+                    <span class="line"></span>
+                </div>
+
+                <h6 class="menu-subtitle subtitle">
+                    View Past Work
+                </h6>
+            </a>
+
+            <a class="list-group-item menu-link" href="/?section=contact">
+                <h3 class="menu-title">Contact</h3>
+
+                <div class="menu-icon">
+                    <span class="line"></span>
+                    <span class="fas fa-envelope-open-text" aria-hidden="true"></span>
+                    <span class="line"></span>
+                </div>
+
+                <h6 class="menu-subtitle subtitle">
+                    Get in touch
+                </h6>
+            </a>
         </div>
-    </footer>
+    </div>
+    <div id="page-content-wrapper">
+        <nav class="navbar navbar-expand-lg navbar-light sticky-top" style="z-index: 999; position: absolute; left: 80%;">
+        <button id="menu-toggle" class="navbar-toggler" type="button" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        </nav>
+            <header>
+                <section class="container-fluid">
+                    <div class="row">
+                        <div class="col-lg-10 offset-lg-2 col-md-10 offset-md-2 col-sm-12 testimonial-container">
+                            <section class="text-center my-5">
+                                <div class="wrapper-carousel-fix">
+                                    <div id="carousel-example-1" class="carousel no-flex testimonial-carousel slide carousel-fade" data-ride="carousel"
+                                         data-interval="false">
+                                        <!--Slides-->
+                                        <div class="carousel-inner" role="listbox">
+                                            <!--First slide-->
+                                            <div class="carousel-item active">
+                                                <div class="testimonial">
+                                                    <!--Avatar-->
+                                                    <div class="avatar mx-auto mb-4">
+                                                        <img src="~/img/test-cover-1.jpg" class="img-fluid"
+                                                             alt="First sample avatar image">
+                                                    </div>
+                                                    <!--Content-->
+                                                    <p>
+                                                        <i class="fas fa-quote-left"></i>&nbsp;
+                                                        I have loved working with Cinta and I love the quality of her translation. People has congratulated me on the novel and that is also because of Cinta's good job. Thanks a lot for everything. I won't hesitate to use her services again.
+                                                        &nbsp;<i class="fas fa-quote-right"></i>
+                                                    </p>
+                                                    <h4 class="font-weight-bold">Tara Crescent</h4>
+                                                    <a class="font-weight-bold my-3" href="https://amzn.to/2Swh02i">
+                                                        Terapia Ardiente (La Serie Ardiente, Libro 1)
+                                                    </a>
+                                                </div>
+                                            </div>
+                                            <!--First slide-->
+                                            <!--Second slide-->
+                                            <div class="carousel-item">
+                                                <div class="testimonial">
+                                                    <!--Avatar-->
+                                                    <div class="avatar mx-auto mb-4">
+                                                        <img src="~/img/test-cover-2.jpg" class="img-fluid"
+                                                             alt="Second sample avatar image">
+                                                    </div>
+                                                    <!--Content-->
+                                                    <p>
+                                                        <i class="fas fa-quote-left"></i>&nbsp;
+                                                        Cinta's no-nonsense, professional approach to translating has made this whole process so much easier for a novice like me. I had many questions which she answered quickly and efficiently. She delivered before the deadline and it was a pleasure to do business with her. I hope we will be able to work together again in the future. Thank you, Cinta.
+                                                        &nbsp;<i class="fas fa-quote-right"></i>
+                                                    </p>
+                                                    <h4 class="font-weight-bold">
+                                                        J.M Forster
+                                                    </h4>
+                                                    <a class="font-weight-bold my-3" href="https://amzn.to/2FdxCGj">
+                                                        Saltasombras
+                                                    </a>
+                                                </div>
+                                            </div>
+                                            <!--Second slide-->
+                                            <!--Third slide-->
+                                            <div class="carousel-item">
+                                                <div class="testimonial">
+                                                    <!--Avatar-->
+                                                    <div class="avatar mx-auto mb-4">
+                                                        <img src="~/img/test-cover-3.jpg" class="img-fluid"
+                                                             alt="Third sample avatar image">
+                                                    </div>
+                                                    <!--Content-->
+                                                    <p>
+                                                        <i class="fas fa-quote-left"></i>&nbsp;
+                                                        This is not the first time I've worked with Cinta and it won't be the last. I have consistently worked with Cinta for translations from English to Spanish, and I plan on sticking with this translator for all of my Spanish books. She's really the best out there. Every book has been expertly finished. She's a true professional.
+                                                        &nbsp;<i class="fas fa-quote-right"></i>
+                                                    </p>
+                                                    <h4 class="font-weight-bold">
+                                                        Livia Ellis
+                                                    </h4>
+                                                    <a class="font-weight-bold my-3" href="https://amzn.to/2DqSLfd">
+                                                        Memoirs of a Gigolo, Volume One
+                                                    </a>
+                                                </div>
+                                            </div>
+                                            <!--Third slide-->
+                                        </div>
+                                        <!--Slides-->
+                                        <!--Controls-->
+                                        <a class="carousel-control-prev left carousel-control" href="#carousel-example-1" role="button"
+                                           data-slide="prev">
+                                            <span class="icon-prev" aria-hidden="true"></span>
+                                            <span class="sr-only">Previous</span>
+                                        </a>
+                                        <a class="carousel-control-next right carousel-control" href="#carousel-example-1" role="button"
+                                           data-slide="next">
+                                            <span class="icon-next" aria-hidden="true"></span>
+                                            <span class="sr-only">Next</span>
+                                        </a>
+                                        <!--Controls-->
+                                    </div>
+                                    <!-- Carousel Wrapper -->
+                                </div>
 
-    <script src="~/lib/jquery/dist/jquery.min.js"></script>
-    <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
-    <script src="~/js/site.js" asp-append-version="true"></script>
+                            </section>
+                            <!-- Section: Testimonials v.2 -->
+                        </div>
+                    </div>
+                </section>
+                <section id="header">
+                    <div class="container">
+                        <div class="row">
+                            <div class="col-12">
+                                <img src="img/logo.png" alt="Cinta Garcia - Professional Translator" title="Cinta Garcia - Professional Translator" class="img-fluid header-logo" />
+                            </div>
+                            <div class="col-12 header-text-container">
+                                <div class="header-text">
+                                    <h3 class="h3-responsive" title="Cinta Garcia - Professional Translator">
+                                        Cinta Garcia, Professional Translator
+                                    </h3>
+                                    <div class="text-center">
+                                        Respected member of <a href="https://test.com" target="_blank" title="Visit me at Asetrad.">Asetrad</a> &amp; <a href="https://test.com" target="_blank" title="Visit me at Editor's Association.">Editorial Freelancer Association</a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+                @*<nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-white border-bottom box-shadow mb-3">
+                    <div class="container">
+                        <a class="navbar-brand" asp-area="" asp-page="/Index">www.professionaltranslator.net</a>
+                        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target=".navbar-collapse" aria-controls="navbarSupportedContent"
+                                aria-expanded="false" aria-label="Toggle navigation">
+                            <span class="navbar-toggler-icon"></span>
+                        </button>
+                        <div class="navbar-collapse collapse d-sm-inline-flex flex-sm-row-reverse">
+                            <ul class="navbar-nav flex-grow-1">
+                                <li class="nav-item">
+                                    <a class="nav-link text-dark" asp-area="" asp-page="/Index">Home</a>
+                                </li>
+                                <li class="nav-item">
+                                    <a class="nav-link text-dark" asp-area="" asp-page="/Privacy">Privacy</a>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                </nav>*@
+            </header>
+            <div class="container">
+                <main role="main" class="pb-3">
+                    @RenderBody()
+                </main>
+            </div>
+    </div>
+</div>
 
-    @RenderSection("Scripts", required: false)
+<footer class="border-top footer text-muted">
+    <div class="container">
+        &copy; 2020 - www.professionaltranslator.net - <a asp-area="" asp-page="/Privacy">Privacy</a>
+    </div>
+</footer>
+
+<script src="~/lib/jquery/dist/jquery.min.js"></script>
+<script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+<script src="~/js/fontawesome.all.min.js"></script>
+<script src="~/js/layout.js" asp-append-version="true"></script>
+
+@RenderSection("Scripts", required: false)
 </body>
 </html>

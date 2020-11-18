@@ -35,6 +35,10 @@ namespace Repository.ProfessionalTranslator.Net
             {
                 models.Image portrait = await Image.Item(testimonial.PortraitImageId);
                 models.Work work = await Work.Item(testimonial.WorkId);
+                if ((portrait == null) && (work?.Cover?.Id != null))
+                {
+                    portrait = await Image.Item(work.Cover.Id.Value);
+                }
                 List<Tables.Localization.Testimonial> localizedList = await dbLocalizedRead.List(testimonial.Id);
                 var output = new models.Testimonial
                 {
@@ -82,7 +86,6 @@ namespace Repository.ProfessionalTranslator.Net
         {
             if (string.IsNullOrEmpty(site)) return new List<Task<models.Testimonial>>();
             List<Tables.dbo.Testimonial> list = await dbRead.Testimonial.List(site);
-            List<Tables.Localization.Testimonial> localization = await dbLocalizedRead.List(site);
             return Complete(list);
         }
 
@@ -108,7 +111,6 @@ namespace Repository.ProfessionalTranslator.Net
         {
             if (string.IsNullOrEmpty(site)) return new List<Task<models.Testimonial>>();
             List<Tables.dbo.Testimonial> list = await dbRead.Testimonial.List(site, approved);
-            List<Tables.Localization.Testimonial> localization = await dbLocalizedRead.List(site, approved);
             return Complete(list);
         }
 
