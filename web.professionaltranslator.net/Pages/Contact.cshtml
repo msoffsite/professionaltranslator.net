@@ -1,12 +1,17 @@
 ﻿@page
 @using Models.Professionaltranslator.Net.Localized
-@model AboutModel
+@model ContactModel
 @{
     ViewData["Title"] = Model.Item.Name;
     List<Page> localization = Model.Item.Localization;
     string html = localization.Any() ? localization[0].Html : string.Empty;
 }
 
+<div class="row mt-5 mb-4">
+    <div class="col-12 font-weight-bold">
+        Contact needs intro text and a contact form.
+    </div>
+</div>
 <div class="row mt-5 mb-4">
     @if (Model.Item.Image != null)
     {
