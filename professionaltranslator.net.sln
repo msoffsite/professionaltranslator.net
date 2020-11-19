@@ -13,6 +13,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "test.professionaltranslator
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "www.professionaltranslator.net", "www.professionaltranslator.net\www.professionaltranslator.net.csproj", "{DF64BB00-A08A-4508-8824-3242067C57D6}"
 EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "web.professionaltranslator.net", "web.professionaltranslator.net\web.professionaltranslator.net.csproj", "{FC88721C-E76F-43F2-8EEE-C8DC687755C9}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -39,6 +41,10 @@ Global
 		{DF64BB00-A08A-4508-8824-3242067C57D6}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{DF64BB00-A08A-4508-8824-3242067C57D6}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{DF64BB00-A08A-4508-8824-3242067C57D6}.Release|Any CPU.Build.0 = Release|Any CPU
+		{FC88721C-E76F-43F2-8EEE-C8DC687755C9}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{FC88721C-E76F-43F2-8EEE-C8DC687755C9}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{FC88721C-E76F-43F2-8EEE-C8DC687755C9}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{FC88721C-E76F-43F2-8EEE-C8DC687755C9}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
