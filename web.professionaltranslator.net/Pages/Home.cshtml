@@ -1,9 +1,17 @@
 ﻿@page
+@using Models.Professionaltranslator.Net.Localized
 @model HomeModel
 @{
     ViewData["Title"] = Model.Item.Name;
+    List<Page> localization = Model.Item.Localization;
+    string html = localization.Any() ? localization[0].Html : string.Empty;
 }
 
+<div class="row mt-5 mb-4">
+    <div class="col-12 font-weight-bold">
+        Home needs page content.
+    </div>
+</div>
 <div class="row mt-5 mb-4">
     @if (Model.Item.Image != null)
     {
@@ -11,13 +19,13 @@
             <img src="@Model.Item.Image.Path" class="img-fluid img-inset" alt="@Model.Item.Name" title="@Model.Item.Name">
         </div>
         <div class="col-lg-9 col-md-8 col-sm-12 text-justify">
-            @Html.Raw(Model.Item.Localization[0].Html)
+            @Html.Raw(html)
         </div>
     }
     else
     {
         <div class="col-12 text-justify">
-            @Html.Raw(Model.Item.Localization[0].Html)
+            @Html.Raw(html)
         </div>
     }
 </div>
