@@ -11,6 +11,10 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "test.professionaltranslator
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "web.professionaltranslator.net", "web.professionaltranslator.net\web.professionaltranslator.net.csproj", "{FC88721C-E76F-43F2-8EEE-C8DC687755C9}"
 EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "admin.professionaltranslator.net", "admin.professionaltranslator.net\admin.professionaltranslator.net.csproj", "{D6FFC39D-27B5-4C29-91E4-AFE739A1141E}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "www.professionaltranslator.net", "www.professionaltranslator.net\www.professionaltranslator.net.csproj", "{D0077122-F5AE-4C8D-A8CA-40E5FBB675EF}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -33,6 +37,14 @@ Global
 		{FC88721C-E76F-43F2-8EEE-C8DC687755C9}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{FC88721C-E76F-43F2-8EEE-C8DC687755C9}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{FC88721C-E76F-43F2-8EEE-C8DC687755C9}.Release|Any CPU.Build.0 = Release|Any CPU
+		{D6FFC39D-27B5-4C29-91E4-AFE739A1141E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D6FFC39D-27B5-4C29-91E4-AFE739A1141E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D6FFC39D-27B5-4C29-91E4-AFE739A1141E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D6FFC39D-27B5-4C29-91E4-AFE739A1141E}.Release|Any CPU.Build.0 = Release|Any CPU
+		{D0077122-F5AE-4C8D-A8CA-40E5FBB675EF}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D0077122-F5AE-4C8D-A8CA-40E5FBB675EF}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D0077122-F5AE-4C8D-A8CA-40E5FBB675EF}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D0077122-F5AE-4C8D-A8CA-40E5FBB675EF}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
