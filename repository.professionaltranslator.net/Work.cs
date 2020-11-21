@@ -11,6 +11,11 @@ namespace Repository.ProfessionalTranslator.Net
 {
     public class Work
     {
+        public static async Task<int> PagingCount(string site, Display display)
+        {
+            bool show = display == Display.Approved;
+            return await dbRead.Work.PagingCount(site, show);
+        }
         public static async Task<Result> Delete(string site, Guid? id)
         {
             if (!id.HasValue)
@@ -82,9 +87,10 @@ namespace Repository.ProfessionalTranslator.Net
             return Complete(list);
         }
 
-        public static async Task<List<models.Work>> List(string site, bool approved)
+        public static async Task<List<models.Work>> List(string site, Display display)
         {
-            List<Task<models.Work>> taskList = await TaskList(site, approved);
+            bool show = display == Display.Approved;
+            List<Task<models.Work>> taskList = await TaskList(site, show);
             if (taskList.Count == 0) return new List<models.Work>();
             var output = new List<models.Work>();
             for (var i = 0; 0 < taskList.Count; i++)
@@ -99,10 +105,41 @@ namespace Repository.ProfessionalTranslator.Net
             return output;
         }
 
+        public static async Task<List<models.Work>> List(string site, Display display, int pageIndex, int pageSize)
+        {
+            bool show = display == Display.Approved;
+            List<Task<models.Work>> taskList = await TaskList(site, show, pageIndex, pageSize);
+            if (taskList.Count == 0) return new List<models.Work>();
+            var output = new List<models.Work>();
+            for (var i = 0; 0 < taskList.Count; i++)
+            {
+                if (i == taskList.Count) break;
+                models.Work item = taskList[i].Result;
+                if (!output.Contains(item))
+                {
+                    output.Add(item);
+                }
+            }
+            return output;
+        }
+
+        public static async Task<bool> ShowNextForPaging(string site, Display display, int pageIndex, int pageSize)
+        {
+            bool show = display == Display.Approved;
+            return await dbRead.Work.ShowNextForPaging(site, show, pageIndex, pageSize);
+        }
+
         private static async Task<List<Task<models.Work>>> TaskList(string site, bool approved)
         {
             if (string.IsNullOrEmpty(site)) return new List<Task<models.Work>>();
             List<Tables.dbo.Work> list = await dbRead.Work.List(site, approved);
+            return Complete(list);
+        }
+
+        private static async Task<List<Task<models.Work>>> TaskList(string site, bool approved, int pageIndex, int pageSize)
+        {
+            if (string.IsNullOrEmpty(site)) return new List<Task<models.Work>>();
+            List<Tables.dbo.Work> list = await dbRead.Work.List(site, approved, pageIndex, pageSize);
             return Complete(list);
         }
 
