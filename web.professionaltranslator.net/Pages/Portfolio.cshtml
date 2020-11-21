@@ -1,5 +1,6 @@
-﻿@page
-@using Models.Professionaltranslator.Net.Localized
+﻿@page "{currentpage:int?}"
+@using Models.Professionaltranslator.Net
+@using Page = Models.Professionaltranslator.Net.Localized.Page
 @model PortfolioModel
 @{
     ViewData["Title"] = Model.Item.Name;
@@ -8,14 +9,16 @@
 }
 
 <div class="row mt-5 mb-4">
-    <div class="col-12 font-weight-bold">
-        Portfolio needs intro text and a gallery component.
+    <div class="col-12">
+        <p class="font-weight-bold text-center">
+            @Model.Count books translated and counting!
+        </p>
     </div>
 </div>
-<div class="row mt-5 mb-4">
+<div id="gallery" class="row">
     @if (Model.Item.Image != null)
     {
-        <div class="col-lg-3 col-md-4 col-sm-12">
+        <div class="col-lg-2 col-md-3 col-sm-12">
             <img src="@Model.Item.Image.Path" class="img-fluid img-inset" alt="@Model.Item.Name" title="@Model.Item.Name">
         </div>
         <div class="col-lg-9 col-md-8 col-sm-12 text-justify">
@@ -28,4 +31,36 @@
             @Html.Raw(html)
         </div>
     }
+</div>
+<div class="row">
+    @foreach (Work item in Model.Thumbnails)
+    {
+        <div class="col-lg-3 col-md-4 col-sm-6 text-center">
+            <div class="m-3">
+                <a href="@item.Href" target="_external" title="@item.Title">
+                    <img src="@item.Cover.Path" alt="@item.Title" title="@item.Title" class="zoom img-fluid img-inset" />
+                </a>
+            </div>
+        </div>
+    }
+</div>
+<div class="row">
+    <div class="col-12">
+        <ul class="pagination justify-content-center">
+            <li class="page-item @(!Model.ShowFirst ? "disabled" : "")">
+                <a asp-page="/Portfolio" asp-fragment="gallery" asp-route-CurrentPage="1" class="page-link" title="Go to the beginning."><i class="fas fa-fast-backward"></i></a>
+            </li>
+
+            <li class="page-item @(!Model.ShowPrevious ? "disabled" : "")">
+                <a asp-page="/Portfolio" asp-fragment="gallery" asp-route-CurrentPage="@(Model.CurrentPage - 1)" title="Go to the previous page." class="page-link"><i class="fas fa-step-backward"></i></a>
+            </li>
+            <li class="page-item  @(!Model.ShowNext ? "disabled" : "")">
+                <a asp-page="/Portfolio" asp-fragment="gallery" asp-route-CurrentPage="@(Model.CurrentPage + 1)" title="Go to the next page." class="page-link"><i class="fas fa-step-forward"></i></a>
+            </li>
+
+            <li class="page-item  @(!Model.ShowLast ? "disabled" : "")">
+                <a asp-page="/Portfolio" asp-fragment="gallery" asp-route-CurrentPage="@Model.TotalPages" title="Go to the end." class="page-link"><i class="fas fa-fast-forward"></i></a>
+            </li>
+        </ul>
+    </div>
 </div>

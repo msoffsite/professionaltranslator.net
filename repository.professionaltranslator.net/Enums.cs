@@ -7,4 +7,10 @@
         Succeeded,
         Undetermined
     }
+
+    public enum Display
+    {
+        Approved,
+        Unapproved
+    }
 }
