@@ -24,11 +24,7 @@ namespace web.professionaltranslator.net.Pages
 
         public async Task<IActionResult> OnGet()
         {
-            Item = await new Base().Get(Configuration, "About");
-            if (Item != null)
-            {
-                Item.Name = "This is the about page. Content for home needed.";
-            }
+            Item = await new Base().Get(Configuration, "Home");
             return Item == null ? NotFound() : (IActionResult)Page();
         }
     }

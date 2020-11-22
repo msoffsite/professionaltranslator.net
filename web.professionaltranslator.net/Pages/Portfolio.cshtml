@@ -9,13 +9,6 @@
 }
 
 <div class="row mt-5 mb-4">
-    <div class="col-12">
-        <p class="font-weight-bold text-center">
-            @Model.Count books translated and counting!
-        </p>
-    </div>
-</div>
-<div id="gallery" class="row">
     @if (Model.Item.Image != null)
     {
         <div class="col-lg-2 col-md-3 col-sm-12">
@@ -31,6 +24,13 @@
             @Html.Raw(html)
         </div>
     }
+</div>
+<div id="gallery" class="row mt-5">
+    <div class="col-12">
+        <p class="font-weight-bold text-center">
+            @Model.Count books translated and counting!
+        </p>
+    </div>
 </div>
 <div class="row">
     @foreach (Work item in Model.Thumbnails)
