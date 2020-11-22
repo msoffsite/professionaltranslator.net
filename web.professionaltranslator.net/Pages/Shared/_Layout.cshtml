@@ -41,6 +41,22 @@
                         Read Bio
                     </h6>
                 </a>
+                
+                <a class="list-group-item menu-link" asp-page="/Testimonials" title="Read what others have said about my translations.">
+                    <h3 class="menu-title">
+                        Testimonials
+                    </h3>
+
+                    <div class="menu-icon">
+                        <span class="line"></span>
+                        <span class="fas fa-star" aria-hidden="true"></span>
+                        <span class="line"></span>
+                    </div>
+
+                    <h6 class="menu-subtitle subtitle">
+                        Client Feedback
+                    </h6>
+                </a>
 
                 <a class="list-group-item menu-link" asp-page="/Portfolio" title="See my past work.">
                     <h3 class="menu-title">
@@ -74,18 +90,21 @@
             </div>
         </div>
         <div id="page-content-wrapper">
-            <nav class="navbar navbar-expand-xl navbar-light sticky-top" style="z-index: 999; position: absolute; left: 80%;">
-                <button id="menu-toggle" class="navbar-toggler" type="button" aria-expanded="false" aria-label="Toggle navigation">
-                    <span class="navbar-toggler-icon"></span>
-                </button>
-            </nav>
+            <div class="container">
+                <div class="col-12 text-center">
+                    <nav class="navbar navbar-light sticky-top" style="z-index: 999;">
+                        <button id="menu-toggle" class="navbar-toggler" type="button" aria-expanded="false" aria-label="Toggle navigation">
+                            <span class="navbar-toggler-icon"></span>
+                        </button>
+                    </nav>
+                </div>
+            </div>
             <header>
-                @await  Component.InvokeAsync("Testimonials")
                 <section id="header">
                     <div class="container">
                         <div class="row">
                             <div class="col-12">
-                                <img src="~/img/logo.png" alt="Cinta Garcia - Professional Translator" title="Cinta Garcia - Professional Translator" class="img-fluid header-logo" />
+                                <img src="~/img/logo.png" alt="Cinta Garcia - Professional Translator" title="Cinta Garcia - Professional Translator" class="img-fluid header-logo"/>
                             </div>
                             <div class="col-12 header-text-container">
                                 <div class="header-text">

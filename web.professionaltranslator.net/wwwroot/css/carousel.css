@@ -1,5 +1,6 @@
 ﻿.carousel {
-    position: relative
+    position: relative;
+    min-height: 500px; /*page setting*/
 }
 
     .carousel.pointer-event {
@@ -449,6 +450,10 @@
 }
 
 .testimonial-container {
+    background: none;
+}
+
+.testimonial-container-inset {
     min-height: 400px;
     max-height: 400px;
 }
