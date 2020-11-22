@@ -80,105 +80,7 @@
                 </button>
             </nav>
             <header>
-                <section class="container-fluid">
-                    <div class="row">
-                        <div class="col-lg-10 offset-lg-2 col-md-10 offset-md-2 col-sm-12 testimonial-container">
-                            <section class="text-center my-5">
-                                <div class="wrapper-carousel-fix">
-                                    <div id="carousel-example-1" class="carousel no-flex testimonial-carousel slide carousel-fade" data-ride="carousel"
-                                         data-interval="false">
-                                        <!--Slides-->
-                                        <div class="carousel-inner" role="listbox">
-                                            <!--First slide-->
-                                            <div class="carousel-item active">
-                                                <div class="testimonial">
-                                                    <!--Avatar-->
-                                                    <div class="avatar mx-auto mb-4">
-                                                        <img src="~/img/test-cover-1.jpg" class="img-fluid"
-                                                             alt="First sample avatar image">
-                                                    </div>
-                                                    <!--Content-->
-                                                    <p>
-                                                        <i class="fas fa-quote-left"></i>&nbsp;
-                                                        I have loved working with Cinta and I love the quality of her translation. People has congratulated me on the novel and that is also because of Cinta's good job. Thanks a lot for everything. I won't hesitate to use her services again.
-                                                        &nbsp;<i class="fas fa-quote-right"></i>
-                                                    </p>
-                                                    <h4 class="font-weight-bold">Tara Crescent</h4>
-                                                    <a class="font-weight-bold my-3" href="https://amzn.to/2Swh02i">
-                                                        Terapia Ardiente (La Serie Ardiente, Libro 1)
-                                                    </a>
-                                                </div>
-                                            </div>
-                                            <!--First slide-->
-                                            <!--Second slide-->
-                                            <div class="carousel-item">
-                                                <div class="testimonial">
-                                                    <!--Avatar-->
-                                                    <div class="avatar mx-auto mb-4">
-                                                        <img src="~/img/test-cover-2.jpg" class="img-fluid"
-                                                             alt="Second sample avatar image">
-                                                    </div>
-                                                    <!--Content-->
-                                                    <p>
-                                                        <i class="fas fa-quote-left"></i>&nbsp;
-                                                        Cinta's no-nonsense, professional approach to translating has made this whole process so much easier for a novice like me. I had many questions which she answered quickly and efficiently. She delivered before the deadline and it was a pleasure to do business with her. I hope we will be able to work together again in the future. Thank you, Cinta.
-                                                        &nbsp;<i class="fas fa-quote-right"></i>
-                                                    </p>
-                                                    <h4 class="font-weight-bold">
-                                                        J.M Forster
-                                                    </h4>
-                                                    <a class="font-weight-bold my-3" href="https://amzn.to/2FdxCGj">
-                                                        Saltasombras
-                                                    </a>
-                                                </div>
-                                            </div>
-                                            <!--Second slide-->
-                                            <!--Third slide-->
-                                            <div class="carousel-item">
-                                                <div class="testimonial">
-                                                    <!--Avatar-->
-                                                    <div class="avatar mx-auto mb-4">
-                                                        <img src="~/img/test-cover-3.jpg" class="img-fluid"
-                                                             alt="Third sample avatar image">
-                                                    </div>
-                                                    <!--Content-->
-                                                    <p>
-                                                        <i class="fas fa-quote-left"></i>&nbsp;
-                                                        This is not the first time I've worked with Cinta and it won't be the last. I have consistently worked with Cinta for translations from English to Spanish, and I plan on sticking with this translator for all of my Spanish books. She's really the best out there. Every book has been expertly finished. She's a true professional.
-                                                        &nbsp;<i class="fas fa-quote-right"></i>
-                                                    </p>
-                                                    <h4 class="font-weight-bold">
-                                                        Livia Ellis
-                                                    </h4>
-                                                    <a class="font-weight-bold my-3" href="https://amzn.to/2DqSLfd">
-                                                        Memoirs of a Gigolo, Volume One
-                                                    </a>
-                                                </div>
-                                            </div>
-                                            <!--Third slide-->
-                                        </div>
-                                        <!--Slides-->
-                                        <!--Controls-->
-                                        <a class="carousel-control-prev left carousel-control" href="#carousel-example-1" role="button"
-                                           data-slide="prev">
-                                            <span class="icon-prev" aria-hidden="true"></span>
-                                            <span class="sr-only">Previous</span>
-                                        </a>
-                                        <a class="carousel-control-next right carousel-control" href="#carousel-example-1" role="button"
-                                           data-slide="next">
-                                            <span class="icon-next" aria-hidden="true"></span>
-                                            <span class="sr-only">Next</span>
-                                        </a>
-                                        <!--Controls-->
-                                    </div>
-                                    <!-- Carousel Wrapper -->
-                                </div>
-
-                            </section>
-                            <!-- Section: Testimonials v.2 -->
-                        </div>
-                    </div>
-                </section>
+                @await  Component.InvokeAsync("Testimonials")
                 <section id="header">
                     <div class="container">
                         <div class="row">
@@ -199,24 +101,24 @@
                     </div>
                 </section>
                 @*<nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-white border-bottom box-shadow mb-3">
-                        <div class="container">
-                            <a class="navbar-brand" asp-area="" asp-page="/Index">www.professionaltranslator.net</a>
-                            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target=".navbar-collapse" aria-controls="navbarSupportedContent"
-                                    aria-expanded="false" aria-label="Toggle navigation">
-                                <span class="navbar-toggler-icon"></span>
-                            </button>
-                            <div class="navbar-collapse collapse d-sm-inline-flex flex-sm-row-reverse">
-                                <ul class="navbar-nav flex-grow-1">
-                                    <li class="nav-item">
-                                        <a class="nav-link text-dark" asp-area="" asp-page="/Index">Home</a>
-                                    </li>
-                                    <li class="nav-item">
-                                        <a class="nav-link text-dark" asp-area="" asp-page="/Privacy">Privacy</a>
-                                    </li>
-                                </ul>
-                            </div>
-                        </div>
-                    </nav>*@
+            <div class="container">
+                <a class="navbar-brand" asp-area="" asp-page="/Index">www.professionaltranslator.net</a>
+                <button class="navbar-toggler" type="button" data-toggle="collapse" data-target=".navbar-collapse" aria-controls="navbarSupportedContent"
+                        aria-expanded="false" aria-label="Toggle navigation">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+                <div class="navbar-collapse collapse d-sm-inline-flex flex-sm-row-reverse">
+                    <ul class="navbar-nav flex-grow-1">
+                        <li class="nav-item">
+                            <a class="nav-link text-dark" asp-area="" asp-page="/Index">Home</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link text-dark" asp-area="" asp-page="/Privacy">Privacy</a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </nav>*@
             </header>
             <div class="container">
                 <main role="main" class="pb-3">
