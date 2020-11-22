@@ -7,7 +7,13 @@
     List<Page> localization = Model.Item.Localization;
     string html = localization.Any() ? localization[0].Html : string.Empty;
 }
-
+<div class="row mt-5 mb-4">
+    <div class="col-12 text-center page-header">
+        <h1>
+            @Model.Count books translated and counting...
+        </h1>
+    </div>
+</div>
 <div class="row mt-5 mb-4">
     @if (Model.Item.Image != null)
     {
@@ -25,14 +31,7 @@
         </div>
     }
 </div>
-<div id="gallery" class="row mt-5">
-    <div class="col-12">
-        <p class="font-weight-bold text-center">
-            @Model.Count books translated and counting!
-        </p>
-    </div>
-</div>
-<div class="row">
+<div id="gallery" class="row">
     @foreach (Work item in Model.Thumbnails)
     {
         <div class="col-lg-3 col-md-4 col-sm-6 text-center">
