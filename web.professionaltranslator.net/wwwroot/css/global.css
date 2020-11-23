@@ -95,6 +95,16 @@ img.zoom {
     z-index: 999;
 }
 
+    .sidebar-wrapper-background {
+        background: rgba(255,255,255,.5);
+    }
+
+@media (max-width: 1600px) {
+    .sidebar-wrapper-background {
+        background: rgba(255,255,255,.8);
+    }
+}
+
 #sidebar-wrapper .sidebar-heading {
     padding: 0.875rem 1.25rem;
     font-size: 1.2rem;
@@ -201,6 +211,9 @@ img.zoom {
         }
     }
 
+.row {
+     margin-right: 0; 
+}
     .wrapper-carousel-fix .carousel-fade .active.carousel-item-left,
     .wrapper-carousel-fix .carousel-fade .active.carousel-item-right {
         -webkit-transition: -webkit-transform .6s ease;
