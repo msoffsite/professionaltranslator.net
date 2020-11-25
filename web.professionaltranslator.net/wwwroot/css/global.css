@@ -100,8 +100,24 @@ img.zoom {
     }
 
 @media (max-width: 1600px) {
+    #sidebar-wrapper {
+        position: absolute;
+        border-bottom: 1px solid #dee2e6;
+    }
+
     .sidebar-wrapper-background {
-        background: rgba(255,255,255,.8);
+        background: rgba(255,255,255,1);
+    }
+}
+
+@media (max-height: 680px) {
+    #sidebar-wrapper {
+        position: absolute;
+        border-bottom: 1px solid #dee2e6;
+    }
+
+    .sidebar-wrapper-background {
+        background: rgba(255,255,255,1);
     }
 }
 
