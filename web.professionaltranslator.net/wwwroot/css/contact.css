@@ -11,13 +11,13 @@
     min-height: 40px;
     background-color: #f7f7f7;
     /*top: 35px;*/
-    left: 0px;
+    left: 0;
     padding: 0 45px 0 22px;
     pointer-events: none;
     /*font-family: Montserrat-SemiBold;
     font-size: 18px;*/
     font-weight: bold;
-    color: #fa4251;
+    color: #642e84;
     line-height: 1.2;
 }
 
@@ -30,7 +30,8 @@
 .close-validation-message {
     font-family: Material-Design-Iconic-Font;
     font-size: 18px;
-    color: #fa4251;
+    color: #642e84;
+    font-weight: bold;
     cursor: pointer;
     display: -webkit-box;
     display: -webkit-flex;
