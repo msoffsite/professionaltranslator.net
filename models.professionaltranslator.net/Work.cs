@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace Models.Professionaltranslator.Net
+namespace Models.ProfessionalTranslator.Net
 {
     public class Work : Base
     {

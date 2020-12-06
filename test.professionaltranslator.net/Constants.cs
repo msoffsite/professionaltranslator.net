@@ -1,4 +1,4 @@
-﻿namespace Test.Professionaltranslator.Net
+﻿namespace Test.ProfessionalTranslator.Net
 {
     internal class Constants
     {

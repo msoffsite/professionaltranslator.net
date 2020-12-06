@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace Models.Professionaltranslator.Net.Log
+namespace Models.ProfessionalTranslator.Net.Log
 {
     public class Exception : Base
     {

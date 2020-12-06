@@ -1,10 +1,11 @@
 ﻿@page
-@using Models.Professionaltranslator.Net.Localized
+@using Models.ProfessionalTranslator.Net.Localized
 @model ContactModel
 @{
     ViewData["Title"] = Model.Item.Name;
     List<Page> localization = Model.Item.Localization;
     string html = localization.Any() ? localization[0].Html : string.Empty;
+    bool sent = Repository.ProfessionalTranslator.Net.Conversions.Implicit.Bool(ViewData["MessageSent"], false);
 }
 @section Styles
 {

@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using Repository.ProfessionalTranslator.Net;
 
-namespace Repository.Professionaltranslator.Net
+namespace Repository.ProfessionalTranslator.Net
 {
     public class Result
     {

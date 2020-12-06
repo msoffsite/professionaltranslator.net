@@ -2,7 +2,7 @@
 
   <PropertyGroup>
     <TargetFramework>netstandard2.1</TargetFramework>
-    <RootNamespace>Repository.Professionaltranslator.Net</RootNamespace>
+    <RootNamespace>Repository.ProfessionalTranslator.Net</RootNamespace>
     <AssemblyName>repository.professionaltranslator.net</AssemblyName>
   </PropertyGroup>
 

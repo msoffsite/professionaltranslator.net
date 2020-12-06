@@ -1,7 +1,7 @@
 ﻿using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc.RazorPages;
-using Model = Models.Professionaltranslator.Net.Page;
+using Model = Models.ProfessionalTranslator.Net.Page;
 using Data = Repository.ProfessionalTranslator.Net.Page;
 
 namespace web.professionaltranslator.net.Pages

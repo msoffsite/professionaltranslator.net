@@ -1,4 +1,4 @@
-﻿namespace Models.Professionaltranslator.Net.Localized
+﻿namespace Models.ProfessionalTranslator.Net.Localized
 {
     public class Base
     {

@@ -5,7 +5,7 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 
 using Data = Repository.ProfessionalTranslator.Net.Testimonial;
-using Testimonial = Models.Professionaltranslator.Net.Testimonial;
+using Testimonial = Models.ProfessionalTranslator.Net.Testimonial;
 
 namespace web.professionaltranslator.net.ViewComponents
 {

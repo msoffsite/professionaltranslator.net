@@ -2,7 +2,7 @@
 
 namespace Repository.ProfessionalTranslator.Net.Tables.dbo
 {
-    public class Page : Models.Professionaltranslator.Net.Page
+    public class Page : Models.ProfessionalTranslator.Net.Page
     {
         public new Guid Id { get; set; }
         public Guid SiteId { get; set; }
