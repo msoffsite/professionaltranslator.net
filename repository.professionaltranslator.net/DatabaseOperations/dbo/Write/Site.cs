@@ -2,7 +2,7 @@
 using System.Data;
 using System.Threading.Tasks;
 using Microsoft.Data.SqlClient;
-using Repository.Professionaltranslator.Net;
+using Repository.ProfessionalTranslator.Net;
 
 namespace Repository.ProfessionalTranslator.Net.DatabaseOperations.dbo.Write
 {

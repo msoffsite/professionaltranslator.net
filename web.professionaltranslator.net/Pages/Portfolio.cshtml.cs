@@ -6,7 +6,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Repository.ProfessionalTranslator.Net;
 using Data = Repository.ProfessionalTranslator.Net.Work;
-using Work = Models.Professionaltranslator.Net.Work;
+using Work = Models.ProfessionalTranslator.Net.Work;
 
 namespace web.professionaltranslator.net.Pages
 {

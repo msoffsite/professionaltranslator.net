@@ -2,12 +2,11 @@
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
-using Repository.Professionaltranslator.Net;
 using Repository.ProfessionalTranslator.Net;
-using models = Models.Professionaltranslator.Net;
+using models = Models.ProfessionalTranslator.Net;
 using repository = Repository.ProfessionalTranslator.Net.Work;
 
-namespace Test.Professionaltranslator.Net.Repository
+namespace Test.ProfessionalTranslator.Net.Repository
 {
     [TestClass]
     public class Work

@@ -2,10 +2,10 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using Repository.Professionaltranslator.Net;
+using Repository.ProfessionalTranslator.Net;
 using dbRead = Repository.ProfessionalTranslator.Net.DatabaseOperations.dbo.Read;
 using dbWrite = Repository.ProfessionalTranslator.Net.DatabaseOperations.dbo.Write.Image;
-using models = Models.Professionaltranslator.Net;
+using models = Models.ProfessionalTranslator.Net;
 
 namespace Repository.ProfessionalTranslator.Net
 {

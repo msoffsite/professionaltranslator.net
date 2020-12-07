@@ -1,12 +1,11 @@
 ﻿using System;
 
-namespace Repository.ProfessionalTranslator.Net.Tables.dbo
+namespace Repository.ProfessionalTranslator.Net.Tables.Log
 {
-    public class Work : Models.ProfessionalTranslator.Net.Work
+    public class Exception : Models.ProfessionalTranslator.Net.Log.Exception
     {
         public new Guid Id { get; set; }
         public Guid SiteId { get; set; }
-        public Guid CoverId { get; set; }
         public new DateTime DateCreated { get; set; }
     }
 }

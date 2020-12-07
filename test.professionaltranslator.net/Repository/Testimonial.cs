@@ -2,13 +2,12 @@
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
-using Repository.Professionaltranslator.Net;
 using Repository.ProfessionalTranslator.Net;
-using models = Models.Professionaltranslator.Net;
-using localized = Models.Professionaltranslator.Net.Localized;
+using models = Models.ProfessionalTranslator.Net;
+using localized = Models.ProfessionalTranslator.Net.Localized;
 using repository = Repository.ProfessionalTranslator.Net.Testimonial;
 
-namespace Test.Professionaltranslator.Net.Repository
+namespace Test.ProfessionalTranslator.Net.Repository
 {
     [TestClass]
     public class Testimonial

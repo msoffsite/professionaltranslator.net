@@ -27,10 +27,21 @@
     font-display: swap;
 }
 
+.blockquote {
+    background: #dedede;
+    padding: 40px;
+    border-radius: 20px;
+    width: 100%;
+}
+
 body {
     background: url(../img/intro-background.gif);
     /* ReSharper disable once CssBrowserCompatibility */
     background-repeat: no-repeat;
+}
+
+p {
+    text-align: justify;
 }
 
 .background-light-semi-transparent {
@@ -93,6 +104,32 @@ img.zoom {
     -o-transition: margin .25s ease-out;
     transition: margin .25s ease-out;
     z-index: 999;
+}
+
+    .sidebar-wrapper-background {
+        background: rgba(255,255,255,.5);
+    }
+
+@media (max-width: 1600px) {
+    #sidebar-wrapper {
+        position: absolute;
+        border-bottom: 1px solid #dee2e6;
+    }
+
+    .sidebar-wrapper-background {
+        background: rgba(255,255,255,1);
+    }
+}
+
+@media (max-height: 680px) {
+    #sidebar-wrapper {
+        position: absolute;
+        border-bottom: 1px solid #dee2e6;
+    }
+
+    .sidebar-wrapper-background {
+        background: rgba(255,255,255,1);
+    }
 }
 
 #sidebar-wrapper .sidebar-heading {
@@ -201,6 +238,9 @@ img.zoom {
         }
     }
 
+.row {
+     margin-right: 0; 
+}
     .wrapper-carousel-fix .carousel-fade .active.carousel-item-left,
     .wrapper-carousel-fix .carousel-fade .active.carousel-item-right {
         -webkit-transition: -webkit-transform .6s ease;

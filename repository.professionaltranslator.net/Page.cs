@@ -2,11 +2,11 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using Repository.Professionaltranslator.Net;
+using Repository.ProfessionalTranslator.Net;
 using dbRead = Repository.ProfessionalTranslator.Net.DatabaseOperations.dbo.Read;
 using dbLocalizedRead = Repository.ProfessionalTranslator.Net.DatabaseOperations.Localization.Read.Page;
 using dbWrite = Repository.ProfessionalTranslator.Net.DatabaseOperations.dbo.Write.Page;
-using models = Models.Professionaltranslator.Net;
+using models = Models.ProfessionalTranslator.Net;
 
 namespace Repository.ProfessionalTranslator.Net
 {
@@ -22,22 +22,27 @@ namespace Repository.ProfessionalTranslator.Net
             return await dbWrite.Delete(site, id.Value);
         }
 
-        public static async Task<models.Page> Item(Guid? id)
+        public static async Task<models.Page> Item(string site, Guid? id)
         {   
             if (!id.HasValue) return null;
             Tables.dbo.Page page = await dbRead.Page.Item(id.Value);
-            return await Item(page);
+            return await Item(site, page);
         }
 
         public static async Task<models.Page> Item(string site, string name)
         {
             if ((string.IsNullOrEmpty(site)) || (string.IsNullOrEmpty(name))) return null;
             Tables.dbo.Page page = await dbRead.Page.Item(site, name);
-            return await Item(page);
+            return await Item(site, page);
         }
 
-        private static async Task<models.Page> Item(Tables.dbo.Page page)
+        private static async Task<models.Page> Item(string site, Tables.dbo.Page page)
         {
+            if (page == null)
+            {
+                return null;
+            }
+
             try
             {
                 models.Image image = page.ImageId.HasValue ? await Image.Item(page.ImageId.Value) : null;
@@ -60,7 +65,7 @@ namespace Repository.ProfessionalTranslator.Net
             }
             catch (System.Exception ex)
             {
-                Console.Write(ex.Message);
+                await Exception.Save(site, ex, "Repository.ProfessionalTranslator.Net.Page");
                 return null;
             }
         }

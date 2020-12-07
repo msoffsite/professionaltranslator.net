@@ -3,12 +3,11 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
-using Repository.Professionaltranslator.Net;
 using Repository.ProfessionalTranslator.Net;
-using models = Models.Professionaltranslator.Net;
+using models = Models.ProfessionalTranslator.Net;
 using repository = Repository.ProfessionalTranslator.Net.Image;
 
-namespace Test.Professionaltranslator.Net.Repository
+namespace Test.ProfessionalTranslator.Net.Repository
 {
     [TestClass]
     public class Image

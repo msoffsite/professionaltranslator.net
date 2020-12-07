@@ -11,13 +11,13 @@
     min-height: 40px;
     background-color: #f7f7f7;
     /*top: 35px;*/
-    left: 0px;
+    left: 0;
     padding: 0 45px 0 22px;
     pointer-events: none;
     /*font-family: Montserrat-SemiBold;
     font-size: 18px;*/
     font-weight: bold;
-    color: #fa4251;
+    color: #642e84;
     line-height: 1.2;
 }
 
@@ -30,7 +30,8 @@
 .close-validation-message {
     font-family: Material-Design-Iconic-Font;
     font-size: 18px;
-    color: #fa4251;
+    color: #642e84;
+    font-weight: bold;
     cursor: pointer;
     display: -webkit-box;
     display: -webkit-flex;
@@ -82,6 +83,21 @@
     }
 }
 
+label.form-check-label {
+    cursor: pointer;
+}
+
+.form-check-inline {
+    margin-right: 2.75rem;
+}
+
+@media(max-width: 576px) {
+    .form-check-inline {
+        margin-right: 1.75rem;
+        margin-top: .5rem;
+    }
+}
+
 .input-container {
     width: 100%;
     position: relative;
@@ -91,14 +107,14 @@
     margin-bottom: 20px;
 }
 
+.radio-container {
+    height: 60px;
+    padding-top: 20px;
+}
+
 .input-container label {
-        /*font-family: Montserrat-SemiBold;
-        font-size: 10px;*/
-    font-family: merriweatherlight;
-        color: #393939;
-        line-height: 1.5;
-        text-transform: uppercase;
-    }
+    color: #808080;
+}
 
 @media (max-width: 576px) {
 
@@ -113,18 +129,28 @@
     background: transparent;
     /*font-family: Montserrat-SemiBold;
     font-size: 18px;*/
-    color: #555555;
+    color: #808080;
     line-height: 1.2;
     padding-right: 15px;
 }
 
 input,
+select,
+select:active,
+select:focus,
+select:hover,
+.form-control,
+.form-control:active,
+.form-control.focus,
+.form-control.hover,
 textarea {
-    outline: none;
-    border: none;
+    outline: none !important;
+    border: none !important;
+    box-shadow: none !important;
 }
 
-input.input-element {
+input.input-element,
+select.input-element {
     height: 40px;
 }
 

@@ -2,7 +2,7 @@
 
 namespace Repository.ProfessionalTranslator.Net.Tables.dbo
 {
-    public class Testimonial : Models.Professionaltranslator.Net.Testimonial
+    public class Testimonial : Models.ProfessionalTranslator.Net.Testimonial
     {
         public new Guid Id { get; set; }
         public Guid SiteId { get; set; }

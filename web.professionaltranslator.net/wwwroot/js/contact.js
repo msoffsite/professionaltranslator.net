@@ -1,6 +1,12 @@
 ﻿$(document).ready(function() {
     "use strict";
 
+    $("input").each(function () {
+        console.log("input found.");
+        $(this).attr("autocomplete", randomString(5));
+    });
+    //$(".form-container").disableAutoFill();
+
     $(".validate-input .input-element").each(function () {
         $(this).on("blur",
             function () {
@@ -34,6 +40,17 @@
         });
     });
 }); 
+
+function randomString(length) {
+    let result = "";
+    const characters = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
+    const charactersLength = characters.length;
+    for (let i = 0; i < length; i++) {
+        result += characters.charAt(Math.floor(Math.random() * charactersLength));
+    }
+    console.log("random string: " + result);
+    return result;
+}
 
 function validate(element) {
     if ($(element).attr("type") === "email") {

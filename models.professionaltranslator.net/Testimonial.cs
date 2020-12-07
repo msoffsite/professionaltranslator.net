@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 
-namespace Models.Professionaltranslator.Net
+namespace Models.ProfessionalTranslator.Net
 {
     public class Testimonial : Base
     {

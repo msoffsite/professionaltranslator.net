@@ -1,5 +1,5 @@
 ﻿@page
-@using Models.Professionaltranslator.Net.Localized
+@using Models.ProfessionalTranslator.Net.Localized
 @model ContactModel
 @{
     ViewData["Title"] = Model.Item.Name;
@@ -36,25 +36,56 @@
     }
 </div>
 <div class="form-wrapper">
-    <form class="form-container validate-form">
+    <form class="form-container validate-form" autocomplete="off">
         <div class="form-row">
-            <div class="form-group col-12">
-                <div class="input-container validate-input light-gray-background" data-validate="Please type your name here.">
-                    <input class="input-element" type="text" name="name" placeholder="Enter Your Name">
+            <div class="form-group col-lg-6 col-md-12 col-sm-12">
+                <div class="input-container validate-input light-gray-background" data-validate="Please type your name here." title="Your name goes here.">
+                    <input id="client_name" class="input-element" type="text" placeholder="Your Name">
+                </div>
+            </div>
+            <div class="form-group col-lg-6 col-md-12 col-sm-12">
+                <div class="input-container validate-input light-gray-background" data-validate="Please type a valid email address here." title="A valid email address is required here.">
+                    <input id="client_email_address" class="input-element" type="email" placeholder="Your Email Address">
+                </div>
+            </div>
+        </div>
+        <div class="form-row">
+            <div class="form-group col-lg-6 col-md-12 col-sm-12">
+                <div class="input-container validate-input light-gray-background" data-validate="Please type the title of your work here." title="The title of your work goes here.">
+                    <input id="work_title" class="input-element" type="text" placeholder="Title of Work">
+                </div>
+            </div>
+            <div class="form-group col-lg-6 col-md-12 col-sm-12">
+                <div class="input-container light-gray-background radio-container">
+                    <div class="form-check-inline">
+                        <label class="form-check-label" title="Get your work translated from English to Spanish.">
+                            <input type="radio" class="form-check-input" name="optradio" value="English_to_Spanish" checked aria-checked="True">English to Spanish
+                        </label>
+                    </div>
+                    <div class="form-check-inline">
+                        <label class="form-check-label" title="Get your work translated from Spanish to English.">
+                            <input type="radio" class="form-check-input" name="optradio" value="Spanish_to_English">Spanish to English
+                        </label>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="form-row">
+            <div class="form-group col-lg-6 col-md-12 col-sm-12">
+                <div class="input-container validate-input light-gray-background" data-validate="Please enter genre here." title="Please enter genre here.">
+                    <input id="genre" class="input-element" type="text" placeholder="Genre of Work">
+                </div>
+            </div>
+            <div class="form-group col-lg-6 col-md-12 col-sm-12">
+                <div class="input-container validate-input light-gray-background" data-validate="Please enter word count here." title="How many words does your work contain?">
+                    <input id="word_count" class="input-element" type="number" placeholder="Word Count">
                 </div>
             </div>
         </div>
         <div class="form-row">
             <div class="form-group col-12">
-                <div class="input-container validate-input light-gray-background" data-validate="Please type a valid email address here.">
-                    <input class="input-element" type="email" name="name" placeholder="Enter Your Email Address">
-                </div>
-            </div>
-        </div>
-        <div class="form-row">
-            <div class="form-group col-12">
-                <div class="input-container validate-input light-gray-background" data-validate="Please type your message here.">
-                    <textarea class="input-element" name="message" placeholder="Enter Your Message Here..."></textarea>
+                <div class="input-container validate-input light-gray-background" data-validate="Enter comments here, such as when you want your work translated, and any concerns you might have." title="Enter comments here, such as when you want your work translated, and any concerns you might have.">
+                    <textarea id="message" class="input-element" placeholder="Enter Your Message Here..."></textarea>
                 </div>
             </div>
         </div>
