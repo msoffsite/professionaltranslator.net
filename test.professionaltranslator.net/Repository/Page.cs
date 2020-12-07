@@ -70,7 +70,7 @@ namespace Test.ProfessionalTranslator.Net.Repository
                 CanHaveImage = true,
                 Image = Image.WriteItem(),
                 IsService = true,
-                Localization = LocalizedList()
+                Bodies = LocalizedList()
             };
             return output;
         }

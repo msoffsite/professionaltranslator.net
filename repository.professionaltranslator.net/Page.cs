@@ -4,7 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using Repository.ProfessionalTranslator.Net;
 using dbRead = Repository.ProfessionalTranslator.Net.DatabaseOperations.dbo.Read;
-using dbLocalizedRead = Repository.ProfessionalTranslator.Net.DatabaseOperations.Localization.Read.Page;
+using dbLocalizedRead = Repository.ProfessionalTranslator.Net.DatabaseOperations.Localization.Read;
 using dbWrite = Repository.ProfessionalTranslator.Net.DatabaseOperations.dbo.Write.Page;
 using models = Models.ProfessionalTranslator.Net;
 
@@ -46,7 +46,8 @@ namespace Repository.ProfessionalTranslator.Net
             try
             {
                 models.Image image = page.ImageId.HasValue ? await Image.Item(page.ImageId.Value) : null;
-                List<Tables.Localization.Page> localizedList = await dbLocalizedRead.List(page.Id);
+                List<Tables.Localization.Page> bodies = await dbLocalizedRead.Page.List(page.Id);
+                List<Tables.Localization.PageHeader> headers = await dbLocalizedRead.PageHeader.List(page.Id);
                 var output = new models.Page
                 {
                     Id = page.Id,
@@ -54,10 +55,15 @@ namespace Repository.ProfessionalTranslator.Net
                     IsService = page.IsService,
                     Name = page.Name,
                     Image = image,
-                    Localization = localizedList.Select(n => new models.Localized.Page
+                    Bodies = bodies.Select(n => new models.Localized.Page
                     {
                         Lcid = n.Lcid,
                         Title = n.Title,
+                        Html = n.Html
+                    }).ToList(),
+                    Headers = headers.Select(n => new models.Localized.PageHeader
+                    {
+                        Lcid = n.Lcid,
                         Html = n.Html
                     }).ToList()
                 };
@@ -163,7 +169,7 @@ namespace Repository.ProfessionalTranslator.Net
             if (savePageResult.Status == SaveStatus.Failed) return new Result(savePageResult.Status, savePageResult.Messages);
 
             // ReSharper disable once ForeachCanBePartlyConvertedToQueryUsingAnotherGetEnumerator
-            foreach (models.Localized.Page localizedPage in inputItem.Localization)
+            foreach (models.Localized.Page localizedPage in inputItem.Bodies)
             {
                 var saveLocalization = new Tables.Localization.Page
                 {

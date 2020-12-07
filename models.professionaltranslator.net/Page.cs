@@ -8,6 +8,7 @@ namespace Models.ProfessionalTranslator.Net
         public bool IsService { get; set; }
         public bool CanHaveImage { get; set; }
         public Image Image { get; set; }
-        public List<Localized.Page> Localization { get; set; }
+        public List<Localized.Page> Bodies { get; set; }
+        public List<Localized.PageHeader> Headers { get; set; }
     }
 }

@@ -1,11 +1,13 @@
 ﻿@page
-@model web.professionaltranslator.net.Pages.TestimonialsModel
-
-    <div class="row mt-5 mb-4">
-        <div class="col-12 text-center page-header">
-            <h1>
-                I take your work seriously.
-            </h1>
-        </div>
+@model TestimonialsModel
+@{
+    ViewData["Title"] = Model.Item.Title;
+}
+<div class="row mt-5">
+    <div class="col-12 text-center page-header">
+        <h1>
+            @Html.Raw(Model.Item.Header)
+        </h1>
     </div>
+</div>
 @await Component.InvokeAsync("Testimonials")
