@@ -49,7 +49,7 @@ namespace Repository.ProfessionalTranslator.Net
                     EmailAddress = testimonial.EmailAddress,
                     DateCreated = testimonial.DateCreated,
                     Approved = testimonial.Approved,
-                    Localization = localizedList.Select(n => new models.Localized.Testimonial
+                    Bodies = localizedList.Select(n => new models.Localized.Testimonial
                     {
                         Lcid = n.Lcid,
                         Html = n.Html
@@ -231,7 +231,7 @@ namespace Repository.ProfessionalTranslator.Net
             }
 
             // ReSharper disable once ForeachCanBePartlyConvertedToQueryUsingAnotherGetEnumerator
-            foreach (models.Localized.Testimonial localizedPage in inputItem.Localization)
+            foreach (models.Localized.Testimonial localizedPage in inputItem.Bodies)
             {
                 var saveLocalization = new Tables.Localization.Testimonial
                 {

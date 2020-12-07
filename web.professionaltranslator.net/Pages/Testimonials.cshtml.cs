@@ -7,10 +7,17 @@ using Microsoft.AspNetCore.Mvc.RazorPages;
 
 namespace web.professionaltranslator.net.Pages
 {
-    public class TestimonialsModel : PageModel
+    public class TestimonialsModel : Base
     {
-        public void OnGet()
+        public TestimonialsModel(SiteSettings configuration)
         {
+            Configuration = configuration;
+        }
+
+        public async Task<IActionResult> OnGet()
+        {
+            Item = await new Base().Get(Configuration, "Testimonials");
+            return Item == null ? NotFound() : (IActionResult) Page();
         }
     }
 }

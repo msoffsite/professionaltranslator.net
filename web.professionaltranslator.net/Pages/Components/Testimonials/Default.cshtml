@@ -1,5 +1,6 @@
-﻿@using Models.ProfessionalTranslator.Net
-@model System.Collections.Generic.List<Models.ProfessionalTranslator.Net.Testimonial>
+﻿@using global::Models.ProfessionalTranslator.Net
+@using global::Models.ProfessionalTranslator.Net.Localized
+@model System.Collections.Generic.List<global::Models.ProfessionalTranslator.Net.Testimonial>
 @{
     Guid firstId = Model[0].Id ?? Guid.Empty;
 }
@@ -23,7 +24,7 @@
                                         <!--Content-->
                                         <p>
                                             <i class="fas fa-quote-left"></i>&nbsp;
-                                            @Html.Raw(Model[0].Localization[0].Html.Replace("<p>", string.Empty).Replace("</p>", string.Empty))
+                                            @Html.Raw(Model[0].Bodies[0].Html.Replace("<p>", string.Empty).Replace("</p>", string.Empty))
                                             &nbsp;<i class="fas fa-quote-right"></i>
                                         </p>
                                         <h4 class="font-weight-bold" title="@Model[0].Name">
@@ -36,7 +37,7 @@
                                 </div>
                                 <!--First slide-->
                                 <!-- Other Slides -->
-                                @foreach (Testimonial item in Model)
+                                @foreach (global::Models.ProfessionalTranslator.Net.Testimonial item in Model)
                                 {
                                     if (item.Id != firstId)
                                     {
@@ -49,7 +50,7 @@
                                                 <!--Content-->
                                                 <p title="">
                                                     <i class="fas fa-quote-left"></i>&nbsp;
-                                                    @Html.Raw(item.Localization[0].Html.Replace("<p>", string.Empty).Replace("</p>", string.Empty))
+                                                    @Html.Raw(item.Bodies[0].Html.Replace("<p>", string.Empty).Replace("</p>", string.Empty))
                                                     &nbsp;<i class="fas fa-quote-right"></i>
                                                 </p>
                                                 <h4 class="font-weight-bold" title="@item.Name">

@@ -1,21 +1,18 @@
 ﻿@page
-@using Models.ProfessionalTranslator.Net.Localized
 @model InquiryResultModel
 @{
-    ViewData["Title"] = Model.Item.Name;
-    List<Page> localization = Model.Item.Localization;
-    string html = localization.Any() ? localization[0].Html : string.Empty;
+    ViewData["Title"] = Model.Item.Title;
 }
 <div class="row mt-5 mb-4">
     <div class="col-12 text-center page-header">
         <h1>
-            Thank you for contacting me.
+            @Html.Raw(Model.Item.Header)
         </h1>
     </div>
 </div>
 <div class="row mt-5 mb-4">
     <div class="col-12 text-justify">
-        @Html.Raw(html)
+        @Html.Raw(Model.Item.Body)
     </div>
 </div>
 <div class="row mt-5 mb-4">
