@@ -1,4 +1,47 @@
 ﻿@page
-@model web.professionaltranslator.net.Pages.InquiryResultModel
+@using Models.ProfessionalTranslator.Net.Localized
+@model InquiryResultModel
 @{
+    ViewData["Title"] = Model.Item.Name;
+    List<Page> localization = Model.Item.Localization;
+    string html = localization.Any() ? localization[0].Html : string.Empty;
 }
+<div class="row mt-5 mb-4">
+    <div class="col-12 text-center page-header">
+        <h1>
+            Thank you for contacting me.
+        </h1>
+    </div>
+</div>
+<div class="row mt-5 mb-4">
+    <div class="col-12 text-justify">
+        @Html.Raw(html)
+    </div>
+</div>
+<div class="row mt-5 mb-4">
+    <div class="row blockquote">
+        <div class="col-lg-6 col-md-6 col-sm-12">
+            <b>{name}</b>
+        </div>
+        <div class="col-lg-6 col-md-6 col-sm-12">
+            <b>{email_address}</b>
+        </div>
+        <div class="col-lg-6 col-md-6 col-sm-12">
+            <b>{title}</b>
+        </div>
+        <div class="col-lg-6 col-md-6 col-sm-12">
+            <b>{genre}</b>
+        </div>
+        <div class="clearfix"></div>
+        <div class="col-lg-6 col-md-6 col-sm-12">
+            <b>{word_count}</b>
+        </div>
+        <div class="col-lg-6 col-md-6 col-sm-12">
+            <b>{translation_type}</b>
+        </div>
+        <div class="clearfix"></div>
+        <div class="col-12">
+            <b>{message}</b>
+        </div>
+    </div>
+</div>
