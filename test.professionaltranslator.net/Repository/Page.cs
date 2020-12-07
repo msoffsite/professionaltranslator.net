@@ -30,7 +30,7 @@ namespace Test.ProfessionalTranslator.Net.Repository
                 Assert.Fail("List is empty.");
             }
 
-            models.Page item = await repository.Item(id);
+            models.Page item = await repository.Item(Constants.Site, id);
             Assert.IsTrue(item != null);
         }
 

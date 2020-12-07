@@ -27,6 +27,13 @@
     font-display: swap;
 }
 
+.blockquote {
+    background: #dedede;
+    padding: 40px;
+    border-radius: 20px;
+    width: 100%;
+}
+
 body {
     background: url(../img/intro-background.gif);
     /* ReSharper disable once CssBrowserCompatibility */
