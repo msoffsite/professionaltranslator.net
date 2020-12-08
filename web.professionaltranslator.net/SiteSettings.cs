@@ -9,7 +9,8 @@ namespace web.professionaltranslator.net
         public string Site { get; set; }
         public int PagingSize { get; set; }
         public string Postmaster { get; set; }
-        public string DisplayName { get; set; }
+        public string PostmasterDisplayName { get; set; }
+        public string DefaultToDisplayName { get; set; }
         public string DefaultTo { get; set; }
         public string SmtpServer { get; set; }
         public string SmtpPassword { get; set; }

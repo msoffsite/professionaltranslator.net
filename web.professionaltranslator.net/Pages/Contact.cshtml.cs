@@ -74,10 +74,10 @@ namespace web.professionaltranslator.net.Pages
 
                 var mail = new MailMessage
                 {
-                    From = new MailAddress(Configuration.Postmaster)
+                    From = new MailAddress(Configuration.Postmaster, Configuration.PostmasterDisplayName)
                 };
 
-                var toAddress = new MailAddress(Configuration.DefaultTo, Configuration.DisplayName);
+                var toAddress = new MailAddress(Configuration.DefaultTo, Configuration.DefaultToDisplayName);
                 mail.To.Add(toAddress);
                 toAddress = new MailAddress(obj.EmailAddress, obj.Name);
                 mail.To.Add(toAddress);
