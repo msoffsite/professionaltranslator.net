@@ -23,8 +23,9 @@ namespace web.professionaltranslator.net.Pages
         public async Task<IActionResult> OnGet()
         {
             Guid? inquiryResultId = Session.Get(HttpContext.Session, Session.Key.InquiryResult);
-            if (!inquiryResultId.HasValue) return NotFound();
+            if (!inquiryResultId.HasValue) return BadRequest("InquiryResult couldn't be located.");
             InquiryItem = await Data.Item(inquiryResultId.Value);
+            if (InquiryItem == null) return BadRequest("InquiryItem couldn't be located.");
             Item = await new Base().Get(Configuration, "InquiryResult");
             return Item == null ? NotFound() : (IActionResult)Page();
         }
