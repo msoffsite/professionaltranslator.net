@@ -47,5 +47,12 @@ namespace Repository.ProfessionalTranslator.Net
             Messages = new List<string> { message };
             ReturnId = null;
         }
+
+        public Result()
+        {
+            Status = SaveStatus.Undetermined;
+            Messages = new List<string>();
+            ReturnId = null;
+        }
     }
 }

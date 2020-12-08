@@ -34,7 +34,7 @@
     }
 </div>
 <div class="form-wrapper">
-    <form class="form-container validate-form" autocomplete="off" asp-page="SendInquiry">
+    <form class="form-container validate-form" autocomplete="off" method="post">
         <div class="form-row">
             <div class="form-group col-lg-6 col-md-12 col-sm-12">
                 <div class="input-container validate-input light-gray-background" data-validate="Please type your name here." title="Your name goes here.">
@@ -57,12 +57,12 @@
                 <div class="input-container light-gray-background radio-container">
                     <div class="form-check-inline">
                         <label class="form-check-label" title="Get your work translated from English to Spanish.">
-                            <input type="radio" class="form-check-input" name="optradio" value="English to Spanish" checked aria-checked="True">English to Spanish
+                            <input type="radio" class="form-check-input" name="translation-type" value="English to Spanish" checked aria-checked="True">English to Spanish
                         </label>
                     </div>
                     <div class="form-check-inline">
                         <label class="form-check-label" title="Get your work translated from Spanish to English.">
-                            <input type="radio" class="form-check-input" name="optradio" value="Spanish to English">Spanish to English
+                            <input type="radio" class="form-check-input" name="translation-type" value="Spanish to English">Spanish to English
                         </label>
                     </div>
                 </div>
@@ -89,19 +89,12 @@
         </div>
         <div class="form-row">
             <div class="form-group col-12">
-                <button class="btn btn-purple" role="button" title="Discover what a professional translation can do for you."><span>Send Message</span></button>
+                <button id="send_message" class="btn btn-purple" role="button" title="Discover what a professional translation can do for you."><span>Send Message</span></button>
             </div>
         </div>
     </form>
 </div>
 @section Scripts
 {
-    <script>
-
-        const ContactActions = {
-            SendMessage: '@Url.Action("SendInquiry", "ContactModel")'
-        }
-
-    </script>
     <script src="~/js/contact.js" asp-append-version="true"></script>
 }

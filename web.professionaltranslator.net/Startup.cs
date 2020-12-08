@@ -48,6 +48,7 @@ namespace web.professionaltranslator.net
             services.AddRazorPages();
             services.AddSession();
             services.AddOptions();
+            services.AddAntiforgery(o => o.HeaderName = "XSRF-TOKEN");
             services.AddConfiguration<SiteSettings>(Configuration, "SiteSettings");
         }
 

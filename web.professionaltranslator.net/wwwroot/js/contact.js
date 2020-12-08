@@ -20,17 +20,44 @@
 
     var input = $(".validate-input .input-element");
 
-    $(".validate-form").on("submit", function () {
-        var check = true;
+    $("#send_message").on("click", function (e) {
+        e.preventDefault();
+        let passed = true;
 
         for (let i = 0; i < input.length; i++) {
             if (validate(input[i]) === false) {
                 showValidationMessage(input[i]);
-                check = false;
+                passed = false;
             }
         }
 
-        return check;
+        if (passed) {
+            $.ajax({
+                type: "POST",
+                url: "/Contact?handler=Send",
+                beforeSend: function (xhr) {
+                    xhr.setRequestHeader("XSRF-TOKEN",
+                        $('input:hidden[name="__RequestVerificationToken"]').val());
+                },
+                data: JSON.stringify({
+                    Name: $("#client_name").val(),
+                    EmailAddress: $("#client_email_address").val(),
+                    Title: $("#work_title").val(),
+                    TranslationType: $("input[name='translation-type']:checked").val(),
+                    Genre: $("#genre").val(),
+                    WordCount: $("#word_count").val(),
+                    Message: $("#message").val()
+                }),
+                contentType: "application/json; charset=utf-8",
+                dataType: "json",
+                success: function (response) {
+                    window.location.href = "/InquiryResult";
+                },
+                failure: function (response) {
+                    console.log(response);
+                }
+            });
+        }
     });
 
     $(".validate-form .input-element").each(function () {
