@@ -44,6 +44,14 @@ namespace Repository.ProfessionalTranslator.Net
             }).ToList();
         }
 
+        /// <summary>
+        /// Saves site item.
+        /// </summary>
+        /// <instructions>
+        /// Set inputItem.Id to null when creating a new object.
+        /// </instructions>
+        /// <param name="item">Site object</param>
+        /// <returns>Result with save status and messages if error occurs. Does not return an identifier.</returns>
         public static async Task<Result> Save(models.Site item)
         {
             var messages = new List<string>();

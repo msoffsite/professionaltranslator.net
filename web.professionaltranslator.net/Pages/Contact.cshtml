@@ -13,7 +13,7 @@
     <div class="col-12 text-center page-header">
         <h1>
             @Html.Raw(Model.Item.Header)
-        </h1>      
+        </h1>
     </div>
 </div>
 <div class="row mt-5 mb-4">
@@ -34,7 +34,7 @@
     }
 </div>
 <div class="form-wrapper">
-    <form class="form-container validate-form" autocomplete="off">
+    <form class="form-container validate-form" autocomplete="off" asp-page="SendInquiry">
         <div class="form-row">
             <div class="form-group col-lg-6 col-md-12 col-sm-12">
                 <div class="input-container validate-input light-gray-background" data-validate="Please type your name here." title="Your name goes here.">
@@ -57,12 +57,12 @@
                 <div class="input-container light-gray-background radio-container">
                     <div class="form-check-inline">
                         <label class="form-check-label" title="Get your work translated from English to Spanish.">
-                            <input type="radio" class="form-check-input" name="optradio" value="English_to_Spanish" checked aria-checked="True">English to Spanish
+                            <input type="radio" class="form-check-input" name="optradio" value="English to Spanish" checked aria-checked="True">English to Spanish
                         </label>
                     </div>
                     <div class="form-check-inline">
                         <label class="form-check-label" title="Get your work translated from Spanish to English.">
-                            <input type="radio" class="form-check-input" name="optradio" value="Spanish_to_English">Spanish to English
+                            <input type="radio" class="form-check-input" name="optradio" value="Spanish to English">Spanish to English
                         </label>
                     </div>
                 </div>
@@ -76,7 +76,7 @@
             </div>
             <div class="form-group col-lg-6 col-md-12 col-sm-12">
                 <div class="input-container validate-input light-gray-background" data-validate="Please enter word count here." title="How many words does your work contain?">
-                    <input id="word_count" class="input-element" type="number" placeholder="Word Count">
+                    <input id="word_count" class="input-element" type="number" placeholder="Word Count" min="5000" step="500">
                 </div>
             </div>
         </div>
@@ -96,5 +96,12 @@
 </div>
 @section Scripts
 {
+    <script>
+
+        const ContactActions = {
+            SendMessage: '@Url.Action("SendInquiry", "ContactModel")'
+        }
+
+    </script>
     <script src="~/js/contact.js" asp-append-version="true"></script>
 }

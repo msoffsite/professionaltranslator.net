@@ -23,6 +23,20 @@ namespace Repository.ProfessionalTranslator.Net.DatabaseOperations.dbo.Read
             return Object.GetItem<Tables.dbo.Work>(sda);
         }
 
+        internal static async Task<Tables.dbo.Work> Item(string site, string title, string authors)
+        {
+            await using var cmd = new SqlCommand("[dbo].[GetWorkBySiteTitleAuthors]", new Base().SqlConnection)
+            {
+                CommandType = CommandType.StoredProcedure
+            };
+
+            cmd.Parameters.Add("@Site", SqlDbType.NVarChar, 25).Value = site;
+            cmd.Parameters.Add("@Title", SqlDbType.NVarChar, 100).Value = title;
+            cmd.Parameters.Add("@Authors", SqlDbType.NVarChar, 255).Value = authors;
+            using var sda = new SqlDataAdapter(cmd);
+            return Object.GetItem<Tables.dbo.Work>(sda);
+        }
+
         internal static async Task<List<Tables.dbo.Work>> List(string site)
         {
             await using var cmd = new SqlCommand("[dbo].[GetWorks]", new Base().SqlConnection)

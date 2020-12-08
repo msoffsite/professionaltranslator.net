@@ -20,8 +20,8 @@ namespace Repository.ProfessionalTranslator.Net.DatabaseOperations.Log.Write
                     CommandType = CommandType.StoredProcedure
                 };
 
-                cmd.Parameters.Add("@Site", SqlDbType.NVarChar, 20).Value = site;
                 cmd.Parameters.Add("@Id", SqlDbType.UniqueIdentifier).Value = item.Id;
+                cmd.Parameters.Add("@Site", SqlDbType.NVarChar, 20).Value = site;
                 cmd.Parameters.Add("@Message", SqlDbType.NVarChar, -1).Value = item.Message;
                 cmd.Parameters.Add("@Stacktrace", SqlDbType.NVarChar, -1).Value = item.Stacktrace;
                 cmd.Parameters.Add("@Type", SqlDbType.NVarChar, 50).Value = item.Type;

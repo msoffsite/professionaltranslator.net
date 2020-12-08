@@ -29,6 +29,12 @@ namespace Repository.ProfessionalTranslator.Net
             return await Item(testimonial);
         }
 
+        private static async Task<Tables.dbo.Testimonial> Item(Guid siteId, Guid workId)
+        {
+            Tables.dbo.Testimonial testimonial = await dbRead.Testimonial.Item(siteId, workId);
+            return testimonial;
+        }
+
         private static async Task<models.Testimonial> Item(Tables.dbo.Testimonial testimonial)
         {
             try
@@ -136,6 +142,15 @@ namespace Repository.ProfessionalTranslator.Net
             */
         }
 
+        /// <summary>
+        /// Saves testimonial and child items.
+        /// </summary>
+        /// <instructions>
+        /// Set inputItem.Id to null when creating a new object.
+        /// </instructions>
+        /// <param name="site">Name of site related to testimonial.</param>
+        /// <param name="inputItem">Testimonial object.</param>
+        /// <returns>Returns save status and messages. If successful, returns an identifier via ReturnId.</returns>
         public static async Task<Result> Save(string site, models.Testimonial inputItem)
         {
             var saveStatus = SaveStatus.Undetermined;
@@ -159,7 +174,7 @@ namespace Repository.ProfessionalTranslator.Net
             }
 
             Result saveWorkResult = await Work.Save(site, inputItem.Work);
-            if (saveWorkResult.Status == SaveStatus.Failed)
+            if ((saveWorkResult.Status == SaveStatus.Failed) || (!saveWorkResult.ReturnId.HasValue))
             {
                 return saveWorkResult;
             }
@@ -213,9 +228,13 @@ namespace Repository.ProfessionalTranslator.Net
                 return new Result(SaveStatus.Failed, messages);
             }
 
+            Guid siteId = siteItem.Id;
+            Guid workId = saveWorkResult.ReturnId.Value;
+            Tables.dbo.Testimonial existingItem = await Item(siteId, workId);
+            Guid returnId = existingItem?.Id ?? Guid.NewGuid();
             var saveItem = new Tables.dbo.Testimonial
             {
-                Id = inputItem.Id ?? Guid.NewGuid(),
+                Id = returnId,
                 SiteId = siteItem.Id,
                 WorkId = convertedWork.Id,
                 PortraitImageId = convertedPortrait.Id,
@@ -250,7 +269,7 @@ namespace Repository.ProfessionalTranslator.Net
                 saveStatus = SaveStatus.Succeeded;
             }
             
-            return new Result(saveStatus, messages);
+            return new Result(saveStatus, messages, returnId);
 
         }
     }

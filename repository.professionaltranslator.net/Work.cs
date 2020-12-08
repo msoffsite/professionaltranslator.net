@@ -31,7 +31,7 @@ namespace Repository.ProfessionalTranslator.Net
             if (inputItem == null) return null;
             var output = new Tables.dbo.Work
             {
-                Id = inputItem.Id ?? Guid.NewGuid(),
+                Id = inputItem.Id ?? throw new NullReferenceException("inputItem.Id must have a value when converting."),
                 SiteId = siteId,
                 CoverId = inputItem.Cover.Id ?? throw new ArgumentNullException(nameof(inputItem.Cover.Id), "Cover must have an identifier."),
                 Title = inputItem.Title,
@@ -60,6 +60,12 @@ namespace Repository.ProfessionalTranslator.Net
                 Display = item.Display,
                 TestimonialLink = item.TestimonialLink
             };
+            return output;
+        }
+
+        private static async Task<Tables.dbo.Work> Item(string site, string title, string authors)
+        {
+            Tables.dbo.Work output = await dbRead.Work.Item(site, title, authors);
             return output;
         }
 
@@ -158,6 +164,15 @@ namespace Repository.ProfessionalTranslator.Net
             }).ToList();
         }
 
+        /// <summary>
+        /// Saves work and child items.
+        /// </summary>
+        /// <instructions>
+        /// Set inputItem.Id to null when creating a new object.
+        /// </instructions>
+        /// <param name="site">Name of site related to work.</param>
+        /// <param name="inputItem">Work object.</param>
+        /// <returns>Returns save status and messages. If successful, returns an identifier via ReturnId.</returns>
         public static async Task<Result> Save(string site, models.Work inputItem)
         {
             var messages = new List<string>();
@@ -225,10 +240,17 @@ namespace Repository.ProfessionalTranslator.Net
 
             if (messages.Any()) return new Result(SaveStatus.Failed, messages);
 
+            Tables.dbo.Work existingItem = await Item(site, inputItem.Title, inputItem.Authors);
+            Guid returnId = existingItem?.Id ?? Guid.NewGuid();
+            inputItem.Id = returnId;
             Tables.dbo.Work convertedWork = Convert(inputItem, siteItem.Id);
             if (convertedWork == null) return new Result(SaveStatus.Failed, "Could not convert Work model to table.");
-            
+
             Result output = await dbWrite.Item(site, convertedWork);
+            if (output.Status == SaveStatus.PartialSuccess || output.Status == SaveStatus.Succeeded)
+            {
+                output.ReturnId = returnId;
+            }
             return output;
         }
     }
