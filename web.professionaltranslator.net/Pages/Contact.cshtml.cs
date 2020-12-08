@@ -34,7 +34,7 @@ namespace web.professionaltranslator.net.Pages
                 DateCreated = DateTime.Now
             };
             Result result = await Data.Save(Configuration.Site, saveModel);
-            Session.Set(HttpContext.Session, Session.Key.InquiryResult, result.ReturnId.ToString());
+            Session.Set<Guid>(HttpContext.Session, Session.Key.InquiryResult, result.ReturnId);
 
             Item = await new Base().Get(Configuration, "Contact");
             return Item == null ? NotFound() : (IActionResult)Page();

@@ -4,6 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
 using Newtonsoft.Json;
+using Nullable = Repository.ProfessionalTranslator.Net.Conversions.Nullable;
 
 namespace web.professionaltranslator.net.Extensions
 {
@@ -18,7 +19,7 @@ namespace web.professionaltranslator.net.Extensions
         internal static Guid? Get(ISession session, string key)
         {
             var sessionObject = Get<object>(session, key);
-            return Repository.ProfessionalTranslator.Net.Conversions.Nullable.Guid(sessionObject);
+            return Nullable.Guid(sessionObject);
         }
 
         internal static T Get<T>(ISession session, string key)
@@ -27,19 +28,42 @@ namespace web.professionaltranslator.net.Extensions
             return value == null ? default : (T)Convert.ChangeType(value, typeof(T));
         }
 
+        internal static void Set<T>(ISession session, string key, object value)
+        {
+            if (typeof(T) == typeof(int))
+            {
+                int? test = Nullable.Int32(value);
+                if (!test.HasValue)
+                {
+                    throw new ArgumentException("value must be a valid int.");
+                }
+                session.SetInt32(key, test.Value);
+            }
+            else
+            {
+                if (typeof(T) == typeof(Guid))
+                {
+                    Guid? test = Nullable.Guid(value);
+                    if (!test.HasValue)
+                    {
+                        throw new ArgumentException("value must be a valid guid.");
+                    }
+                }
+                else if (typeof(T) != typeof(string))
+                {
+                    throw new ArgumentException("value is an unsupported type.");
+                }
+                else if (string.IsNullOrEmpty(value.ToString()))
+                {
+                    throw new ArgumentException("value string cannot be empty");
+                }
+                session.SetString(key, value.ToString());
+            }
+        }
+
         internal static void Set(ISession session, string key, byte[] value)
         {
             session.Set(key, value);
-        }
-
-        internal static void Set(ISession session, string key, int value)
-        {
-            session.SetInt32(key, value);
-        }
-
-        internal static void Set(ISession session, string key, string value)
-        {
-            session.SetString(key, value);
         }
 
         internal class Json
