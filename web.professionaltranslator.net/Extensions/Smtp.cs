@@ -26,9 +26,6 @@ namespace web.professionaltranslator.net.Extensions
                 From = new MailAddress(configuration.Postmaster, configuration.PostmasterDisplayName)
             };
 
-            var toAddress = new MailAddress(configuration.DefaultTo, configuration.DefaultToDisplayName);
-            mail.To.Add(toAddress);
-            
             foreach (MailAddress mailAddress in toList)
             {
                 mail.To.Add(mailAddress);

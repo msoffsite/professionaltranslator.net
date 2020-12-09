@@ -70,6 +70,7 @@ namespace web.professionaltranslator.net.Pages
 
                 var toList = new List<MailAddress>
                 {
+                    new MailAddress(Configuration.DefaultTo, Configuration.DefaultToDisplayName),
                     new MailAddress(obj.EmailAddress, obj.Name)
                 };
 
