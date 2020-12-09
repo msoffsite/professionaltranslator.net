@@ -46,8 +46,9 @@ namespace web.professionaltranslator.net
                 .AddEntityFrameworkStores<efContext>();
 
             services.AddRazorPages();
-
+            services.AddSession();
             services.AddOptions();
+            services.AddAntiforgery(o => o.HeaderName = "XSRF-TOKEN");
             services.AddConfiguration<SiteSettings>(Configuration, "SiteSettings");
         }
 
@@ -68,7 +69,7 @@ namespace web.professionaltranslator.net
 
             app.UseHttpsRedirection();
             app.UseStaticFiles();
-
+            app.UseSession();
             app.UseRouting();
 
             app.UseAuthentication();

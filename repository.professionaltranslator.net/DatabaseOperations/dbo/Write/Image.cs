@@ -37,6 +37,12 @@ namespace Repository.ProfessionalTranslator.Net.DatabaseOperations.dbo.Write
             return new Result(saveStatus, messages);
         }
 
+        /// <summary>
+        /// Saves image item.
+        /// </summary>
+        /// <param name="site">Name of site.</param>
+        /// <param name="item">Image item.</param>
+        /// <returns>Result with save status and messages if error occurs. Does not return an identifier.</returns>
         internal static async Task<Result> Item(string site, Tables.dbo.Image item)
         {
             var messages = new List<string>();

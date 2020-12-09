@@ -22,6 +22,19 @@ namespace Repository.ProfessionalTranslator.Net.DatabaseOperations.dbo.Read
             return Object.GetItem<Tables.dbo.Testimonial>(sda);
         }
 
+        internal static async Task<Tables.dbo.Testimonial> Item(Guid siteId, Guid workId)
+        {
+            await using var cmd = new SqlCommand("[dbo].[GetPageBySiteName]", new Base().SqlConnection)
+            {
+                CommandType = CommandType.StoredProcedure
+            };
+
+            cmd.Parameters.Add("@SiteId", SqlDbType.UniqueIdentifier).Value = siteId;
+            cmd.Parameters.Add("@WorkId", SqlDbType.UniqueIdentifier).Value = workId;
+            using var sda = new SqlDataAdapter(cmd);
+            return Object.GetItem<Tables.dbo.Testimonial>(sda);
+
+        }
         internal static async Task<List<Tables.dbo.Testimonial>> List(string site)
         {
             await using var cmd = new SqlCommand("[dbo].[GetTestimonials]", new Base().SqlConnection)

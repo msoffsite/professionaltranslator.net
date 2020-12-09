@@ -28,9 +28,8 @@
 }
 
 .blockquote {
-    background: #dedede;
-    padding: 40px;
-    border-radius: 20px;
+    font-family: "typewriter-bold";
+    padding: 0 40px 40px 40px;
     width: 100%;
 }
 

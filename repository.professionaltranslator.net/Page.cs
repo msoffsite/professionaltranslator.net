@@ -16,7 +16,7 @@ namespace Repository.ProfessionalTranslator.Net
         {
             if (!id.HasValue)
             {
-                return new Result(SaveStatus.Failed, "Id must be a valid GUID.");
+                return new Result(SaveStatus.Failed, "Id must be a valid GUID.", null);
             }
 
             return await dbWrite.Delete(site, id.Value);
@@ -112,6 +112,15 @@ namespace Repository.ProfessionalTranslator.Net
             }).ToList();
         }
 
+        /// <summary>
+        /// Saves page and child items.
+        /// </summary>
+        /// <instructions>
+        /// Set inputItem.Id to null when creating a new object.
+        /// </instructions>
+        /// <param name="site">Name of site to which page is related.</param>
+        /// <param name="inputItem">Page object.</param>
+        /// <returns>Returns save status and messages. If successful, returns an identifier via ReturnId.</returns>
         public static async Task<Result> Save(string site, models.Page inputItem)
         {
             var saveStatus = SaveStatus.Undetermined;
@@ -155,9 +164,11 @@ namespace Repository.ProfessionalTranslator.Net
                 return new Result(saveStatus, messages);
             }
 
+            models.Page existingItem = await Item(site, inputItem.Name);
+            Guid returnId = existingItem?.Id ?? Guid.NewGuid();
             var saveItem = new Tables.dbo.Page
             {
-                Id = inputItem.Id ?? Guid.NewGuid(),
+                Id = returnId,
                 SiteId = siteItem.Id,
                 CanHaveImage = inputItem.CanHaveImage,
                 ImageId = saveImage?.Id ?? Conversions.Nullable.Guid(null),
@@ -189,7 +200,7 @@ namespace Repository.ProfessionalTranslator.Net
                 saveStatus = SaveStatus.Succeeded;
             }
 
-            return new Result(saveStatus, messages);
+            return new Result(saveStatus, messages, returnId);
         }
     }
 }
