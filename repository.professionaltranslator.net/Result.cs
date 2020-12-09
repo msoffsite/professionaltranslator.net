@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using Repository.ProfessionalTranslator.Net;
 
 namespace Repository.ProfessionalTranslator.Net
 {

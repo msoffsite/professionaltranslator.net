@@ -1,15 +1,11 @@
 using System;
 using System.Collections.Generic;
 using System.IO;
-using System.Linq;
-using System.Net;
 using System.Net.Mail;
 using System.Text;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.RazorPages;
 using Newtonsoft.Json;
-using Repository.ProfessionalTranslator.Net;
 using web.professionaltranslator.net.Extensions;
 
 using Model = Models.ProfessionalTranslator.Net.Log.Inquiry;
@@ -72,33 +68,16 @@ namespace web.professionaltranslator.net.Pages
                 result = await Data.Save(Configuration.Site, obj);
                 Session.Set<Guid>(HttpContext.Session, Session.Key.InquiryResult, result.ReturnId);
 
-                var mail = new MailMessage
+                var toList = new List<MailAddress>
                 {
-                    From = new MailAddress(Configuration.Postmaster, Configuration.PostmasterDisplayName)
+                    new MailAddress(obj.EmailAddress, obj.Name)
                 };
 
-                var toAddress = new MailAddress(Configuration.DefaultTo, Configuration.DefaultToDisplayName);
-                mail.To.Add(toAddress);
-                toAddress = new MailAddress(obj.EmailAddress, obj.Name);
-                mail.To.Add(toAddress);
-
-                mail.Subject = "Translation Inquiry";
-                mail.Body = body.ToString();
-                var smtp = new SmtpClient(Configuration.SmtpServer);
-
-                var credentials = new NetworkCredential(Configuration.Postmaster, Configuration.SmtpPassword);
-                smtp.UseDefaultCredentials = false;
-                smtp.Credentials = credentials;
-                smtp.Port = Configuration.SmtpPort;
-                smtp.EnableSsl = false;
-                mail.IsBodyHtml = true;
-                smtp.SendAsync(mail, Guid.NewGuid());
+                Smtp.SendMail(Configuration, toList, "Translation Inquiry", body.ToString(), Smtp.BodyType.Html, Smtp.SslSetting.Off);
             }
             catch (Exception ex)
             {
-                result.Status = SaveStatus.Failed;
-                result.Messages.Add(ex.Message);
-                result.ReturnId = null;
+                return BadRequest(ex.Message);
             }
 
             return new JsonResult(result);

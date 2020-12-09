@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using Repository.ProfessionalTranslator.Net;
 using dboDbRead = Repository.ProfessionalTranslator.Net.DatabaseOperations.dbo.Read;
 using dboLogRead = Repository.ProfessionalTranslator.Net.DatabaseOperations.Log.Read;
 using dbWrite = Repository.ProfessionalTranslator.Net.DatabaseOperations.Log.Write.Inquiry;

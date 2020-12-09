@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using Repository.ProfessionalTranslator.Net;
+﻿using System.Collections.Generic;
 using Base = Models.ProfessionalTranslator.Net.Page;
 
 namespace web.professionaltranslator.net.Models

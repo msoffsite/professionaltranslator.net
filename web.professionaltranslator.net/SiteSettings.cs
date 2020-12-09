@@ -1,6 +1,4 @@
-﻿using System.Security.Policy;
-
-namespace web.professionaltranslator.net
+﻿namespace web.professionaltranslator.net
 {
     public class SiteSettings
     {
@@ -15,5 +13,6 @@ namespace web.professionaltranslator.net
         public string SmtpServer { get; set; }
         public string SmtpPassword { get; set; }
         public int SmtpPort { get; set; } 
+        public int SmtpPortSsl { get; set; }
     }
 }

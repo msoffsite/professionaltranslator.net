@@ -4,7 +4,6 @@ using System.Data;
 using System.Threading.Tasks;
 using Microsoft.Data.SqlClient;
 using Repository.ProfessionalTranslator.Net.Conversions;
-using Nullable = Repository.ProfessionalTranslator.Net.Conversions.Nullable;
 using Object = Repository.ProfessionalTranslator.Net.Conversions.Object;
 
 namespace Repository.ProfessionalTranslator.Net.DatabaseOperations.dbo.Read

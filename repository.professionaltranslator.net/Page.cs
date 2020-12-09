@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using Repository.ProfessionalTranslator.Net;
 using dbRead = Repository.ProfessionalTranslator.Net.DatabaseOperations.dbo.Read;
 using dbLocalizedRead = Repository.ProfessionalTranslator.Net.DatabaseOperations.Localization.Read;
 using dbWrite = Repository.ProfessionalTranslator.Net.DatabaseOperations.dbo.Write.Page;

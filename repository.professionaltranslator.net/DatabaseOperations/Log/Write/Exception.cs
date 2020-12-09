@@ -2,7 +2,6 @@
 using System.Data;
 using System.Threading.Tasks;
 using Microsoft.Data.SqlClient;
-using Repository.ProfessionalTranslator.Net;
 
 namespace Repository.ProfessionalTranslator.Net.DatabaseOperations.Log.Write
 {
