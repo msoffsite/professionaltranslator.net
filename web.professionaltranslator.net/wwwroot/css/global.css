@@ -27,6 +27,19 @@
     font-display: swap;
 }
 
+a,
+a:visited {
+    color: #642e84;
+    font-weight: 600;
+}
+
+    a:active,
+    a:focus,
+    a:hover {
+        color: #9142bf;
+        text-decoration: none;
+    }
+
 .blockquote {
     font-family: "typewriter-bold";
     padding: 0 40px 40px 40px;
@@ -46,6 +59,101 @@ p {
 .background-light-semi-transparent {
     background: rgba(255,255,255,.5);
 }
+
+footer p {
+    text-align: left;
+}
+
+.footer-bottom {
+    padding: 0 0 60px 0;
+}
+
+.footer-top {
+    padding: 40px 0 40px 0;
+    text-align: left;
+}
+
+.footer-top h3 {
+    padding-bottom: 10px;
+}
+
+.footer-contact p {
+    word-wrap: break-word;
+}
+
+.footer-contact i {
+    padding-right: 10px;
+    font-size: 18px;
+    color: #ddd;
+}
+
+.footer-contact p a {
+    border-bottom: 1px dashed #ccc;
+}
+
+.footer-contact p a:hover, .footer-contact p a:focus {
+    border-bottom: 1px dashed #856dc0;
+}
+
+.footer-links a {
+    border: 0;
+}
+
+.footer-social a {
+    margin: 0 10px;
+    border: 0;
+}
+
+.footer-social a:hover, .footer-social a:focus {
+    border: 0;
+}
+
+.footer-social i {
+    vertical-align: middle;
+}
+
+@media (min-width: 992px) and (max-width: 1199px) {
+
+    .footer-top {
+        padding: 40px 0 20px 0;
+    }
+
+    .footer-bottom {
+        padding: 0 0 40px 0;
+    }
+}
+
+@media (min-width: 768px) and (max-width: 991px) {
+
+    .footer-top {
+        padding: 40px 0 20px 0;
+    }
+
+    .footer-bottom {
+        padding: 0 0 40px 0;
+    }
+
+    .footer-contact i {
+        padding-right: 5px;
+    }
+}
+
+@media (max-width: 767px) {
+
+    .footer-top {
+        padding: 40px 0 20px 0;
+        text-align: center;
+    }
+
+    .footer-bottom {
+        padding: 0 0 40px 0;
+    }
+
+    .footer-contact i {
+        padding-right: 5px;
+    }
+}
+
 
 #header {
     margin-top: 4.5rem;

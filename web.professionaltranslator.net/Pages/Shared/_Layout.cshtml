@@ -7,6 +7,7 @@
     <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
     <link rel="stylesheet" href="~/css/fontawesome.all.min.css" />
     <link rel="stylesheet" href="~/css/global.css" />
+    <link rel="stylesheet" href="~/css/animate.css" />
     <link rel="stylesheet" href="~/css/carousel.css" />
     <link rel="stylesheet" href="~/css/menu.css" />
     @RenderSection("Styles", false)
@@ -14,130 +15,223 @@
 <body>
 @await Component.InvokeAsync("Loading")
 <div id="wrapper" class="d-flex">
-        <div id="sidebar-wrapper" class="sidebar-wrapper-background border-right">
-            <div class="list-group list-group-flush">
-                <a class="list-group-item menu-link" asp-page="/Home" title="Go to home page.">
-                    <h3 class="menu-title">Home</h3>
+    <div id="sidebar-wrapper" class="sidebar-wrapper-background border-right">
+        <div class="list-group list-group-flush">
+            <a class="list-group-item menu-link" asp-page="/Home" title="Go to home page.">
+                <h3 class="menu-title">Home</h3>
 
-                    <div class="menu-icon">
-                        <span class="line"></span>
-                        <span class="fas fa-home" aria-hidden="true"></span>
-                        <span class="line"></span>
-                    </div>
+                <div class="menu-icon">
+                    <span class="line"></span>
+                    <span class="fas fa-home" aria-hidden="true"></span>
+                    <span class="line"></span>
+                </div>
 
-                    <h6 class="menu-subtitle subtitle">
-                        Re Translations
-                    </h6>
-                </a>
-                <a class="list-group-item menu-link" asp-page="/About" title="Learn about me.">
-                    <h3 class="menu-title">About</h3>
+                <h6 class="menu-subtitle subtitle">
+                    Re Translations
+                </h6>
+            </a>
+            <a class="list-group-item menu-link" asp-page="/About" title="Learn about me.">
+                <h3 class="menu-title">About</h3>
 
-                    <div class="menu-icon">
-                        <span class="line"></span>
-                        <span class="fas fa-tools" aria-hidden="true"></span>
-                        <span class="line"></span>
-                    </div>
+                <div class="menu-icon">
+                    <span class="line"></span>
+                    <span class="fas fa-tools" aria-hidden="true"></span>
+                    <span class="line"></span>
+                </div>
 
-                    <h6 class="menu-subtitle subtitle">
-                        Read Bio
-                    </h6>
-                </a>
+                <h6 class="menu-subtitle subtitle">
+                    Read Bio
+                </h6>
+            </a>
 
-                <a class="list-group-item menu-link" asp-page="/Testimonials" title="Read what others have said about my translations.">
-                    <h3 class="menu-title">
-                        Testimonials
-                    </h3>
+            <a class="list-group-item menu-link" asp-page="/Testimonials" title="Read what others have said about my translations.">
+                <h3 class="menu-title">
+                    Testimonials
+                </h3>
 
-                    <div class="menu-icon">
-                        <span class="line"></span>
-                        <span class="fas fa-star" aria-hidden="true"></span>
-                        <span class="line"></span>
-                    </div>
+                <div class="menu-icon">
+                    <span class="line"></span>
+                    <span class="fas fa-star" aria-hidden="true"></span>
+                    <span class="line"></span>
+                </div>
 
-                    <h6 class="menu-subtitle subtitle">
-                        Client Feedback
-                    </h6>
-                </a>
+                <h6 class="menu-subtitle subtitle">
+                    Client Feedback
+                </h6>
+            </a>
 
-                <a class="list-group-item menu-link" asp-page="/Portfolio" title="See my past work.">
-                    <h3 class="menu-title">
-                        Portfolio
-                    </h3>
+            <a class="list-group-item menu-link" asp-page="/Portfolio" title="See my past work.">
+                <h3 class="menu-title">
+                    Portfolio
+                </h3>
 
-                    <div class="menu-icon">
-                        <span class="line"></span>
-                        <span class="fas fa-desktop" aria-hidden="true"></span>
-                        <span class="line"></span>
-                    </div>
+                <div class="menu-icon">
+                    <span class="line"></span>
+                    <span class="fas fa-desktop" aria-hidden="true"></span>
+                    <span class="line"></span>
+                </div>
 
-                    <h6 class="menu-subtitle subtitle">
-                        View Past Work
-                    </h6>
-                </a>
+                <h6 class="menu-subtitle subtitle">
+                    View Past Work
+                </h6>
+            </a>
 
-                <a class="list-group-item menu-link" asp-page="/Contact" title="Get your translation started!">
-                    <h3 class="menu-title">Contact</h3>
+            <a class="list-group-item menu-link" asp-page="/Contact" title="Get your translation started!">
+                <h3 class="menu-title">Contact</h3>
 
-                    <div class="menu-icon">
-                        <span class="line"></span>
-                        <span class="fas fa-envelope-open-text" aria-hidden="true"></span>
-                        <span class="line"></span>
-                    </div>
+                <div class="menu-icon">
+                    <span class="line"></span>
+                    <span class="fas fa-envelope-open-text" aria-hidden="true"></span>
+                    <span class="line"></span>
+                </div>
 
-                    <h6 class="menu-subtitle subtitle">
-                        Get in touch
-                    </h6>
-                </a>
+                <h6 class="menu-subtitle subtitle">
+                    Get in touch
+                </h6>
+            </a>
+        </div>
+    </div>
+    <div id="page-content-wrapper">
+        <div class="container-fluid">
+            <div class="col-12 text-center">
+                <nav class="navbar navbar-light sticky-top" style="z-index: 999; text-align: left; position: absolute; margin-left: 50px;">
+                    <button id="menu-toggle" class="navbar-toggler" type="button" aria-expanded="false" aria-label="Toggle navigation">
+                        <span class="navbar-toggler-icon"></span>
+                    </button>
+                </nav>
             </div>
         </div>
-        <div id="page-content-wrapper">
-            <div class="container-fluid">
-                <div class="col-12 text-center">
-                    <nav class="navbar navbar-light sticky-top" style="z-index: 999; text-align: left; position: absolute; margin-left: 50px;">
-                        <button id="menu-toggle" class="navbar-toggler" type="button" aria-expanded="false" aria-label="Toggle navigation">
-                            <span class="navbar-toggler-icon"></span>
-                        </button>
-                    </nav>
+        <header>
+            <section id="header">
+                <div class="container">
+                    <div class="row">
+                        <div class="col-12">
+                            <img src="~/img/logo.png" alt="Cinta Garcia - Professional Translator" title="Cinta Garcia - Professional Translator" class="img-fluid header-logo" />
+                        </div>
+                        <div class="col-12 header-text-container">
+                            <div class="header-text">
+                                <h3 class="h3-responsive" title="Cinta Garcia - Professional Translator">
+                                    Cinta Garcia, Professional Translator
+                                </h3>
+                                <div class="text-center">
+                                    Respected member of <a href="https://asetrad.org/necesitas-un-traductor-corrector-o-interprete/buscador-de-socios/detalle?username=cgarcia" target="_blank" title="Visit me at Asetrad.">Asetrad</a> &amp; <a href="https://www.the-efa.org/memberinfo/cinta-garciadelarosa-28721/" target="_blank" title="Visit me at Editor's Association.">Editorial Freelancer Association</a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
                 </div>
-            </div>
-            <header>
-                <section id="header">
+            </section>
+        </header>
+        <div class="container">
+            <main role="main" class="pb-3">
+                @RenderBody()
+            </main>
+        </div>
+    </div>
+</div>
+<div class="container">
+    <div class="row">
+        <div class="col-12">
+            <footer class="border-top footer text-muted">
+                <div class="footer-top">
                     <div class="container">
                         <div class="row">
-                            <div class="col-12">
-                                <img src="~/img/logo.png" alt="Cinta Garcia - Professional Translator" title="Cinta Garcia - Professional Translator" class="img-fluid header-logo" />
+                            <div class="col-md-4 col-sm-12 wow fadeInUp animated" style="visibility: visible; animation-name: fadeInUp;">
+                                <p class="text-center">
+                                    <a href="https://asetrad.org/necesitas-un-traductor-corrector-o-interprete/buscador-de-socios/detalle?username=cgarcia" target="_blank" title="Visit me at Asetrad.">
+                                        <img src="~/img/asetrad-logo-socio-prof.png" alt="Visit me at Asetrad." title="Visit me at Asetrad." />
+                                    </a>
+                                </p>
+                                <p class="text-center">
+                                    <a href="https://www.the-efa.org/memberinfo/cinta-garciadelarosa-28721/" target="_blank" title="Visit me at Editorial Freelancers Association.">
+                                        <img src="~/img/efa-editors-association-logo.png" alt="Visit me at Editorial Freelancers Association." title="Visit me at Editorial Freelancers Association." />
+                                    </a>
+                                </p>
                             </div>
-                            <div class="col-12 header-text-container">
-                                <div class="header-text">
-                                    <h3 class="h3-responsive" title="Cinta Garcia - Professional Translator">
-                                        Cinta Garcia, Professional Translator
-                                    </h3>
-                                    <div class="text-center">
-                                        Respected member of <a href="https://test.com" target="_blank" title="Visit me at Asetrad.">Asetrad</a> &amp; <a href="https://test.com" target="_blank" title="Visit me at Editor's Association.">Editorial Freelancer Association</a>
+                            <div class="col-md-4 col-sm-12 footer-contact wow fadeInDown animated" style="visibility: visible; animation-name: fadeInDown;">
+                                <p>
+                                    <i class="fas fa-map-marker-alt"></i>&nbsp;&nbsp;Malaga, Spain
+                                </p>
+                                <p>
+                                    <i class="fas fa-phone-alt"></i>&nbsp;&nbsp;(+34) 617 147 258
+                                </p>
+                                <p>
+                                    <i class="fas fa-envelope"></i>&nbsp;&nbsp;<a href="mailto:cinta@professionaltranslator.net">cinta@professionaltranslator.net</a>
+                                </p>
+                                <p>
+                                    <i class="fab fa-skype"></i>&nbsp;&nbsp;you_online
+                                </p>
+                            </div>
+                            <div class="col-md-4 col-sm-12 footer-links wow fadeInUp animated" style="visibility: visible; animation-name: fadeInUp;">
+                                <div class="row">
+                                    <div class="col-12">
+                                        <p class="text-center">
+                                            <a class="scroll-link" href="#wrapper" title="Go to the top of the page."><i class="fas fa-chevron-up fa-2x"></i></a>
+                                        </p>
+                                    </div>
+                                </div>
+                                <div class="row mt-2">
+                                    <div class="col-md-6 col-sm-12">
+                                        <p class="text-center">
+                                            <a asp-page="/Home" title="Go to home page.">Home</a>
+                                        </p>
+                                        <p class="text-center">
+                                            <a asp-page="/About" title="Learn about me.">About</a>
+                                        </p>
+                                    </div>
+                                    <div class="col-md-6 col-sm-12">
+                                        <p class="text-center">
+                                            <a asp-page="/Portfolio" title="See my past work.">Portfolio</a>
+                                        </p>
+                                        <p class="text-center">
+                                            <a asp-page="/Contact" title="Get your translation started!">Contact</a>
+                                        </p>
+                                    </div>
+                                    <div class="clearfix"></div>
+                                    <div class="col-12">
+                                        <p class="text-center">
+                                            <a asp-page="/Testimonials" title="Read what others have said about my translations.">Testimonials</a>
+                                        </p>
                                     </div>
                                 </div>
                             </div>
                         </div>
                     </div>
-                </section>
-            </header>
-            <div class="container">
-                <main role="main" class="pb-3">
-                    @RenderBody()
-                </main>
-            </div>
+                </div>
+                <div class="footer-bottom">
+                    <div class="container">
+                        <div class="row">
+                            <div class="col-12 footer-social text-center">
+                                <a href="#"><i class="fab fa-facebook-f fa-2x"></i></a>
+                                <a href="#"><i class="fab fa-twitter fa-2x"></i></a>
+                                <a href="#"><i class="fab fa-google-plus-g fa-2x"></i></a>
+                                <a href="#"><i class="fab fa-instagram fa-2x"></i></a>
+                                <a href="#"><i class="fab fa-pinterest fa-2x" fa-2x></i></a>
+                            </div>
+                        </div>
+                        <div class="row mt-4">
+                            <div class="col-12">
+                                <p class="text-center">
+                                    Copyright &copy; 2020 Cinta Garcia, All Rights Reserved
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </footer>
         </div>
     </div>
-
-    <footer class="border-top footer text-muted">
+</div>
+@*<footer class="border-top footer text-muted">
         <div class="container">
             &copy; 2020 - www.professionaltranslator.net - <a asp-area="" asp-page="/Privacy">Privacy</a>
         </div>
-    </footer>
+    </footer>*@
 
     <script src="~/lib/jquery/dist/jquery.min.js"></script>
     <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
     <script src="~/js/fontawesome.all.min.js"></script>
+    <script src="~/js/wow.js" asp-append-version="true"></script>
     <script src="~/js/global.js" asp-append-version="true"></script>
     <script src="~/js/layout.js" asp-append-version="true"></script>
 
