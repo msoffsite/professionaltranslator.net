@@ -6,13 +6,13 @@
     <title>@ViewData["Title"] - Cinta Garcia - Professional Translator</title>
     <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
     <link rel="stylesheet" href="~/css/fontawesome.all.min.css" />
-    <link rel="stylesheet" href="~/css/global.css" />
-    <link rel="stylesheet" href="~/css/animate.css" />
-    <link rel="stylesheet" href="~/css/carousel.css" />
-    <link rel="stylesheet" href="~/css/menu.css" />
+    <link rel="stylesheet" href="~/css/global.css" asp-append-version="true" />
+    <link rel="stylesheet" href="~/css/animate.css" asp-append-version="true" />
+    <link rel="stylesheet" href="~/css/carousel.css" asp-append-version="true" />
+    <link rel="stylesheet" href="~/css/menu.css" asp-append-version="true" />
     @RenderSection("Styles", false)
 </head>
-<body>
+<body class="fadeInLeftBig animated" style="visibility: visible; animation-name: fadeInLeftBig;">
 @await Component.InvokeAsync("Loading")
 <div id="wrapper" class="d-flex">
     <div id="sidebar-wrapper" class="sidebar-wrapper-background border-right">
