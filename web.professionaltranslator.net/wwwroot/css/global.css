@@ -69,6 +69,28 @@ img.zoom {
     margin-bottom: 40px;
 }
 
+.loading-container {
+    background: rgba(255, 255, 255, 0.75);
+    position: fixed;
+    text-align: center;
+    width: 100%;
+    height: 100%;
+    z-index: 999998;
+}
+
+.loading {
+    position: fixed;
+    text-align: center;
+    top: 40%;
+    left: 45%;
+    z-index: 999999;
+}
+
+.loading .loading-image {
+    display: block;
+    margin: 25px 75px;
+}
+
 .list-group-item {
     background: none;
     border: none;
