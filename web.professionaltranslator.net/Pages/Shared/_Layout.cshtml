@@ -12,8 +12,9 @@
     @RenderSection("Styles", false)
 </head>
 <body>
-    <div id="wrapper" class="d-flex">
-        <div id="sidebar-wrapper" class="sidebar-wrapper-background border-right" >
+@await Component.InvokeAsync("Loading")
+<div id="wrapper" class="d-flex">
+        <div id="sidebar-wrapper" class="sidebar-wrapper-background border-right">
             <div class="list-group list-group-flush">
                 <a class="list-group-item menu-link" asp-page="/Home" title="Go to home page.">
                     <h3 class="menu-title">Home</h3>
@@ -41,7 +42,7 @@
                         Read Bio
                     </h6>
                 </a>
-                
+
                 <a class="list-group-item menu-link" asp-page="/Testimonials" title="Read what others have said about my translations.">
                     <h3 class="menu-title">
                         Testimonials
@@ -104,7 +105,7 @@
                     <div class="container">
                         <div class="row">
                             <div class="col-12">
-                                <img src="~/img/logo.png" alt="Cinta Garcia - Professional Translator" title="Cinta Garcia - Professional Translator" class="img-fluid header-logo"/>
+                                <img src="~/img/logo.png" alt="Cinta Garcia - Professional Translator" title="Cinta Garcia - Professional Translator" class="img-fluid header-logo" />
                             </div>
                             <div class="col-12 header-text-container">
                                 <div class="header-text">
@@ -137,6 +138,7 @@
     <script src="~/lib/jquery/dist/jquery.min.js"></script>
     <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
     <script src="~/js/fontawesome.all.min.js"></script>
+    <script src="~/js/global.js" asp-append-version="true"></script>
     <script src="~/js/layout.js" asp-append-version="true"></script>
 
     @RenderSection("Scripts", required: false)
