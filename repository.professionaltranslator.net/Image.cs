@@ -91,8 +91,7 @@ namespace Repository.ProfessionalTranslator.Net
                 return new Result(SaveStatus.Failed, "No site was found with that name.");
             }
 
-            if (string.IsNullOrEmpty(inputItem.Path)) messages.Add("Path cannot be empty.");
-            if (inputItem.Path.Length > 440) messages.Add("Path must be 440 characters or fewer.");
+            Rules.StringRequiredMaxLength(inputItem.Path, "Path", 440, ref messages);
 
             if (messages.Any())
             {

@@ -148,15 +148,7 @@ namespace Repository.ProfessionalTranslator.Net
                 }
             }
 
-            if (string.IsNullOrEmpty(inputItem.Name))
-            {
-                messages.Add("Name cannot be empty.");
-            }
-
-            if (inputItem.Name.Length > 20)
-            {
-                messages.Add("Name must be 20 characters or fewer.");
-            }
+            Rules.StringRequiredMaxLength(inputItem.Name, "Name", 20, ref messages);
 
             if (messages.Any())
             {

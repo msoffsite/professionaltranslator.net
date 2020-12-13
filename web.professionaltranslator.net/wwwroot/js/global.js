@@ -4,36 +4,34 @@
 
 $(window).on("beforeunload", function () {
     $(".loading-container").fadeIn("slow");
+    $(".loading").center();
 });
 
+$.fn.center = function () {
+    this.css("position", "absolute");
+    this.css("top", Math.max(0, (($(window).height() - $(this).outerHeight()) / 2) +
+        $(window).scrollTop()) + "px");
+    this.css("left", Math.max(0, (($(window).width() - $(this).outerWidth()) / 2) +
+        $(window).scrollLeft()) + "px");
+    return this;
+}
 
-function scroll_to(clicked_link, nav_height) {
-    const element_class = clicked_link.attr("href");
-    console.log(element_class);
-    let scroll_to = 0;
-    if (element_class != "#wrapper") {
-        //element_class += "-container";
-        scroll_to = $(element_class).offset().top - nav_height;
-    }
-    if ($(window).scrollTop() != scroll_to) {
-        $("html, body").stop().animate({ scrollTop: scroll_to }, 750);
+$.fn.scrollTo = function(anchor, navHeight) {
+    const goTo = $(anchor).offset().top - navHeight;
+    if ($(window).scrollTop() !== goTo) {
+        $("html, body").stop().animate({ scrollTop: goTo }, 750);
     }
 }
 
 
 $(document).ready(function () {
 
-    /*
-        Scroll link
-    */
     $("a.scroll-link").on("click", function (e) {
         e.preventDefault();
-        scroll_to($(this), 0);
+        const anchor = $(this).attr("href");
+        $(this).scrollTo(anchor, 0);
     });
 
-    /*
-        Wow
-    */
     new WOW().init();
 
 });

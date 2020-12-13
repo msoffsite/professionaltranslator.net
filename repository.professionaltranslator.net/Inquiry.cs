@@ -84,24 +84,21 @@ namespace Repository.ProfessionalTranslator.Net
                 return new Result(SaveStatus.Failed, "No site was found with that name.");
             }
 
-            if (string.IsNullOrEmpty(inputItem.Name)) messages.Add("Name cannot be empty.");
-            if (inputItem.Name.Length > 150) messages.Add("Name must be 150 characters or fewer.");
+            Rules.StringRequiredMaxLength(inputItem.Name, "Name", 150, ref messages);
 
-            if (string.IsNullOrEmpty(inputItem.EmailAddress)) messages.Add("EmailAddress cannot be empty.");
-            if (inputItem.EmailAddress.Length > 256) messages.Add("EmailAddress must be 256 characters or fewer.");
+            if (Rules.StringRequiredMaxLength(inputItem.EmailAddress, "Email Address", 256, ref messages) ==
+                Rules.Passed.Yes)
+            {
+                Rules.ValidateEmailAddress(inputItem.EmailAddress, "Email Address", ref messages);
+            }
 
-            if (string.IsNullOrEmpty(inputItem.Title)) messages.Add("Title cannot be empty.");
-            if (inputItem.Title.Length > 256) messages.Add("Title must be 256 characters or fewer.");
-
-            if (string.IsNullOrEmpty(inputItem.TranslationType)) messages.Add("TranslationType cannot be empty.");
-            if (inputItem.TranslationType.Length > 25) messages.Add("TranslationType must be 25 characters or fewer.");
-
-            if (string.IsNullOrEmpty(inputItem.Genre)) messages.Add("Genre cannot be empty.");
-            if (inputItem.Genre.Length > 25) messages.Add("Genre must be 25 characters or fewer.");
+            Rules.StringRequiredMaxLength(inputItem.Title, "Title", 256, ref messages);
+            Rules.StringRequiredMaxLength(inputItem.TranslationType, "Translation Type", 25, ref messages);
+            Rules.StringRequiredMaxLength(inputItem.Genre, "Genre", 25, ref messages);
 
             if (inputItem.WordCount <= 0) messages.Add("WordCount must be more than zero.");
 
-            if (string.IsNullOrEmpty(inputItem.Message)) messages.Add("Message cannot be empty.");
+            Rules.StringRequired(inputItem.Message, "Message", ref messages);
 
             if (messages.Any())
             {

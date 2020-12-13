@@ -60,14 +60,7 @@ namespace Repository.ProfessionalTranslator.Net
                 return new Result(SaveStatus.Failed, "Site cannot be null.");
             }
 
-            if (string.IsNullOrEmpty(item.Name))
-            {
-                messages.Add("Name cannot be empty.");
-            }
-            else if (item.Name.Length > 25)
-            {
-                messages.Add("Name must be 25 characters or fewer.");
-            }
+            Rules.StringRequiredMaxLength(item.Name, "Name", 25, ref messages);
 
             if (messages.Any())
             {
