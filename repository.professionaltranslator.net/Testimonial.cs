@@ -191,35 +191,13 @@ namespace Repository.ProfessionalTranslator.Net
             }
 
             inputItem.Portrait.Id = convertedPortrait.Id;
+            
+            Rules.StringRequiredMaxLength(inputItem.Name, "Name", 100, ref messages);
 
-            if (string.IsNullOrEmpty(inputItem.Name))
+            if (Rules.StringRequiredMaxLength(inputItem.EmailAddress, "Email Address", 256, ref messages) ==
+                Rules.Passed.Yes)
             {
-                messages.Add("Name cannot be empty.");
-            }
-            else if (inputItem.Name.Length > 100)
-            {
-                messages.Add("Name must be 100 characters or fewer.");
-            }
-
-            if (string.IsNullOrEmpty(inputItem.EmailAddress))
-            {
-                messages.Add("Email address cannot be empty.");
-            }
-            else if (inputItem.EmailAddress.Length > 256)
-            {
-                messages.Add("Email address must be 256 characters or fewer.");
-            }
-            else
-            {
-                try
-                {
-                    // ReSharper disable once ObjectCreationAsStatement
-                    new System.Net.Mail.MailAddress(inputItem.EmailAddress);
-                }
-                catch
-                {
-                    messages.Add("Email address is invalid.");
-                }
+                Rules.ValidateEmailAddress(inputItem.EmailAddress, "Email Address", ref messages);
             }
 
             if (messages.Any())

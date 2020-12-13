@@ -12,18 +12,19 @@
     <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
     <link rel="stylesheet" href="~/css/global.css" asp-append-version="true" />
     <link rel="stylesheet" href="~/css/intro.css" asp-append-version="true" />
+    <link rel="stylesheet" href="~/css/animate.css" asp-append-version="true"  />
 </head>
 <body>
     @await Component.InvokeAsync("Loading")
     <div class="container-fluid">
         <main role="main" class="pb-0">
-            <div class="text-center">
+            <div class="text-center fadeInDownBig animated" style="visibility: visible; animation-name: fadeInDownBig;">
                 <img src="img/logo.png" alt="Cinta Garcia - Professional Translator" title="Cinta Garcia - Professional Translator" class="img-fluid intro-logo" />
             </div>
             <img src="img/intro-hola-hello.png" class="img-fluid float-right intro-hola-hello" alt="English <> Spanish Translations." title="English <> Spanish Translations." />
             <div class="row">
                 <div class="col-lg-9 col-md-12 col-sm-12 intro-container">
-                    <div class="intro-lead">
+                    <div class="intro-lead fadeInLeftBig animated" style="visibility: visible; animation-name: fadeInLeftBig;">
                         <h1 title="Professional translations are complex. They require far more than swapping one word for another...">
                             Professional translations are complex. They require far more than swapping one word for another...
                         </h1>
@@ -41,16 +42,11 @@
         </main>
     </div>
 
-    @*<footer class="border-top footer text-muted">
-            <div class="container">
-                &copy; 2020 - www.professionaltranslator.net - <a asp-area="" asp-page="/Privacy">Privacy</a>
-            </div>
-        </footer>*@
-
     <script src="~/lib/jquery/dist/jquery.min.js"></script>
     <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
-    <script src="~/js/global.js" asp-append-version="true"></script>
     <script src="~/js/intro.js" asp-append-version="true"></script>
+    <script src="~/js/wow.js" asp-append-version="true"></script>
+    <script src="~/js/global.js" asp-append-version="true"></script>
 
 </body>
 </html>

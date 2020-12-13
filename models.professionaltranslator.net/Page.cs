@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 
 namespace Models.ProfessionalTranslator.Net
 {
@@ -10,5 +11,7 @@ namespace Models.ProfessionalTranslator.Net
         public Image Image { get; set; }
         public List<Localized.Page> Bodies { get; set; }
         public List<Localized.PageHeader> Headers { get; set; }
+        public DateTime DateCreated { get; set; }
+        public DateTime LastModified { get; set; }
     }
 }

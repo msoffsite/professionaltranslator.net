@@ -201,41 +201,14 @@ namespace Repository.ProfessionalTranslator.Net
 
             inputItem.Cover.Id = convertImage.Id;
 
-            if (string.IsNullOrEmpty(inputItem.Title))
+            Rules.StringRequiredMaxLength(inputItem.Title, "Title", 100, ref messages);
+            Rules.StringRequiredMaxLength(inputItem.Authors, "Authors", 255, ref messages);
+            if (Rules.StringRequiredMaxLength(inputItem.Href, "Href", 2048, ref messages) == Rules.Passed.Yes)
             {
-                messages.Add("Title cannot be empty.");
-            }
-            else if (inputItem.Title.Length > 100)
-            {
-                messages.Add("Title must be 100 characters or fewer.");
+                Rules.ValidateUrl(inputItem.Href, "Href", ref messages);
             }
 
-            if (string.IsNullOrEmpty(inputItem.Authors))
-            {
-                messages.Add("Authors cannot be empty.");
-            }
-            else if (inputItem.Authors.Length > 255)
-            {
-                messages.Add("Authors must be 255 characters or fewer.");
-            }
-
-            if (string.IsNullOrEmpty(inputItem.Href))
-            {
-                messages.Add("Href cannot be empty.");
-            }
-            else if (inputItem.Href.Length > 2048)
-            {
-                messages.Add("Href must be 2048 characters or fewer.");
-            }
-
-            if (string.IsNullOrEmpty(inputItem.TestimonialLink))
-            {
-                messages.Add("Testimonial link cannot be empty.");
-            }
-            else if (inputItem.TestimonialLink.Length > 100)
-            {
-                messages.Add("Testimonial link must be 100 characters or fewer.");
-            }
+            Rules.StringRequiredMaxLength(inputItem.TestimonialLink, "Testimonial Link", 100, ref messages);
 
             if (messages.Any()) return new Result(SaveStatus.Failed, messages);
 

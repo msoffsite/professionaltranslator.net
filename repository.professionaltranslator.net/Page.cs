@@ -54,6 +54,8 @@ namespace Repository.ProfessionalTranslator.Net
                     IsService = page.IsService,
                     Name = page.Name,
                     Image = image,
+                    DateCreated = page.DateCreated,
+                    LastModified = page.LastModified,
                     Bodies = bodies.Select(n => new models.Localized.Page
                     {
                         Lcid = n.Lcid,
@@ -148,15 +150,7 @@ namespace Repository.ProfessionalTranslator.Net
                 }
             }
 
-            if (string.IsNullOrEmpty(inputItem.Name))
-            {
-                messages.Add("Name cannot be empty.");
-            }
-
-            if (inputItem.Name.Length > 20)
-            {
-                messages.Add("Name must be 20 characters or fewer.");
-            }
+            Rules.StringRequiredMaxLength(inputItem.Name, "Name", 20, ref messages);
 
             if (messages.Any())
             {

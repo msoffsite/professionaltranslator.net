@@ -6,138 +6,135 @@
     <title>@ViewData["Title"] - Cinta Garcia - Professional Translator</title>
     <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
     <link rel="stylesheet" href="~/css/fontawesome.all.min.css" />
-    <link rel="stylesheet" href="~/css/global.css" />
-    <link rel="stylesheet" href="~/css/carousel.css" />
-    <link rel="stylesheet" href="~/css/menu.css" />
+    <link rel="stylesheet" href="~/css/global.css" asp-append-version="true" />
+    <link rel="stylesheet" href="~/css/animate.css" asp-append-version="true" />
+    <link rel="stylesheet" href="~/css/carousel.css" asp-append-version="true" />
+    <link rel="stylesheet" href="~/css/menu.css" asp-append-version="true" />
     @RenderSection("Styles", false)
 </head>
-<body>
+<body class="fadeInLeftBig animated" style="visibility: visible; animation-name: fadeInLeftBig;">
 @await Component.InvokeAsync("Loading")
 <div id="wrapper" class="d-flex">
-        <div id="sidebar-wrapper" class="sidebar-wrapper-background border-right">
-            <div class="list-group list-group-flush">
-                <a class="list-group-item menu-link" asp-page="/Home" title="Go to home page.">
-                    <h3 class="menu-title">Home</h3>
+    <div id="sidebar-wrapper" class="sidebar-wrapper-background border-right">
+        <div class="list-group list-group-flush">
+            <a class="list-group-item menu-link" asp-page="/Home" title="Go to home page.">
+                <h3 class="menu-title">Home</h3>
 
-                    <div class="menu-icon">
-                        <span class="line"></span>
-                        <span class="fas fa-home" aria-hidden="true"></span>
-                        <span class="line"></span>
-                    </div>
+                <div class="menu-icon">
+                    <span class="line"></span>
+                    <span class="fas fa-home" aria-hidden="true"></span>
+                    <span class="line"></span>
+                </div>
 
-                    <h6 class="menu-subtitle subtitle">
-                        Re Translations
-                    </h6>
-                </a>
-                <a class="list-group-item menu-link" asp-page="/About" title="Learn about me.">
-                    <h3 class="menu-title">About</h3>
+                <h6 class="menu-subtitle subtitle">
+                    Re Translations
+                </h6>
+            </a>
+            <a class="list-group-item menu-link" asp-page="/About" title="Learn about me.">
+                <h3 class="menu-title">About</h3>
 
-                    <div class="menu-icon">
-                        <span class="line"></span>
-                        <span class="fas fa-tools" aria-hidden="true"></span>
-                        <span class="line"></span>
-                    </div>
+                <div class="menu-icon">
+                    <span class="line"></span>
+                    <span class="fas fa-info" aria-hidden="true"></span>
+                    <span class="line"></span>
+                </div>
 
-                    <h6 class="menu-subtitle subtitle">
-                        Read Bio
-                    </h6>
-                </a>
+                <h6 class="menu-subtitle subtitle">
+                    Read Bio
+                </h6>
+            </a>
 
-                <a class="list-group-item menu-link" asp-page="/Testimonials" title="Read what others have said about my translations.">
-                    <h3 class="menu-title">
-                        Testimonials
-                    </h3>
+            <a class="list-group-item menu-link" asp-page="/Testimonials" title="Read what others have said about my translations.">
+                <h3 class="menu-title">
+                    Testimonials
+                </h3>
 
-                    <div class="menu-icon">
-                        <span class="line"></span>
-                        <span class="fas fa-star" aria-hidden="true"></span>
-                        <span class="line"></span>
-                    </div>
+                <div class="menu-icon">
+                    <span class="line"></span>
+                    <span class="fas fa-comment" aria-hidden="true"></span>
+                    <span class="line"></span>
+                </div>
 
-                    <h6 class="menu-subtitle subtitle">
-                        Client Feedback
-                    </h6>
-                </a>
+                <h6 class="menu-subtitle subtitle">
+                    Client Feedback
+                </h6>
+            </a>
 
-                <a class="list-group-item menu-link" asp-page="/Portfolio" title="See my past work.">
-                    <h3 class="menu-title">
-                        Portfolio
-                    </h3>
+            <a class="list-group-item menu-link" asp-page="/Portfolio" title="See my past work.">
+                <h3 class="menu-title">
+                    Portfolio
+                </h3>
 
-                    <div class="menu-icon">
-                        <span class="line"></span>
-                        <span class="fas fa-desktop" aria-hidden="true"></span>
-                        <span class="line"></span>
-                    </div>
+                <div class="menu-icon">
+                    <span class="line"></span>
+                    <span class="fas fa-desktop" aria-hidden="true"></span>
+                    <span class="line"></span>
+                </div>
 
-                    <h6 class="menu-subtitle subtitle">
-                        View Past Work
-                    </h6>
-                </a>
+                <h6 class="menu-subtitle subtitle">
+                    View Past Work
+                </h6>
+            </a>
 
-                <a class="list-group-item menu-link" asp-page="/Contact" title="Get your translation started!">
-                    <h3 class="menu-title">Contact</h3>
+            <a class="list-group-item menu-link" asp-page="/Contact" title="Get your translation started!">
+                <h3 class="menu-title">Contact</h3>
 
-                    <div class="menu-icon">
-                        <span class="line"></span>
-                        <span class="fas fa-envelope-open-text" aria-hidden="true"></span>
-                        <span class="line"></span>
-                    </div>
+                <div class="menu-icon">
+                    <span class="line"></span>
+                    <span class="fas fa-envelope-open-text" aria-hidden="true"></span>
+                    <span class="line"></span>
+                </div>
 
-                    <h6 class="menu-subtitle subtitle">
-                        Get in touch
-                    </h6>
-                </a>
+                <h6 class="menu-subtitle subtitle">
+                    Get in touch
+                </h6>
+            </a>
+        </div>
+    </div>
+    <div id="page-content-wrapper">
+        <div class="container-fluid">
+            <div class="col-12 text-center">
+                <nav class="navbar navbar-light sticky-top" style="z-index: 999; text-align: left; position: absolute; margin-left: 50px;">
+                    <button id="menu-toggle" class="navbar-toggler" type="button" aria-expanded="false" aria-label="Toggle navigation">
+                        <span class="navbar-toggler-icon"></span>
+                    </button>
+                </nav>
             </div>
         </div>
-        <div id="page-content-wrapper">
-            <div class="container-fluid">
-                <div class="col-12 text-center">
-                    <nav class="navbar navbar-light sticky-top" style="z-index: 999; text-align: left; position: absolute; margin-left: 50px;">
-                        <button id="menu-toggle" class="navbar-toggler" type="button" aria-expanded="false" aria-label="Toggle navigation">
-                            <span class="navbar-toggler-icon"></span>
-                        </button>
-                    </nav>
-                </div>
-            </div>
-            <header>
-                <section id="header">
-                    <div class="container">
-                        <div class="row">
-                            <div class="col-12">
-                                <img src="~/img/logo.png" alt="Cinta Garcia - Professional Translator" title="Cinta Garcia - Professional Translator" class="img-fluid header-logo" />
-                            </div>
-                            <div class="col-12 header-text-container">
-                                <div class="header-text">
-                                    <h3 class="h3-responsive" title="Cinta Garcia - Professional Translator">
-                                        Cinta Garcia, Professional Translator
-                                    </h3>
-                                    <div class="text-center">
-                                        Respected member of <a href="https://test.com" target="_blank" title="Visit me at Asetrad.">Asetrad</a> &amp; <a href="https://test.com" target="_blank" title="Visit me at Editor's Association.">Editorial Freelancer Association</a>
-                                    </div>
+        <header>
+            <section id="header">
+                <div class="container">
+                    <div class="row">
+                        <div class="col-12">
+                            <img src="~/img/logo.png" alt="Cinta Garcia - Professional Translator" title="Cinta Garcia - Professional Translator" class="img-fluid header-logo" />
+                        </div>
+                        <div class="col-12 header-text-container">
+                            <div class="header-text">
+                                <h3 class="h3-responsive" title="Cinta Garcia - Professional Translator">
+                                    Cinta Garcia, Professional Translator
+                                </h3>
+                                <div class="text-center">
+                                    Respected member of <a href="https://asetrad.org/necesitas-un-traductor-corrector-o-interprete/buscador-de-socios/detalle?username=cgarcia" target="_blank" title="Visit me at Asetrad.">Asetrad</a> &amp; <a href="https://www.the-efa.org/memberinfo/cinta-garciadelarosa-28721/" target="_blank" title="Visit me at Editor's Association.">Editorial Freelancer Association</a>
                                 </div>
                             </div>
                         </div>
                     </div>
-                </section>
-            </header>
-            <div class="container">
-                <main role="main" class="pb-3">
-                    @RenderBody()
-                </main>
-            </div>
+                </div>
+            </section>
+        </header>
+        <div class="container">
+            <main role="main" class="pb-3">
+                @RenderBody()
+            </main>
         </div>
     </div>
-
-    <footer class="border-top footer text-muted">
-        <div class="container">
-            &copy; 2020 - www.professionaltranslator.net - <a asp-area="" asp-page="/Privacy">Privacy</a>
-        </div>
-    </footer>
+</div>
+<partial name="_Footer"/>
 
     <script src="~/lib/jquery/dist/jquery.min.js"></script>
     <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
     <script src="~/js/fontawesome.all.min.js"></script>
+    <script src="~/js/wow.js" asp-append-version="true"></script>
     <script src="~/js/global.js" asp-append-version="true"></script>
     <script src="~/js/layout.js" asp-append-version="true"></script>
 
