@@ -1,19 +1,21 @@
-﻿using Microsoft.AspNetCore.Mvc.RazorPages;
+﻿using System.Threading.Tasks;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.Extensions.Logging;
 
 namespace web.professionaltranslator.net.Pages
 {
-    public class PrivacyModel : PageModel
+    public class PrivacyModel : Base
     {
-        private readonly ILogger<PrivacyModel> _logger;
-
-        public PrivacyModel(ILogger<PrivacyModel> logger)
+        public PrivacyModel(SiteSettings configuration)
         {
-            _logger = logger;
+            Configuration = configuration;
         }
 
-        public void OnGet()
+        public async Task<IActionResult> OnGet()
         {
+            Item = await new Base().Get(Configuration, "Privacy");
+            return Item == null ? NotFound() : (IActionResult)Page();
         }
     }
 }

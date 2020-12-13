@@ -1,4 +1,36 @@
 ﻿@page
-@model web.professionaltranslator.net.Pages.CookiesModel
+@model CookiesModel
 @{
+    ViewData["Title"] = Model.Item.Title;
+    string body = Model.Item.Body;
 }
+<div class="row mt-5 mb-4">
+    <div class="col-12 text-center page-header">
+        <h1>
+            @Html.Raw(Model.Item.Header)
+        </h1>
+    </div>
+    <div class="clearfix"></div>
+    <div class="col-12 text-muted small">
+        <p>
+            Last Modified: @Html.Raw(@Model.Item.LastModified.ToShortDateString())
+        </p>
+    </div>
+</div>
+<div class="row mb-4">
+    @if (Model.Item.Image != null)
+    {
+        <div class="col-lg-3 col-md-4 col-sm-12">
+            <img src="@Model.Item.Image.Path" class="img-fluid img-inset" alt="@Model.Item.Name" title="@Model.Item.Name">
+        </div>
+        <div class="col-lg-9 col-md-8 col-sm-12 text-justify">
+            @Html.Raw(body)
+        </div>
+    }
+    else
+    {
+        <div class="col-12 text-justify">
+            @Html.Raw(body)
+        </div>
+    }
+</div>

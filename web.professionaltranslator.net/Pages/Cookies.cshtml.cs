@@ -7,10 +7,17 @@ using Microsoft.AspNetCore.Mvc.RazorPages;
 
 namespace web.professionaltranslator.net.Pages
 {
-    public class CookiesModel : PageModel
+    public class CookiesModel : Base
     {
-        public void OnGet()
+        public CookiesModel(SiteSettings configuration)
         {
+            Configuration = configuration;
+        }
+
+        public async Task<IActionResult> OnGet()
+        {
+            Item = await new Base().Get(Configuration, "Cookies");
+            return Item == null ? NotFound() : (IActionResult)Page();
         }
     }
 }

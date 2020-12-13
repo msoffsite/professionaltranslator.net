@@ -54,6 +54,8 @@ namespace Repository.ProfessionalTranslator.Net
                     IsService = page.IsService,
                     Name = page.Name,
                     Image = image,
+                    DateCreated = page.DateCreated,
+                    LastModified = page.LastModified,
                     Bodies = bodies.Select(n => new models.Localized.Page
                     {
                         Lcid = n.Lcid,

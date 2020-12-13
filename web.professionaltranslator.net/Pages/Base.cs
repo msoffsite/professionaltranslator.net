@@ -1,4 +1,5 @@
-﻿using System.Linq;
+﻿using System;
+using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using GlobalModel = Models.ProfessionalTranslator.Net.Page;
@@ -25,6 +26,7 @@ namespace web.professionaltranslator.net.Pages
             output.Title = basePage.Bodies.Any() ? basePage.Bodies[0].Title : "Missing Title";
             output.Header = basePage.Headers.Any() ? basePage.Headers[0].Html : "Missing Header";
             output.Image = basePage.Image;
+            output.LastModified = basePage.LastModified;
             return output;
         }
     }
