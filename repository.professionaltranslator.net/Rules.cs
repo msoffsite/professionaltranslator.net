@@ -12,10 +12,25 @@ namespace Repository.ProfessionalTranslator.Net
             No
         }
 
+        internal static Passed MinIntValue(int input, string name, int minValue, ref List<string> messages)
+        {
+            var output = Passed.Yes;
+
+            // ReSharper disable once InvertIf
+            if (input < minValue)
+            {
+                output = Passed.No;
+                messages.Add($"{name} must be more than {minValue}.");
+            }
+
+            return output;
+        }
+
         internal static Passed StringRequired(string input, string name, ref List<string> messages)
         {
             var output = Passed.Yes;
 
+            // ReSharper disable once InvertIf
             if (string.IsNullOrEmpty(input))
             {
                 output = Passed.No;

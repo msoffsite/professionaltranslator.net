@@ -95,8 +95,7 @@ namespace Repository.ProfessionalTranslator.Net
             Rules.StringRequiredMaxLength(inputItem.Title, "Title", 256, ref messages);
             Rules.StringRequiredMaxLength(inputItem.TranslationType, "Translation Type", 25, ref messages);
             Rules.StringRequiredMaxLength(inputItem.Genre, "Genre", 25, ref messages);
-
-            if (inputItem.WordCount <= 0) messages.Add("WordCount must be more than zero.");
+            Rules.MinIntValue(inputItem.WordCount, "Word Count", 1, ref messages);
 
             Rules.StringRequired(inputItem.Message, "Message", ref messages);
 
