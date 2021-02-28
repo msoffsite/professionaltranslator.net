@@ -4,13 +4,14 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>@ViewData["Title"] - Cinta Garcia - Professional Translator</title>
+    @await RenderSectionAsync("MetaTags", true)
     <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
     <link rel="stylesheet" href="~/css/fontawesome.all.min.css" />
     <link rel="stylesheet" href="~/css/global.css" asp-append-version="true" />
     <link rel="stylesheet" href="~/css/animate.css" asp-append-version="true" />
     <link rel="stylesheet" href="~/css/carousel.css" asp-append-version="true" />
     <link rel="stylesheet" href="~/css/menu.css" asp-append-version="true" />
-    @RenderSection("Styles", false)
+    @await RenderSectionAsync("Styles", false)
 </head>
 <body class="fadeInLeftBig animated" style="visibility: visible; animation-name: fadeInLeftBig;">
 @await Component.InvokeAsync("Loading")
@@ -138,6 +139,6 @@
     <script src="~/js/global.js" asp-append-version="true"></script>
     <script src="~/js/layout.js" asp-append-version="true"></script>
 
-    @RenderSection("Scripts", required: false)
+@await RenderSectionAsync("Scripts", required: false)
 </body>
 </html>
