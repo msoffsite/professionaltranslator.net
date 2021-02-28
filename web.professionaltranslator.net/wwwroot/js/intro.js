@@ -1,4 +1,25 @@
-﻿    //$(document).ready(function() {
+﻿let originalImageHeight = 0;
+
+$(window).on("load resize",
+    function() {
+        const windowHeight = $(window).height();
+        let imageHeight = $(".intro-hola-hello").height();
+        if (originalImageHeight === 0) {
+            originalImageHeight = imageHeight;
+        }
+        console.log("windowHeight: " + windowHeight);
+        console.log("imageHeight: " + imageHeight);
+        if (windowHeight < 1080) {
+            imageHeight = windowHeight * .70;
+            console.log("adjusted imageHeight: " + imageHeight);
+            $(".intro-hola-hello").height(imageHeight);
+            console.log('$(".intro-hola-hello").height(): ' + $(".intro-hola-hello").height());
+        } else {
+            $(".intro-hola-hello").height(originalImageHeight);
+        }
+    });
+
+    //$(document).ready(function() {
     //    $(window).on("load resize", function () {
     //        const screenWidth = $(window).width();
     //        if (screenWidth > 1200) {

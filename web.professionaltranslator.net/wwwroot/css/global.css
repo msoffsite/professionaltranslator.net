@@ -40,6 +40,10 @@ a:visited {
         text-decoration: none;
     }
 
+a.page-link:visited {
+    color: #007bff;
+}
+
 .blockquote {
     font-family: "typewriter-bold";
     padding: 0 40px 40px 40px;
@@ -366,6 +370,13 @@ img.zoom {
             transform: none;
         }
     }
+
+@media (max-width: 576px) {
+    .btn-purple {
+        max-width: 200px;
+        min-width: 200px;
+    }
+}
 
 .row {
      margin-right: 0; 

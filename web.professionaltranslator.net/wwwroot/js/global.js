@@ -1,4 +1,5 @@
 ﻿$(window).on("load", function () {
+    $(".loading").center();
     $(".loading-container").fadeOut("slow");
 });
 
@@ -22,7 +23,6 @@ $.fn.scrollTo = function(anchor, navHeight) {
         $("html, body").stop().animate({ scrollTop: goTo }, 750);
     }
 }
-
 
 $(document).ready(function () {
 
