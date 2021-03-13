@@ -33,12 +33,12 @@ namespace web.professionaltranslator.net
                 options.Password.RequiredUniqueChars = 0;
             });
 
-            services.AddDbContext<efContext>(options =>
+            services.AddDbContext<EfContext>(options =>
                 options.UseSqlServer(
                     Configuration.GetConnectionString("SqlServerConnection")));
             services.AddDefaultIdentity<IdentityUser>(options => options.SignIn.RequireConfirmedAccount = true)
                 .AddRoles<IdentityRole>()
-                .AddEntityFrameworkStores<efContext>();
+                .AddEntityFrameworkStores<EfContext>();
 
             services.AddRazorPages();
             services.AddSession();

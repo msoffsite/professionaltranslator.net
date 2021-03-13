@@ -4,9 +4,9 @@ using Microsoft.EntityFrameworkCore;
 
 namespace web.professionaltranslator.net.Areas.Identity.Data
 {
-    public class efContext : IdentityDbContext<IdentityUser>
+    public class EfContext : IdentityDbContext<IdentityUser>
     {
-        public efContext(DbContextOptions<efContext> options)
+        public EfContext(DbContextOptions<EfContext> options)
             : base(options)
         {
         }
