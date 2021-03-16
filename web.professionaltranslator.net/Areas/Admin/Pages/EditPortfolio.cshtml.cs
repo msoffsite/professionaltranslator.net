@@ -7,7 +7,7 @@ using Microsoft.AspNetCore.Mvc.RazorPages;
 
 namespace web.professionaltranslator.net.Areas.Admin.Pages
 {
-    public class EditPortfolioModel : PageModel
+    public class EditPortfolioModel : Base
     {
         public void OnGet()
         {
