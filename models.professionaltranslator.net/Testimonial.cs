@@ -11,6 +11,6 @@ namespace Models.ProfessionalTranslator.Net
         public string EmailAddress { get; set; }
         public DateTime? DateCreated { get; set; }
         public bool Approved { get; set; }
-        public List<Localized.Testimonial> Bodies { get; set; }
+        public List<Localized.Testimonial> Entries { get; set; }
     }
 }

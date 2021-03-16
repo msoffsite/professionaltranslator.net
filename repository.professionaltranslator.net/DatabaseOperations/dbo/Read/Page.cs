@@ -21,15 +21,16 @@ namespace Repository.ProfessionalTranslator.Net.DatabaseOperations.dbo.Read
             return Object.GetItem<Tables.dbo.Page>(sda);
         }
 
-        internal static async Task<Tables.dbo.Page> Item(string site, string name)
+        internal static async Task<Tables.dbo.Page> Item(string site, int areaId, string name)
         {
-            await using var cmd = new SqlCommand("[dbo].[GetPageBySiteName]", new Base().SqlConnection)
+            await using var cmd = new SqlCommand("[dbo].[GetPageBySiteAreaIdName]", new Base().SqlConnection)
             {
                 CommandType = CommandType.StoredProcedure
             };
 
             cmd.Parameters.Add("@Site", SqlDbType.NVarChar, 25).Value = site;
-            cmd.Parameters.Add("@Enum", SqlDbType.NVarChar, 20).Value = name;
+            cmd.Parameters.Add("@AreaId", SqlDbType.Int).Value = areaId;
+            cmd.Parameters.Add("@Enum", SqlDbType.NVarChar, 50).Value = name;
             using var sda = new SqlDataAdapter(cmd);
             return Object.GetItem<Tables.dbo.Page>(sda);
         }

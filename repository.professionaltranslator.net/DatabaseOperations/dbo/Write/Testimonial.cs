@@ -52,7 +52,7 @@ namespace Repository.ProfessionalTranslator.Net.DatabaseOperations.dbo.Write
                 cmd.Parameters.Add("@SiteId", SqlDbType.UniqueIdentifier).Value = item.SiteId;
                 cmd.Parameters.Add("@Id", SqlDbType.UniqueIdentifier).Value = item.Id;
                 cmd.Parameters.Add("@WorkId", SqlDbType.UniqueIdentifier).Value = item.WorkId;
-                cmd.Parameters.Add("@PortraitImageId", SqlDbType.UniqueIdentifier).Value = item.Id;
+                cmd.Parameters.Add("@PortraitImageId", SqlDbType.UniqueIdentifier).Value = item.PortraitImageId;
                 cmd.Parameters.Add("@Name", SqlDbType.NVarChar, 20).Value = item.Name;
                 cmd.Parameters.Add("@EmailAddress", SqlDbType.NVarChar, 256).Value = item.EmailAddress;
                 cmd.Parameters.Add("@Approved", SqlDbType.Bit).Value = item.Approved;

@@ -4,6 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
+using Repository.ProfessionalTranslator.Net;
 
 namespace web.professionaltranslator.net.Pages
 {
@@ -16,7 +17,7 @@ namespace web.professionaltranslator.net.Pages
 
         public async Task<IActionResult> OnGet()
         {
-            Item = await new Base().Get(Configuration, "Cookies");
+            Item = await new Base().Get(Configuration, Area.Root, "Cookies");
             return Item == null ? NotFound() : (IActionResult)Page();
         }
     }

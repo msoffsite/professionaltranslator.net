@@ -49,8 +49,9 @@ namespace Repository.ProfessionalTranslator.Net.DatabaseOperations.dbo.Write
                 };
 
                 cmd.Parameters.Add("@SiteId", SqlDbType.UniqueIdentifier).Value = item.SiteId;
+                cmd.Parameters.Add("@AreaId", SqlDbType.Int).Value = item.AreaId;
                 cmd.Parameters.Add("@Id", SqlDbType.UniqueIdentifier).Value = item.Id;
-                cmd.Parameters.Add("@Name", SqlDbType.NVarChar, 20).Value = item.Name;
+                cmd.Parameters.Add("@Name", SqlDbType.NVarChar, 50).Value = item.Name;
                 cmd.Parameters.Add("@IsService", SqlDbType.Bit).Value = item.IsService;
                 cmd.Parameters.Add("@CanHaveImage", SqlDbType.Bit).Value = item.CanHaveImage;
                 cmd.Parameters.Add("@ImageId", SqlDbType.UniqueIdentifier).Value = item.ImageId;

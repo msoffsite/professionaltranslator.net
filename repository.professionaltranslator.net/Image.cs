@@ -10,6 +10,12 @@ namespace Repository.ProfessionalTranslator.Net
 {
     public class Image
     {
+        public static async Task<models.Image> DefaultPortrait(string site)
+        {
+            Tables.dbo.Image image = await dbRead.Image.DefaultPortrait(site);
+            return Item(image);
+        }
+
         public static async Task<Result> Delete(string site, Guid? id)
         {
             if (!id.HasValue)

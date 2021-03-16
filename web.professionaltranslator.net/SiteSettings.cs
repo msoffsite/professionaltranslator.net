@@ -6,6 +6,7 @@
         public int Lcid { get; set; }
         public string Site { get; set; }
         public int PagingSize { get; set; }
+        public int PagingSizeSelectWork { get; set; }
         public string Postmaster { get; set; }
         public string PostmasterDisplayName { get; set; }
         public string DefaultToDisplayName { get; set; }

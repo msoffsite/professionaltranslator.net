@@ -28,20 +28,26 @@
 }
 
 a,
-a:visited {
+a:visited,
+a.page-link,
+a.page-link:visited {
     color: #642e84;
     font-weight: 600;
 }
 
     a:active,
     a:focus,
-    a:hover {
+    a:hover,
+    a.page-link:active,
+    a.page-link:focus,
+    a.page-link:hover {
         color: #9142bf;
         text-decoration: none;
     }
 
-a.page-link:visited {
-    color: #007bff;
+.page-link-selected {
+    background-color: #f1ddfe;
+    border-color: #ded0e7;
 }
 
 .blockquote {
@@ -159,9 +165,16 @@ footer p {
     }
 }
 
+.full-width {
+    width: 100% !important;
+}
 
 #header {
     margin-top: 4.5rem;
+}
+
+.hide {
+    display: none;
 }
 
 img.zoom {

@@ -15,6 +15,17 @@ namespace Repository.ProfessionalTranslator.Net
             bool show = display == Display.Approved;
             return await dbRead.Work.PagingCount(site, show);
         }
+
+        public static async Task<int> PagingCountWithoutTestimonials(string site)
+        {
+            return await dbRead.Work.PagingCountWithoutTestimonials(site);
+        }
+
+        public static async Task<int> PagingCountWithTestimonials(string site)
+        {
+            return await dbRead.Work.PagingCountWithTestimonials(site);
+        }
+
         public static async Task<Result> Delete(string site, Guid? id)
         {
             if (!id.HasValue)
@@ -128,6 +139,40 @@ namespace Repository.ProfessionalTranslator.Net
             return output;
         }
 
+        public static async Task<List<models.Work>> ListWithoutTestimonials(string site, int pageIndex, int pageSize)
+        {
+            List<Task<models.Work>> taskList = await TaskListTestimonials(site, false, pageIndex, pageSize);
+            if (taskList.Count == 0) return new List<models.Work>();
+            var output = new List<models.Work>();
+            for (var i = 0; 0 < taskList.Count; i++)
+            {
+                if (i == taskList.Count) break;
+                models.Work item = taskList[i].Result;
+                if (!output.Contains(item))
+                {
+                    output.Add(item);
+                }
+            }
+            return output;
+        }
+
+        public static async Task<List<models.Work>> ListWithTestimonials(string site, int pageIndex, int pageSize)
+        {
+            List<Task<models.Work>> taskList = await TaskListTestimonials(site, true, pageIndex, pageSize);
+            if (taskList.Count == 0) return new List<models.Work>();
+            var output = new List<models.Work>();
+            for (var i = 0; 0 < taskList.Count; i++)
+            {
+                if (i == taskList.Count) break;
+                models.Work item = taskList[i].Result;
+                if (!output.Contains(item))
+                {
+                    output.Add(item);
+                }
+            }
+            return output;
+        }
+
         public static async Task<bool> ShowNextForPaging(string site, Display display, int pageIndex, int pageSize)
         {
             bool show = display == Display.Approved;
@@ -145,6 +190,22 @@ namespace Repository.ProfessionalTranslator.Net
         {
             if (string.IsNullOrEmpty(site)) return new List<Task<models.Work>>();
             List<Tables.dbo.Work> list = await dbRead.Work.List(site, approved, pageIndex, pageSize);
+            return Complete(list);
+        }
+
+        private static async Task<List<Task<models.Work>>> TaskListTestimonials(string site, bool with, int pageIndex, int pageSize)
+        {
+            if (string.IsNullOrEmpty(site)) return new List<Task<models.Work>>();
+            List<Tables.dbo.Work> list;
+            if (!with)
+            {
+                list = await dbRead.Work.ListWithoutTestimonials(site, pageIndex, pageSize);
+            }
+            else
+            {
+                list = await dbRead.Work.ListWithTestimonials(site, pageIndex, pageSize);
+            }
+            
             return Complete(list);
         }
 

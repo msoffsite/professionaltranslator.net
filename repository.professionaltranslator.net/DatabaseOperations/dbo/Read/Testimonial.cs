@@ -24,7 +24,7 @@ namespace Repository.ProfessionalTranslator.Net.DatabaseOperations.dbo.Read
 
         internal static async Task<Tables.dbo.Testimonial> Item(Guid siteId, Guid workId)
         {
-            await using var cmd = new SqlCommand("[dbo].[GetPageBySiteName]", new Base().SqlConnection)
+            await using var cmd = new SqlCommand("[dbo].[GetTestimonialBySiteIdWorkId]", new Base().SqlConnection)
             {
                 CommandType = CommandType.StoredProcedure
             };

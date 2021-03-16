@@ -1,5 +1,6 @@
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
+using Repository.ProfessionalTranslator.Net;
 
 namespace web.professionaltranslator.net.Pages
 {
@@ -12,7 +13,7 @@ namespace web.professionaltranslator.net.Pages
 
         public async Task<IActionResult> OnGet()
         {
-            Item = await new Base().Get(Configuration, "About");
+            Item = await new Base().Get(Configuration, Area.Root, "About");
             return Item == null ? NotFound() : (IActionResult)Page();
         }
     }

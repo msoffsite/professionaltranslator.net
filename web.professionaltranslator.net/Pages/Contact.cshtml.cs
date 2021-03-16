@@ -6,6 +6,7 @@ using System.Text;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
+using Repository.ProfessionalTranslator.Net;
 using web.professionaltranslator.net.Extensions;
 
 using Model = Models.ProfessionalTranslator.Net.Log.Inquiry;
@@ -24,13 +25,13 @@ namespace web.professionaltranslator.net.Pages
 
         public async Task<IActionResult> OnGet()
         {
-            Item = await new Base().Get(Configuration, "Contact");
+            Item = await new Base().Get(Configuration, Area.Root, "Contact");
             return Item == null ? NotFound() : (IActionResult)Page();
         }
 
         public async Task<ActionResult> OnPostSend()
         {
-            var result = new Result();
+            Result result;
             try
             {
                 var stream = new MemoryStream();

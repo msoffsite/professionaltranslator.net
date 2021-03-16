@@ -2,6 +2,7 @@
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc.RazorPages;
+using Repository.ProfessionalTranslator.Net;
 using GlobalModel = Models.ProfessionalTranslator.Net.Page;
 using Data = Repository.ProfessionalTranslator.Net.Page;
 
@@ -13,10 +14,10 @@ namespace web.professionaltranslator.net.Pages
 
         public Models.Page Item { get; set; }
 
-        internal async Task<Models.Page> Get(SiteSettings configuration, string page)
+        internal async Task<Models.Page> Get(SiteSettings configuration, Area area, string page)
         {
             var output = new Models.Page();
-            GlobalModel basePage = await Data.Item(configuration.Site, page);
+            GlobalModel basePage = await Data.Item(configuration.Site, area, page);
             if ((basePage == null) || (!basePage.Bodies.Any()) || (!basePage.Headers.Any())) return output;
 
             basePage.Bodies = basePage.Bodies.Where(x => x.Lcid == configuration.Lcid).ToList();

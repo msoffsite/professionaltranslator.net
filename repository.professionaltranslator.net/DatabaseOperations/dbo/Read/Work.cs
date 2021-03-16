@@ -73,6 +73,93 @@ namespace Repository.ProfessionalTranslator.Net.DatabaseOperations.dbo.Read
             return Object.GetList<Tables.dbo.Work>(sda);
         }
 
+        internal static async Task<List<Tables.dbo.Work>> ListWithoutTestimonials(string site, int pageIndex, int pageSize)
+        {
+            await using var cmd = new SqlCommand("[dbo].[GetWorksPagingWithoutTestimonials]", new Base().SqlConnection)
+            {
+                CommandType = CommandType.StoredProcedure
+            };
+            cmd.Parameters.Add("@Site", SqlDbType.NVarChar, 25).Value = site;
+            cmd.Parameters.Add("@PageIndex", SqlDbType.Int).Value = pageIndex;
+            cmd.Parameters.Add("@PageSize", SqlDbType.Int).Value = pageSize;
+            using var sda = new SqlDataAdapter(cmd);
+            return Object.GetList<Tables.dbo.Work>(sda);
+        }
+
+        internal static async Task<List<Tables.dbo.Work>> ListWithTestimonials(string site, int pageIndex, int pageSize)
+        {
+            await using var cmd = new SqlCommand("[dbo].[GetWorksPagingWithTestimonials]", new Base().SqlConnection)
+            {
+                CommandType = CommandType.StoredProcedure
+            };
+            cmd.Parameters.Add("@Site", SqlDbType.NVarChar, 25).Value = site;
+            cmd.Parameters.Add("@PageIndex", SqlDbType.Int).Value = pageIndex;
+            cmd.Parameters.Add("@PageSize", SqlDbType.Int).Value = pageSize;
+            using var sda = new SqlDataAdapter(cmd);
+            return Object.GetList<Tables.dbo.Work>(sda);
+        }
+
+        internal static async Task<int> PagingCount(string site, bool display)
+        {
+            await using var cmd = new SqlCommand("[dbo].[GetWorksPagingForDisplayReturnCount]", new Base().SqlConnection)
+            {
+                CommandType = CommandType.StoredProcedure
+            };
+
+            cmd.Parameters.Add("@Site", SqlDbType.NVarChar, 25).Value = site;
+            cmd.Parameters.Add("@Display", SqlDbType.Bit).Value = display;
+
+            SqlParameter countParameter = cmd.Parameters.Add("@Count", SqlDbType.Int);
+            countParameter.Direction = ParameterDirection.Output;
+
+            await cmd.Connection.OpenAsync();
+            await cmd.ExecuteNonQueryAsync();
+            await cmd.Connection.CloseAsync();
+
+            int output = Implicit.Int32(countParameter.Value, 0);
+            return output;
+        }
+
+        internal static async Task<int> PagingCountWithoutTestimonials(string site)
+        {
+            await using var cmd = new SqlCommand("[dbo].[GetWorksPagingWithoutTestimonialsReturnCount]", new Base().SqlConnection)
+            {
+                CommandType = CommandType.StoredProcedure
+            };
+
+            cmd.Parameters.Add("@Site", SqlDbType.NVarChar, 25).Value = site;
+
+            SqlParameter countParameter = cmd.Parameters.Add("@Count", SqlDbType.Int);
+            countParameter.Direction = ParameterDirection.Output;
+
+            await cmd.Connection.OpenAsync();
+            await cmd.ExecuteNonQueryAsync();
+            await cmd.Connection.CloseAsync();
+
+            int output = Implicit.Int32(countParameter.Value, 0);
+            return output;
+        }
+
+        internal static async Task<int> PagingCountWithTestimonials(string site)
+        {
+            await using var cmd = new SqlCommand("[dbo].[GetWorksPagingWithTestimonialsReturnCount]", new Base().SqlConnection)
+            {
+                CommandType = CommandType.StoredProcedure
+            };
+
+            cmd.Parameters.Add("@Site", SqlDbType.NVarChar, 25).Value = site;
+
+            SqlParameter countParameter = cmd.Parameters.Add("@Count", SqlDbType.Int);
+            countParameter.Direction = ParameterDirection.Output;
+
+            await cmd.Connection.OpenAsync();
+            await cmd.ExecuteNonQueryAsync();
+            await cmd.Connection.CloseAsync();
+
+            int output = Implicit.Int32(countParameter.Value, 0);
+            return output;
+        }
+
         internal static async Task<bool> ShowNextForPaging(string site, bool display, int pageIndex, int pageSize)
         {
             await using var cmd = new SqlCommand("[dbo].[GetWorksPagingForDisplay]", new Base().SqlConnection)
@@ -96,24 +183,47 @@ namespace Repository.ProfessionalTranslator.Net.DatabaseOperations.dbo.Read
             return output;
         }
 
-        internal static async Task<int> PagingCount(string site, bool display)
+        internal static async Task<bool> ShowNextForPagingWithoutTestimonials(string site, int pageIndex, int pageSize)
         {
-            await using var cmd = new SqlCommand("[dbo].[GetWorksPagingForDisplayReturnCount]", new Base().SqlConnection)
+            await using var cmd = new SqlCommand("[dbo].[GetWorksPagingWithoutTestimonials]", new Base().SqlConnection)
             {
                 CommandType = CommandType.StoredProcedure
             };
 
             cmd.Parameters.Add("@Site", SqlDbType.NVarChar, 25).Value = site;
-            cmd.Parameters.Add("@Display", SqlDbType.Bit).Value = display;
+            cmd.Parameters.Add("@PageIndex", SqlDbType.Int).Value = pageIndex;
+            cmd.Parameters.Add("@PageSize", SqlDbType.Int).Value = pageSize;
 
-            SqlParameter countParameter = cmd.Parameters.Add("@Count", SqlDbType.Int);
-            countParameter.Direction = ParameterDirection.Output;
+            SqlParameter showNext = cmd.Parameters.Add("@ShowNext", SqlDbType.Bit);
+            showNext.Direction = ParameterDirection.Output;
 
             await cmd.Connection.OpenAsync();
             await cmd.ExecuteNonQueryAsync();
             await cmd.Connection.CloseAsync();
 
-            int output = Implicit.Int32(countParameter.Value, 0);
+            bool output = Implicit.Bool(showNext.Value);
+            return output;
+        }
+
+        internal static async Task<bool> ShowNextForPagingWithTestimonials(string site, int pageIndex, int pageSize)
+        {
+            await using var cmd = new SqlCommand("[dbo].[GetWorksPagingWithTestimonials]", new Base().SqlConnection)
+            {
+                CommandType = CommandType.StoredProcedure
+            };
+
+            cmd.Parameters.Add("@Site", SqlDbType.NVarChar, 25).Value = site;
+            cmd.Parameters.Add("@PageIndex", SqlDbType.Int).Value = pageIndex;
+            cmd.Parameters.Add("@PageSize", SqlDbType.Int).Value = pageSize;
+
+            SqlParameter showNext = cmd.Parameters.Add("@ShowNext", SqlDbType.Bit);
+            showNext.Direction = ParameterDirection.Output;
+
+            await cmd.Connection.OpenAsync();
+            await cmd.ExecuteNonQueryAsync();
+            await cmd.Connection.CloseAsync();
+
+            bool output = Implicit.Bool(showNext.Value);
             return output;
         }
     }

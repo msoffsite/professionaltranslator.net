@@ -65,7 +65,7 @@ namespace Test.ProfessionalTranslator.Net.Repository
                 EmailAddress = "test@emailaddress.com",
                 DateCreated = DateTime.Now,
                 Approved = true,
-                Bodies = LocalizedList()
+                Entries = LocalizedList()
             };
             return output;
         }
