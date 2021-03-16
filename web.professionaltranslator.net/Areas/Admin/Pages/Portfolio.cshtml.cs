@@ -2,20 +2,21 @@ using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
+using Repository.ProfessionalTranslator.Net;
 using Data = Repository.ProfessionalTranslator.Net.Work;
 using Work = Models.ProfessionalTranslator.Net.Work;
 
 namespace web.professionaltranslator.net.Areas.Admin.Pages
 {
-    public class TestimonialModel : Base
+    public class PortfolioModel : Base
     {
-        private const string PageName = "TestimonialSelectWork";
+        private const string PageName = "PortfolioSelectWork";
 
         [BindProperty(SupportsGet = true)]
         public int CurrentPage { get; set; } = 1;
 
         [BindProperty(SupportsGet = true)]
-        public int WithTestimonials { get; set; } = 0;
+        public int ShowApproved { get; set; } = 1;
 
         public int Count { get; set; } = -1;
 
@@ -28,7 +29,7 @@ namespace web.professionaltranslator.net.Areas.Admin.Pages
 
         public List<Work> Thumbnails { get; set; }
 
-        public TestimonialModel(SiteSettings configuration)
+        public PortfolioModel(SiteSettings configuration)
         {
             Configuration = configuration;
         }
@@ -36,18 +37,18 @@ namespace web.professionaltranslator.net.Areas.Admin.Pages
         public async Task<IActionResult> OnGet()
         {
             Item = await new Base().Get(Configuration, Admin, PageName);
-            if (WithTestimonials == 0)
+            if (ShowApproved == 0)
             {
-                Thumbnails = await Data.ListWithoutTestimonials(Configuration.Site, (CurrentPage - 1), Configuration.PagingSizeSelectWork);
-                Count = await Data.PagingCountWithoutTestimonials(Configuration.Site);
+                Thumbnails = await Data.List(Configuration.Site, Display.Unapproved, (CurrentPage - 1), Configuration.PagingSizeSelectWork);
+                Count = await Data.PagingCount(Configuration.Site, Display.Unapproved);
             }
             else
             {
-                Thumbnails = await Data.ListWithTestimonials(Configuration.Site, (CurrentPage - 1), Configuration.PagingSizeSelectWork);
-                Count = await Data.PagingCountWithTestimonials(Configuration.Site);
+                Thumbnails = await Data.List(Configuration.Site, Display.Approved, (CurrentPage - 1), Configuration.PagingSizeSelectWork);
+                Count = await Data.PagingCount(Configuration.Site, Display.Approved);
             }
-            
-            
+
+
             return Item == null ? NotFound() : (IActionResult)Page();
         }
     }

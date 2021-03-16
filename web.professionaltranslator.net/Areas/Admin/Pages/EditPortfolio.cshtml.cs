@@ -9,6 +9,11 @@ namespace web.professionaltranslator.net.Areas.Admin.Pages
 {
     public class EditPortfolioModel : Base
     {
+        private const string PageName = "EditTestimonial";
+
+        [BindProperty(SupportsGet = true)]
+        public Guid QueryId { get; set; } = Guid.Empty;
+
         public void OnGet()
         {
         }

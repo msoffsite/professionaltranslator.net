@@ -1,0 +1,42 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>@ViewData["Title"] - Professional Translator Admin</title>
+    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="~/css/fontawesome.all.min.css" />
+    <link rel="stylesheet" href="~/css/global.css" asp-append-version="true" />
+    <link rel="stylesheet" href="~/css/animate.css" asp-append-version="true" />
+    <link rel="stylesheet" href="~/css/carousel.css" asp-append-version="true" />
+    <link rel="stylesheet" href="~/css/menu.css" asp-append-version="true" />
+    @await RenderSectionAsync("Styles", false)
+</head>
+<body>
+    <header>
+        <partial name="_Navigation"/>
+    </header>
+    <div class="container">
+        <main role="main" class="pb-3">
+            @RenderBody()
+        </main>
+    </div>
+
+<footer class="border-top footer text-muted">
+    <partial name="_Navigation"/>
+    <div class="container text-center mt-1">
+        &copy; @Html.Raw(DateTime.Now.Year) - professionaltranslator.net - administrative area
+        @*<a asp-area="" asp-page="/Privacy">Privacy</a>*@
+    </div>
+</footer>
+
+    <script src="~/lib/jquery/dist/jquery.min.js"></script>
+    <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="~/js/fontawesome.all.min.js"></script>
+    <script src="~/js/wow.js" asp-append-version="true"></script>
+    <script src="~/js/global.js" asp-append-version="true"></script>
+    <script src="~/js/layout.js" asp-append-version="true"></script>
+
+    @RenderSection("Scripts", required: false)
+</body>
+</html>
