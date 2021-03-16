@@ -32,7 +32,7 @@ namespace web.professionaltranslator.net.Pages
 
         public async Task<IActionResult> OnGet()
         {
-            Item = await new Base().Get(Configuration, PageName);
+            Item = await new Base().Get(Configuration, Area.Root, PageName);
             Thumbnails = await Data.List(Configuration.Site, Display.Approved, (CurrentPage - 1), Configuration.PagingSize);
             Count = await Data.PagingCount(Configuration.Site, Display.Approved);
             return Item == null ? NotFound() : (IActionResult)Page();

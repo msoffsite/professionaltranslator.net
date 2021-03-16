@@ -28,6 +28,16 @@ namespace Repository.ProfessionalTranslator.Net
             return await Item(testimonial);
         }
 
+        public static async Task<models.Testimonial> Item(string site, Guid? workId)
+        {
+            if (!workId.HasValue) return null;
+            models.Site siteItem = await Site.Item(site);
+            if (siteItem?.Id == null) return null;
+            Tables.dbo.Testimonial testimonial = await dbRead.Testimonial.Item(siteItem.Id.Value, workId.Value);
+            if (testimonial == null) return null;
+            return await Item(testimonial);
+        }
+
         private static async Task<Tables.dbo.Testimonial> Item(Guid siteId, Guid workId)
         {
             Tables.dbo.Testimonial testimonial = await dbRead.Testimonial.Item(siteId, workId);
@@ -54,10 +64,10 @@ namespace Repository.ProfessionalTranslator.Net
                     EmailAddress = testimonial.EmailAddress,
                     DateCreated = testimonial.DateCreated,
                     Approved = testimonial.Approved,
-                    Bodies = localizedList.Select(n => new models.Localized.Testimonial
+                    Entries = localizedList.Select(n => new models.Localized.Testimonial
                     {
                         Lcid = n.Lcid,
-                        Html = n.Html
+                        Html = n.Html.Trim()
                     }).ToList()
                 };
                 return output;
@@ -172,23 +182,18 @@ namespace Repository.ProfessionalTranslator.Net
                 return new Result(SaveStatus.Failed, "Could not convert work model to table.");
             }
 
-            Result saveWorkResult = await Work.Save(site, inputItem.Work);
-            if ((saveWorkResult.Status == SaveStatus.Failed) || (!saveWorkResult.ReturnId.HasValue))
-            {
-                return saveWorkResult;
-            }
-
             Tables.dbo.Image convertedPortrait = Image.Convert(inputItem.Portrait, siteItem.Id);
             if (convertedPortrait == null)
             {
                 return new Result(SaveStatus.Failed, "Could not convert portrait model to table.");
             }
 
-            Result savePortraitResult = await Image.Save(site, inputItem.Portrait);
-            if (savePortraitResult.Status == SaveStatus.Failed)
-            {
-                return savePortraitResult;
-            }
+            // Disabled until portraits are used for testimonials rather than covers.
+            //Result savePortraitResult = await Image.Save(site, inputItem.Portrait);
+            //if (savePortraitResult.Status == SaveStatus.Failed)
+            //{
+            //    return savePortraitResult;
+            //}
 
             inputItem.Portrait.Id = convertedPortrait.Id;
             
@@ -206,8 +211,7 @@ namespace Repository.ProfessionalTranslator.Net
             }
 
             Guid siteId = siteItem.Id;
-            Guid workId = saveWorkResult.ReturnId.Value;
-            Tables.dbo.Testimonial existingItem = await Item(siteId, workId);
+            Tables.dbo.Testimonial existingItem = await Item(siteId, convertedWork.Id);
             Guid returnId = existingItem?.Id ?? Guid.NewGuid();
             var saveItem = new Tables.dbo.Testimonial
             {
@@ -227,7 +231,7 @@ namespace Repository.ProfessionalTranslator.Net
             }
 
             // ReSharper disable once ForeachCanBePartlyConvertedToQueryUsingAnotherGetEnumerator
-            foreach (models.Localized.Testimonial localizedPage in inputItem.Bodies)
+            foreach (models.Localized.Testimonial localizedPage in inputItem.Entries)
             {
                 var saveLocalization = new Tables.Localization.Testimonial
                 {

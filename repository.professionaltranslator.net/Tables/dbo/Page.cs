@@ -6,6 +6,7 @@ namespace Repository.ProfessionalTranslator.Net.Tables.dbo
     {
         public new Guid Id { get; set; }
         public Guid SiteId { get; set; }
+        public int AreaId { get; set; }
         public Guid? ImageId { get; set; }
     }
 }

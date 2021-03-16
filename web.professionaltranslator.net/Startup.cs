@@ -40,8 +40,11 @@ namespace web.professionaltranslator.net
                 .AddRoles<IdentityRole>()
                 .AddEntityFrameworkStores<EfContext>();
 
-            services.AddRazorPages();
-            services.AddSession();
+            services.AddRazorPages().AddRazorPagesOptions(options =>
+            {
+                options.Conventions.AddAreaPageRoute("Admin", "/Testimonial", "Testimonial/{currentPage?}/{withTestimonials?}");
+            });
+                services.AddSession();
             services.AddOptions();
             services.AddAntiforgery(o => o.HeaderName = "XSRF-TOKEN");
             services.AddConfiguration<SiteSettings>(Configuration, "SiteSettings");

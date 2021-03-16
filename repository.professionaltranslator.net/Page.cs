@@ -28,10 +28,11 @@ namespace Repository.ProfessionalTranslator.Net
             return await Item(site, page);
         }
 
-        public static async Task<models.Page> Item(string site, string name)
+        public static async Task<models.Page> Item(string site, Area area, string name)
         {
             if ((string.IsNullOrEmpty(site)) || (string.IsNullOrEmpty(name))) return null;
-            Tables.dbo.Page page = await dbRead.Page.Item(site, name);
+            int areaId = Enumerators.Values.Area(area);
+            Tables.dbo.Page page = await dbRead.Page.Item(site, areaId, name);
             return await Item(site, page);
         }
 
@@ -120,9 +121,10 @@ namespace Repository.ProfessionalTranslator.Net
         /// Set inputItem.Id to null when creating a new object.
         /// </instructions>
         /// <param name="site">Name of site to which page is related.</param>
+        /// <param name="area">Area where page resides.</param>
         /// <param name="inputItem">Page object.</param>
         /// <returns>Returns save status and messages. If successful, returns an identifier via ReturnId.</returns>
-        public static async Task<Result> Save(string site, models.Page inputItem)
+        public static async Task<Result> Save(string site, Area area, models.Page inputItem)
         {
             var saveStatus = SaveStatus.Undetermined;
             var messages = new List<string>();
@@ -150,19 +152,21 @@ namespace Repository.ProfessionalTranslator.Net
                 }
             }
 
-            Rules.StringRequiredMaxLength(inputItem.Name, "Name", 20, ref messages);
+            Rules.StringRequiredMaxLength(inputItem.Name, "Name", 50, ref messages);
 
             if (messages.Any())
             {
                 return new Result(saveStatus, messages);
             }
 
-            models.Page existingItem = await Item(site, inputItem.Name);
+            models.Page existingItem = await Item(site, area, inputItem.Name);
             Guid returnId = existingItem?.Id ?? Guid.NewGuid();
+            int areaId = Enumerators.Values.Area(area);
             var saveItem = new Tables.dbo.Page
             {
                 Id = returnId,
                 SiteId = siteItem.Id,
+                AreaId = areaId,
                 CanHaveImage = inputItem.CanHaveImage,
                 ImageId = saveImage?.Id ?? Conversions.Nullable.Guid(null),
                 IsService = inputItem.IsService,

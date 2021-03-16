@@ -37,7 +37,7 @@ namespace Test.ProfessionalTranslator.Net.Repository
         [TestMethod]
         public async Task ItemByName()
         {
-            models.Page item = await repository.Item(Constants.Site, "About");
+            models.Page item = await repository.Item(Constants.Site, Area.Root, "About");
             Assert.IsTrue(item != null);
         }
 
@@ -52,7 +52,7 @@ namespace Test.ProfessionalTranslator.Net.Repository
         public async Task Save()
         {
             models.Page item = WriteItem();
-            Result result = await repository.Save(Constants.Site, item);
+            Result result = await repository.Save(Constants.Site, Area.Admin, item);
             Assert.IsTrue(result.Status == SaveStatus.Succeeded);
         }
 

@@ -1,0 +1,208 @@
+﻿.validation-message::before {
+    content: attr(data-validate);
+    display: -webkit-box;
+    display: -webkit-flex;
+    display: -moz-box;
+    display: -ms-flexbox;
+    display: flex;
+    align-items: center;
+    position: absolute;
+    width: 100%;
+    min-height: 40px;
+    background-color: #f7f7f7;
+    /*top: 35px;*/
+    left: 0;
+    padding: 0 45px 0 22px;
+    pointer-events: none;
+    /*font-family: Montserrat-SemiBold;
+    font-size: 18px;*/
+    font-weight: bold;
+    color: #642e84;
+    line-height: 1.2;
+}
+
+@media (max-width: 576px) {
+    .validation-message::before {
+        padding: 0 10px 0 10px;
+    }
+}
+
+.close-validation-message {
+    font-family: Material-Design-Iconic-Font;
+    font-size: 18px;
+    color: #642e84;
+    font-weight: bold;
+    cursor: pointer;
+    display: -webkit-box;
+    display: -webkit-flex;
+    display: -moz-box;
+    display: -ms-flexbox;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: absolute;
+    width: 40px;
+    /*height: 40px;*/
+    top: 18px;
+    right: 12px;
+}
+
+@media (max-width: 576px) {
+    .close-validation-message {
+        right: 0px;
+        width: 30px;
+    }
+}
+
+.form-container {
+    width: 100%;
+    display: -webkit-box;
+    display: -webkit-flex;
+    display: -moz-box;
+    display: -ms-flexbox;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+}
+
+.form-row {
+    width: 100%;
+}
+
+.form-wrapper {
+    /*background: #fff;
+    border: 1px solid rgb(168, 168, 168);*/
+    -ms-border-radius: 10px;
+    border-radius: 10px;
+    /*padding: 62px 55px 90px 55px;*/
+}
+
+@media (max-width: 576px) {
+    .form-wrapper {
+        padding: 62px 15px 90px 15px;
+    }
+}
+
+label.form-check-label {
+    cursor: pointer;
+}
+
+.form-check-inline {
+    margin-right: 2.75rem;
+}
+
+@media(max-width: 576px) {
+    .form-check-inline {
+        margin-right: 1.75rem;
+        margin-top: .5rem;
+    }
+}
+
+.input-container {
+    width: 100%;
+    position: relative;
+    border: 1px solid #e6e6e6;
+    border-radius: 13px;
+    padding: 10px 30px 9px 22px;
+    margin-bottom: 20px;
+}
+
+.radio-container {
+    height: 60px;
+    padding-top: 20px;
+}
+
+.input-container label {
+    color: #808080;
+}
+
+@media (max-width: 576px) {
+
+    .input-container {
+        padding: 10px 10px 9px 10px;
+    }
+}
+
+.input-element {
+    display: block;
+    width: 100%;
+    background: transparent;
+    /*font-family: Montserrat-SemiBold;
+    font-size: 18px;*/
+    color: #808080;
+    line-height: 1.2;
+    padding-right: 15px;
+}
+
+input,
+select,
+select:active,
+select:focus,
+select:hover,
+.form-control,
+.form-control:active,
+.form-control.focus,
+.form-control.hover,
+textarea {
+    outline: none !important;
+    border: none !important;
+    box-shadow: none !important;
+}
+
+input.input-element,
+select.input-element {
+    height: 40px;
+}
+
+textarea.input-element {
+    min-height: 120px;
+    padding-top: 9px;
+    padding-bottom: 13px;
+}
+
+
+.input-element:focus + .focus-input-element::before {
+    width: 100%;
+}
+
+.has-val.input-element + .focus-input-element::before {
+    width: 100%;
+}
+
+.light-gray-background {
+    background-color: #f7f7f7;
+}
+
+validated::after {
+    content: "\f26b";
+    font-family: Material-Design-Iconic-Font;
+    font-size: 18px;
+    color: #00ad5f;
+    display: -webkit-box;
+    display: -webkit-flex;
+    display: -moz-box;
+    display: -ms-flexbox;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: absolute;
+    width: 40px;
+    height: 40px;
+    top: 35px;
+    right: 10px;
+}
+
+@media (max-width: 576px) {
+    .validated::after {
+        right: 0px;
+        width: 30px;
+    }
+}
+
+.validate-form {
+    background: none;
+}
+
+.validate-input {
+    position: relative;
+}

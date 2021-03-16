@@ -1,5 +1,19 @@
-﻿namespace Repository.ProfessionalTranslator.Net
+﻿using System;
+
+namespace Repository.ProfessionalTranslator.Net
 {
+    public enum Area
+    {
+        Root = 1,
+        Admin = 2
+    }
+
+    public enum Display
+    {
+        Approved,
+        Unapproved
+    }
+
     public enum SaveStatus
     {
         Failed,
@@ -8,9 +22,20 @@
         Undetermined
     }
 
-    public enum Display
+    internal class Enumerators
     {
-        Approved,
-        Unapproved
+        internal class Values
+        {
+            internal static int Area(Area input)
+            {
+                var output = (int)Enum.Parse(typeof(Area), input.ToString());
+                return output;
+            }
+
+            private Values() { }
+        }
+
+        private Enumerators() {}
     }
+    
 }

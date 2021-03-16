@@ -22,7 +22,7 @@
                                         <!--Content-->
                                         <p>
                                             <i class="fas fa-quote-left"></i>&nbsp;
-                                            @Html.Raw(Model[0].Bodies[0].Html.Replace("<p>", string.Empty).Replace("</p>", string.Empty))
+                                            @Html.Raw(Model[0].Entries[0].Html.Replace("<p>", string.Empty).Replace("</p>", string.Empty))
                                             &nbsp;<i class="fas fa-quote-right"></i>
                                         </p>
                                         <h4 class="font-weight-bold" title="@Model[0].Name">
@@ -48,7 +48,7 @@
                                                 <!--Content-->
                                                 <p title="">
                                                     <i class="fas fa-quote-left"></i>&nbsp;
-                                                    @Html.Raw(item.Bodies[0].Html.Replace("<p>", string.Empty).Replace("</p>", string.Empty))
+                                                    @Html.Raw(item.Entries[0].Html.Replace("<p>", string.Empty).Replace("</p>", string.Empty))
                                                     &nbsp;<i class="fas fa-quote-right"></i>
                                                 </p>
                                                 <h4 class="font-weight-bold" title="@item.Name">

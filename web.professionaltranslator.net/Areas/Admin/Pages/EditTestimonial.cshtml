@@ -1,0 +1,83 @@
+﻿@page "{queryid:guid?}"
+@using global::Models.ProfessionalTranslator.Net
+@model EditTestimonialModel
+@{
+    ViewData["Title"] = "Testimonial Editor";
+    string body = Model.Item.Body;
+}
+@section Styles
+{
+    <link rel="stylesheet" type="text/css" href="~/css/material-design-iconic-font.css">
+    <link rel="stylesheet" href="~/css/form.css" />
+}
+<div class="row mt-5 mb-4">
+    <div class="col-12 text-center page-header">
+        <h1>
+            @Html.Raw(Model.Item.Header)
+        </h1>
+    </div>
+</div>
+<div class="row mb-4">
+    @if (Model.Item.Image != null)
+    {
+        <div class="col-lg-2 col-md-3 col-sm-12">
+            <img src="@Model.Item.Image.Path" class="img-fluid img-inset" alt="@Model.Item.Name" title="@Model.Item.Name">
+        </div>
+        <div class="col-lg-9 col-md-8 col-sm-12 text-justify">
+            @Html.Raw(body)
+        </div>
+    }
+    else
+    {
+        <div class="col-12 text-justify">
+            @Html.Raw(body)
+        </div>
+    }
+</div>
+<div class="row mb-4">
+    <div class="col-lg-2 col-md-3 col-sm-12">
+        <img src="@Model.Data.Cover" class="img-fluid img-inset" alt="@Model.Data.Title" title="@Model.Data.Title">
+    </div>
+    <div class="col-lg-10 col-md-9 col-sm-12 text-justify">
+        <div class="form-wrapper">
+            <form class="form-container validate-form" autocomplete="off" method="post">
+                <div class="form-row">
+                    <div class="form-group col-lg-6 col-md-12 col-sm-12">
+                        <div class="input-container validate-input light-gray-background" data-validate="Please type the name of testimonial giver." title="Please type the name of testimonial giver.">
+                            <input id="author" class="input-element" type="text" placeholder="Testimonial Giver's Name" value="@Model.Data.Author">
+                        </div>
+                    </div>
+                    <div class="form-group col-lg-6 col-md-12 col-sm-12">
+                        <div class="input-container validate-input light-gray-background" data-validate="Please type a valid email address here." title="A valid email address is required here.">
+                            <input id="email_address" class="input-element" type="email" placeholder="Testimonial Email Address" value="@Model.Data.EmailAddress">
+                        </div>
+                    </div>
+                </div>
+                <div class="form-row">
+                    <div class="form-group col-12">
+                        <div class="input-container validate-input light-gray-background" data-validate="Please enter a testimonial." title="Please enter a testimonial.">
+                            <textarea id="testimonial" class="input-element" placeholder="Enter The Testimonial Here..." style="min-height: 132px;">@Html.Raw(Model.Data.Text)</textarea>
+                        </div>
+                    </div>
+                </div>
+                <div id="result_row" class="form-row hide">
+                    <div class="form-group col-12">
+                        <div id="result_text" class="alert alert-info text-center" role="alert">
+
+                        </div>
+                    </div>
+                </div>
+                <div class="form-row">
+                    <div class="form-group col-12">
+                        <button id="save_message" class="btn btn-purple" role="button" title="Click to save the testimonial."><span>Save Testimonial</span></button>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+@section Scripts
+{
+    <script src="~/js/form.js" asp-append-version="true"></script>
+    <script src="~/js/admin/edit-testimonial.js" asp-append-version="true"></script>
+}
