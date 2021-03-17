@@ -149,6 +149,7 @@ namespace web.professionaltranslator.net.Areas.Admin.Pages
                 }
 
                 System.IO.File.Delete(tempFilePath);
+
                 string imageWebPath = AdminPortfolioSettings.ImageWebPath + filename;
 
                 var dataModel = Session.Json.GetObject<DataModel>(HttpContext.Session, Session.Key.PortfolioDataModel);
