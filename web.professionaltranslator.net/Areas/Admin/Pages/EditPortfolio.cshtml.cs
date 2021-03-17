@@ -21,7 +21,7 @@ namespace web.professionaltranslator.net.Areas.Admin.Pages
 {
     public class EditPortfolioModel : Base
     {
-        private const string PageName = "EditTestimonial";
+        private const string PageName = "EditPortfolio";
         private readonly IHostEnvironment _environment;
 
         [BindProperty(SupportsGet = true)]
