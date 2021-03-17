@@ -23,14 +23,16 @@
             $.ajax({
                 type: "POST",
                 url: "/Admin/EditPortfolio?handler=Save",
-                beforeSend: function (xhr) {
+                beforeSend: function(xhr) {
                     xhr.setRequestHeader("XSRF-TOKEN",
                         $('input:hidden[name="__RequestVerificationToken"]').val());
                 },
                 data: JSON.stringify({
                     Author: $("#author").val(),
-                    EmailAddress: $("#email_address").val(),
-                    Text: $("#testimonial").val()
+                    Title: $("#title").val(),
+                    Href: $("#href").val(),
+                    // ReSharper disable once CssBrowserCompatibility
+                    Display: $("#display").is(":checked")
                 }),
                 contentType: "application/json; charset=utf-8",
                 dataType: "json",
