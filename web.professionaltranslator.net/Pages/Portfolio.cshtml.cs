@@ -16,7 +16,7 @@ namespace web.professionaltranslator.net.Pages
         public int CurrentPage { get; set; } = 1;
         public int Count { get; set; } = -1;
 
-        public int TotalPages => (int)Math.Ceiling(decimal.Divide(Count, Configuration.PagingSize));
+        public int TotalPages => (int)Math.Ceiling(decimal.Divide(Count, SiteSettings.PagingSize));
 
         public bool ShowPrevious => CurrentPage > 1;
         public bool ShowNext => CurrentPage < TotalPages;
@@ -25,16 +25,16 @@ namespace web.professionaltranslator.net.Pages
 
         public List<Work> Thumbnails { get; set; }
 
-        public PortfolioModel(SiteSettings configuration)
+        public PortfolioModel(SiteSettings siteSettings)
         {
-            Configuration = configuration;
+            SiteSettings = siteSettings;
         }
 
         public async Task<IActionResult> OnGet()
         {
-            Item = await new Base().Get(Configuration, Area.Root, PageName);
-            Thumbnails = await Data.List(Configuration.Site, Display.Approved, (CurrentPage - 1), Configuration.PagingSize);
-            Count = await Data.PagingCount(Configuration.Site, Display.Approved);
+            Item = await new Base().Get(SiteSettings, Area.Root, PageName);
+            Thumbnails = await Data.List(SiteSettings.Site, Display.Approved, (CurrentPage - 1), SiteSettings.PagingSize);
+            Count = await Data.PagingCount(SiteSettings.Site, Display.Approved);
             return Item == null ? NotFound() : (IActionResult)Page();
         }
     }

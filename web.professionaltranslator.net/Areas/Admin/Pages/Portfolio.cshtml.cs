@@ -20,7 +20,7 @@ namespace web.professionaltranslator.net.Areas.Admin.Pages
 
         public int Count { get; set; } = -1;
 
-        public int TotalPages => (int)Math.Ceiling(decimal.Divide(Count, Configuration.PagingSizeSelectWork));
+        public int TotalPages => (int)Math.Ceiling(decimal.Divide(Count, SiteSettings.PagingSizeSelectWork));
 
         public bool ShowPrevious => CurrentPage > 1;
         public bool ShowNext => CurrentPage < TotalPages;
@@ -29,23 +29,23 @@ namespace web.professionaltranslator.net.Areas.Admin.Pages
 
         public List<Work> Thumbnails { get; set; }
 
-        public PortfolioModel(SiteSettings configuration)
+        public PortfolioModel(SiteSettings siteSettings)
         {
-            Configuration = configuration;
+            SiteSettings = siteSettings;
         }
 
         public async Task<IActionResult> OnGet()
         {
-            Item = await new Base().Get(Configuration, Admin, PageName);
+            Item = await new Base().Get(SiteSettings, Admin, PageName);
             if (ShowApproved == 0)
             {
-                Thumbnails = await Data.List(Configuration.Site, Display.Unapproved, (CurrentPage - 1), Configuration.PagingSizeSelectWork);
-                Count = await Data.PagingCount(Configuration.Site, Display.Unapproved);
+                Thumbnails = await Data.List(SiteSettings.Site, Display.Unapproved, (CurrentPage - 1), SiteSettings.PagingSizeSelectWork);
+                Count = await Data.PagingCount(SiteSettings.Site, Display.Unapproved);
             }
             else
             {
-                Thumbnails = await Data.List(Configuration.Site, Display.Approved, (CurrentPage - 1), Configuration.PagingSizeSelectWork);
-                Count = await Data.PagingCount(Configuration.Site, Display.Approved);
+                Thumbnails = await Data.List(SiteSettings.Site, Display.Approved, (CurrentPage - 1), SiteSettings.PagingSizeSelectWork);
+                Count = await Data.PagingCount(SiteSettings.Site, Display.Approved);
             }
 
 

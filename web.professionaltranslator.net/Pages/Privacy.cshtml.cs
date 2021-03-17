@@ -8,14 +8,14 @@ namespace web.professionaltranslator.net.Pages
 {
     public class PrivacyModel : Base
     {
-        public PrivacyModel(SiteSettings configuration)
+        public PrivacyModel(SiteSettings siteSettings)
         {
-            Configuration = configuration;
+            SiteSettings = siteSettings;
         }
 
         public async Task<IActionResult> OnGet()
         {
-            Item = await new Base().Get(Configuration, Area.Root, "Privacy");
+            Item = await new Base().Get(SiteSettings, Area.Root, "Privacy");
             return Item == null ? NotFound() : (IActionResult)Page();
         }
     }

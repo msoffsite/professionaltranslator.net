@@ -52,6 +52,7 @@ namespace web.professionaltranslator.net
             services.AddOptions();
             services.AddAntiforgery(o => o.HeaderName = "XSRF-TOKEN");
             services.AddConfiguration<SiteSettings>(Configuration, "SiteSettings");
+            services.AddConfiguration<AdminPortfolioSettings>(Configuration, "AdminPortfolioSettings");
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

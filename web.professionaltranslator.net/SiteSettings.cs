@@ -7,7 +7,6 @@
         public string Site { get; set; }
         public int PagingSize { get; set; }
         public int PagingSizeSelectWork { get; set; }
-        public string PortfolioFilePath { get; set; }
         public string Postmaster { get; set; }
         public string PostmasterDisplayName { get; set; }
         public string DefaultToDisplayName { get; set; }
@@ -16,6 +15,5 @@
         public string SmtpPassword { get; set; }
         public int SmtpPort { get; set; } 
         public int SmtpPortSsl { get; set; }
-        public string TempPortfolioFilePath { get; set; }
     }
 }

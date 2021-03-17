@@ -16,7 +16,7 @@ namespace Repository.ProfessionalTranslator.Net
             ReturnId = status == SaveStatus.PartialSuccess || status == SaveStatus.Succeeded ? returnId : null;
         }
 
-        internal Result(SaveStatus status, string message, Guid? returnId)
+        public Result(SaveStatus status, string message, Guid? returnId)
         {
             Status = status;
             Messages = new List<string> { message };

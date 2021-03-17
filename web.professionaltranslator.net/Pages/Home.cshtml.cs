@@ -8,9 +8,9 @@ namespace web.professionaltranslator.net.Pages
     {
         //private readonly ILogger<IndexModel> _logger;
 
-        public HomeModel(SiteSettings configuration)
+        public HomeModel(SiteSettings siteSettings)
         {
-            Configuration = configuration;
+            SiteSettings = siteSettings;
         }
 
         //public HomeModel(SiteSettings configuration, ILogger<IndexModel> logger)
@@ -21,7 +21,7 @@ namespace web.professionaltranslator.net.Pages
 
         public async Task<IActionResult> OnGet()
         {
-            Item = await new Base().Get(Configuration, Area.Root, "Home");
+            Item = await new Base().Get(SiteSettings, Area.Root, "Home");
             return Item == null ? NotFound() : (IActionResult)Page();
         }
     }

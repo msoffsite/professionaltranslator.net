@@ -27,17 +27,17 @@ namespace web.professionaltranslator.net.Areas.Admin.Pages
 
         public EditModel Data { get; set; }
 
-        public EditTestimonialModel(SiteSettings configuration)
+        public EditTestimonialModel(SiteSettings siteSettings)
         {
-            Configuration = configuration;
+            SiteSettings = siteSettings;
         }
 
         public async Task<IActionResult> OnGet()
         {
-            Item = await new Base().Get(Configuration, Admin, PageName);
+            Item = await new Base().Get(SiteSettings, Admin, PageName);
             if (Item == null) { return NotFound(); }
 
-            RepositoryData = await Testimonial.Item(Configuration.Site, QueryId) ?? new DataModel
+            RepositoryData = await Testimonial.Item(SiteSettings.Site, QueryId) ?? new DataModel
             {
                 Name = string.Empty,
                 EmailAddress = string.Empty,
@@ -52,14 +52,14 @@ namespace web.professionaltranslator.net.Areas.Admin.Pages
             {
                 var testimonial = new LocalizedDataModel
                 {
-                    Lcid = Configuration.Lcid,
+                    Lcid = SiteSettings.Lcid,
                     Html = string.Empty
                 };
                 RepositoryData.Entries.Add(testimonial);
             }
             else
             {
-                LocalizedDataModel entry = RepositoryData.Entries.FirstOrDefault(x => x.Lcid == Configuration.Lcid);
+                LocalizedDataModel entry = RepositoryData.Entries.FirstOrDefault(x => x.Lcid == SiteSettings.Lcid);
 
                 if (entry == null) { return NotFound(); }
                 
@@ -75,7 +75,7 @@ namespace web.professionaltranslator.net.Areas.Admin.Pages
                 Cover = RepositoryData.Work.Cover.Path,
                 Author = RepositoryData.Work.Authors,
                 EmailAddress = RepositoryData.EmailAddress,
-                Text = RepositoryData.Entries.FirstOrDefault(x => x.Lcid == Configuration.Lcid)?.Html,
+                Text = RepositoryData.Entries.FirstOrDefault(x => x.Lcid == SiteSettings.Lcid)?.Html,
                 Title = RepositoryData.Work.Title
             };
 
@@ -102,7 +102,7 @@ namespace web.professionaltranslator.net.Areas.Admin.Pages
                 RepositoryData.Name = obj.Author;
                 RepositoryData.EmailAddress = obj.EmailAddress;
 
-                LocalizedDataModel entry = RepositoryData.Entries.FirstOrDefault(x => x.Lcid == Configuration.Lcid);
+                LocalizedDataModel entry = RepositoryData.Entries.FirstOrDefault(x => x.Lcid == SiteSettings.Lcid);
                 
                 if (entry == null) { return NotFound(); }
                 
@@ -110,7 +110,7 @@ namespace web.professionaltranslator.net.Areas.Admin.Pages
                 entry.Html = "<p>" + obj.Text.Replace(Environment.NewLine, string.Empty) + "</p>";
                 RepositoryData.Entries.Add(entry);
 
-                result = await Testimonial.Save(Configuration.Site, RepositoryData);
+                result = await Testimonial.Save(SiteSettings.Site, RepositoryData);
                 Session.Set<Guid>(HttpContext.Session, Session.Key.InquiryResult, result.ReturnId);
             }
             catch (System.Exception ex)
