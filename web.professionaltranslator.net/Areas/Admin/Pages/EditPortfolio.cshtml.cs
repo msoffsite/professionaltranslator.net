@@ -54,7 +54,7 @@ namespace web.professionaltranslator.net.Areas.Admin.Pages
                 Cover = await Image.DefaultPortfolio(SiteSettings.Site)
             };
 
-            Session.Json.SetObject(HttpContext.Session, Session.Key.TestimonialDataModel, RepositoryData);
+            Session.Json.SetObject(HttpContext.Session, Session.Key.PortfolioDataModel, RepositoryData);
 
             Data = new EditModel
             {
