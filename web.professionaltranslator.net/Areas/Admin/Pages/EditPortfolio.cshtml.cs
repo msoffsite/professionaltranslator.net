@@ -125,7 +125,7 @@ namespace web.professionaltranslator.net.Areas.Admin.Pages
                 Guid? queryId = Session.Get(HttpContext.Session, Session.Key.QueryId);
                 if (!queryId.HasValue)
                 {
-                    throw new NullReferenceException("QueryId in session has no value");
+                    throw new NullReferenceException("QueryId in session has no value.");
                 }
 
                 var filename = queryId.Value.ToString();
