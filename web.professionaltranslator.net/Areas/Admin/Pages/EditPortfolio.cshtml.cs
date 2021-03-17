@@ -7,10 +7,16 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.Extensions.Hosting;
-using Repository.ProfessionalTranslator.Net;
 using SixLabors.ImageSharp;
 using SixLabors.ImageSharp.Processing;
 using ImageSharp = SixLabors.ImageSharp;
+
+using Repository.ProfessionalTranslator.Net;
+using web.professionaltranslator.net.Extensions;
+using DataModel = Models.ProfessionalTranslator.Net.Work;
+using EditModel = web.professionaltranslator.net.Models.Admin.Work;
+using Image = Repository.ProfessionalTranslator.Net.Image;
+
 namespace web.professionaltranslator.net.Areas.Admin.Pages
 {
     public class EditPortfolioModel : Base
@@ -21,6 +27,10 @@ namespace web.professionaltranslator.net.Areas.Admin.Pages
         [BindProperty(SupportsGet = true)]
         public Guid QueryId { get; set; } = Guid.Empty;
 
+        private DataModel RepositoryData { get; set; }
+
+        public EditModel Data { get; set; }
+
         public EditPortfolioModel(SiteSettings siteSettings, AdminPortfolioSettings adminPortfolioSettings, IHostEnvironment environment)
         {
             SiteSettings = siteSettings;
@@ -28,14 +38,39 @@ namespace web.professionaltranslator.net.Areas.Admin.Pages
             _environment = environment;
         }
 
-        public void OnGet()
+        public async Task<IActionResult> OnGet()
         {
-            
+            Item = await new Base().Get(SiteSettings, Admin, PageName);
+            if (Item == null) { return NotFound(); }
+
+            RepositoryData = await Work.Item(QueryId) ?? new DataModel
+            {
+                Id = QueryId,
+                Title = string.Empty,
+                Authors = string.Empty,
+                Href = string.Empty,
+                DateCreated = DateTime.Now,
+                Display = false,
+                Cover = await Image.DefaultPortfolio(SiteSettings.Site)
+            };
+
+            Session.Json.SetObject(HttpContext.Session, Session.Key.TestimonialDataModel, RepositoryData);
+
+            Data = new EditModel
+            {
+                Cover = RepositoryData.Cover.Path,
+                Author = RepositoryData.Authors,
+                Display = RepositoryData.Display,
+                Title = RepositoryData.Title,
+                Href = RepositoryData.Href
+            };
+
+            return Page();
         }
 
         [BindProperty]
         public IFormFile Upload { get; set; }
-        public async Task<ActionResult> OnPostAsync()
+        public async Task<ActionResult> OnPostImage()
         {
             Result result;
 

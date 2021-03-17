@@ -10,9 +10,15 @@ namespace Repository.ProfessionalTranslator.Net
 {
     public class Image
     {
-        public static async Task<models.Image> DefaultPortrait(string site)
+        public static async Task<models.Image> DefaultPortfolio(string site)
         {
-            Tables.dbo.Image image = await dbRead.Image.DefaultPortrait(site);
+            Tables.dbo.Image image = await dbRead.Image.DefaultPortfolio(site);
+            return Item(image);
+        }
+
+        public static async Task<models.Image> DefaultTestimonial(string site)
+        {
+            Tables.dbo.Image image = await dbRead.Image.DefaultTestimonial(site);
             return Item(image);
         }
 

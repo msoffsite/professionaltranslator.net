@@ -10,9 +10,21 @@ namespace Repository.ProfessionalTranslator.Net.DatabaseOperations.dbo.Read
 {
     internal class Image : Base
     {
-        internal static async Task<Tables.dbo.Image> DefaultPortrait(string site)
+        internal static async Task<Tables.dbo.Image> DefaultPortfolio(string site)
         {
-            await using var cmd = new SqlCommand("[dbo].[GetImageDefaultPortrait]", new Base().SqlConnection)
+            await using var cmd = new SqlCommand("[dbo].[GetImageDefaultPortfolio]", new Base().SqlConnection)
+            {
+                CommandType = CommandType.StoredProcedure
+            };
+
+            cmd.Parameters.Add("@Site", SqlDbType.NVarChar, 25).Value = site;
+            using var sda = new SqlDataAdapter(cmd);
+            return Object.GetItem<Tables.dbo.Image>(sda);
+        }
+
+        internal static async Task<Tables.dbo.Image> DefaultTestimonial(string site)
+        {
+            await using var cmd = new SqlCommand("[dbo].[GetImageDefaultTestimonial]", new Base().SqlConnection)
             {
                 CommandType = CommandType.StoredProcedure
             };

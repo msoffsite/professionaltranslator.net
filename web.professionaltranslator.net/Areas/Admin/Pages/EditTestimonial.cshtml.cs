@@ -39,6 +39,7 @@ namespace web.professionaltranslator.net.Areas.Admin.Pages
 
             RepositoryData = await Testimonial.Item(SiteSettings.Site, QueryId) ?? new DataModel
             {
+                Id = QueryId,
                 Name = string.Empty,
                 EmailAddress = string.Empty,
                 Work = await Work.Item(QueryId),

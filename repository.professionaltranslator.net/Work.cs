@@ -48,8 +48,7 @@ namespace Repository.ProfessionalTranslator.Net
                 Authors = inputItem.Authors,
                 Href = inputItem.Href,
                 DateCreated = inputItem.DateCreated,
-                Display = inputItem.Display,
-                TestimonialLink = inputItem.TestimonialLink
+                Display = inputItem.Display
             };
             return output;
         }
@@ -67,8 +66,7 @@ namespace Repository.ProfessionalTranslator.Net
                 Authors = item.Authors,
                 Href = item.Href,
                 DateCreated = item.DateCreated,
-                Display = item.Display,
-                TestimonialLink = item.TestimonialLink
+                Display = item.Display
             };
             return output;
         }
@@ -219,8 +217,7 @@ namespace Repository.ProfessionalTranslator.Net
                 Authors = n.Authors,
                 Href = n.Href,
                 DateCreated = n.DateCreated,
-                Display = n.Display,
-                TestimonialLink = n.TestimonialLink
+                Display = n.Display
             }).ToList();
         }
 
@@ -268,8 +265,6 @@ namespace Repository.ProfessionalTranslator.Net
             {
                 Rules.ValidateUrl(inputItem.Href, "Href", ref messages);
             }
-
-            Rules.StringRequiredMaxLength(inputItem.TestimonialLink, "Testimonial Link", 100, ref messages);
 
             if (messages.Any()) return new Result(SaveStatus.Failed, messages);
 
