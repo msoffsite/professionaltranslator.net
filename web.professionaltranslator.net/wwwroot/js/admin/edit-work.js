@@ -38,7 +38,7 @@
                     if (response.status === 0) {
                         processResultMessages(workResultRow, workResultText, response);
                     } else {
-                        processResultMessages(workResultRow, workResultText, "Work saved.");
+                        processResultMessages(workResultRow, workResultText, "Work saved to portfolio.");
                     }
                 },
                 failure: function (xhr) {
