@@ -25,7 +25,7 @@
                 url: "/Admin/EditPortfolio?handler=Save",
                 beforeSend: function(xhr) {
                     xhr.setRequestHeader("XSRF-TOKEN",
-                        $('input:hidden[name="__RequestVerificationToken"]').val());
+                        $("input:hidden[name='__RequestVerificationToken']").val());
                 },
                 data: JSON.stringify({
                     Author: $("#author").val(),
