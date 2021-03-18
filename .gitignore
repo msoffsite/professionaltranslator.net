@@ -353,3 +353,4 @@ MigrationBackup/
 /repository.professionaltranslator.net/DatabaseOperations/ConnectionStrings.cs
 /web.professionaltranslator.net/wwwroot/img/Portfolio
 /web.professionaltranslator.net/wwwroot/img/Testimonials
+/web.professionaltranslator.net/appsettings.Development.json
