@@ -195,6 +195,12 @@ img.zoom {
     margin-bottom: 40px;
 }
 
+.list-group-item {
+    background: none;
+    border: none;
+    padding: 0;
+}
+
 .loading-container {
     background: rgba(255, 255, 255, 0.75);
     margin: 0;
@@ -216,10 +222,14 @@ img.zoom {
     margin: 25px 75px;
 }
 
-.list-group-item {
-    background: none;
-    border: none;
-    padding: 0;
+.mb-5rem,
+.my-5rem {
+    margin-bottom: 5rem !important;
+}
+
+.mb-10rem,
+.my-10rem {
+    margin-bottom: 10rem !important;
 }
 
 .page-header {
@@ -315,6 +325,12 @@ img.zoom {
             margin-left: -15rem;
         }
     }*/
+
+    .btn:active,
+    .btn:focus {
+        outline: none !important;
+        box-shadow: none !important;
+    }
 
     .btn-container {
         position: absolute;

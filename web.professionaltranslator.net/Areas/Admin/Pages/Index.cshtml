@@ -3,3 +3,44 @@
 @{
     ViewData["Title"] = "Home";
 }
+<div class="row mb-4">
+    <div class="col-12 text-center page-header">
+        <h1>
+            Admin Home
+        </h1>
+    </div>
+</div>
+<div class="row mb-4">
+    <div class="col-6 align-content-center">
+        <div class="card text-center mx-auto full-width" style="width: 18rem;">
+            <img src="/img/Admin/portfolio-card.jpg" class="card-img-top" title="Add or edit a work for portfolio." alt="Add or edit a work for portfolio."/>
+            <div class="card-body">
+                <h5 class="card-title">
+                    Portfolio Editor
+                </h5>
+                <p class="card-text">
+                    Here, you can add and edit works for your portfolio. You'll need a cover, author(s) name(s), and a url where the book is available. You can also make works visible to or hidden from the public eye.
+                </p>
+                <a asp-area="Admin" asp-page="/Portfolio" class="btn btn-primary text-white">
+                    Go to Portfolio Editor
+                </a>
+            </div>
+        </div>
+    </div>
+    <div class="col-6 align-content-center">
+        <div class="card text-center mx-auto full-width" style="width: 18rem;">
+            <img src="/img/Admin/testimonial-card.jpg" class="card-img-top" title="Add or edit a testimonial." alt="Add or edit a testimonial."/>
+            <div class="card-body">
+                <h5 class="card-title">
+                    Testimonial Editor
+                </h5>
+                <p class="card-text">
+                    Here is where you add and edit testimonials. You'll need the name of the person providing a testimonial, their email address, and what they have to say about the services you've provided.
+                </p>
+                <a asp-area="Admin" asp-page="/Testimonial" class="btn btn-primary text-white">
+                    Go to Testimonial Editor
+                </a>
+            </div>
+        </div>
+    </div>
+</div>

@@ -80,7 +80,7 @@ namespace Repository.ProfessionalTranslator.Net
 
             var convertItem = new Tables.Log.Exception
             {
-                Id = inputItem.Id ?? Guid.NewGuid(),
+                Id = inputItem.Id,
                 SiteId = siteItem.Id,
                 Message = inputItem.Message,
                 Stacktrace = inputItem.Stacktrace,

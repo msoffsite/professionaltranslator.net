@@ -50,22 +50,23 @@ function validate(element) {
     }
 }
 
-function processResultMessages(row, textContainer, response) {
+function processResultMessages(row, textContainer, messages) {
     row.fadeIn(1000);
 
     let html = "";
-    if (response.messages.constructor === Array) {
-        const messageArray = response.messages;
+    if (Array.isArray(messages)) {
+        const messageArray = messages;
         for (let i = 0; i < messageArray.length; ++i) {
             html += messageArray[i];
             html += "<br />";
         }
+        row.fadeOut(10000);
     } else {
-        html = response;
+        html = messages;
+        row.fadeOut(5000);
     }
 
     textContainer.html(`<p>${html}</p>`);
-    row.fadeOut(15000);
 }
 
 function showValidationMessage(element) {

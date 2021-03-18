@@ -14,7 +14,7 @@ namespace Models.ProfessionalTranslator.Net.Log
 
         public Exception(System.Exception inputItem, string className)
         {
-            Id = null;
+            Id = Guid.Empty;
             Message = inputItem.Message;
             Stacktrace = inputItem.StackTrace;
             Type = inputItem.GetType().Name;

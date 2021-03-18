@@ -23,7 +23,7 @@ namespace web.professionaltranslator.net.Areas.Admin.Pages
 {
     public class EditPortfolioModel : Base
     {
-        private const string PageName = "EditPortfolio";
+        private const string PageName = "PortfolioEditWork";
         private readonly IHostEnvironment _environment;
 
         [BindProperty(SupportsGet = true)]
@@ -88,9 +88,13 @@ namespace web.professionaltranslator.net.Areas.Admin.Pages
                 if (obj == null) throw new NullReferenceException("Model could not be derived from JSON object.");
 
                 Guid? queryId = Session.Get(HttpContext.Session, Session.Key.QueryId);
+                if (!queryId.HasValue)
+                {
+                    throw new NullReferenceException("QueryId in session has no value.");
+                }
 
-                RepositoryData = Session.Json.GetObject<DataModel>(HttpContext.Session, Session.Key.TestimonialDataModel);
-                RepositoryData.Id = queryId;
+                RepositoryData = Session.Json.GetObject<DataModel>(HttpContext.Session, Session.Key.PortfolioDataModel);
+                RepositoryData.Id = queryId.Value;
                 RepositoryData.Authors = obj.Author;
                 RepositoryData.Display = obj.Display;
                 RepositoryData.Href = obj.Href;
@@ -101,7 +105,7 @@ namespace web.professionaltranslator.net.Areas.Admin.Pages
             }
             catch (System.Exception ex)
             {
-                return BadRequest(ex.Message);
+                result = new Result(SaveStatus.Failed, ex.Message, Guid.Empty);
             }
 
             return new JsonResult(result);

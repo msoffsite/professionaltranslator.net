@@ -16,7 +16,7 @@ namespace Repository.ProfessionalTranslator.Net
             if (inputItem == null) return null;
             var output = new Tables.Log.Inquiry
             {
-                Id = inputItem.Id ?? Guid.NewGuid(),
+                Id = inputItem.Id,
                 SiteId = siteId,
                 Name = inputItem.Name,
                 EmailAddress = inputItem.EmailAddress,

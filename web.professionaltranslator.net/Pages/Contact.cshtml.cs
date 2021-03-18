@@ -44,8 +44,9 @@ namespace web.professionaltranslator.net.Pages
                 
                 var obj = JsonConvert.DeserializeObject<Model>(requestBody);
                 if (obj == null) throw new NullReferenceException("Model could not be derived from JSON object.");
-                obj.Id = null;
                 
+                obj.Id = Guid.NewGuid();
+
                 string messageHtml = obj.Message.Replace(Environment.NewLine, "<br/></br/>");
                 obj.Message = messageHtml;
 

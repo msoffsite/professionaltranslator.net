@@ -37,7 +37,7 @@ namespace Repository.ProfessionalTranslator.Net
             if (inputItem == null) return null;
             var output = new Tables.dbo.Image
             {
-                Id = inputItem.Id ?? throw new NullReferenceException("inputItem.Id must have a value when converting."),
+                Id = inputItem.Id,
                 SiteId = siteId,
                 Path = inputItem.Path
             };
@@ -110,9 +110,6 @@ namespace Repository.ProfessionalTranslator.Net
                 return new Result(SaveStatus.Failed, messages);
             }
 
-            models.Image existingItem = await Item(site, inputItem.Path);
-            Guid returnId = existingItem.Id ?? Guid.NewGuid();
-            inputItem.Id = returnId;
             Tables.dbo.Image convertedImage = Convert(inputItem, siteItem.Id);
             if (convertedImage == null)
             {
@@ -122,7 +119,7 @@ namespace Repository.ProfessionalTranslator.Net
             Result saveImageResult = await dbWrite.Item(site, convertedImage);
             if (saveImageResult.Status == SaveStatus.PartialSuccess || saveImageResult.Status == SaveStatus.Succeeded)
             {
-                saveImageResult.ReturnId = returnId;
+                saveImageResult.ReturnId = inputItem.Id;
             }
 
             return saveImageResult;

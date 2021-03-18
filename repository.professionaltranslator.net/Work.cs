@@ -41,9 +41,9 @@ namespace Repository.ProfessionalTranslator.Net
             if (inputItem == null) return null;
             var output = new Tables.dbo.Work
             {
-                Id = inputItem.Id ?? throw new NullReferenceException("inputItem.Id must have a value when converting."),
+                Id = inputItem.Id,
                 SiteId = siteId,
-                CoverId = inputItem.Cover.Id ?? throw new ArgumentNullException(nameof(inputItem.Cover.Id), "Cover must have an identifier."),
+                CoverId = inputItem.Cover.Id,
                 Title = inputItem.Title,
                 Authors = inputItem.Authors,
                 Href = inputItem.Href,
@@ -71,6 +71,9 @@ namespace Repository.ProfessionalTranslator.Net
             return output;
         }
 
+
+        // ReSharper disable once UnusedMember.Local
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("CodeQuality", "IDE0051:Remove unused private members", Justification = "<Pending>")]
         private static async Task<Tables.dbo.Work> Item(string site, string title, string authors)
         {
             Tables.dbo.Work output = await dbRead.Work.Item(site, title, authors);
@@ -257,8 +260,6 @@ namespace Repository.ProfessionalTranslator.Net
                 return new Result(saveImageResult.Status, messages);
             }
 
-            inputItem.Cover.Id = convertImage.Id;
-
             Rules.StringRequiredMaxLength(inputItem.Title, "Title", 100, ref messages);
             Rules.StringRequiredMaxLength(inputItem.Authors, "Authors", 255, ref messages);
             if (Rules.StringRequiredMaxLength(inputItem.Href, "Href", 2048, ref messages) == Rules.Passed.Yes)
@@ -268,16 +269,13 @@ namespace Repository.ProfessionalTranslator.Net
 
             if (messages.Any()) return new Result(SaveStatus.Failed, messages);
 
-            Tables.dbo.Work existingItem = await Item(site, inputItem.Title, inputItem.Authors);
-            Guid returnId = existingItem?.Id ?? Guid.NewGuid();
-            inputItem.Id = returnId;
             Tables.dbo.Work convertedWork = Convert(inputItem, siteItem.Id);
             if (convertedWork == null) return new Result(SaveStatus.Failed, "Could not convert Work model to table.");
 
             Result output = await dbWrite.Item(site, convertedWork);
             if (output.Status == SaveStatus.PartialSuccess || output.Status == SaveStatus.Succeeded)
             {
-                output.ReturnId = returnId;
+                output.ReturnId = inputItem.Id;
             }
             return output;
         }

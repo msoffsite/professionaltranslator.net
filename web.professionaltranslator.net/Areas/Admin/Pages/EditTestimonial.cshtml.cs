@@ -102,6 +102,7 @@ namespace web.professionaltranslator.net.Areas.Admin.Pages
                 RepositoryData = Session.Json.GetObject<DataModel>(HttpContext.Session, Session.Key.TestimonialDataModel);
                 RepositoryData.Name = obj.Author;
                 RepositoryData.EmailAddress = obj.EmailAddress;
+                RepositoryData.Portrait ??= await Image.DefaultTestimonial(SiteSettings.Site);
 
                 LocalizedDataModel entry = RepositoryData.Entries.FirstOrDefault(x => x.Lcid == SiteSettings.Lcid);
                 
@@ -116,7 +117,7 @@ namespace web.professionaltranslator.net.Areas.Admin.Pages
             }
             catch (System.Exception ex)
             {
-                return BadRequest(ex.Message);
+                result = new Result(SaveStatus.Failed, ex.Message, Guid.Empty);
             }
 
             return new JsonResult(result);
