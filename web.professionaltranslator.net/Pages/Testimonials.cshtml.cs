@@ -6,14 +6,14 @@ namespace web.professionaltranslator.net.Pages
 {
     public class TestimonialsModel : Base
     {
-        public TestimonialsModel(SiteSettings configuration)
+        public TestimonialsModel(SiteSettings siteSettings)
         {
-            Configuration = configuration;
+            SiteSettings = siteSettings;
         }
 
         public async Task<IActionResult> OnGet()
         {
-            Item = await new Base().Get(Configuration, Area.Root, "Testimonials");
+            Item = await new Base().Get(SiteSettings, Area.Root, "Testimonials");
             return Item == null ? NotFound() : (IActionResult) Page();
         }
     }

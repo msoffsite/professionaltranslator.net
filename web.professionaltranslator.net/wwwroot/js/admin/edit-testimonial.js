@@ -20,7 +20,6 @@
         }
 
         if (passed) {
-            resultRow.fadeIn(1000);
             $.ajax({
                 type: "POST",
                 url: "/Admin/EditTestimonial?handler=Save",
@@ -36,12 +35,14 @@
                 contentType: "application/json; charset=utf-8",
                 dataType: "json",
                 success: function (response) {
-                    resultText.html("Testimonial saved.");
-                    resultRow.fadeOut(5000);
+                    if (response.status === 0) {
+                        processResultMessages(resultRow, resultText, response.messages);
+                    } else {
+                        processResultMessages(resultRow, resultText, "Testimonial saved.");
+                    }
                 },
-                failure: function (response) {
-                    resultText.html(`<p>${response.Messages}</p>`);
-                    resultRow.fadeOut(10000);
+                failure: function (xhr) {
+                    processResultMessages(resultRow, resultText, xhr.statusText);
                 }
             });
         }

@@ -87,13 +87,17 @@ label.form-check-label {
     cursor: pointer;
 }
 
+.form-check-container {
+    min-height: 3.75rem;
+}
+
 .form-check-inline {
-    margin-right: 2.75rem;
+    margin-right: .5rem;
 }
 
 @media(max-width: 576px) {
     .form-check-inline {
-        margin-right: 1.75rem;
+        margin-right: .5rem;
         margin-top: .5rem;
     }
 }

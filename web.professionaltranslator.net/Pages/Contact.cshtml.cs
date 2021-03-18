@@ -18,14 +18,14 @@ namespace web.professionaltranslator.net.Pages
 {
     public class ContactModel : Base
     {
-        public ContactModel(SiteSettings configuration)
+        public ContactModel(SiteSettings siteSettings)
         {
-            Configuration = configuration;
+            SiteSettings = siteSettings;
         }
 
         public async Task<IActionResult> OnGet()
         {
-            Item = await new Base().Get(Configuration, Area.Root, "Contact");
+            Item = await new Base().Get(SiteSettings, Area.Root, "Contact");
             return Item == null ? NotFound() : (IActionResult)Page();
         }
 
@@ -44,8 +44,9 @@ namespace web.professionaltranslator.net.Pages
                 
                 var obj = JsonConvert.DeserializeObject<Model>(requestBody);
                 if (obj == null) throw new NullReferenceException("Model could not be derived from JSON object.");
-                obj.Id = null;
                 
+                obj.Id = Guid.NewGuid();
+
                 string messageHtml = obj.Message.Replace(Environment.NewLine, "<br/></br/>");
                 obj.Message = messageHtml;
 
@@ -66,16 +67,16 @@ namespace web.professionaltranslator.net.Pages
                 body.Append("<br/><br />");
                 body.Append(messageHtml);
 
-                result = await Data.Save(Configuration.Site, obj);
+                result = await Data.Save(SiteSettings.Site, obj);
                 Session.Set<Guid>(HttpContext.Session, Session.Key.InquiryResult, result.ReturnId);
 
                 var toList = new List<MailAddress>
                 {
-                    new MailAddress(Configuration.DefaultTo, Configuration.DefaultToDisplayName),
+                    new MailAddress(SiteSettings.DefaultTo, SiteSettings.DefaultToDisplayName),
                     new MailAddress(obj.EmailAddress, obj.Name)
                 };
 
-                Smtp.SendMail(Configuration, toList, "Translation Inquiry", body.ToString(), Smtp.BodyType.Html, Smtp.SslSetting.Off);
+                Smtp.SendMail(SiteSettings, toList, "Translation Inquiry", body.ToString(), Smtp.BodyType.Html, Smtp.SslSetting.Off);
             }
             catch (Exception ex)
             {

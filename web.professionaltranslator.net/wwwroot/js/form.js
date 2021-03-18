@@ -50,6 +50,25 @@ function validate(element) {
     }
 }
 
+function processResultMessages(row, textContainer, messages) {
+    row.fadeIn(1000);
+
+    let html = "";
+    if (Array.isArray(messages)) {
+        const messageArray = messages;
+        for (let i = 0; i < messageArray.length; ++i) {
+            html += messageArray[i];
+            html += "<br />";
+        }
+        row.fadeOut(10000);
+    } else {
+        html = messages;
+        row.fadeOut(5000);
+    }
+
+    textContainer.html(`<p>${html}</p>`);
+}
+
 function showValidationMessage(element) {
     const thisAlert = $(element).parent();
 

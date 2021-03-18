@@ -10,7 +10,6 @@ using Microsoft.AspNetCore.Mvc.RazorPages;
 using Newtonsoft.Json;
 using Repository.ProfessionalTranslator.Net;
 using web.professionaltranslator.net.Extensions;
-using Base = web.professionaltranslator.net.Pages.Base;
 using DataModel = Models.ProfessionalTranslator.Net.Testimonial;
 using LocalizedDataModel = Models.ProfessionalTranslator.Net.Localized.Testimonial;
 using EditModel = web.professionaltranslator.net.Models.Admin.Testimonial;
@@ -28,63 +27,57 @@ namespace web.professionaltranslator.net.Areas.Admin.Pages
 
         public EditModel Data { get; set; }
 
-        public EditTestimonialModel(SiteSettings configuration)
+        public EditTestimonialModel(SiteSettings siteSettings)
         {
-            Configuration = configuration;
+            SiteSettings = siteSettings;
         }
 
         public async Task<IActionResult> OnGet()
         {
-            Item = await new Base().Get(Configuration, Area.Admin, PageName);
-            if (Item == null)
-            {
-                return NotFound();
-            }
+            Item = await new Base().Get(SiteSettings, Admin, PageName);
+            if (Item == null) { return NotFound(); }
 
-            RepositoryData = await Testimonial.Item(Configuration.Site, QueryId) ?? new DataModel
+            RepositoryData = await Testimonial.Item(SiteSettings.Site, QueryId) ?? new DataModel
             {
+                Id = QueryId,
                 Name = string.Empty,
                 EmailAddress = string.Empty,
                 Work = await Work.Item(QueryId),
                 Entries = new List<LocalizedDataModel>()
             };
 
-            if (RepositoryData.Work == null)
-            {
-                return NotFound();
-            }
+            if (RepositoryData.Work == null) { return NotFound(); }
 
             // ReSharper disable once InvertIf
             if (!RepositoryData.Entries.Any())
             {
                 var testimonial = new LocalizedDataModel
                 {
-                    Lcid = Configuration.Lcid,
+                    Lcid = SiteSettings.Lcid,
                     Html = string.Empty
                 };
                 RepositoryData.Entries.Add(testimonial);
             }
             else
             {
-                LocalizedDataModel entry = RepositoryData.Entries.FirstOrDefault(x => x.Lcid == Configuration.Lcid);
-                if (entry == null)
-                {
-                    return NotFound();
-                }
+                LocalizedDataModel entry = RepositoryData.Entries.FirstOrDefault(x => x.Lcid == SiteSettings.Lcid);
+
+                if (entry == null) { return NotFound(); }
+                
                 RepositoryData.Entries.Remove(entry);
                 entry.Html = entry.Html.Replace("<p>", string.Empty).Replace("</p>", string.Empty);
                 RepositoryData.Entries.Add(entry);
             }
 
             Session.Json.SetObject(HttpContext.Session, Session.Key.TestimonialDataModel, RepositoryData);
+
             Data = new EditModel
             {
                 Cover = RepositoryData.Work.Cover.Path,
                 Author = RepositoryData.Work.Authors,
                 EmailAddress = RepositoryData.EmailAddress,
-                Text = RepositoryData.Entries.FirstOrDefault(x => x.Lcid == Configuration.Lcid)?.Html,
+                Text = RepositoryData.Entries.FirstOrDefault(x => x.Lcid == SiteSettings.Lcid)?.Html,
                 Title = RepositoryData.Work.Title
-
             };
 
             return Page();
@@ -105,25 +98,26 @@ namespace web.professionaltranslator.net.Areas.Admin.Pages
 
                 var obj = JsonConvert.DeserializeObject<EditModel>(requestBody);
                 if (obj == null) throw new NullReferenceException("Model could not be derived from JSON object.");
+
                 RepositoryData = Session.Json.GetObject<DataModel>(HttpContext.Session, Session.Key.TestimonialDataModel);
                 RepositoryData.Name = obj.Author;
                 RepositoryData.EmailAddress = obj.EmailAddress;
+                RepositoryData.Portrait ??= await Image.DefaultTestimonial(SiteSettings.Site);
 
-                LocalizedDataModel entry = RepositoryData.Entries.FirstOrDefault(x => x.Lcid == Configuration.Lcid);
-                if (entry == null)
-                {
-                    return NotFound();
-                }
+                LocalizedDataModel entry = RepositoryData.Entries.FirstOrDefault(x => x.Lcid == SiteSettings.Lcid);
+                
+                if (entry == null) { return NotFound(); }
+                
                 RepositoryData.Entries.Remove(entry);
                 entry.Html = "<p>" + obj.Text.Replace(Environment.NewLine, string.Empty) + "</p>";
                 RepositoryData.Entries.Add(entry);
 
-                result = await Testimonial.Save(Configuration.Site, RepositoryData);
+                result = await Testimonial.Save(SiteSettings.Site, RepositoryData);
                 Session.Set<Guid>(HttpContext.Session, Session.Key.InquiryResult, result.ReturnId);
             }
             catch (System.Exception ex)
             {
-                return BadRequest(ex.Message);
+                result = new Result(SaveStatus.Failed, ex.Message, Guid.Empty);
             }
 
             return new JsonResult(result);

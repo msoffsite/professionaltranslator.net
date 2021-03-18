@@ -15,7 +15,7 @@ namespace Repository.ProfessionalTranslator.Net
             if (inputItem == null) return null;
             var output = new Tables.dbo.Site
             {
-                Id = inputItem.Id ?? Guid.NewGuid(),
+                Id = inputItem.Id,
                 Name = inputItem.Name
             };
             return output;

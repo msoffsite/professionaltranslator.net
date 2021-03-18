@@ -10,6 +10,5 @@ namespace Models.ProfessionalTranslator.Net
         public string Href { get; set; }
         public DateTime DateCreated { get; set; }
         public bool Display { get; set; }
-        public string TestimonialLink { get; set; }
     }
 }

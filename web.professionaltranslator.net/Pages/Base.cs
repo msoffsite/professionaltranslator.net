@@ -10,7 +10,7 @@ namespace web.professionaltranslator.net.Pages
 {
     public class Base : PageModel
     {
-        internal SiteSettings Configuration;
+        internal SiteSettings SiteSettings;
 
         public Models.Page Item { get; set; }
 

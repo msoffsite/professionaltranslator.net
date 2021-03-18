@@ -63,8 +63,7 @@ namespace Test.ProfessionalTranslator.Net.Repository
                 Cover = Image.WriteItem(),
                 Href = "https://testurl.com",
                 DateCreated = DateTime.Now,
-                Display = false,
-                TestimonialLink = "https://testlink.com"
+                Display = false
             };
             return output;
         }

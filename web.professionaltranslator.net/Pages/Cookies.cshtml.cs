@@ -10,14 +10,14 @@ namespace web.professionaltranslator.net.Pages
 {
     public class CookiesModel : Base
     {
-        public CookiesModel(SiteSettings configuration)
+        public CookiesModel(SiteSettings siteSettings)
         {
-            Configuration = configuration;
+            SiteSettings = siteSettings;
         }
 
         public async Task<IActionResult> OnGet()
         {
-            Item = await new Base().Get(Configuration, Area.Root, "Cookies");
+            Item = await new Base().Get(SiteSettings, Area.Root, "Cookies");
             return Item == null ? NotFound() : (IActionResult)Page();
         }
     }

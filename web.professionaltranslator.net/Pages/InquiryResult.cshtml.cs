@@ -13,9 +13,9 @@ namespace web.professionaltranslator.net.Pages
     {
         public Model InquiryItem { get; set; }
 
-        public InquiryResultModel(SiteSettings configuration)
+        public InquiryResultModel(SiteSettings siteSettings)
         {
-            Configuration = configuration;
+            SiteSettings = siteSettings;
         }
 
         public async Task<IActionResult> OnGet()
@@ -24,7 +24,7 @@ namespace web.professionaltranslator.net.Pages
             if (!inquiryResultId.HasValue) return BadRequest("InquiryResult couldn't be located.");
             InquiryItem = await Data.Item(inquiryResultId.Value);
             if (InquiryItem == null) return BadRequest("InquiryItem couldn't be located.");
-            Item = await new Base().Get(Configuration, Area.Root, "InquiryResult");
+            Item = await new Base().Get(SiteSettings, Area.Root, "InquiryResult");
             return Item == null ? NotFound() : (IActionResult)Page();
         }
     }

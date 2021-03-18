@@ -40,14 +40,19 @@ namespace web.professionaltranslator.net
                 .AddRoles<IdentityRole>()
                 .AddEntityFrameworkStores<EfContext>();
 
-            services.AddRazorPages().AddRazorPagesOptions(options =>
-            {
-                options.Conventions.AddAreaPageRoute("Admin", "/Testimonial", "Testimonial/{currentPage?}/{withTestimonials?}");
-            });
-                services.AddSession();
+            services.AddRazorPages();
+                //.AddRazorPagesOptions(options =>
+                //{
+                //    options.Conventions.AddAreaPageRoute("Admin", "/Testimonial", "Testimonial/{currentPage?}/{withTestimonials?}");
+                //    options.Conventions.AddAreaPageRoute("Admin", "/Portfolio", "Portfolio/{currentPage?}/{showApproved?}");
+
+                //});
+
+            services.AddSession();
             services.AddOptions();
             services.AddAntiforgery(o => o.HeaderName = "XSRF-TOKEN");
             services.AddConfiguration<SiteSettings>(Configuration, "SiteSettings");
+            services.AddConfiguration<AdminPortfolioSettings>(Configuration, "AdminPortfolioSettings");
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

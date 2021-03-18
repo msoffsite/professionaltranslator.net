@@ -12,7 +12,7 @@
     <link rel="stylesheet" href="~/css/menu.css" asp-append-version="true" />
     @await RenderSectionAsync("Styles", false)
 </head>
-<body>
+<body style="background-position: center;">
     <header>
         <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-white border-bottom box-shadow mb-3">
             <div class="container">
@@ -24,14 +24,14 @@
                 <div class="navbar-collapse collapse d-sm-inline-flex flex-sm-row-reverse">
                     <partial name="_LoginPartial" />
                     <ul class="navbar-nav flex-grow-1">
-                        <li class="nav-item">
+                        @*<li class="nav-item">
                             <a class="nav-link" asp-area="Admin" asp-page="/EditPage">Page</a>
+                        </li>*@
+                        <li class="nav-item">
+                            <a class="nav-link" asp-area="Admin" asp-page="/Portfolio">Portfolio Editor</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link" asp-area="Admin" asp-page="/EditPortfolio">Portfolio</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link" asp-area="Admin" asp-page="/Testimonial">Testimonial</a>
+                            <a class="nav-link" asp-area="Admin" asp-page="/Testimonial">Testimonial Editor</a>
                         </li>
                         @*<li class="nav-item">
                                 <a class="nav-link text-dark" asp-area="" asp-page="/Privacy">Privacy</a>
@@ -45,14 +45,45 @@
         <main role="main" class="pb-3">
             @RenderBody()
         </main>
+        <div class="row mb-10rem">
+            <div class="col-12">
+                @*Empty Row*@
+            </div>
+        </div>
     </div>
 
-    <footer class="border-top footer text-muted">
-        <div class="container text-center mt-1">
-            &copy; @Html.Raw(DateTime.Now.Year) - professionaltranslator.net - administrative area
-            @*<a asp-area="" asp-page="/Privacy">Privacy</a>*@
+<footer class="border-top footer text-muted fixed-bottom bg-white">
+    <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-white border-bottom box-shadow mb-3">
+        <div class="container">
+            <a class="navbar-brand" asp-area="Admin" asp-page="/Index">Admin</a>
+            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target=".navbar-collapse" aria-controls="navbarSupportedContent"
+                    aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="navbar-collapse collapse d-sm-inline-flex flex-sm-row-reverse">
+                <partial name="_LoginPartial" />
+                <ul class="navbar-nav flex-grow-1">
+                    @*<li class="nav-item">
+                        <a class="nav-link" asp-area="Admin" asp-page="/EditPage">Page</a>
+                    </li>*@
+                    <li class="nav-item">
+                        <a class="nav-link" asp-area="Admin" asp-page="/Portfolio">Portfolio Editor</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" asp-area="Admin" asp-page="/Testimonial">Testimonial Editor</a>
+                    </li>
+                    @*<li class="nav-item">
+                                <a class="nav-link text-dark" asp-area="" asp-page="/Privacy">Privacy</a>
+                            </li>*@
+                </ul>
+            </div>
         </div>
-    </footer>
+    </nav>
+    <div class="container text-center mt-1">
+        &copy; @Html.Raw(DateTime.Now.Year) - professionaltranslator.net - administrative area
+        @*<a asp-area="" asp-page="/Privacy">Privacy</a>*@
+    </div>
+</footer>
 
     <script src="~/lib/jquery/dist/jquery.min.js"></script>
     <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>

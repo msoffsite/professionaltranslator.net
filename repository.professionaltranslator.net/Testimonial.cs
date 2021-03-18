@@ -33,11 +33,14 @@ namespace Repository.ProfessionalTranslator.Net
             if (!workId.HasValue) return null;
             models.Site siteItem = await Site.Item(site);
             if (siteItem?.Id == null) return null;
-            Tables.dbo.Testimonial testimonial = await dbRead.Testimonial.Item(siteItem.Id.Value, workId.Value);
+            Tables.dbo.Testimonial testimonial = await dbRead.Testimonial.Item(siteItem.Id, workId.Value);
             if (testimonial == null) return null;
             return await Item(testimonial);
         }
 
+
+        // ReSharper disable once UnusedMember.Local
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("CodeQuality", "IDE0051:Remove unused private members", Justification = "<Pending>")]
         private static async Task<Tables.dbo.Testimonial> Item(Guid siteId, Guid workId)
         {
             Tables.dbo.Testimonial testimonial = await dbRead.Testimonial.Item(siteId, workId);
@@ -52,7 +55,7 @@ namespace Repository.ProfessionalTranslator.Net
                 models.Work work = await Work.Item(testimonial.WorkId);
                 if ((portrait == null) && (work?.Cover?.Id != null))
                 {
-                    portrait = await Image.Item(work.Cover.Id.Value);
+                    portrait = await Image.Item(work.Cover.Id);
                 }
                 List<Tables.Localization.Testimonial> localizedList = await dbLocalizedRead.List(testimonial.Id);
                 var output = new models.Testimonial
@@ -210,12 +213,9 @@ namespace Repository.ProfessionalTranslator.Net
                 return new Result(SaveStatus.Failed, messages);
             }
 
-            Guid siteId = siteItem.Id;
-            Tables.dbo.Testimonial existingItem = await Item(siteId, convertedWork.Id);
-            Guid returnId = existingItem?.Id ?? Guid.NewGuid();
             var saveItem = new Tables.dbo.Testimonial
             {
-                Id = returnId,
+                Id = inputItem.Id,
                 SiteId = siteItem.Id,
                 WorkId = convertedWork.Id,
                 PortraitImageId = convertedPortrait.Id,
@@ -250,7 +250,7 @@ namespace Repository.ProfessionalTranslator.Net
                 saveStatus = SaveStatus.Succeeded;
             }
             
-            return new Result(saveStatus, messages, returnId);
+            return new Result(saveStatus, messages, inputItem.Id);
 
         }
     }
