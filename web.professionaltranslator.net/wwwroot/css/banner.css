@@ -16,8 +16,37 @@
     }
 
     .banner h1.text {
-        font-size: 1rem;
+        color: #bebcbc;
+        font-size: 1.5rem;
         font-weight: bold;
         margin-bottom: 2px;
         text-transform: uppercase;
     }
+
+    .banner img {
+        height: 30px;
+    }
+
+@media(max-width: 768px) {
+    .banner h1.text {
+        font-size: 1.25rem;
+    }
+
+    .banner img {
+        height: 20px;
+    }
+}
+
+@media(max-width: 576px) {
+    .banner {
+        justify-content: flex-start;
+    }
+
+    .banner h1.text {
+        font-size: 1rem;
+    }
+
+    .banner img {
+        height: 15px;
+    }
+}

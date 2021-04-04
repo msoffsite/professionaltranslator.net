@@ -21,17 +21,60 @@
     <meta property="og:image" content="https://professionaltranslator.net/img/og/intro-16-9.png" />
     <meta property="og:image:alt" content="Professional Translator - English & Spanish" />
 }
-<div class="row mt-5 mb-4">
-    <div class="col-12 page-header">
-        <h1 class="h1-responsive">
-            @*@Html.Raw(Model.Item.Header)*@
-            English/Spanish Specialization
-        </h1>
-        <img src="img/welcome-illustration.png" class="float-right" style="width: 200px;" title="Welcome! I'm glad you're here." alt="Welcome! I'm glad you're here." />
-        
+<div class="row mt-7 mb-4">
+    <div class="col-12">
+        <div class="jumbotron jumbotron-fluid">
+            <div class="container d-flex flex-row justify-content-around align-items-center" title="Translation is for anything other than websites or applications. Localization is for websites and applications." >
+                <img src="img/apps-books-services-illustration.png" title="Translation is for anything other than websites or applications. Localization is for websites and applications." alt="Translation is for anything other than websites or applications. Localization is for websites and applications."/>
+                <div class="text-center">
+                    <h1 class="h1-responsive">
+                        Start Today
+                    </h1>
+                    <a class="btn btn-purple" asp-page="/Home" role="button" title="Discover what a professional translation can do for you."><span>Translation</span></a>
+                    <a class="btn btn-purple" asp-page="/Home" role="button" title="Discover what a professional translation can do for you."><span>Localization</span></a>
+                </div>
+                
+                
+            </div>
+        </div>
+    </div>
+    <!--<div class="col-12 page-header">
+    <h1 class="h1-responsive text-center mx-auto">-->
+    @*@Html.Raw(Model.Item.Header)*@
+    <!--English/Spanish Specialization
+    </h1>
+    <img src="img/welcome-illustration.png" class="float-right" style="width: 200px; display: none;" title="Welcome! I'm glad you're here." alt="Welcome! I'm glad you're here."/>
+    </div>-->
+</div>
+<div class="row mt-5 mb-4 two-column-row">
+    <div class="col-12 col-md-8 text-column">
+        <h2 class="h2-responsive">
+            High Quality Translations
+        </h2>
+        <p>
+            It's imperative a translator respects the voice of the original material while adapting the text into something that reads natural, as if a native speaker had written it. This
+            is something at which I excel. Not only am I a native Spanish speaker and writer, but I am also a natural English speaker and writer. In fact, I do what few translators must. I
+            write and speak both languages every single day and have for years. This extends me the unique ability to grasp the linguistic and extra-linguistic characteristics of each. I
+            offer direct and reverse translations.
+        </p>
+        <h3 class="h3-responsive mt-4">
+            Direct Translation
+        </h3>
+        <p>
+            A direct translation is where a translator takes a work in a foreign language and puts it into their native language. This is the simplest type of translation and what most translators do.
+        </p>
+        <h3 class="h3-responsive mt-4">
+            Reverse Translation
+        </h3>
+        <p>
+            A reverse translation is where the translator takes a work from their native language and puts it into a foreign language. Few translators can manage reverse translations because of the idiomatic demand reverse translations place on them.
+        </p>
+    </div>
+    <div class="col-md-4 graphic-column">
+        <img src="img/welcome-standing-md.png" title="Welcome! I'm glad you're here." alt="Welcome! I'm glad you're here." />
     </div>
 </div>
-<div class="row mt-5 mb-4">
+<div class="row mt-5 mb-4" style="display: none;">
     @if (Model.Item.Image != null)
     {
         <div class="col-lg-3 col-md-4 col-sm-12">
@@ -60,7 +103,7 @@
             </div>*@
     }
 </div>
-<div class="row mb-4">
+<div class="row mb-4" style="display: none;">
     <div class="col-12">
         <h3 class="h3-responsive">
             Direct Translation
@@ -70,7 +113,7 @@
         </p>
     </div>
 </div>
-<div class="row mb-4">
+<div class="row mb-4" style="display: none;">
     <div class="col-12">
         <h3 class="h3-responsive">
             Reverse Translation
