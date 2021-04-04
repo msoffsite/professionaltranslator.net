@@ -61,6 +61,7 @@ body {
     /* ReSharper disable once CssBrowserCompatibility */
     background-repeat: no-repeat;
     background-attachment: fixed;
+    background-position: center;
 }
 
 p {
@@ -69,6 +70,52 @@ p {
 
 .background-light-semi-transparent {
     background: rgba(255,255,255,.5);
+}
+
+.column-container {
+    padding: 0 1rem 0 1rem;
+}
+
+.column-container:last-child {
+    padding-right: 0;
+}
+
+@media (max-width: 576px) {
+    .column-container,
+    .column-container:last-child {
+        padding: 0 1rem;
+        margin-bottom: 1.5rem;
+    }
+
+    .column-container:last-child {
+        margin-bottom: 0;
+    }
+}
+
+.column-container h4.heading {
+    text-align: left;
+    font-size: 1.5rem;
+    line-height: 2.0rem;
+}
+
+.column-container .body {
+    margin-top: .5rem;
+}
+
+.column-container .body ul {
+    list-style: none;
+    padding: 0;
+}
+
+    .column-container .body ul li {
+        font-size: 14px;
+        font-weight: 600;
+        position: relative;
+        padding: 0 0 0 10px;
+    }
+
+.column-container .body ul li .fa-li  {
+    color: #008000;
 }
 
 footer p {
@@ -252,7 +299,7 @@ img.zoom {
     -webkit-align-items: center;
     align-items: center;
     text-align: center;
-    min-height: 100vh;
+    min-height: 100%;
     margin-left: -15rem;
     padding-top: 4.5rem;
     -webkit-transition: margin .25s ease-out;

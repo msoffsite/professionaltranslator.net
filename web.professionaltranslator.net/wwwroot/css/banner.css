@@ -1,0 +1,23 @@
+﻿.banner {
+    display: flex;
+    -ms-align-items: center;
+    -o-align-items: center;
+    -webkit-align-items: center;
+    align-items: center;
+    -o-justify-content: flex-end;
+    -webkit-justify-content: flex-end;
+    justify-content: flex-end;
+}
+
+.banner .flip-img {
+        -webkit-transform: scaleX(-1);
+        -ms-transform: scaleX(-1);
+        transform: scaleX(-1);
+    }
+
+    .banner h1.text {
+        font-size: 1rem;
+        font-weight: bold;
+        margin-bottom: 2px;
+        text-transform: uppercase;
+    }

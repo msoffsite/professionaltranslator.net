@@ -6,7 +6,7 @@
         if ((documentWidth <= 1600) && ($("#wrapper").hasClass("toggled"))) {
             $("#wrapper").removeClass("toggled");
         } else if ((documentWidth >= 1600) && (!$("#wrapper").hasClass("toggled"))) {
-            $("#wrapper").addClass("toggled");
+            //$("#wrapper").addClass("toggled");
         }
         //else {
         //    if (($("#menu-toggle").is(":hidden")) && ($("#wrapper").hasClass("toggled"))) {
@@ -16,7 +16,7 @@
         //}
     });
 
-    $("#menu-toggle").click(function (e) {
+    $(".toggle-menu").click(function (e) {
         e.preventDefault();
         $("#wrapper").toggleClass("toggled");
     });

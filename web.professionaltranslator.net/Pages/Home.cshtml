@@ -22,10 +22,13 @@
     <meta property="og:image:alt" content="Professional Translator - English & Spanish" />
 }
 <div class="row mt-5 mb-4">
-    <div class="col-12 text-center page-header">
-        <h1>
-            @Html.Raw(Model.Item.Header)
+    <div class="col-12 text-center page-header" style="display: flex; flex-direction: row; align-items: center; justify-content: space-between; border: none;">
+        <h1 class="h1-responsive">
+            @*@Html.Raw(Model.Item.Header)*@
+            English/Spanish Specialization
         </h1>
+        <img src="img/welcom-illustration.png" class="float-right" style="width: 200px;" title="Welcome! I'm glad you're here." alt="Welcome! I'm glad you're here." />
+        
     </div>
 </div>
 <div class="row mt-5 mb-4">
@@ -41,7 +44,101 @@
     else
     {
         <div class="col-12 text-justify">
-            @Html.Raw(body)
+            <h2 class="h2-responsive">
+                High Quality Translations
+            </h2>
+            <p>
+                It's imperative a translator respects the voice of the original material while adapting the text into something that reads natural, as if a native speaker had written it. This 
+                is something at which I excel. Not only am I a native Spanish speaker and writer, but I am also a natural English speaker and writer. In fact, I do what few translators must. I 
+                write and speak both languages every single day and have for years. This extends me the unique ability to grasp the linguistic and extra-linguistic characteristics of each. I 
+                offer direct and reverse translations.
+            </p>
         </div>
+
+        @*<div class="col-12 text-justify">
+                @Html.Raw(body)
+            </div>*@
     }
+</div>
+<div class="row mb-4">
+    <div class="col-12">
+        <h3 class="h3-responsive">
+            Direct Translation
+        </h3>
+        <p>
+            A direct translation is where a translator takes a work in a foreign language and puts it into their native language. This is the simplest type of translation and what most translators do.
+        </p>
+    </div>
+</div>
+<div class="row mb-4">
+    <div class="col-12">
+        <h3 class="h3-responsive">
+            Reverse Translation
+        </h3>
+        <p>
+            A reverse translation is where the translator takes a work from their native language and puts it into a foreign language. Few translators can manage reverse translations because of the idiomatic demand reverse translations place on them.
+        </p>
+    </div>
+</div>
+<div class="row mb-4">
+    <div class="col-12 col-md-4 column-container">
+        <h4 class="heading h4-responsive">
+            Pricing
+        </h4>
+        <div class="body">
+            <p>
+                My per-word pricing is less than the cost of traditional agencies and benefits my clients in that it leaves them more money to drive sales.
+            </p>
+            <ul class="fa-ul">
+                <li>
+                    <span class="fa-li"><i class="fas fa-check-square"></i></span>
+                    No additional costs
+                </li>
+                <li>
+                    <span class="fa-li"><i class="fas fa-check-square"></i></span>
+                    Competitive pricing
+                </li>
+            </ul>
+        </div>
+    </div>
+    <div class="col-12 col-md-4 column-container">
+        <h4 class="h4-responsive heading">
+            Efficiency
+        </h4>
+        <div class="body">
+            <p>
+                Fifteen years of experience along with being a natural speaker in English and Spanish means I get work done quickly and professionally.
+            </p>
+            <ul class="fa-ul">
+                <li>
+                    <span class="fa-li"><i class="fas fa-check-square"></i></span>
+                    English/Spanish Translations
+                </li>
+                <li>
+                    <span class="fa-li"><i class="fas fa-check-square"></i></span>
+                    10K+ words translated weekly
+                </li>
+            </ul>
+        </div>
+    </div>
+    <div class="col-12 col-md-4 column-container">
+        <h4 class="h4-responsive heading">
+            Communicative
+        </h4>
+        <div class="body">
+            <p>
+                I take my clients no less seriously then they do their writing. Always feel free to contact me with questions or concerns.
+            </p>
+            <ul class="fa-ul">
+                <li>
+                    <span class="fa-li"><i class="fas fa-check-square"></i></span>
+                    Available via e-mail
+                </li>
+                <li>
+                    <span class="fa-li"><i class="fas fa-check-square"></i></span>
+                    Available via phone
+                </li>
+            </ul>
+        </div>
+    </div>
 </div>
