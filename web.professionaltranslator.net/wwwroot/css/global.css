@@ -62,6 +62,7 @@ body {
     background-repeat: no-repeat;
     background-attachment: fixed;
     background-position: center;
+    font-size: 1.1rem;
 }
 
 p {
@@ -100,6 +101,7 @@ p {
 
 .column-container .body {
     margin-top: .5rem;
+    font-size: 1rem;
 }
 
 .column-container .body ul {
@@ -280,11 +282,19 @@ img.zoom {
 }
 
 .page-header {
-    border-bottom: 1px solid #eee;
+    -ms-align-items: center;
+    -o-align-items: center;
+    -webkit-align-items: center;
+    align-items: center;
+    border: none;
     color: #bebcbc;
+    display: flex;
+    flex-direction: row;
+    -o-justify-content: space-between;
+    -webkit-justify-content: space-between;
+    justify-content: space-between;
     margin: 40px 0 20px;
     padding-bottom: 9px;
-    text-align: center;
 }
 
 #wrapper {
@@ -591,6 +601,7 @@ img.zoom {
 
     .header-text {
         margin-left: 30px;
+        font-size: 1rem;
     }
 
     @media(max-width:576px) {
