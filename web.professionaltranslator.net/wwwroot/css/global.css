@@ -391,13 +391,18 @@ img.zoom {
     }
 
 @media(max-width: 992px) {
-    .two-column-row .graphic-column.about {
-        -webkit-flex: 1 !important;
-        -ms-flex: 1 !important;
-        -o-flex: 1 !important;
-        flex: 1 !important;
-        max-height: 300px;
+    .two-column-row .graphic-column {
+        display: none;
     }
+
+        .two-column-row .graphic-column.about {
+            display: initial;
+            -webkit-flex: 1 !important;
+            -ms-flex: 1 !important;
+            -o-flex: 1 !important;
+            flex: 1 !important;
+            max-height: 300px;
+        }
 
     .two-column-row .graphic-column img {
         vertical-align: baseline;
