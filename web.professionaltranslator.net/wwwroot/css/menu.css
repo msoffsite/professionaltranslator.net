@@ -12,6 +12,7 @@
 @media (max-width:1200px) {
     .nav-small-screen {
         display: initial;
+        margin-bottom: 2rem;
     }
 
     .nav-wide-screen {

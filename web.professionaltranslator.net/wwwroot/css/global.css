@@ -27,6 +27,12 @@
     font-display: swap;
 }
 
+@media(max-width: 992px) {
+    .medium-vanish {
+        display: none;
+    }
+}
+
 a,
 a:visited,
 a.page-link,
@@ -118,6 +124,12 @@ p {
 
 .column-container .body ul li .fa-li  {
     color: #008000;
+}
+
+@media(max-width: 576px) {
+    .container {
+        padding-right: 30px;
+    }
 }
 
 footer p {
@@ -218,8 +230,41 @@ footer p {
     width: 100% !important;
 }
 
+.get-started {
+    background: none;
+    /* ReSharper disable once CssBrowserCompatibility */
+    /*background: radial-gradient(circle, rgba(251,224,240,.6) 10%, rgba(255,255,255,0) 100%);*/
+    flex-direction: row;
+    padding: 10px;
+}
+
+    .get-started:hover {
+        background: none;
+    }
+
+@media(max-width: 768px) {
+    .get-started {
+        padding-top: 30px;
+        margin-bottom: 1.25rem;
+    }
+}
+
 #header {
     margin-top: 4.5rem;
+    margin-bottom: 4.5rem;
+}
+
+@media(max-width: 1200px) {
+    #header {
+        margin-top: 2rem;
+    }
+}
+
+@media(max-width:576px) {
+    #header {
+        margin-bottom: 2rem;
+        text-align: center;
+    }
 }
 
 .hide {
@@ -328,10 +373,59 @@ img.zoom {
     -ms-flex: 0 1 25%;
     -o-flex: 0 1 25%;
     flex: 0 1 25%;
-    /*-ms-align-items: flex-end;
-    -o-align-items: flex-end;
-    -webkit-align-items: flex-end;
-    align-items: flex-end;*/
+    -ms-align-items: center;
+    -o-align-items: center;
+    -webkit-align-items: center;
+    align-items: center;
+}
+
+    .two-column-row .graphic-column img {
+        width: auto;
+        height: auto;
+    }
+
+.two-column-row .graphic-column.about {
+        overflow: hidden;
+        padding-left: 0 !important;
+        max-height: 600px;
+    }
+
+@media(max-width: 992px) {
+    .two-column-row .graphic-column.about {
+        -webkit-flex: 1 !important;
+        -ms-flex: 1 !important;
+        -o-flex: 1 !important;
+        flex: 1 !important;
+        max-height: 300px;
+    }
+
+    .two-column-row .graphic-column img {
+        vertical-align: baseline;
+        margin-top: -200px;
+    }
+}
+
+@media(max-width: 768px) {
+    .two-column-row .graphic-column.about {
+        display: initial;
+    }
+
+    .two-column-row .graphic-column img {
+        vertical-align: baseline;
+        padding-left: 15px;
+    }
+}
+
+@media(max-width: 576px) {
+    .two-column-row .graphic-column.about {
+        padding-left: 15px !important;
+    }
+
+    .two-column-row .graphic-column.about img {
+        margin-top: -100px;
+        max-width: 100%;
+        height: auto;
+    }
 }
 
 .two-column-row .text-column {
@@ -351,19 +445,50 @@ img.zoom {
 }
 
 .page-header {
-    -ms-align-items: center;
-    -o-align-items: center;
-    -webkit-align-items: center;
-    align-items: center;
     border: none;
-    color: #bebcbc;
-    display: flex;
-    flex-direction: row;
-    -o-justify-content: space-between;
-    -webkit-justify-content: space-between;
-    justify-content: space-between;
-    margin: 40px 0 20px;
-    padding-bottom: 9px;
+    line-height: 3rem;
+    text-align: center;
+}
+
+@media(max-width: 992px) {
+    .page-header {
+        font-size: 150% !important;
+    }
+}
+
+@media(max-width: 576px) {
+    .page-header {
+        display: none;
+    }
+
+        .page-header.stay-visible {
+            display: block !important;
+            font-size: 100% !important;
+        }
+}
+
+sup {
+    font-size: 50%;
+    margin-right: .25rem;
+    top: -1rem;
+}
+
+/* ReSharper disable once CssBrowserCompatibility */
+sup:last-child {
+    margin-left: .25rem;
+    margin-right: 0;
+}
+
+sup.testimonial-sup {
+    font-size: 50%;
+    margin-right: .25rem;
+    top: -0.5rem;
+}
+
+/* ReSharper disable once CssBrowserCompatibility */
+sup.testimonial-sup:last-child {
+    margin-left: .25rem;
+    margin-right: 0;
 }
 
 #wrapper {
@@ -659,6 +784,13 @@ img.zoom {
         max-height: 150px;
     }
 
+@media(max-width: 768px) {
+    .header-logo {
+        margin-top: 2.5rem;
+        margin-left: 10px;
+    }
+}
+
     .header-text h3 {
         font-weight: bold;
     }
@@ -671,10 +803,12 @@ img.zoom {
     .header-text {
         margin-left: 30px;
         font-size: 1rem;
+        text-align: left;
     }
 
-    @media(max-width:576px) {
-        #header {
-            text-align: center;
+    @media(max-width: 992px) {
+        .header-text {
+            font-size: .8rem;
         }
     }
+    

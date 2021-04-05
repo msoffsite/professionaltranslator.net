@@ -2,7 +2,8 @@
 @model AboutModel
 @{
     ViewData["Title"] = Model.Item.Title;
-    string body = Model.Item.Body;
+    string body = Model.Item.Body.Trim();
+    string headerText = Model.Item.Header.Trim();
 }
 @section MetaTags
 {
@@ -21,14 +22,25 @@
     <meta property="og:image" content="https://professionaltranslator.net/img/og/intro-16-9.png" />
     <meta property="og:image:alt" content="Professional Translator - English & Spanish" />
 }
-<div class="row mt-5 mb-4">
+<div class="row mt-5 mb-4" style="display: none;">
     <div class="col-12 text-center page-header">
         <h1>
             @Html.Raw(Model.Item.Header)
         </h1>
     </div>
 </div>
-<div class="row mt-5 mb-4">
+<div class="row mb-4 two-column-row">
+    <div class="col-12 col-lg-8 text-column">
+        <h2 class="h2-responsive page-header stay-visible mb-5">
+            <sup><i class="fas fa-quote-left"></i></sup>@Html.Raw(Model.Item.Header.Trim())<sup><i class="fas fa-quote-right"></i></sup>
+        </h2>
+        @Html.Raw(body)
+    </div>
+    <div class="col-12 col-lg-4 graphic-column about">
+        <img src="@Model.Item.Image.Path" alt="@headerText" title="@headerText">
+    </div>
+</div>
+<div class="row mt-5 mb-4" style="display: none;">
     @if (Model.Item.Image != null)
     {
         <div class="col-lg-3 col-md-4 col-sm-12">

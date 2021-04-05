@@ -2,6 +2,8 @@
 @model TestimonialsModel
 @{
     ViewData["Title"] = Model.Item.Title;
+    //string headerText = Model.Item.Header.Trim();
+    string headerText = "Happy clients, merry life.";
 }
 @section MetaTags
 {
@@ -20,11 +22,18 @@
     <meta property="og:image" content="https://professionaltranslator.net/img/og/intro-16-9.png" />
     <meta property="og:image:alt" content="Professional Translator - English & Spanish" />
 }
-<div class="row mt-5">
-    <div class="col-12 text-center page-header">
-        <h1>
-            @Html.Raw(Model.Item.Header)
-        </h1>
+<div class="row mb-4 two-column-row align-items-start">
+    <div class="col-lg-4 graphic-column">
+        <img src="img/testimonials-md-sitting.png" title="@headerText" alt="@headerText" class="mt-6 medium-vanish" />
+    </div>
+    <div class="col-12 col-lg-8 text-column">
+        <h2 class="h2-responsive page-header stay-visible mb-5">
+            <sup><i class="fas fa-quote-left"></i></sup>@headerText<sup><i class="fas fa-quote-right"></i></sup>
+        </h2>
+        <h2 class="h2-responsive text-center">
+            Testimonials
+        </h2>
+        @await Component.InvokeAsync("Testimonials")
     </div>
 </div>
-@await Component.InvokeAsync("Testimonials")
+    
