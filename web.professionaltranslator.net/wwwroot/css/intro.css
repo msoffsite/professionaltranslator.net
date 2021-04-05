@@ -12,7 +12,6 @@
 .intro-lead {
     display: flex;
     flex-direction: column;
-    margin: 100px;
 }
 
 .intro-logo {
@@ -43,11 +42,6 @@
     .intro-hola-hello-mobile {
         display: inline-block;
         margin-top: 30px;
-    }
-
-    .intro-lead {
-        margin: 50px;
-        text-align: center;
     }
 
     .intro-page h1 {
@@ -81,5 +75,20 @@
 @media (max-width: 576px) {
     .intro-page h1 {
         margin: 25px;
+    }
+}
+
+.small-screen {
+    display: none;
+}
+
+@media(max-width: 576px) {
+    .medium-screen {
+        display: none;
+    }
+
+    .small-screen {
+        display: initial;
+        font-size: 100%;
     }
 }
