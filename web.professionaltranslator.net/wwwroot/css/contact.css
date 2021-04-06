@@ -49,7 +49,7 @@
 
 @media (max-width: 576px) {
     .close-validation-message {
-        right: 0px;
+        right: 0;
         width: 30px;
     }
 }
@@ -91,6 +91,10 @@ label.form-check-label {
     margin-right: 2.75rem;
 }
 
+.form-check-inline-flex {
+    margin: 0;
+}
+
 @media(max-width: 576px) {
     .form-check-inline {
         margin-right: 1.75rem;
@@ -110,6 +114,11 @@ label.form-check-label {
 .radio-container {
     height: 60px;
     padding-top: 20px;
+}
+
+.radio-container-flex {
+    height: 60px;
+    padding-top: 15px;
 }
 
 .input-container label {

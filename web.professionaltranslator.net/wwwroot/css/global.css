@@ -126,6 +126,19 @@ p {
     color: #008000;
 }
 
+.info-safe-with-me {
+    background: url(/img/contact-header.png);
+    -ms-background-repeat: no-repeat;
+    background-repeat: no-repeat;
+    -ms-background-size: contain;
+    background-size: contain;
+    -ms-background-position: top center;
+    background-position: top center;
+    display: flex;
+    flex-direction: row;
+    height: 100%;
+}
+
 @media(max-width: 576px) {
     .container {
         padding-right: 30px;
@@ -318,7 +331,7 @@ img.zoom {
 }
 
 .loading-container {
-    background: rgba(255, 255, 255, 0.75);
+    background: rgba(255, 255, 255, 0.90);
     margin: 0;
     padding: 0;
     position: absolute;
