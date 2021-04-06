@@ -18,11 +18,10 @@ namespace Repository.ProfessionalTranslator.Net
             {
                 Id = inputItem.Id,
                 SiteId = siteId,
-                Name = inputItem.Name,
-                EmailAddress = inputItem.EmailAddress,
-                Title = inputItem.Title,
+                ClientId = inputItem.ClientId,
                 TranslationType = inputItem.TranslationType,
-                Genre = inputItem.Genre,
+                TranslationDirection = inputItem.TranslationDirection,
+                SubjectMatter = inputItem.SubjectMatter,
                 WordCount = inputItem.WordCount,
                 Message = inputItem.Message,
                 DateCreated = inputItem.DateCreated ?? DateTime.Now
@@ -42,11 +41,10 @@ namespace Repository.ProfessionalTranslator.Net
             var output = new models.Inquiry
             {
                 Id = inputItem.Id,
-                Name = inputItem.Name,
-                EmailAddress = inputItem.EmailAddress,
-                Title = inputItem.Title,
+                ClientId = inputItem.ClientId,
                 TranslationType = inputItem.TranslationType,
-                Genre = inputItem.Genre,
+                TranslationDirection = inputItem.TranslationDirection,
+                SubjectMatter = inputItem.SubjectMatter,
                 WordCount = inputItem.WordCount,
                 Message = inputItem.Message,
                 DateCreated = inputItem.DateCreated
@@ -84,17 +82,9 @@ namespace Repository.ProfessionalTranslator.Net
                 return new Result(SaveStatus.Failed, "No site was found with that name.");
             }
 
-            Rules.StringRequiredMaxLength(inputItem.Name, "Name", 150, ref messages);
-
-            if (Rules.StringRequiredMaxLength(inputItem.EmailAddress, "Email Address", 256, ref messages) ==
-                Rules.Passed.Yes)
-            {
-                Rules.ValidateEmailAddress(inputItem.EmailAddress, "Email Address", ref messages);
-            }
-
-            Rules.StringRequiredMaxLength(inputItem.Title, "Title", 256, ref messages);
             Rules.StringRequiredMaxLength(inputItem.TranslationType, "Translation Type", 25, ref messages);
-            Rules.StringRequiredMaxLength(inputItem.Genre, "Genre", 25, ref messages);
+            Rules.StringRequiredMaxLength(inputItem.TranslationDirection, "Translation Direction", 25, ref messages);
+            Rules.StringRequiredMaxLength(inputItem.SubjectMatter, "SubjectMatter", 50, ref messages);
             Rules.MinIntValue(inputItem.WordCount, "Word Count", 1, ref messages);
 
             Rules.StringRequired(inputItem.Message, "Message", ref messages);

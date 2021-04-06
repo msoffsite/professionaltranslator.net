@@ -1,32 +1,29 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Data;
 using System.Threading.Tasks;
 using Microsoft.Data.SqlClient;
 
-namespace Repository.ProfessionalTranslator.Net.DatabaseOperations.Log.Write
+namespace Repository.ProfessionalTranslator.Net.DatabaseOperations.Upload.Write
 {
-    internal class Inquiry : Base
+    internal class Client : Base
     {
-        internal static async Task<Result> Item(string site, Tables.Log.Inquiry item)
+        internal static async Task<Result> Item(Tables.Upload.Client item)
         {
             SaveStatus saveStatus;
             var messages = new List<string>();
 
             try
             {
-                await using var cmd = new SqlCommand("[Log].[SaveInquiry]", new Base().SqlConnection)
+                await using var cmd = new SqlCommand("[Upload].[SaveClient]", new Base().SqlConnection)
                 {
                     CommandType = CommandType.StoredProcedure
                 };
 
                 cmd.Parameters.Add("@Id", SqlDbType.UniqueIdentifier).Value = item.Id;
-                cmd.Parameters.Add("@Site", SqlDbType.NVarChar, 20).Value = site;
                 cmd.Parameters.Add("@ClientId", SqlDbType.UniqueIdentifier).Value = item.ClientId;
-                cmd.Parameters.Add("@TranslationType", SqlDbType.NVarChar, 25).Value = item.TranslationType;
-                cmd.Parameters.Add("@TranslationDirection", SqlDbType.NVarChar, 25).Value = item.TranslationDirection;
-                cmd.Parameters.Add("@SubjectMatter", SqlDbType.NVarChar, 50).Value = item.SubjectMatter;
-                cmd.Parameters.Add("@WordCount", SqlDbType.Int).Value = item.WordCount;
-                cmd.Parameters.Add("@Message", SqlDbType.NVarChar, -1).Value = item.Message;
+                cmd.Parameters.Add("@OriginalFilename", SqlDbType.NVarChar, 256).Value = item.OriginalFilename;
+                cmd.Parameters.Add("@GeneratedFilename", SqlDbType.NVarChar, 45).Value = item.GeneratedFilename;
 
                 await cmd.Connection.OpenAsync();
                 await cmd.ExecuteNonQueryAsync();

@@ -1,9 +1,7 @@
 ﻿@page
-@using global::Models.ProfessionalTranslator.Net.Log
 @model InquiryResultModel
 @{
     ViewData["Title"] = Model.Item.Title;
-    Inquiry inquiryItem = Model.InquiryItem;
 }
 @section MetaTags
 {
@@ -37,27 +35,28 @@
 <div class="row mb-4">
     <div class="row blockquote">
         <div class="col-lg-6 col-md-6 col-sm-12">
-            <b>@inquiryItem.Name</b>
+            <b>@Model.InquiryItem.Name</b>
         </div>
         <div class="col-lg-6 col-md-6 col-sm-12">
-            <b>@inquiryItem.EmailAddress</b>
+            <b>@Model.InquiryItem.EmailAddress</b>
         </div>
         <div class="col-lg-6 col-md-6 col-sm-12">
-            <b>@inquiryItem.Title</b>
+            <b>@Model.InquiryItem.TranslationType</b>
         </div>
         <div class="col-lg-6 col-md-6 col-sm-12">
-            <b>@inquiryItem.Genre</b>
+            <b>@Model.InquiryItem.TranslationDirection</b>
+        </div>
+        <div class="col-lg-6 col-md-6 col-sm-12">
+            <b>@Model.InquiryItem.SubjectMatter</b>
         </div>
         <div class="clearfix"></div>
         <div class="col-lg-6 col-md-6 col-sm-12">
-            <b>@($"{inquiryItem.WordCount:n0}") words</b>
+            <b>@($"{Model.InquiryItem.WordCount:n0}") words</b>
         </div>
-        <div class="col-lg-6 col-md-6 col-sm-12">
-            <b>@inquiryItem.TranslationType</b>
-        </div>
+
         <div class="clearfix"></div>
         <div class="col-12 mt-3">
-            <b>@inquiryItem.Message</b>
+            <b>@Model.InquiryItem.Message</b>
         </div>
     </div>
 </div>
