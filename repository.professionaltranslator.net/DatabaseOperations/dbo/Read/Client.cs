@@ -23,6 +23,18 @@ namespace Repository.ProfessionalTranslator.Net.DatabaseOperations.dbo.Read
             return Object.GetItem<Tables.dbo.Client>(sda);
         }
 
+        internal static async Task<Tables.dbo.Client> Item(string emailAddress)
+        {
+            await using var cmd = new SqlCommand("[dbo].[GetClientByEmailAddress]", new Base().SqlConnection)
+            {
+                CommandType = CommandType.StoredProcedure
+            };
+
+            cmd.Parameters.Add("@EmailAddress", SqlDbType.NVarChar, 256).Value = emailAddress;
+            using var sda = new SqlDataAdapter(cmd);
+            return Object.GetItem<Tables.dbo.Client>(sda);
+        }
+
         internal static async Task<List<Tables.dbo.Client>> List(string site)
         {
             await using var cmd = new SqlCommand("[dbo].[GetClients]", new Base().SqlConnection)

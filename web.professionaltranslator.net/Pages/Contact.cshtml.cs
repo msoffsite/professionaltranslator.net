@@ -6,10 +6,13 @@ using System.Text;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore.Scaffolding.Metadata;
+using Models.ProfessionalTranslator.Net;
 using Newtonsoft.Json;
 using Repository.ProfessionalTranslator.Net;
 using web.professionaltranslator.net.Extensions;
-
+using Client = Repository.ProfessionalTranslator.Net.Client;
+using ClientModel = Models.ProfessionalTranslator.Net.Client;
+using UploadModel = Models.ProfessionalTranslator.Net.Upload.Client;
 using DataModel = Models.ProfessionalTranslator.Net.Log.Inquiry;
 using Model = web.professionaltranslator.net.Models.Inquiry;
 using Data = Repository.ProfessionalTranslator.Net.Inquiry;
@@ -67,8 +70,18 @@ namespace web.professionaltranslator.net.Pages
                 body.Append("<br/><br />");
                 body.Append(messageHtml);
 
+                var clientModel = new ClientModel
+                {
+                    Name = obj.Name,
+                    EmailAddress = obj.EmailAddress,
+                    Uploads = Session.Get<List<UploadModel>>(HttpContext.Session, Session.Key.UploadId)
+                };
+
+                ClientModel dbClientModel = await Client.Item(obj.EmailAddress);
+                clientModel.Id = dbClientModel?.Id ?? Guid.NewGuid();
+
                 var dataModel = new DataModel();
-                result = await Data.Save(SiteSettings.Site, dataModel);
+                result = await Data.Save(SiteSettings.Site, dataModel, new ClientModel());
                 Session.Set<Guid>(HttpContext.Session, Session.Key.InquiryResult, result.ReturnId);
 
                 var toList = new List<MailAddress>

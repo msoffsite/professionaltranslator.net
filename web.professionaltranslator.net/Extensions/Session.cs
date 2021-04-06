@@ -83,6 +83,7 @@ namespace web.professionaltranslator.net.Extensions
             internal const string PortfolioDataModel = "PortfoliosDataModel";
             internal const string QueryId = "QueryId";
             internal const string TestimonialDataModel = "TestimonialDataModel";
+            internal const string UploadId = "UploadId";
         }
     }
 }

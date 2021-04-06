@@ -115,13 +115,20 @@ namespace Repository.ProfessionalTranslator.Net
             {
                 saveInquiryResult.ReturnId = returnId;
             }
-
-            foreach (models.Upload.Client uploads in clientItem.Uploads)
+            else
             {
-                Result uploadResult = await DatabaseOperations.Upload.Write.ClientInquiry.Item(uploads.Id, clientItem.Id);
-                if (uploadResult.Status != SaveStatus.Failed) continue;
-                saveStatus = SaveStatus.PartialSuccess;
-                messages.AddRange(uploadResult.Messages);
+                saveStatus = saveInquiryResult.Status;
+            }
+
+            if (saveStatus == SaveStatus.Undetermined)
+            {
+                foreach (models.Upload.Client uploads in clientItem.Uploads)
+                {
+                    Result uploadResult = await DatabaseOperations.Upload.Write.ClientInquiry.Item(uploads.Id, clientItem.Id);
+                    if (uploadResult.Status != SaveStatus.Failed) continue;
+                    saveStatus = SaveStatus.PartialSuccess;
+                    messages.AddRange(uploadResult.Messages);
+                }
             }
 
             if (saveStatus == SaveStatus.Undetermined)
@@ -129,7 +136,7 @@ namespace Repository.ProfessionalTranslator.Net
                 saveStatus = SaveStatus.Succeeded;
             }
 
-            return new Result(saveStatus, messages, inputItem.Id);
+            return new Result(saveStatus, messages, returnId);
         }
     }
 }

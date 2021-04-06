@@ -18,6 +18,13 @@ namespace Repository.ProfessionalTranslator.Net
             return await Item(client, null);
         }
 
+        public static async Task<models.Client> Item(string emailAddress)
+        {
+            if (string.IsNullOrWhiteSpace(emailAddress)) return null;
+            Tables.dbo.Client client = await dbRead.Client.Item(emailAddress);
+            return await Item(client, null);
+        }
+
         public static async Task<models.Client> Item(Guid? id, Guid? inquiryId)
         {
             if (!id.HasValue || !inquiryId.HasValue) return null;
