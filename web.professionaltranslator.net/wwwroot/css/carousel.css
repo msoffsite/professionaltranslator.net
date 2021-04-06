@@ -1,6 +1,6 @@
 ﻿.carousel {
     position: relative;
-    min-height: 500px; /*page setting*/
+    /*min-height: 500px;*/ /*page setting*/
 }
 
     .carousel.pointer-event {

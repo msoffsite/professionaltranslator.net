@@ -26,7 +26,14 @@ $.fn.scrollTo = function(anchor, navHeight) {
 
 $(document).ready(function () {
 
-    $("a.scroll-link").on("click", function (e) {
+    $(".toggle-menu").on("click", function (e) {
+        e.preventDefault();
+        if (!$("#wrapper").hasClass("toggled")) {
+            $(this).scrollTo("#wrapper", 0);
+        }
+    });
+
+    $(".scroll-link").on("click", function (e) {
         e.preventDefault();
         const anchor = $(this).attr("href");
         $(this).scrollTo(anchor, 0);

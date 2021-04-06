@@ -1,9 +1,43 @@
-﻿.navbar {
+﻿.nav-small-screen {
+    display: none;
+    text-align: center;
+}
+
+@media (max-width:768px) {
+    .nav-small-screen {
+        text-align: right;
+    }
+}
+
+@media (max-width:1200px) {
+    .nav-small-screen {
+        display: initial;
+        margin-bottom: 2rem;
+    }
+
+    .nav-wide-screen {
+        display: none !important;
+    }
+}
+
+.navbar {
     display: block;
 }
 
 .navbar-light .navbar-toggler {
+    color: #642e84;
     border-color: #78379e;
+}
+
+.navbar-toggler {
+    border-width: 2px;
+}
+
+.navbar-toggler:focus,
+.navbar-toggler:active,
+.navbar-toggler-icon:focus {
+    outline: none;
+    box-shadow: none;
 }
 
 .menu-link {
