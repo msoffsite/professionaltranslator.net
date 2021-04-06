@@ -90,7 +90,7 @@ namespace Repository.ProfessionalTranslator.Net
         /// <param name="site">Name of site related to testimonial.</param>
         /// <param name="inputItem">Client object.</param>
         /// <returns>Returns save status and messages. If successful, returns an identifier via ReturnId.</returns>
-        public static async Task<Result> Save(string site, models.Client inputItem, Guid? inquiryId)
+        public static async Task<Result> Save(string site, models.Client inputItem)
         {
             var saveStatus = SaveStatus.Undetermined;
             var messages = new List<string>();
@@ -150,14 +150,7 @@ namespace Repository.ProfessionalTranslator.Net
                     OriginalFilename = uploads.OriginalFilename
                 };
                 Result uploadResult = await DatabaseOperations.Upload.Write.Client.Item(saveUpload);
-                if (uploadResult.Status != SaveStatus.Failed)
-                {
-                    if (inquiryId.HasValue)
-                    {
-                        await DatabaseOperations.Upload.Write.ClientInquiry.Item(saveUpload.Id, inquiryId.Value);
-                    }
-                    continue;
-                }
+                if (uploadResult.Status != SaveStatus.Failed) continue;
                 saveStatus = SaveStatus.PartialSuccess;
                 messages.AddRange(uploadResult.Messages);
             }

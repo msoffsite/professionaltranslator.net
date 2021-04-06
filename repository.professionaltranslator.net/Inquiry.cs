@@ -5,13 +5,13 @@ using System.Threading.Tasks;
 using dboDbRead = Repository.ProfessionalTranslator.Net.DatabaseOperations.dbo.Read;
 using dboLogRead = Repository.ProfessionalTranslator.Net.DatabaseOperations.Log.Read;
 using dbWrite = Repository.ProfessionalTranslator.Net.DatabaseOperations.Log.Write.Inquiry;
-using models = Models.ProfessionalTranslator.Net.Log;
+using models = Models.ProfessionalTranslator.Net;
 
 namespace Repository.ProfessionalTranslator.Net
 {
     public class Inquiry
     {
-        private static Tables.Log.Inquiry Convert(models.Inquiry inputItem, Guid siteId)
+        private static Tables.Log.Inquiry Convert(models.Log.Inquiry inputItem, Guid siteId)
         {
             if (inputItem == null) return null;
             var output = new Tables.Log.Inquiry
@@ -29,16 +29,16 @@ namespace Repository.ProfessionalTranslator.Net
             return output;
         }
 
-        public static async Task<models.Inquiry> Item(Guid id)
+        public static async Task<models.Log.Inquiry> Item(Guid id)
         {
             Tables.Log.Inquiry image = await dboLogRead.Inquiry.Item(id);
             return Item(image);
         }
 
-        private static models.Inquiry Item(Tables.Log.Inquiry inputItem)
+        private static models.Log.Inquiry Item(Tables.Log.Inquiry inputItem)
         {
             if (inputItem == null) return null;
-            var output = new models.Inquiry
+            var output = new models.Log.Inquiry
             {
                 Id = inputItem.Id,
                 ClientId = inputItem.ClientId,
@@ -52,7 +52,7 @@ namespace Repository.ProfessionalTranslator.Net
             return output;
         }
 
-        public static async Task<List<models.Inquiry>> List(string site)
+        public static async Task<List<models.Log.Inquiry>> List(string site)
         {
             List<Tables.Log.Inquiry> list = await dboLogRead.Inquiry.List(site);
             return list.Select(Item).ToList();
@@ -66,9 +66,11 @@ namespace Repository.ProfessionalTranslator.Net
         /// </instructions>
         /// <param name="site">Name of site for image.</param>
         /// <param name="inputItem">Inquiry object.</param>
+        /// /// <param name="clientItem">Client object to be associated with this inquiry.</param>
         /// <returns>Returns save status and messages. If successful, returns an identifier via ReturnId.</returns>
-        public static async Task<Result> Save(string site, models.Inquiry inputItem)
+        public static async Task<Result> Save(string site, models.Log.Inquiry inputItem, models.Client clientItem)
         {
+            var saveStatus = SaveStatus.Undetermined;
             var messages = new List<string>();
 
             if (inputItem == null)
@@ -89,6 +91,12 @@ namespace Repository.ProfessionalTranslator.Net
 
             Rules.StringRequired(inputItem.Message, "Message", ref messages);
 
+            Result saveClientResult = await Client.Save(site, clientItem);
+            if (saveClientResult.Messages.Any())
+            {
+                messages.AddRange(saveClientResult.Messages);
+            }
+
             if (messages.Any())
             {
                 return new Result(SaveStatus.Failed, messages);
@@ -108,7 +116,20 @@ namespace Repository.ProfessionalTranslator.Net
                 saveInquiryResult.ReturnId = returnId;
             }
 
-            return saveInquiryResult;
+            foreach (models.Upload.Client uploads in clientItem.Uploads)
+            {
+                Result uploadResult = await DatabaseOperations.Upload.Write.ClientInquiry.Item(uploads.Id, clientItem.Id);
+                if (uploadResult.Status != SaveStatus.Failed) continue;
+                saveStatus = SaveStatus.PartialSuccess;
+                messages.AddRange(uploadResult.Messages);
+            }
+
+            if (saveStatus == SaveStatus.Undetermined)
+            {
+                saveStatus = SaveStatus.Succeeded;
+            }
+
+            return new Result(saveStatus, messages, inputItem.Id);
         }
     }
 }
