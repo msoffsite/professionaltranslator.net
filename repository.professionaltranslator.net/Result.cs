@@ -5,22 +5,22 @@ namespace Repository.ProfessionalTranslator.Net
 {
     public class Result
     {
-        public SaveStatus Status { get; set; }
+        public ResultStatus Status { get; set; }
         public List<string> Messages { get; set; }
         public Guid? ReturnId { get; set; }
 
-        internal Result(SaveStatus status, List<string> messages, Guid? returnId)
+        internal Result(ResultStatus status, List<string> messages, Guid? returnId)
         {
             Status = status;
             Messages = messages;
-            ReturnId = status == SaveStatus.PartialSuccess || status == SaveStatus.Succeeded ? returnId : null;
+            ReturnId = status == ResultStatus.PartialSuccess || status == ResultStatus.Succeeded ? returnId : null;
         }
 
-        public Result(SaveStatus status, string message, Guid? returnId)
+        public Result(ResultStatus status, string message, Guid? returnId)
         {
             Status = status;
             Messages = new List<string> { message };
-            ReturnId = status == SaveStatus.PartialSuccess || status == SaveStatus.Succeeded ? returnId : null;
+            ReturnId = status == ResultStatus.PartialSuccess || status == ResultStatus.Succeeded ? returnId : null;
         }
 
         /// <summary>
@@ -28,7 +28,7 @@ namespace Repository.ProfessionalTranslator.Net
         /// </summary>
         /// <param name="status"></param>
         /// <param name="messages"></param>
-        internal Result(SaveStatus status, List<string> messages)
+        internal Result(ResultStatus status, List<string> messages)
         {
             Status = status;
             Messages = messages;
@@ -40,7 +40,7 @@ namespace Repository.ProfessionalTranslator.Net
         /// </summary>
         /// <param name="status"></param>
         /// <param name="message"></param>
-        internal Result(SaveStatus status, string message)
+        internal Result(ResultStatus status, string message)
         {
             Status = status;
             Messages = new List<string> { message };
@@ -49,7 +49,7 @@ namespace Repository.ProfessionalTranslator.Net
 
         public Result()
         {
-            Status = SaveStatus.Undetermined;
+            Status = ResultStatus.Undetermined;
             Messages = new List<string>();
             ReturnId = null;
         }

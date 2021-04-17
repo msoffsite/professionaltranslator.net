@@ -15,7 +15,7 @@ namespace Repository.ProfessionalTranslator.Net
         {
             if (!id.HasValue)
             {
-                return new Result(SaveStatus.Failed, "Id must be a valid GUID.", null);
+                return new Result(ResultStatus.Failed, "Id must be a valid GUID.", null);
             }
 
             return await dbWrite.Delete(site, id.Value);
@@ -126,18 +126,18 @@ namespace Repository.ProfessionalTranslator.Net
         /// <returns>Returns save status and messages. If successful, returns an identifier via ReturnId.</returns>
         public static async Task<Result> Save(string site, Area area, models.Page inputItem)
         {
-            var saveStatus = SaveStatus.Undetermined;
+            var saveStatus = ResultStatus.Undetermined;
             var messages = new List<string>();
 
             if (inputItem == null)
             {
-                return new Result(SaveStatus.Failed, "Page cannot be null.");
+                return new Result(ResultStatus.Failed, "Page cannot be null.");
             }
 
             Tables.dbo.Site siteItem = await dbRead.Site.Item(site);
             if (siteItem == null)
             {
-                return new Result(SaveStatus.Failed, "No site was found with that name.");
+                return new Result(ResultStatus.Failed, "No site was found with that name.");
             }
 
             Tables.dbo.Image saveImage = Image.Convert(inputItem.Image, siteItem.Id);
@@ -145,10 +145,10 @@ namespace Repository.ProfessionalTranslator.Net
             {
                 inputItem.Image.Id = saveImage.Id;
                 Result imageSaveResult = await Image.Save(site, inputItem.Image);
-                if (imageSaveResult.Status == SaveStatus.Failed)
+                if (imageSaveResult.Status == ResultStatus.Failed)
                 {
                     messages = imageSaveResult.Messages;
-                    saveStatus = SaveStatus.PartialSuccess;
+                    saveStatus = ResultStatus.PartialSuccess;
                 }
             }
 
@@ -174,7 +174,7 @@ namespace Repository.ProfessionalTranslator.Net
             };
 
             Result savePageResult = await dbWrite.Item(site, saveItem);
-            if (savePageResult.Status == SaveStatus.Failed) return new Result(savePageResult.Status, savePageResult.Messages);
+            if (savePageResult.Status == ResultStatus.Failed) return new Result(savePageResult.Status, savePageResult.Messages);
 
             // ReSharper disable once ForeachCanBePartlyConvertedToQueryUsingAnotherGetEnumerator
             foreach (models.Localized.Page localizedPage in inputItem.Bodies)
@@ -187,14 +187,14 @@ namespace Repository.ProfessionalTranslator.Net
                     Lcid = localizedPage.Lcid
                 };
                 Result localizedResult = await DatabaseOperations.Localization.Write.Page.Item(site, saveLocalization);
-                if (localizedResult.Status != SaveStatus.Failed) continue;
-                saveStatus = SaveStatus.PartialSuccess;
+                if (localizedResult.Status != ResultStatus.Failed) continue;
+                saveStatus = ResultStatus.PartialSuccess;
                 messages.AddRange(localizedResult.Messages);
             }
 
-            if (saveStatus == SaveStatus.Undetermined)
+            if (saveStatus == ResultStatus.Undetermined)
             {
-                saveStatus = SaveStatus.Succeeded;
+                saveStatus = ResultStatus.Succeeded;
             }
 
             return new Result(saveStatus, messages, returnId);

@@ -51,6 +51,16 @@ function randomString(length) {
     return result;
 }
 
+/*
+    Need to add result div to contact page. Example:
+    <div id="work_result_row" class="form-row hide">
+        <div class="form-group col-12">
+            <div id="work_result_text" class="alert alert-info text-center" role="alert"></div>
+        </div>
+    </div>
+
+    And script to show if failed for post email address and send message.
+ */
 function postEmailAddress(id) {
     const input = $(id);
 
@@ -114,7 +124,7 @@ function sendMessage() {
             }),
             contentType: "application/json; charset=utf-8",
             dataType: "json",
-            success: function (response) {
+            success: function () {
                 window.location.href = "/InquiryResult";
             },
             failure: function (response) {

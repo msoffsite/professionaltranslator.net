@@ -9,7 +9,7 @@ namespace Repository.ProfessionalTranslator.Net.DatabaseOperations.Localization.
     {
         internal static async Task<Result> Item(string site, Tables.Localization.Page item)
         {
-            SaveStatus saveStatus;
+            ResultStatus resultStatus;
             var messages = new List<string>();
 
             try
@@ -26,16 +26,16 @@ namespace Repository.ProfessionalTranslator.Net.DatabaseOperations.Localization.
                 await cmd.Connection.OpenAsync();
                 await cmd.ExecuteNonQueryAsync();
                 await cmd.Connection.CloseAsync();
-                saveStatus = SaveStatus.Succeeded;
+                resultStatus = ResultStatus.Succeeded;
             }
             catch (System.Exception ex)
             {
                 await Exception.Save(site, ex, "Localization.Page");
-                saveStatus = SaveStatus.Failed;
+                resultStatus = ResultStatus.Failed;
                 messages.Add(ex.Message);
             }
 
-            return new Result(saveStatus, messages);
+            return new Result(resultStatus, messages);
         }
     }
 }

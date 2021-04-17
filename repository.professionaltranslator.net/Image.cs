@@ -26,7 +26,7 @@ namespace Repository.ProfessionalTranslator.Net
         {
             if (!id.HasValue)
             {
-                return new Result(SaveStatus.Failed, "Id must be a valid GUID.");
+                return new Result(ResultStatus.Failed, "Id must be a valid GUID.");
             }
 
             return await dbWrite.Delete(site, id.Value);
@@ -94,30 +94,30 @@ namespace Repository.ProfessionalTranslator.Net
 
             if (inputItem == null)
             {
-                return new Result(SaveStatus.Failed, "Image cannot be null.");
+                return new Result(ResultStatus.Failed, "Image cannot be null.");
             }
 
             Tables.dbo.Site siteItem = await dbRead.Site.Item(site);
             if (siteItem == null)
             {
-                return new Result(SaveStatus.Failed, "No site was found with that name.");
+                return new Result(ResultStatus.Failed, "No site was found with that name.");
             }
 
             Rules.StringRequiredMaxLength(inputItem.Path, "Path", 440, ref messages);
 
             if (messages.Any())
             {
-                return new Result(SaveStatus.Failed, messages);
+                return new Result(ResultStatus.Failed, messages);
             }
 
             Tables.dbo.Image convertedImage = Convert(inputItem, siteItem.Id);
             if (convertedImage == null)
             {
-                return new Result(SaveStatus.Failed, "Could not convert Image model to table.");
+                return new Result(ResultStatus.Failed, "Could not convert Image model to table.");
             }
 
             Result saveImageResult = await dbWrite.Item(site, convertedImage);
-            if (saveImageResult.Status == SaveStatus.PartialSuccess || saveImageResult.Status == SaveStatus.Succeeded)
+            if (saveImageResult.Status == ResultStatus.PartialSuccess || saveImageResult.Status == ResultStatus.Succeeded)
             {
                 saveImageResult.ReturnId = inputItem.Id;
             }

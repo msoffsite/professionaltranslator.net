@@ -99,18 +99,18 @@ namespace Repository.ProfessionalTranslator.Net
         /// <returns>Returns save status and messages. If successful, returns an identifier via ReturnId.</returns>
         public static async Task<Result> Save(string site, models.Client inputItem)
         {
-            var saveStatus = SaveStatus.Undetermined;
+            var saveStatus = ResultStatus.Undetermined;
             var messages = new List<string>();
 
             if (inputItem == null)
             {
-                return new Result(SaveStatus.Failed, "Client cannot be null.");
+                return new Result(ResultStatus.Failed, "Client cannot be null.");
             }
 
             Tables.dbo.Site siteItem = await dbRead.Site.Item(site);
             if (siteItem == null)
             {
-                return new Result(SaveStatus.Failed, "No site was found with that name.");
+                return new Result(ResultStatus.Failed, "No site was found with that name.");
             }
 
             Rules.StringRequiredMaxLength(inputItem.Name, "Name", 150, ref messages);
@@ -129,7 +129,7 @@ namespace Repository.ProfessionalTranslator.Net
 
             if (messages.Any())
             {
-                return new Result(SaveStatus.Failed, messages);
+                return new Result(ResultStatus.Failed, messages);
             }
 
             var saveItem = new Tables.dbo.Client
@@ -141,7 +141,7 @@ namespace Repository.ProfessionalTranslator.Net
             };
 
             Result saveClientResult = await dbWrite.Item(site, saveItem);
-            if (saveClientResult.Status == SaveStatus.Failed)
+            if (saveClientResult.Status == ResultStatus.Failed)
             {
                 return saveClientResult;
             }
@@ -157,14 +157,14 @@ namespace Repository.ProfessionalTranslator.Net
                     OriginalFilename = uploads.OriginalFilename
                 };
                 Result uploadResult = await DatabaseOperations.Upload.Write.Client.Item(saveUpload);
-                if (uploadResult.Status != SaveStatus.Failed) continue;
-                saveStatus = SaveStatus.PartialSuccess;
+                if (uploadResult.Status != ResultStatus.Failed) continue;
+                saveStatus = ResultStatus.PartialSuccess;
                 messages.AddRange(uploadResult.Messages);
             }
 
-            if (saveStatus == SaveStatus.Undetermined)
+            if (saveStatus == ResultStatus.Undetermined)
             {
-                saveStatus = SaveStatus.Succeeded;
+                saveStatus = ResultStatus.Succeeded;
             }
 
             return new Result(saveStatus, messages, inputItem.Id);

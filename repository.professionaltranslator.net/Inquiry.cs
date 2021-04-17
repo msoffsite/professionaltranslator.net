@@ -70,18 +70,18 @@ namespace Repository.ProfessionalTranslator.Net
         /// <returns>Returns save status and messages. If successful, returns an identifier via ReturnId.</returns>
         public static async Task<Result> Save(string site, models.Log.Inquiry inputItem, models.Client clientItem)
         {
-            var saveStatus = SaveStatus.Undetermined;
+            var saveStatus = ResultStatus.Undetermined;
             var messages = new List<string>();
 
             if (inputItem == null)
             {
-                return new Result(SaveStatus.Failed, "Inquiry cannot be null.");
+                return new Result(ResultStatus.Failed, "Inquiry cannot be null.");
             }
 
             Tables.dbo.Site siteItem = await dboDbRead.Site.Item(site);
             if (siteItem == null)
             {
-                return new Result(SaveStatus.Failed, "No site was found with that name.");
+                return new Result(ResultStatus.Failed, "No site was found with that name.");
             }
 
             Rules.StringRequiredMaxLength(inputItem.TranslationType, "Translation Type", 25, ref messages);
@@ -99,19 +99,19 @@ namespace Repository.ProfessionalTranslator.Net
 
             if (messages.Any())
             {
-                return new Result(SaveStatus.Failed, messages);
+                return new Result(ResultStatus.Failed, messages);
             }
 
             Tables.Log.Inquiry convertedInquiry = Convert(inputItem, siteItem.Id);
             if (convertedInquiry == null)
             {
-                return new Result(SaveStatus.Failed, "Could not convert Inquiry model to table.");
+                return new Result(ResultStatus.Failed, "Could not convert Inquiry model to table.");
             }
 
             Guid returnId = convertedInquiry.Id;
 
             Result saveInquiryResult = await dbWrite.Item(site, convertedInquiry);
-            if (saveInquiryResult.Status == SaveStatus.PartialSuccess || saveInquiryResult.Status == SaveStatus.Succeeded)
+            if (saveInquiryResult.Status == ResultStatus.PartialSuccess || saveInquiryResult.Status == ResultStatus.Succeeded)
             {
                 saveInquiryResult.ReturnId = returnId;
             }
@@ -120,20 +120,20 @@ namespace Repository.ProfessionalTranslator.Net
                 saveStatus = saveInquiryResult.Status;
             }
 
-            if (saveStatus == SaveStatus.Undetermined)
+            if (saveStatus == ResultStatus.Undetermined)
             {
                 foreach (models.Upload.Client uploads in clientItem.Uploads)
                 {
                     Result uploadResult = await DatabaseOperations.Upload.Write.ClientInquiry.Item(uploads.Id, clientItem.Id);
-                    if (uploadResult.Status != SaveStatus.Failed) continue;
-                    saveStatus = SaveStatus.PartialSuccess;
+                    if (uploadResult.Status != ResultStatus.Failed) continue;
+                    saveStatus = ResultStatus.PartialSuccess;
                     messages.AddRange(uploadResult.Messages);
                 }
             }
 
-            if (saveStatus == SaveStatus.Undetermined)
+            if (saveStatus == ResultStatus.Undetermined)
             {
-                saveStatus = SaveStatus.Succeeded;
+                saveStatus = ResultStatus.Succeeded;
             }
 
             return new Result(saveStatus, messages, returnId);

@@ -117,7 +117,7 @@ namespace web.professionaltranslator.net.Areas.Admin.Pages
             }
             catch (System.Exception ex)
             {
-                result = new Result(SaveStatus.Failed, ex.Message, Guid.Empty);
+                result = new Result(ResultStatus.Failed, ex.Message, Guid.Empty);
             }
 
             return new JsonResult(result);

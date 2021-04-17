@@ -53,13 +53,13 @@ namespace Repository.ProfessionalTranslator.Net
 
             if (inputItem == null)
             {
-                return new Result(SaveStatus.Failed, "Exception cannot be null.");
+                return new Result(ResultStatus.Failed, "Exception cannot be null.");
             }
 
             Tables.dbo.Site siteItem = await dbRead.Site.Item(site);
             if (siteItem == null)
             {
-                return new Result(SaveStatus.Failed, "No site was found with that name.");
+                return new Result(ResultStatus.Failed, "No site was found with that name.");
             }
 
             if (string.IsNullOrEmpty(inputItem.Message)) messages.Add("Message cannot be empty.");
@@ -75,7 +75,7 @@ namespace Repository.ProfessionalTranslator.Net
 
             if (messages.Any())
             {
-                return new Result(SaveStatus.Failed, messages);
+                return new Result(ResultStatus.Failed, messages);
             }
 
             var convertItem = new Tables.Log.Exception

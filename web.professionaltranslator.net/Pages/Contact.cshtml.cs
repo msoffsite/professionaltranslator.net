@@ -42,25 +42,36 @@ namespace web.professionaltranslator.net.Pages
 
         public async Task<ActionResult> OnPostEmailAddressChange()
         {
-            var stream = new MemoryStream();
-            await Request.Body.CopyToAsync(stream);
-            stream.Position = 0;
-            using var reader = new StreamReader(stream);
-            string requestBody = await reader.ReadToEndAsync();
-
-            if (requestBody.Length <= 0) throw new IndexOutOfRangeException("requestBody is empty.");
-
-            var obj = JsonConvert.DeserializeObject<InitializeClient>(requestBody);
-            if (obj == null) throw new NullReferenceException("Model could not be derived from JSON object.");
-            ClientModel dbClientModel = await Client.Item(obj.EmailAddress) ?? new ClientModel
+            Result result;
+            try
             {
-                EmailAddress = obj.EmailAddress,
-                Id = Guid.NewGuid(),
-                Name = obj.Name,
-                Uploads = new List<UploadModel>()
-            };
-            Session.Set<ClientModel>(HttpContext.Session, Session.Key.ClientDataModel, dbClientModel);
-            return new JsonResult(new Result());
+                var stream = new MemoryStream();
+                await Request.Body.CopyToAsync(stream);
+                stream.Position = 0;
+                using var reader = new StreamReader(stream);
+                string requestBody = await reader.ReadToEndAsync();
+
+                if (requestBody.Length <= 0) throw new IndexOutOfRangeException("requestBody is empty.");
+
+                var obj = JsonConvert.DeserializeObject<InitializeClient>(requestBody);
+                if (obj == null) throw new NullReferenceException("Model could not be derived from JSON object.");
+                ClientModel dbClientModel = await Client.Item(obj.EmailAddress) ?? new ClientModel
+                {
+                    EmailAddress = obj.EmailAddress,
+                    Id = Guid.NewGuid(),
+                    Name = obj.Name,
+                    Uploads = new List<UploadModel>()
+                };
+                Session.Json.SetObject(HttpContext.Session, Session.Key.ClientDataModel, dbClientModel);
+
+                result = new Result(ResultStatus.Succeeded, string.Empty, dbClientModel.Id);
+            }
+            catch (Exception ex)
+            {
+                result = new Result(ResultStatus.Failed, ex.Message, Guid.Empty);
+            }
+            
+            return new JsonResult(result);
         }
 
         public async Task<ActionResult> OnPostSend()
@@ -99,7 +110,7 @@ namespace web.professionaltranslator.net.Pages
                 body.Append("<br/><br />");
                 body.Append(messageHtml);
 
-                var dbClientModel = Session.Get<ClientModel>(HttpContext.Session, Session.Key.ClientDataModel);
+                var dbClientModel = Session.Json.GetObject<ClientModel>(HttpContext.Session, Session.Key.ClientDataModel);
 
                 var dataModel = new DataModel
                 {
@@ -115,6 +126,10 @@ namespace web.professionaltranslator.net.Pages
                 };
 
                 result = await Data.Save(SiteSettings.Site, dataModel, dbClientModel);
+                if (result.Status == ResultStatus.Succeeded)
+                {
+                    result.Messages = new List<string> { "Message sent" };
+                }
 
                 Session.Set<Guid>(HttpContext.Session, Session.Key.InquiryResult, result.ReturnId);
 
@@ -128,7 +143,7 @@ namespace web.professionaltranslator.net.Pages
             }
             catch (Exception ex)
             {
-                return BadRequest(ex.Message);
+                result = new Result(ResultStatus.Failed, ex.Message, Guid.Empty);
             }
 
             return new JsonResult(result);

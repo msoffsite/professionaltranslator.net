@@ -57,20 +57,20 @@ namespace Repository.ProfessionalTranslator.Net
 
             if (item == null)
             {
-                return new Result(SaveStatus.Failed, "Site cannot be null.");
+                return new Result(ResultStatus.Failed, "Site cannot be null.");
             }
 
             Rules.StringRequiredMaxLength(item.Name, "Name", 25, ref messages);
 
             if (messages.Any())
             {
-                return new Result(SaveStatus.Failed, messages);
+                return new Result(ResultStatus.Failed, messages);
             }
 
             Tables.dbo.Site convertedSite = Convert(item);
             if (convertedSite == null)
             {
-                return new Result(SaveStatus.Failed, "Could not convert Site model to table.");
+                return new Result(ResultStatus.Failed, "Could not convert Site model to table.");
             }
 
             Result saveResult = await dbWrite.Item(convertedSite);
