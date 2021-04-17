@@ -55,4 +55,8 @@
     <ProjectReference Include="..\repository.professionaltranslator.net\repository.professionaltranslator.net.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="wwwroot\uploads\" />
+  </ItemGroup>
+
 </Project>

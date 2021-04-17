@@ -17,46 +17,14 @@
             });
     });
 
-    var input = $(".validate-input .input-element");
+    $("#client_email_address").on("change",
+        function() {
+            postEmailAddress("#client_email_address");
+        });
 
     $("#send_message").on("click", function (e) {
         e.preventDefault();
-        let passed = true;
-
-        for (let i = 0; i < input.length; i++) {
-            if (validate(input[i]) === false) {
-                showValidationMessage(input[i]);
-                passed = false;
-            }
-        }
-
-        if (passed) {
-            $.ajax({
-                type: "POST",
-                url: "/Contact?handler=Send",
-                beforeSend: function (xhr) {
-                    xhr.setRequestHeader("XSRF-TOKEN",
-                        $('input:hidden[name="__RequestVerificationToken"]').val());
-                },
-                data: JSON.stringify({
-                    Name: $("#client_name").val(),
-                    EmailAddress: $("#client_email_address").val(),
-                    Title: $("#work_title").val(),
-                    TranslationType: $("input[name='translation-type']:checked").val(),
-                    Genre: $("#genre").val(),
-                    WordCount: $("#word_count").val(),
-                    Message: $("#message").val()
-                }),
-                contentType: "application/json; charset=utf-8",
-                dataType: "json",
-                success: function (response) {
-                    window.location.href = "/InquiryResult";
-                },
-                failure: function (response) {
-                    console.log(response);
-                }
-            });
-        }
+        sendMessage();
     });
 
     $(".validate-form .input-element").each(function () {
@@ -66,6 +34,12 @@
         });
     });
 }); 
+
+function closeValidationMessage(element) {
+    const thisAlert = $(element).parent();
+    $(thisAlert).removeClass("validation-message");
+    $(thisAlert).find(".close-validation-message").remove();
+}
 
 function randomString(length) {
     let result = "";
@@ -77,16 +51,76 @@ function randomString(length) {
     return result;
 }
 
-function validate(element) {
-    if ($(element).attr("type") === "email") {
-        const regEx = /^([a-zA-Z0-9_\-\.]+)@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.)|(([a-zA-Z0-9\-]+\.)+))([a-zA-Z]{1,5}|[0-9]{1,3})(\]?)$/;
-        if ($(element).val().trim().match(regEx) == null) {
-            return false;
+function postEmailAddress(id) {
+    const input = $(id);
+
+    let passed = true;
+
+    if (validate(input) === false) {
+        showValidationMessage(input[i]);
+        passed = false;
+    }
+
+    if (passed) {
+        $.ajax({
+            type: "POST",
+            url: "/Contact?handler=EmailAddressChange",
+            beforeSend: function (xhr) {
+                xhr.setRequestHeader("XSRF-TOKEN",
+                    $('input:hidden[name="__RequestVerificationToken"]').val());
+            },
+            data: JSON.stringify({
+                Name: $("#client_name").val(),
+                EmailAddress: input.val()
+            }),
+            contentType: "application/json; charset=utf-8",
+            dataType: "json",
+            failure: function (response) {
+                console.log(response);
+            }
+        });
+    }
+}
+
+function sendMessage() {
+
+    const input = $(".validate-input .input-element");
+
+    let passed = true;
+
+    for (let i = 0; i < input.length; i++) {
+        if (validate(input[i]) === false) {
+            showValidationMessage(input[i]);
+            passed = false;
         }
-    } else {
-        if ($(element).val().trim() == "") {
-            return false;
-        }
+    }
+
+    if (passed) {
+        $.ajax({
+            type: "POST",
+            url: "/Contact?handler=Send",
+            beforeSend: function (xhr) {
+                xhr.setRequestHeader("XSRF-TOKEN",
+                    $('input:hidden[name="__RequestVerificationToken"]').val());
+            },
+            data: JSON.stringify({
+                Name: $("#client_name").val(),
+                EmailAddress: $("#client_email_address").val(),
+                Title: $("#work_title").val(),
+                TranslationType: $("input[name='translation-type']:checked").val(),
+                Genre: $("#genre").val(),
+                WordCount: $("#word_count").val(),
+                Message: $("#message").val()
+            }),
+            contentType: "application/json; charset=utf-8",
+            dataType: "json",
+            success: function (response) {
+                window.location.href = "/InquiryResult";
+            },
+            failure: function (response) {
+                console.log(response);
+            }
+        });
     }
 }
 
@@ -103,8 +137,15 @@ function showValidationMessage(element) {
     });
 }
 
-function closeValidationMessage(element) {
-    const thisAlert = $(element).parent();
-    $(thisAlert).removeClass("validation-message");
-    $(thisAlert).find(".close-validation-message").remove();
+function validate(element) {
+    if ($(element).attr("type") === "email") {
+        const regEx = /^([a-zA-Z0-9_\-\.]+)@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.)|(([a-zA-Z0-9\-]+\.)+))([a-zA-Z]{1,5}|[0-9]{1,3})(\]?)$/;
+        if ($(element).val().trim().match(regEx) == null) {
+            return false;
+        }
+    } else {
+        if ($(element).val().trim() == "") {
+            return false;
+        }
+    }
 }

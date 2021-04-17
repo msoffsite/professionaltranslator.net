@@ -22,7 +22,7 @@ namespace Repository.ProfessionalTranslator.Net
         {
             if (string.IsNullOrWhiteSpace(emailAddress)) return null;
             Tables.dbo.Client client = await dbRead.Client.Item(emailAddress);
-            return await Item(client, null);
+            return client == null ? null : await Item(client, null);
         }
 
         public static async Task<models.Client> Item(Guid? id, Guid? inquiryId)

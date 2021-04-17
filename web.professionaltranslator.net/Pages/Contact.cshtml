@@ -26,111 +26,113 @@
     <link rel="stylesheet" type="text/css" href="~/css/material-design-iconic-font.css">
     <link rel="stylesheet" href="~/css/contact.css" />
 }
-<div class="row mt-5 mb-4">
+<div class="row mt-5 mb-4" style="display: none;">
     <div class="col-12 text-center page-header">
-        <h1>
-            @Html.Raw(Model.Item.Header)
-        </h1>
+        <h2 class="h2-responsive page-header mb-5">
+            <sup><i class="fas fa-quote-left"></i></sup>@Html.Raw(Model.Item.Header.Trim())<sup><i class="fas fa-quote-right"></i></sup>
+        </h2>
     </div>
 </div>
-<div class="row mt-5 mb-4">
+<div class="row mt-5 mb-4" style="display: none;">
     <div class="col-12">
         <p>
             My developers are currently upgrading the contact page.
         </p>
         <p>
-            Please contact me directly at <a href="mailto:cinta@professionaltranslator.net">cinta@professionaltranslator.net</a>.
+            Please contact me directly at
+            <a href="mailto:cinta@professionaltranslator.net">cinta@professionaltranslator.net</a>.
         </p>
+        <p>Please tell me a bit about your project so we can get started. Keep in mind that <b>Localization</b> is for websites and applications. <b>Translation</b> covers every other type of translating work.</p><p>Also, please feel free to upload the file(s) you wish translated. If you're not ready to that, don't worry about it. We can take care of it later.</p>
     </div>
 </div>
-    <div class="row mt-5 mb-4" style="display: none;">
-        @if (Model.Item.Image != null)
+<div class="row mt-5 mb-4">
+    @if (Model.Item.Image != null)
     {
-        <div class="col-lg-3 col-md-4 col-sm-12">
-            <img src="@Model.Item.Image.Path" class="img-fluid img-inset" alt="@Model.Item.Name" title="@Model.Item.Name">
-        </div>
-        <div class="col-lg-9 col-md-8 col-sm-12 text-justify">
-            @Html.Raw(body)
-        </div>
+    <div class="col-lg-3 col-md-4 col-sm-12">
+        <img src="@Model.Item.Image.Path" class="img-fluid img-inset" alt="@Model.Item.Name" title="@Model.Item.Name">
+    </div>
+    <div class="col-lg-9 col-md-8 col-sm-12 text-justify">
+        @Html.Raw(body)
+    </div>
     }
     else
     {
-        <div class="col-12 text-justify">
-            @Html.Raw(body)
+    <div class="col-12 text-justify">
+        @Html.Raw(body)
+    </div>
+    }
+</div>
+<div class="form-wrapper">
+    <form class="form-container validate-form" autocomplete="off" method="post">
+        <div class="form-row">
+            <div class="form-group col-lg-6 col-md-12 col-sm-12">
+                <div class="input-container validate-input light-gray-background" data-validate="Please type your name here." title="Your name goes here.">
+                    <input id="client_name" class="input-element" type="text" placeholder="Your Name">
+                </div>
+            </div>
+            <div class="form-group col-lg-6 col-md-12 col-sm-12">
+                <div class="input-container validate-input light-gray-background" data-validate="Please type a valid email address here." title="A valid email address is required here.">
+                    <input id="client_email_address" class="input-element" type="email" placeholder="Your Email Address">
+                </div>
+            </div>
         </div>
-    }
-    </div>
-    <div class="form-wrapper" style="display: none;">
-        <form class="form-container validate-form" autocomplete="off" method="post">
-            <div class="form-row">
-                <div class="form-group col-lg-6 col-md-12 col-sm-12">
-                    <div class="input-container validate-input light-gray-background" data-validate="Please type your name here." title="Your name goes here.">
-                        <input id="client_name" class="input-element" type="text" placeholder="Your Name">
+        <div class="form-row">
+            <div class="form-group col-lg-6 col-md-12 col-sm-12">
+                <div class="input-container light-gray-background d-flex justify-content-around align-content-center radio-container-flex">
+                    <div class="form-check-inline-flex">
+                        <label class="form-check-label" title="Translation -- anything other than website or app localization.">
+                            <input type="radio" class="form-check-input" name="translation-type" value="Translation" checked aria-checked="True">Translation
+                        </label>
                     </div>
-                </div>
-                <div class="form-group col-lg-6 col-md-12 col-sm-12">
-                    <div class="input-container validate-input light-gray-background" data-validate="Please type a valid email address here." title="A valid email address is required here.">
-                        <input id="client_email_address" class="input-element" type="email" placeholder="Your Email Address">
-                    </div>
-                </div>
-            </div>
-            <div class="form-row">
-                <div class="form-group col-lg-6 col-md-12 col-sm-12">
-                    <div class="input-container light-gray-background d-flex justify-content-around align-content-center radio-container-flex">
-                        <div class="form-check-inline-flex">
-                            <label class="form-check-label" title="Translation -- anything other than website or app localization.">
-                                <input type="radio" class="form-check-input" name="translation-type" value="Translation" checked aria-checked="True">Translation
-                            </label>
-                        </div>
-                        <div class="form-check-inline-flex">
-                            <label class="form-check-label" title="Localization is for a website or application.">
-                                <input type="radio" class="form-check-input" name="translation-type" value="Localization">Localization
-                            </label>
-                        </div>
-                    </div>
-                </div>
-                <div class="form-group col-lg-6 col-md-12 col-sm-12">
-                    <div class="input-container light-gray-background d-flex justify-content-around align-content-center radio-container-flex">
-                        <div class="form-check-inline-flex">
-                            <label class="form-check-label" title="Get your work translated from English to Spanish.">
-                                <input type="radio" class="form-check-input" name="translation-direction" value="English to Spanish" checked aria-checked="True">English to Spanish
-                            </label>
-                        </div>
-                        <div class="form-check-inline-flex">
-                            <label class="form-check-label" title="Get your work translated from Spanish to English.">
-                                <input type="radio" class="form-check-input" name="translation-direction" value="Spanish to English">Spanish to English
-                            </label>
-                        </div>
+                    <div class="form-check-inline-flex">
+                        <label class="form-check-label" title="Localization is for a website or application.">
+                            <input type="radio" class="form-check-input" name="translation-type" value="Localization">Localization
+                        </label>
                     </div>
                 </div>
             </div>
-            <div class="form-row">
-                <div class="form-group col-lg-6 col-md-12 col-sm-12">
-                    <div class="input-container validate-input light-gray-background" data-validate="Please enter the subject matter here." title="Please enter the subject matter here. Examples include fiction, app, website, marketing, medical, etc.">
-                        <input id="genre" class="input-element" type="text" placeholder="Subject: Fiction, app, website, marketing, etc.">
+            <div class="form-group col-lg-6 col-md-12 col-sm-12">
+                <div class="input-container light-gray-background d-flex justify-content-around align-content-center radio-container-flex">
+                    <div class="form-check-inline-flex">
+                        <label class="form-check-label" title="Get your work translated from English to Spanish.">
+                            <input type="radio" class="form-check-input" name="translation-direction" value="English to Spanish" checked aria-checked="True">English to Spanish
+                        </label>
                     </div>
-                </div>
-                <div class="form-group col-lg-6 col-md-12 col-sm-12">
-                    <div class="input-container validate-input light-gray-background" data-validate="Please enter word count here." title="How many words does your work contain?">
-                        <input id="word_count" class="input-element" type="number" placeholder="Word Count" min="1000" step="500">
-                    </div>
-                </div>
-            </div>
-            <div class="form-row">
-                <div class="form-group col-12">
-                    <div class="input-container validate-input light-gray-background" data-validate="Tell me about the work you need translated or localized." title="Tell me about the work you need translated or localized.">
-                        <textarea id="message" class="input-element" placeholder="Tell me about the work you need translated or localized."></textarea>
+                    <div class="form-check-inline-flex">
+                        <label class="form-check-label" title="Get your work translated from Spanish to English.">
+                            <input type="radio" class="form-check-input" name="translation-direction" value="Spanish to English">Spanish to English
+                        </label>
                     </div>
                 </div>
             </div>
-            <div class="form-row">
-                <div class="form-group col-12">
-                    <button id="send_message" class="btn btn-purple" role="button" title="Discover what a professional translation can do for you."><span>Send Message</span></button>
+        </div>
+        <div class="form-row">
+            <div class="form-group col-lg-6 col-md-12 col-sm-12">
+                <div class="input-container validate-input light-gray-background" data-validate="Please enter the subject matter here." title="Please enter the subject matter here. Examples include fiction, app, website, marketing, medical, etc.">
+                    <input id="genre" class="input-element" type="text" placeholder="Subject: Fiction, app, website, marketing, etc.">
                 </div>
             </div>
-        </form>
-    </div>
-    @section Scripts
+            <div class="form-group col-lg-6 col-md-12 col-sm-12">
+                <div class="input-container validate-input light-gray-background" data-validate="Please enter word count here." title="How many words does your work contain?">
+                    <input id="word_count" class="input-element" type="number" placeholder="Word Count" min="1000" step="500">
+                </div>
+            </div>
+        </div>
+        <div class="form-row">
+            <div class="form-group col-12">
+                <div class="input-container validate-input light-gray-background" data-validate="Tell me about the work you need translated or localized." title="Tell me about the work you need translated or localized.">
+                    <textarea id="message" class="input-element" placeholder="Tell me about the work you need translated or localized."></textarea>
+                </div>
+            </div>
+        </div>
+        <div class="form-row">
+            <div class="form-group col-12">
+                <button id="send_message" class="btn btn-purple" role="button" title="Discover what a professional translation can do for you."><span>Send Message</span></button>
+            </div>
+        </div>
+    </form>
+</div>
+@section Scripts
 {
-        <script src="~/js/contact.js" asp-append-version="true"></script>
-    }
+    <script src="~/js/contact.js" asp-append-version="true"></script>
+}
