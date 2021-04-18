@@ -10,7 +10,7 @@
     $(".validate-input .input-element").each(function () {
         $(this).on("blur",
             function () {
-                if (validate(this) == false) {
+                if (validate(this) === false) {
                     showValidationMessage(this);
                 } else {
                     $(this).parent().addClass("validated");
@@ -44,13 +44,59 @@ function validate(element) {
             return false;
         }
     } else {
-        if ($(element).val().trim() == "") {
+        if ($(element).val().trim() === "") {
             return false;
         }
     }
 }
 
-function processResultMessages(row, textContainer, messages) {
+
+// Example: arrayValidExtensions = [".jpg", ".jpeg", ".bmp", ".gif", ".png"];
+function validateUploads(fileElementId, arrayValidExtensions, resultRow, resultTextContainer, maxFileSizeMb) {
+    const fileContainer = document.getElementById(fileElementId);
+
+    const messages = [];
+
+    const files = fileContainer.files;
+    if (files.length === 0) {
+        messages.push("You must selected at least one file if you're going to upload.");
+    }
+
+    for (let i = 0; i < files.length; i++) {
+        const inputElement = files[i];
+        const filename = inputElement.name;
+        if (filename.length > 0) {
+
+            const extensionIndex = filename.lastIndexOf(".");
+            if (extensionIndex === -1) {
+                messages.push(filename + " must have an extension.<br />");
+                continue;
+            } else {
+                const fileExtension = filename.substring(extensionIndex).toLowerCase();
+                const arrayIndex = arrayValidExtensions.indexOf(fileExtension);
+                if (arrayIndex === -1) {
+                    messages.push(filename + " is not an accepted document.<br />");
+                    continue;
+                }
+            }
+
+            const fileSize = (inputElement.size / (1024 * 1024));
+            if (fileSize > maxFileSizeMb) {
+                messages.push(filename + " is too big.<br />");
+                continue;
+            }
+        }
+    }
+
+    if (messages.length > 0) {
+        processResultMessages(0, resultRow, resultTextContainer, messages);
+        return false;
+    }
+
+    return true;
+}
+
+function processResultMessages(result, row, textContainer, messages) {
     row.fadeIn(1000);
 
     let html = "";
@@ -60,10 +106,24 @@ function processResultMessages(row, textContainer, messages) {
             html += messageArray[i];
             html += "<br />";
         }
-        row.fadeOut(10000);
     } else {
         html = messages;
-        row.fadeOut(5000);
+    }
+
+    if (html.length > 0) {
+        if (!textContainer.hasClass("alert")) {
+            textContainer.addClass("alert");
+        }
+
+        if (result === 0) {
+            textContainer.removeClass("alert-info");
+            textContainer.addClass("alert-danger");
+            row.fadeOut(10000);
+        } else {
+            textContainer.removeClass("alert-danger");
+            textContainer.addClass("alert-info");
+            row.fadeOut(5000);
+        }
     }
 
     textContainer.html(`<p>${html}</p>`);

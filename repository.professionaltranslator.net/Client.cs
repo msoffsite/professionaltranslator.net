@@ -89,7 +89,7 @@ namespace Repository.ProfessionalTranslator.Net
         }
 
         /// <summary>
-        /// Saves testimonial and child items.
+        /// Saves client and client uploads.
         /// </summary>
         /// <instructions>
         /// Set inputItem.Id to null when creating a new object.

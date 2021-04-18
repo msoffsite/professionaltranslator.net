@@ -1,4 +1,4 @@
-﻿@page
+﻿@page "{handler?}"
 @model ContactModel
 @{
     ViewData["Title"] = Model.Item.Title;
@@ -42,24 +42,29 @@
             Please contact me directly at
             <a href="mailto:cinta@professionaltranslator.net">cinta@professionaltranslator.net</a>.
         </p>
-        <p>Please tell me a bit about your project so we can get started. Keep in mind that <b>Localization</b> is for websites and applications. <b>Translation</b> covers every other type of translating work.</p><p>Also, please feel free to upload the file(s) you wish translated. If you're not ready to that, don't worry about it. We can take care of it later.</p>
+        <p>
+            Please tell me a bit about your project so we can get started. Keep in mind that <b>Localization</b> is for websites and applications. <b>Translation</b> covers every other type of translating work.
+        </p>
+        <p>
+            Also, please feel free to upload the file(s) you wish translated. If you're not ready to that, don't worry about it. We can take care of it later.
+        </p>
     </div>
 </div>
 <div class="row mt-5 mb-4">
     @if (Model.Item.Image != null)
     {
-    <div class="col-lg-3 col-md-4 col-sm-12">
-        <img src="@Model.Item.Image.Path" class="img-fluid img-inset" alt="@Model.Item.Name" title="@Model.Item.Name">
-    </div>
-    <div class="col-lg-9 col-md-8 col-sm-12 text-justify">
-        @Html.Raw(body)
-    </div>
+        <div class="col-lg-3 col-md-4 col-sm-12">
+            <img src="@Model.Item.Image.Path" class="img-fluid img-inset" alt="@Model.Item.Name" title="@Model.Item.Name">
+        </div>
+        <div class="col-lg-9 col-md-8 col-sm-12 text-justify">
+            @Html.Raw(body)
+        </div>
     }
     else
     {
-    <div class="col-12 text-justify">
-        @Html.Raw(body)
-    </div>
+        <div class="col-12 text-justify">
+            @Html.Raw(body)
+        </div>
     }
 </div>
 <div class="form-wrapper">
@@ -109,7 +114,7 @@
         <div class="form-row">
             <div class="form-group col-lg-6 col-md-12 col-sm-12">
                 <div class="input-container validate-input light-gray-background" data-validate="Please enter the subject matter here." title="Please enter the subject matter here. Examples include fiction, app, website, marketing, medical, etc.">
-                    <input id="genre" class="input-element" type="text" placeholder="Subject: Fiction, app, website, marketing, etc.">
+                    <input id="subject_matter" class="input-element" type="text" placeholder="Subject: Fiction, app, website, marketing, etc.">
                 </div>
             </div>
             <div class="form-group col-lg-6 col-md-12 col-sm-12">
@@ -125,14 +130,68 @@
                 </div>
             </div>
         </div>
-        <div class="form-row">
-            <div class="form-group col-12">
-                <button id="send_message" class="btn btn-purple" role="button" title="Discover what a professional translation can do for you."><span>Send Message</span></button>
+    </form>
+    <form id="upload_form" method="post" enctype="multipart/form-data" class="disabled">
+        <div class="row mb-4">
+            <div class="col-12">
+                <div class="accordion" id="upload_instructions_accordion">
+                    <div class="card border-bottom">
+                        <div class="card-header" id="heading_upload_instructions">
+                            <h2 class="mb-0">
+                                <button class="btn btn-link btn-block text-left collapsed" type="button" data-toggle="collapse" data-target="#collapse_instructions" aria-expanded="true" aria-controls="collapse_instructions">
+                                    Click for File Upload Instructions
+                                </button>
+                            </h2>
+                        </div>
+
+                        <div id="collapse_instructions" class="collapse" aria-labelledby="heading_upload_instructions" data-parent="#upload_instructions_accordion">
+                            <div class="card-body">
+                                <p>
+                                    You don't have to upload anything now, but if you choose to, you must first enter a name and email address.
+                                </p>
+                                <p>
+                                    You can upload one or more files.
+                                </p>
+                                <p>
+                                    If you're uploading multiple files, they must be in the same folder on your system.
+                                </p>
+                                <p>
+                                    Files must be uploaded prior to sending a message.
+                                </p>
+                                <p>
+                                    Any one file cannot be larger than 25MB.
+                                </p>
+                                <p>
+                                    Accepted documents include <b>.doc</b>, <b>.docx</b>, <b>.xls</b>, <b>.xlsx</b>, <b>.pages</b>, <b>.pdf</b>, <b>.ppt</b>, <b>.pptx</b>, and <b>.txt</b>.
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row align-items-center">
+            <div class="form-group col-4">
+                <input type="file" id="file_upload_container" name="files" multiple class="form-control" accept=".xlsx,.xls,.doc,.docx,.pages,.ppt,.pptx,.txt,.pdf" />
+            </div>
+            <div class="form-group col-8">
+                <button class="btn btn-primary" id="upload_files">Upload File(s)</button>
             </div>
         </div>
     </form>
+    <div id="result_row" class="form-row hide">
+        <div class="form-group col-12">
+            <div id="result_text" role="alert"></div>
+        </div>
+    </div>
+    <div class="form-row">
+        <div class="form-group col-12">
+            <button id="send_message" class="btn btn-purple" role="button" title="Discover what a professional translation can do for you."><span>Send Message</span></button>
+        </div>
+    </div>
 </div>
 @section Scripts
 {
+    <script src="~/js/form.js" asp-append-version="true"></script>
     <script src="~/js/contact.js" asp-append-version="true"></script>
 }

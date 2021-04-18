@@ -241,8 +241,9 @@ namespace Repository.ProfessionalTranslator.Net
                 };
                 Result localizedResult = await DatabaseOperations.Localization.Write.Testimonial.Item(site, saveLocalization);
                 if (localizedResult.Status != ResultStatus.Failed) continue;
-                saveStatus = ResultStatus.PartialSuccess;
+                saveStatus = ResultStatus.Failed;
                 messages.AddRange(localizedResult.Messages);
+                break;
             }
 
             if (saveStatus == ResultStatus.Undetermined)

@@ -113,6 +113,10 @@ namespace web.professionaltranslator.net.Areas.Admin.Pages
                 RepositoryData.Entries.Add(entry);
 
                 result = await Testimonial.Save(SiteSettings.Site, RepositoryData);
+                if (result.Status == ResultStatus.Succeeded)
+                {
+                    result.Messages = new List<string> {"Testimonial saved."};
+                }
                 Session.Set<Guid>(HttpContext.Session, Session.Key.InquiryResult, result.ReturnId);
             }
             catch (System.Exception ex)

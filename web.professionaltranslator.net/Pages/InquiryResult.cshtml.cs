@@ -29,6 +29,11 @@ namespace web.professionaltranslator.net.Pages
             if (!inquiryResultId.HasValue) return BadRequest("InquiryResult couldn't be located.");
             DataModel dataInquiry = await Data.Inquiry.Item(inquiryResultId.Value);
             ClientModel clientModel = await Data.Client.Item(dataInquiry.ClientId, inquiryResultId);
+            if (clientModel == null)
+            {
+                return NotFound();
+            }
+
             InquiryItem = new Model
             {
                 Name = clientModel.Name,

@@ -37,14 +37,10 @@
                 contentType: "application/json; charset=utf-8",
                 dataType: "json",
                 success: function (response) {
-                    if (response.status === 0) {
-                        processResultMessages(workResultRow, workResultText, response.messages);
-                    } else {
-                        processResultMessages(workResultRow, workResultText, "Work saved to portfolio.");
-                    }
+                    processResultMessages(0, workResultRow, workResultText, response.messages);
                 },
                 failure: function (xhr) {
-                    processResultMessages(workResultRow, workResultText, xhr.statusText);
+                    processResultMessages(0, workResultRow, workResultText, xhr.statusText);
                 }
             });
         }
@@ -64,7 +60,7 @@
             type: "post",
             success: function (response) {
                 if (response.status === 0) {
-                    processResultMessages(uploadResultRow, uploadResultText, response.messages);
+                    processResultMessages(0, uploadResultRow, uploadResultText, response.messages);
                 } else {
                     const imgSrc = response.messages[0];
                     $("#displayed_cover").attr("src", imgSrc);
@@ -72,7 +68,7 @@
                 
             },
             failure: function (xhr) {
-                processResultMessages(uploadResultRow, uploadResultText, xhr.statusText);
+                processResultMessages(0, uploadResultRow, uploadResultText, xhr.statusText);
             }
         });
     });

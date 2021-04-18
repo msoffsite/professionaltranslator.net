@@ -7,6 +7,7 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore.Internal;
 using Microsoft.EntityFrameworkCore.Scaffolding.Metadata;
 using Models.ProfessionalTranslator.Net;
 using Newtonsoft.Json;
@@ -62,9 +63,10 @@ namespace web.professionaltranslator.net.Pages
                     Name = obj.Name,
                     Uploads = new List<UploadModel>()
                 };
+
                 Session.Json.SetObject(HttpContext.Session, Session.Key.ClientDataModel, dbClientModel);
 
-                result = new Result(ResultStatus.Succeeded, string.Empty, dbClientModel.Id);
+                result = new Result(ResultStatus.Succeeded, "Client initialized.", dbClientModel.Id);
             }
             catch (Exception ex)
             {
@@ -93,24 +95,14 @@ namespace web.professionaltranslator.net.Pages
                 string messageHtml = obj.Message.Replace(Environment.NewLine, "<br/></br/>");
                 obj.Message = messageHtml;
 
-                var body = new StringBuilder();
-                body.Append("<b>Name:</b> " + obj.Name);
-                body.Append("<br/>");
-                body.Append("<b>Email Address:</b> " + obj.EmailAddress);
-                body.Append("<br/>");
-                body.Append("<b>Title:</b> " + obj.TranslationType);
-                body.Append("<br/>");
-                body.Append("<b>Genre:</b> " + obj.SubjectMatter);
-                body.Append("<br/>");
-                body.Append("<b>Translation Type:</b> " + obj.TranslationDirection);
-                body.Append("<br/>");
-                body.Append("<b>Word Count:</b> " + $"{obj.WordCount:n0}");
-                body.Append("<br/>");
-                body.Append("<b>Message:</b>");
-                body.Append("<br/><br />");
-                body.Append(messageHtml);
-
                 var dbClientModel = Session.Json.GetObject<ClientModel>(HttpContext.Session, Session.Key.ClientDataModel);
+                dbClientModel.Name = obj.Name;
+
+                result = await Client.Save(SiteSettings.Site, dbClientModel);
+                if (result.Status == ResultStatus.Failed)
+                {
+                    return new JsonResult(result);
+                }
 
                 var dataModel = new DataModel
                 {
@@ -126,9 +118,41 @@ namespace web.professionaltranslator.net.Pages
                 };
 
                 result = await Data.Save(SiteSettings.Site, dataModel, dbClientModel);
+
                 if (result.Status == ResultStatus.Succeeded)
                 {
-                    result.Messages = new List<string> { "Message sent" };
+                    result.Messages = new List<string> { "Message saved." };
+                }
+
+                var body = new StringBuilder();
+                body.Append("<b>Name:</b> " + obj.Name);
+                body.Append("<br/>");
+                body.Append("<b>Email Address:</b> " + obj.EmailAddress);
+                body.Append("<br/>");
+                body.Append("<b>Subject Matter:</b> " + obj.SubjectMatter);
+                body.Append("<br/>");
+                body.Append("<b>Translation Type:</b> " + obj.TranslationType);
+                body.Append("<br/>");
+                body.Append("<b>Translation Direction:</b> " + obj.TranslationDirection);
+                body.Append("<br/>");
+                body.Append("<b>Word Count:</b> " + $"{obj.WordCount:n0}");
+                body.Append("<br/>");
+                body.Append("<b>Message:</b>");
+                body.Append("<br/><br />");
+                body.Append(messageHtml);
+                body.Append("<br/><br />");
+                if (dbClientModel.Uploads.Count > 0)
+                {
+                    body.Append("The following files were uploaded:");
+                    body.Append("<br />");
+
+                    foreach (UploadModel uploadedFile in dbClientModel.Uploads)
+                    {
+                        body.Append(uploadedFile.OriginalFilename);
+                        body.Append("<br />");
+                    }
+
+                    body.Append("<br/><br />");
                 }
 
                 Session.Set<Guid>(HttpContext.Session, Session.Key.InquiryResult, result.ReturnId);
@@ -151,19 +175,71 @@ namespace web.professionaltranslator.net.Pages
 
         public async Task<ActionResult> OnPostUpload(IFormFile[] files)
         {
-            var result = new Result();
+            var result = new Result(ResultStatus.Undetermined, string.Empty, null);
 
-            var fileNames = new List<string>();
-            if (files != null && files.Length > 0)
+            if (files == null || files.Length <= 0)
             {
+                result.Status = ResultStatus.Failed;
+                result.Messages = new List<string> {"No files found."};
+                return new JsonResult(result);
+            }
+
+            try
+            {
+                var dbClientModel = Session.Json.GetObject<ClientModel>(HttpContext.Session, Session.Key.ClientDataModel);
+                if (dbClientModel == null)
+                {
+                    result.Status = ResultStatus.Failed;
+                    result.Messages = new List<string> { "Session client information not found." };
+                    return new JsonResult(result);
+                }
+
+                var uploadedFiles = new List<UploadModel>();
+
                 foreach (IFormFile file in files)
                 {
-                    string path = Path.Combine(_environment.WebRootPath, "uploads", file.FileName);
-                    var stream = new FileStream(path, FileMode.Create);
-                    await file.CopyToAsync(stream);
-                    fileNames.Add(file.FileName);
+                    string extension = Path.GetExtension(file.FileName);
+
+                    string originalFilename = file.FileName;
+
+                    UploadModel uploadedFile = await Repository.ProfessionalTranslator.Net.Upload.Client.Item(Guid.Empty, originalFilename);
+                    if (uploadedFile == null)
+                    {
+                        var generatedId = Guid.NewGuid();
+                        uploadedFile = new UploadModel
+                        {
+                            Id = generatedId,
+                            GeneratedFilename = generatedId + extension,
+                            OriginalFilename = originalFilename
+                        };
+                    }
+
+                    var subfolder = $"uploads/{dbClientModel.Id}";
+                    string ensureFolderPath = Path.Combine(_environment.WebRootPath, subfolder);
+                    if (!Directory.Exists(ensureFolderPath))
+                    {
+                        Directory.CreateDirectory(ensureFolderPath);
+                    }
+
+                    string savePath = Path.Combine(_environment.WebRootPath, subfolder, uploadedFile.GeneratedFilename);
+                    await using var fileStream = new FileStream(savePath, FileMode.Create);
+                    await file.CopyToAsync(fileStream);
+                    fileStream.Close();
+                    await fileStream.DisposeAsync();
+                    uploadedFiles.Add(uploadedFile);
                 }
+
+                dbClientModel.Uploads = uploadedFiles;
+                Session.Json.SetObject(HttpContext.Session, Session.Key.ClientDataModel, dbClientModel);
+
+                result.Status = ResultStatus.Succeeded;
             }
+            catch (Exception ex)
+            {
+                result.Status = ResultStatus.Failed;
+                result.Messages = new List<string> {ex.Message};
+            }
+
             return new JsonResult(result);
         }
     }

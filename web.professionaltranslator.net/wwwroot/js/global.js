@@ -1,12 +1,21 @@
 ﻿$(window).on("load", function () {
-    $(".loading").center();
-    $(".loading-container").fadeOut("slow");
+    toggleLoad(false);
 });
 
 $(window).on("beforeunload", function () {
-    $(".loading-container").fadeIn("slow");
-    $(".loading").center();
+    toggleLoad(true);
 });
+
+
+function toggleLoad(show) {
+    if (show) {
+        $(".loading-container").fadeIn("slow");
+        $(".loading").center();
+    } else {
+        $(".loading").center();
+        $(".loading-container").fadeOut("slow");
+    }
+}
 
 $.fn.center = function () {
     this.css("position", "absolute");

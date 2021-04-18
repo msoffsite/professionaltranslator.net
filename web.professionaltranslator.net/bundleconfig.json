@@ -1,0 +1,92 @@
+[
+  {
+    "outputFileName": "wwwroot/js/contact.min.js",
+    "inputFiles": [
+      "wwwroot/js/contact.js"
+    ]
+  },
+  {
+    "outputFileName": "wwwroot/js/global.min.js",
+    "inputFiles": [
+      "wwwroot/js/global.js"
+    ]
+  },
+  {
+    "outputFileName": "wwwroot/js/intro.min.js",
+    "inputFiles": [
+      "wwwroot/js/intro.js"
+    ]
+  },
+  {
+    "outputFileName": "wwwroot/js/layout.min.js",
+    "inputFiles": [
+      "wwwroot/js/layout.js"
+    ]
+  },
+  {
+    "outputFileName": "wwwroot/js/admin/edit-testimonial.min.js",
+    "inputFiles": [
+      "wwwroot/js/admin/edit-testimonial.js"
+    ]
+  },
+  {
+    "outputFileName": "wwwroot/js/admin/edit-work.min.js",
+    "inputFiles": [
+      "wwwroot/js/admin/edit-work.js"
+    ]
+  },
+  {
+    "outputFileName": "wwwroot/css/animate.min.css",
+    "inputFiles": [
+      "wwwroot/css/animate.css"
+    ]
+  },
+  {
+    "outputFileName": "wwwroot/css/banner.min.css",
+    "inputFiles": [
+      "wwwroot/css/banner.css"
+    ]
+  },
+  {
+    "outputFileName": "wwwroot/css/carousel.min.css",
+    "inputFiles": [
+      "wwwroot/css/carousel.css"
+    ]
+  },
+  {
+    "outputFileName": "wwwroot/css/contact.min.css",
+    "inputFiles": [
+      "wwwroot/css/contact.css"
+    ]
+  },
+  {
+    "outputFileName": "wwwroot/css/form.min.css",
+    "inputFiles": [
+      "wwwroot/css/form.css"
+    ]
+  },
+  {
+    "outputFileName": "wwwroot/css/global.min.css",
+    "inputFiles": [
+      "wwwroot/css/global.css"
+    ]
+  },
+  {
+    "outputFileName": "wwwroot/css/intro.min.css",
+    "inputFiles": [
+      "wwwroot/css/intro.css"
+    ]
+  },
+  {
+    "outputFileName": "wwwroot/css/material-design-iconic-font.min.css",
+    "inputFiles": [
+      "wwwroot/css/material-design-iconic-font.css"
+    ]
+  },
+  {
+    "outputFileName": "wwwroot/css/menu.min.css",
+    "inputFiles": [
+      "wwwroot/css/menu.css"
+    ]
+  }
+]

@@ -31,7 +31,13 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Content Remove="bundleconfig.json" />
     <Content Remove="wwwroot\css\menu-borrowed.css" />
+    <Content Remove="wwwroot\js\global.min.js" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <_ContentIncludedByDefault Remove="wwwroot\js\global.min.js" />
   </ItemGroup>
 
   <ItemGroup>
@@ -57,6 +63,11 @@
 
   <ItemGroup>
     <Folder Include="wwwroot\uploads\" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Include="bundleconfig.json" />
+    <None Include="wwwroot\js\global.min.js" />
   </ItemGroup>
 
 </Project>

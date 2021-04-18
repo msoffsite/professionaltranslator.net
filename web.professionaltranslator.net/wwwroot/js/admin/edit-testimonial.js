@@ -35,19 +35,10 @@
                 contentType: "application/json; charset=utf-8",
                 dataType: "json",
                 success: function (response) {
-                    /*
-                     * Need to add success message to C# and remove if response.status === 0 in Ajax.
-                     * Then revise form.js processResultMessages and remove check for array. Handle array only.
-                     * Simpler and easier to maintain.
-                     */
-                    if (response.status === 0) {
-                        processResultMessages(resultRow, resultText, response.messages);
-                    } else {
-                        processResultMessages(resultRow, resultText, "Testimonial saved.");
-                    }
+                    processResultMessages(response.status, resultRow, resultText, response.messages);
                 },
                 failure: function (xhr) {
-                    processResultMessages(resultRow, resultText, xhr.statusText);
+                    processResultMessages(0, resultRow, resultText, xhr.statusText);
                 }
             });
         }

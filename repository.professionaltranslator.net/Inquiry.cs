@@ -59,14 +59,14 @@ namespace Repository.ProfessionalTranslator.Net
         }
 
         /// <summary>
-        /// Save image. 
+        /// Saves inquiry and client. 
         /// </summary>
-        /// /// <instructions>
+        /// <instructions>
         /// Set inputItem.Id to null when creating a new object.
         /// </instructions>
         /// <param name="site">Name of site for image.</param>
         /// <param name="inputItem">Inquiry object.</param>
-        /// /// <param name="clientItem">Client object to be associated with this inquiry.</param>
+        /// /// <param name="clientItem">Client to be associated with this inquiry.</param>
         /// <returns>Returns save status and messages. If successful, returns an identifier via ReturnId.</returns>
         public static async Task<Result> Save(string site, models.Log.Inquiry inputItem, models.Client clientItem)
         {
@@ -90,12 +90,6 @@ namespace Repository.ProfessionalTranslator.Net
             Rules.MinIntValue(inputItem.WordCount, "Word Count", 1, ref messages);
 
             Rules.StringRequired(inputItem.Message, "Message", ref messages);
-
-            Result saveClientResult = await Client.Save(site, clientItem);
-            if (saveClientResult.Messages.Any())
-            {
-                messages.AddRange(saveClientResult.Messages);
-            }
 
             if (messages.Any())
             {
@@ -124,9 +118,9 @@ namespace Repository.ProfessionalTranslator.Net
             {
                 foreach (models.Upload.Client uploads in clientItem.Uploads)
                 {
-                    Result uploadResult = await DatabaseOperations.Upload.Write.ClientInquiry.Item(uploads.Id, clientItem.Id);
+                    Result uploadResult = await DatabaseOperations.Upload.Write.ClientInquiry.Item(uploads.Id, returnId);
                     if (uploadResult.Status != ResultStatus.Failed) continue;
-                    saveStatus = ResultStatus.PartialSuccess;
+                    saveStatus = ResultStatus.Failed;
                     messages.AddRange(uploadResult.Messages);
                 }
             }

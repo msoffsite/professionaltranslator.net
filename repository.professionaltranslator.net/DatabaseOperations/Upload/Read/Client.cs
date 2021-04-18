@@ -18,7 +18,20 @@ namespace Repository.ProfessionalTranslator.Net.DatabaseOperations.Upload.Read
 
             cmd.Parameters.Add("@Id", SqlDbType.UniqueIdentifier).Value = id;
             using var sda = new SqlDataAdapter(cmd);
-            return Conversions.Object.GetItem<Tables.Upload.Client>(sda);
+            return Object.GetItem<Tables.Upload.Client>(sda);
+        }
+
+        internal static async Task<Tables.Upload.Client> Item(Guid? clientId, string originalFilename)
+        {
+            await using var cmd = new SqlCommand("[Upload].[GetClientByClientIdOriginalFilename]", new Base().SqlConnection)
+            {
+                CommandType = CommandType.StoredProcedure
+            };
+
+            cmd.Parameters.Add("@ClientId", SqlDbType.UniqueIdentifier).Value = clientId;
+            cmd.Parameters.Add("@OriginalFilename", SqlDbType.NVarChar, 256).Value = originalFilename;
+            using var sda = new SqlDataAdapter(cmd);
+            return Object.GetItem<Tables.Upload.Client>(sda);
         }
 
         internal static async Task<List<Tables.Upload.Client>> List(Guid? clientId)
