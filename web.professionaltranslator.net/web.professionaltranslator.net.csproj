@@ -4,6 +4,7 @@
     <TargetFramework>netcoreapp3.1</TargetFramework>
     <UserSecretsId>aspnet-web.professionaltranslator.net-19891DBF-11FC-48F2-82EE-0223E9AC09D0</UserSecretsId>
     <CopyRefAssembliesToPublishDirectory>false</CopyRefAssembliesToPublishDirectory>
+	<AspNetCoreHostingModel>OutOfProcess</AspNetCoreHostingModel>
   </PropertyGroup>
 
   <ItemGroup>
@@ -30,7 +31,12 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Content Remove="wwwroot\css\menu-borrowed.css" />
+    <Content Remove="bundleconfig.json" />
+    <Content Remove="wwwroot\js\global.min.js" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <_ContentIncludedByDefault Remove="wwwroot\js\global.min.js" />
   </ItemGroup>
 
   <ItemGroup>
@@ -52,6 +58,15 @@
   <ItemGroup>
     <ProjectReference Include="..\models.professionaltranslator.net\models.professionaltranslator.net.csproj" />
     <ProjectReference Include="..\repository.professionaltranslator.net\repository.professionaltranslator.net.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="wwwroot\uploads\" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Include="bundleconfig.json" />
+    <None Include="wwwroot\js\global.min.js" />
   </ItemGroup>
 
 </Project>

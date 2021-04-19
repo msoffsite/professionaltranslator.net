@@ -9,7 +9,7 @@ namespace Repository.ProfessionalTranslator.Net.DatabaseOperations.Log.Write
     {
         internal static async Task<Result> Item(string site, Tables.Log.Inquiry item)
         {
-            SaveStatus saveStatus;
+            ResultStatus resultStatus;
             var messages = new List<string>();
 
             try
@@ -21,25 +21,24 @@ namespace Repository.ProfessionalTranslator.Net.DatabaseOperations.Log.Write
 
                 cmd.Parameters.Add("@Id", SqlDbType.UniqueIdentifier).Value = item.Id;
                 cmd.Parameters.Add("@Site", SqlDbType.NVarChar, 20).Value = site;
-                cmd.Parameters.Add("@Name", SqlDbType.NVarChar, 150).Value = item.Name;
-                cmd.Parameters.Add("@EmailAddress", SqlDbType.NVarChar, 256).Value = item.EmailAddress;
-                cmd.Parameters.Add("@Title", SqlDbType.NVarChar, 256).Value = item.Title;
+                cmd.Parameters.Add("@ClientId", SqlDbType.UniqueIdentifier).Value = item.ClientId;
                 cmd.Parameters.Add("@TranslationType", SqlDbType.NVarChar, 25).Value = item.TranslationType;
-                cmd.Parameters.Add("@Genre", SqlDbType.NVarChar, 25).Value = item.Genre;
+                cmd.Parameters.Add("@TranslationDirection", SqlDbType.NVarChar, 25).Value = item.TranslationDirection;
+                cmd.Parameters.Add("@SubjectMatter", SqlDbType.NVarChar, 50).Value = item.SubjectMatter;
                 cmd.Parameters.Add("@WordCount", SqlDbType.Int).Value = item.WordCount;
                 cmd.Parameters.Add("@Message", SqlDbType.NVarChar, -1).Value = item.Message;
 
                 await cmd.Connection.OpenAsync();
                 await cmd.ExecuteNonQueryAsync();
                 await cmd.Connection.CloseAsync();
-                saveStatus = SaveStatus.Succeeded;
+                resultStatus = ResultStatus.Succeeded;
             }
             catch (System.Exception ex)
             {
-                saveStatus = SaveStatus.Failed;
+                resultStatus = ResultStatus.Failed;
                 messages.Add(ex.Message);
             }
-            return new Result(saveStatus, messages);
+            return new Result(resultStatus, messages);
         }
     }
 }

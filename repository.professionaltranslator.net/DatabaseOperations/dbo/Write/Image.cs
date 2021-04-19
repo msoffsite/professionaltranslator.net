@@ -10,7 +10,7 @@ namespace Repository.ProfessionalTranslator.Net.DatabaseOperations.dbo.Write
     {
         internal static async Task<Result> Delete(string site, Guid id)
         {
-            SaveStatus saveStatus;
+            ResultStatus resultStatus;
             var messages = new List<string>();
 
             try
@@ -24,16 +24,16 @@ namespace Repository.ProfessionalTranslator.Net.DatabaseOperations.dbo.Write
                 await cmd.Connection.OpenAsync();
                 await cmd.ExecuteNonQueryAsync();
                 await cmd.Connection.CloseAsync();
-                saveStatus = SaveStatus.Succeeded;
+                resultStatus = ResultStatus.Succeeded;
             }
             catch (System.Exception ex)
             {
                 await Exception.Save(site, ex, "dbo.Image");
-                saveStatus = SaveStatus.Failed;
+                resultStatus = ResultStatus.Failed;
                 messages.Add(ex.Message);
             }
 
-            return new Result(saveStatus, messages);
+            return new Result(resultStatus, messages);
         }
 
         /// <summary>
@@ -45,7 +45,7 @@ namespace Repository.ProfessionalTranslator.Net.DatabaseOperations.dbo.Write
         internal static async Task<Result> Item(string site, Tables.dbo.Image item)
         {
             var messages = new List<string>();
-            var saveStatus = SaveStatus.Undetermined;
+            var saveStatus = ResultStatus.Undetermined;
 
             try
             {
@@ -60,13 +60,13 @@ namespace Repository.ProfessionalTranslator.Net.DatabaseOperations.dbo.Write
                 await cmd.Connection.OpenAsync();
                 await cmd.ExecuteNonQueryAsync();
                 await cmd.Connection.CloseAsync();
-                saveStatus = SaveStatus.Succeeded;
+                saveStatus = ResultStatus.Succeeded;
             }
             catch (System.Exception ex)
             {
                 await Exception.Save(site, ex, "dbo.Image");
                 messages.Add(ex.Message);
-                saveStatus = SaveStatus.Failed;
+                saveStatus = ResultStatus.Failed;
             }
 
             return new Result(saveStatus, messages);

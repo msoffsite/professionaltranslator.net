@@ -11,7 +11,7 @@ namespace Repository.ProfessionalTranslator.Net.DatabaseOperations.dbo.Write
 
         internal static async Task<Result> Delete(string site, Guid id)
         {
-            SaveStatus saveStatus;
+            ResultStatus resultStatus;
             var messages = new List<string>();
 
             try
@@ -25,21 +25,21 @@ namespace Repository.ProfessionalTranslator.Net.DatabaseOperations.dbo.Write
                 await cmd.Connection.OpenAsync();
                 await cmd.ExecuteNonQueryAsync();
                 await cmd.Connection.CloseAsync();
-                saveStatus = SaveStatus.Succeeded;
+                resultStatus = ResultStatus.Succeeded;
             }
             catch (System.Exception ex)
             {
                 await Exception.Save(site, ex, "dbo.Testimonial");
-                saveStatus = SaveStatus.Failed;
+                resultStatus = ResultStatus.Failed;
                 messages.Add(ex.Message);
             }
 
-            return new Result(saveStatus, messages);
+            return new Result(resultStatus, messages);
         }
 
         internal static async Task<Result> Item(string site, Tables.dbo.Testimonial item)
         {
-            SaveStatus saveStatus;
+            ResultStatus resultStatus;
             var messages = new List<string>();
 
             try
@@ -59,16 +59,16 @@ namespace Repository.ProfessionalTranslator.Net.DatabaseOperations.dbo.Write
                 await cmd.Connection.OpenAsync();
                 await cmd.ExecuteNonQueryAsync();
                 await cmd.Connection.CloseAsync();
-                saveStatus = SaveStatus.Succeeded;
+                resultStatus = ResultStatus.Succeeded;
             }
             catch (System.Exception ex)
             {
                 await Exception.Save(site, ex, "dbo.Testimonial");
-                saveStatus = SaveStatus.Failed;
+                resultStatus = ResultStatus.Failed;
                 messages.Add(ex.Message);
             }
 
-            return new Result(saveStatus, messages);
+            return new Result(resultStatus, messages);
         }
     }
 }

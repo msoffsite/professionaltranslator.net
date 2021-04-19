@@ -14,7 +14,7 @@ namespace Repository.ProfessionalTranslator.Net
         Unapproved
     }
 
-    public enum SaveStatus
+    public enum ResultStatus
     {
         Failed,
         PartialSuccess,

@@ -51,9 +51,8 @@ a.page-link:visited {
         text-decoration: none;
     }
 
-.page-link-selected {
-    background-color: #f1ddfe;
-    border-color: #ded0e7;
+.background-light-semi-transparent {
+    background: rgba(255,255,255,.5);
 }
 
 .blockquote {
@@ -71,12 +70,22 @@ body {
     font-size: 1.1rem;
 }
 
+.btn-link:active, .btn-link.active,
+.btn-link:focus, .btn-link.focus {
+    text-decoration: none;
+}
+
+.btn-link:hover, .btn-link.hover {
+    text-decoration: underline;
+}
+
 p {
     text-align: justify;
 }
 
-.background-light-semi-transparent {
-    background: rgba(255,255,255,.5);
+.page-link-selected {
+    background-color: #f1ddfe;
+    border-color: #ded0e7;
 }
 
 .column-container {
@@ -281,7 +290,7 @@ footer p {
 }
 
 .hide {
-    display: none;
+    display: none !important;
 }
 
 img.zoom {

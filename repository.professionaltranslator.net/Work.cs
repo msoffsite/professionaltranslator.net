@@ -30,7 +30,7 @@ namespace Repository.ProfessionalTranslator.Net
         {
             if (!id.HasValue)
             {
-                return new Result(SaveStatus.Failed, "Id must be a valid GUID.");
+                return new Result(ResultStatus.Failed, "Id must be a valid GUID.");
             }
 
             return await dbWrite.Delete(site, id.Value);
@@ -239,23 +239,23 @@ namespace Repository.ProfessionalTranslator.Net
 
             if (inputItem == null)
             {
-                return new Result(SaveStatus.Failed, "Work cannot be null.");
+                return new Result(ResultStatus.Failed, "Work cannot be null.");
             }
 
             Tables.dbo.Site siteItem = await dbRead.Site.Item(site);
             if (siteItem == null)
             {
-                return new Result(SaveStatus.Failed, "No site was found with that name.");
+                return new Result(ResultStatus.Failed, "No site was found with that name.");
             }
 
             Tables.dbo.Image convertImage = Image.Convert(inputItem.Cover, siteItem.Id);
             if (convertImage == null)
             {
-                return new Result(SaveStatus.Failed, "Work must have a cover image.");
+                return new Result(ResultStatus.Failed, "Work must have a cover image.");
             }
 
             Result saveImageResult = await Image.Save(site, inputItem.Cover);
-            if (saveImageResult.Status == SaveStatus.Failed)
+            if (saveImageResult.Status == ResultStatus.Failed)
             {
                 return new Result(saveImageResult.Status, messages);
             }
@@ -267,13 +267,13 @@ namespace Repository.ProfessionalTranslator.Net
                 Rules.ValidateUrl(inputItem.Href, "Href", ref messages);
             }
 
-            if (messages.Any()) return new Result(SaveStatus.Failed, messages);
+            if (messages.Any()) return new Result(ResultStatus.Failed, messages);
 
             Tables.dbo.Work convertedWork = Convert(inputItem, siteItem.Id);
-            if (convertedWork == null) return new Result(SaveStatus.Failed, "Could not convert Work model to table.");
+            if (convertedWork == null) return new Result(ResultStatus.Failed, "Could not convert Work model to table.");
 
             Result output = await dbWrite.Item(site, convertedWork);
-            if (output.Status == SaveStatus.PartialSuccess || output.Status == SaveStatus.Succeeded)
+            if (output.Status == ResultStatus.PartialSuccess || output.Status == ResultStatus.Succeeded)
             {
                 output.ReturnId = inputItem.Id;
             }

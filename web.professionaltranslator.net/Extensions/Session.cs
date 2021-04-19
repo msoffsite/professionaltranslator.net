@@ -79,10 +79,12 @@ namespace web.professionaltranslator.net.Extensions
 
         internal class Key
         {
+            internal const string ClientDataModel = "ClientDataModel";
             internal const string InquiryResult = "InquiryResult";
             internal const string PortfolioDataModel = "PortfoliosDataModel";
             internal const string QueryId = "QueryId";
             internal const string TestimonialDataModel = "TestimonialDataModel";
+            internal const string UploadId = "UploadId";
         }
     }
 }

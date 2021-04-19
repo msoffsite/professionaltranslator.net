@@ -5,24 +5,23 @@ using System.Threading.Tasks;
 using dboDbRead = Repository.ProfessionalTranslator.Net.DatabaseOperations.dbo.Read;
 using dboLogRead = Repository.ProfessionalTranslator.Net.DatabaseOperations.Log.Read;
 using dbWrite = Repository.ProfessionalTranslator.Net.DatabaseOperations.Log.Write.Inquiry;
-using models = Models.ProfessionalTranslator.Net.Log;
+using models = Models.ProfessionalTranslator.Net;
 
 namespace Repository.ProfessionalTranslator.Net
 {
     public class Inquiry
     {
-        private static Tables.Log.Inquiry Convert(models.Inquiry inputItem, Guid siteId)
+        private static Tables.Log.Inquiry Convert(models.Log.Inquiry inputItem, Guid siteId)
         {
             if (inputItem == null) return null;
             var output = new Tables.Log.Inquiry
             {
                 Id = inputItem.Id,
                 SiteId = siteId,
-                Name = inputItem.Name,
-                EmailAddress = inputItem.EmailAddress,
-                Title = inputItem.Title,
+                ClientId = inputItem.ClientId,
                 TranslationType = inputItem.TranslationType,
-                Genre = inputItem.Genre,
+                TranslationDirection = inputItem.TranslationDirection,
+                SubjectMatter = inputItem.SubjectMatter,
                 WordCount = inputItem.WordCount,
                 Message = inputItem.Message,
                 DateCreated = inputItem.DateCreated ?? DateTime.Now
@@ -30,23 +29,22 @@ namespace Repository.ProfessionalTranslator.Net
             return output;
         }
 
-        public static async Task<models.Inquiry> Item(Guid id)
+        public static async Task<models.Log.Inquiry> Item(Guid id)
         {
             Tables.Log.Inquiry image = await dboLogRead.Inquiry.Item(id);
             return Item(image);
         }
 
-        private static models.Inquiry Item(Tables.Log.Inquiry inputItem)
+        private static models.Log.Inquiry Item(Tables.Log.Inquiry inputItem)
         {
             if (inputItem == null) return null;
-            var output = new models.Inquiry
+            var output = new models.Log.Inquiry
             {
                 Id = inputItem.Id,
-                Name = inputItem.Name,
-                EmailAddress = inputItem.EmailAddress,
-                Title = inputItem.Title,
+                ClientId = inputItem.ClientId,
                 TranslationType = inputItem.TranslationType,
-                Genre = inputItem.Genre,
+                TranslationDirection = inputItem.TranslationDirection,
+                SubjectMatter = inputItem.SubjectMatter,
                 WordCount = inputItem.WordCount,
                 Message = inputItem.Message,
                 DateCreated = inputItem.DateCreated
@@ -54,71 +52,85 @@ namespace Repository.ProfessionalTranslator.Net
             return output;
         }
 
-        public static async Task<List<models.Inquiry>> List(string site)
+        public static async Task<List<models.Log.Inquiry>> List(string site)
         {
             List<Tables.Log.Inquiry> list = await dboLogRead.Inquiry.List(site);
             return list.Select(Item).ToList();
         }
 
         /// <summary>
-        /// Save image. 
+        /// Saves inquiry and client. 
         /// </summary>
-        /// /// <instructions>
+        /// <instructions>
         /// Set inputItem.Id to null when creating a new object.
         /// </instructions>
         /// <param name="site">Name of site for image.</param>
         /// <param name="inputItem">Inquiry object.</param>
+        /// /// <param name="clientItem">Client to be associated with this inquiry.</param>
         /// <returns>Returns save status and messages. If successful, returns an identifier via ReturnId.</returns>
-        public static async Task<Result> Save(string site, models.Inquiry inputItem)
+        public static async Task<Result> Save(string site, models.Log.Inquiry inputItem, models.Client clientItem)
         {
+            var saveStatus = ResultStatus.Undetermined;
             var messages = new List<string>();
 
             if (inputItem == null)
             {
-                return new Result(SaveStatus.Failed, "Inquiry cannot be null.");
+                return new Result(ResultStatus.Failed, "Inquiry cannot be null.");
             }
 
             Tables.dbo.Site siteItem = await dboDbRead.Site.Item(site);
             if (siteItem == null)
             {
-                return new Result(SaveStatus.Failed, "No site was found with that name.");
+                return new Result(ResultStatus.Failed, "No site was found with that name.");
             }
 
-            Rules.StringRequiredMaxLength(inputItem.Name, "Name", 150, ref messages);
-
-            if (Rules.StringRequiredMaxLength(inputItem.EmailAddress, "Email Address", 256, ref messages) ==
-                Rules.Passed.Yes)
-            {
-                Rules.ValidateEmailAddress(inputItem.EmailAddress, "Email Address", ref messages);
-            }
-
-            Rules.StringRequiredMaxLength(inputItem.Title, "Title", 256, ref messages);
             Rules.StringRequiredMaxLength(inputItem.TranslationType, "Translation Type", 25, ref messages);
-            Rules.StringRequiredMaxLength(inputItem.Genre, "Genre", 25, ref messages);
+            Rules.StringRequiredMaxLength(inputItem.TranslationDirection, "Translation Direction", 25, ref messages);
+            Rules.StringRequiredMaxLength(inputItem.SubjectMatter, "SubjectMatter", 50, ref messages);
             Rules.MinIntValue(inputItem.WordCount, "Word Count", 1, ref messages);
 
             Rules.StringRequired(inputItem.Message, "Message", ref messages);
 
             if (messages.Any())
             {
-                return new Result(SaveStatus.Failed, messages);
+                return new Result(ResultStatus.Failed, messages);
             }
 
             Tables.Log.Inquiry convertedInquiry = Convert(inputItem, siteItem.Id);
             if (convertedInquiry == null)
             {
-                return new Result(SaveStatus.Failed, "Could not convert Inquiry model to table.");
+                return new Result(ResultStatus.Failed, "Could not convert Inquiry model to table.");
             }
 
             Guid returnId = convertedInquiry.Id;
 
             Result saveInquiryResult = await dbWrite.Item(site, convertedInquiry);
-            if (saveInquiryResult.Status == SaveStatus.PartialSuccess || saveInquiryResult.Status == SaveStatus.Succeeded)
+            if (saveInquiryResult.Status == ResultStatus.PartialSuccess || saveInquiryResult.Status == ResultStatus.Succeeded)
             {
                 saveInquiryResult.ReturnId = returnId;
             }
+            else
+            {
+                saveStatus = saveInquiryResult.Status;
+            }
 
-            return saveInquiryResult;
+            if (saveStatus == ResultStatus.Undetermined)
+            {
+                foreach (models.Upload.Client uploads in clientItem.Uploads)
+                {
+                    Result uploadResult = await DatabaseOperations.Upload.Write.ClientInquiry.Item(uploads.Id, returnId);
+                    if (uploadResult.Status != ResultStatus.Failed) continue;
+                    saveStatus = ResultStatus.Failed;
+                    messages.AddRange(uploadResult.Messages);
+                }
+            }
+
+            if (saveStatus == ResultStatus.Undetermined)
+            {
+                saveStatus = ResultStatus.Succeeded;
+            }
+
+            return new Result(saveStatus, messages, returnId);
         }
     }
 }

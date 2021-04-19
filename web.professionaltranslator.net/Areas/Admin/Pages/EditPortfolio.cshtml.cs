@@ -101,11 +101,15 @@ namespace web.professionaltranslator.net.Areas.Admin.Pages
                 RepositoryData.Title = obj.Title;
 
                 result = await Work.Save(SiteSettings.Site, RepositoryData);
-                Session.Set<Guid>(HttpContext.Session, Session.Key.InquiryResult, result.ReturnId);
+                if (result.Status == ResultStatus.Succeeded)
+                {
+                    result.Messages = new List<string> {"Work saved to portfolio."};
+                    Session.Set<Guid>(HttpContext.Session, Session.Key.InquiryResult, result.ReturnId);
+                }
             }
             catch (System.Exception ex)
             {
-                result = new Result(SaveStatus.Failed, ex.Message, Guid.Empty);
+                result = new Result(ResultStatus.Failed, ex.Message, Guid.Empty);
             }
 
             return new JsonResult(result);
@@ -162,11 +166,11 @@ namespace web.professionaltranslator.net.Areas.Admin.Pages
                 dataModel.Cover = cover;
                 Session.Json.SetObject(HttpContext.Session, Session.Key.PortfolioDataModel, dataModel);
 
-                result = new Result(SaveStatus.Succeeded, imageWebPath, queryId.Value);
+                result = new Result(ResultStatus.Succeeded, imageWebPath, queryId.Value);
             }
             catch (System.Exception ex)
             {
-                result = new Result(SaveStatus.Failed, ex.Message, QueryId);
+                result = new Result(ResultStatus.Failed, ex.Message, QueryId);
             }
 
             return new JsonResult(result);

@@ -16,7 +16,7 @@ namespace Test.ProfessionalTranslator.Net.Repository
         {
             models.Work item = WriteItem();
             Result result = await repository.Delete(Constants.Site, item.Id);
-            Assert.IsTrue(result.Status == SaveStatus.Succeeded);
+            Assert.IsTrue(result.Status == ResultStatus.Succeeded);
         }
 
         [TestMethod]
@@ -45,7 +45,7 @@ namespace Test.ProfessionalTranslator.Net.Repository
         {
             models.Work item = WriteItem();
             Result result = await repository.Save(Constants.Site, item);
-            Assert.IsTrue(result.Status == SaveStatus.Succeeded);
+            Assert.IsTrue(result.Status == ResultStatus.Succeeded);
         }
 
         private static async Task<List<models.Work>> SharedList()

@@ -7,8 +7,8 @@
 }
 @section Styles
 {
-    <link rel="stylesheet" type="text/css" href="~/css/material-design-iconic-font.css">
-    <link rel="stylesheet" href="~/css/form.css" />
+    <link rel="stylesheet" type="text/css" href="~/css/material-design-iconic-font.min.css" />
+    <link rel="stylesheet" href="~/css/form.min.css" asp-append-version="true" />
 }
 <div class="row mb-4">
     <div class="col-12 text-center page-header">
@@ -62,9 +62,7 @@
                 </div>
                 <div id="result_row" class="form-row hide">
                     <div class="form-group col-12">
-                        <div id="result_text" class="alert alert-info text-center" role="alert">
-
-                        </div>
+                        <div id="result_text" role="alert"></div>
                     </div>
                 </div>
                 <div class="form-row">
@@ -78,6 +76,6 @@
 </div>
 @section Scripts
 {
-    <script src="~/js/form.js" asp-append-version="true"></script>
-    <script src="~/js/admin/edit-testimonial.js" asp-append-version="true"></script>
+    <script src="~/js/form.min.js" asp-append-version="true"></script>
+    <script src="~/js/admin/edit-testimonial.min.js" asp-append-version="true"></script>
 }

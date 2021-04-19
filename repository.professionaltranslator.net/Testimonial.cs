@@ -15,7 +15,7 @@ namespace Repository.ProfessionalTranslator.Net
         {
             if (!id.HasValue)
             {
-                return new Result(SaveStatus.Failed, "Id must be a valid GUID.");
+                return new Result(ResultStatus.Failed, "Id must be a valid GUID.");
             }
 
             return await dbWrite.Delete(site, id.Value);
@@ -165,30 +165,30 @@ namespace Repository.ProfessionalTranslator.Net
         /// <returns>Returns save status and messages. If successful, returns an identifier via ReturnId.</returns>
         public static async Task<Result> Save(string site, models.Testimonial inputItem)
         {
-            var saveStatus = SaveStatus.Undetermined;
+            var saveStatus = ResultStatus.Undetermined;
             var messages = new List<string>();
 
             if (inputItem == null)
             {
-                return new Result(SaveStatus.Failed, "Testimonial cannot be null.");
+                return new Result(ResultStatus.Failed, "Testimonial cannot be null.");
             }
 
             Tables.dbo.Site siteItem = await dbRead.Site.Item(site);
             if (siteItem == null)
             {
-                return new Result(SaveStatus.Failed, "No site was found with that name.");
+                return new Result(ResultStatus.Failed, "No site was found with that name.");
             }
 
             Tables.dbo.Work convertedWork = Work.Convert(inputItem.Work, siteItem.Id);
             if (convertedWork == null)
             {
-                return new Result(SaveStatus.Failed, "Could not convert work model to table.");
+                return new Result(ResultStatus.Failed, "Could not convert work model to table.");
             }
 
             Tables.dbo.Image convertedPortrait = Image.Convert(inputItem.Portrait, siteItem.Id);
             if (convertedPortrait == null)
             {
-                return new Result(SaveStatus.Failed, "Could not convert portrait model to table.");
+                return new Result(ResultStatus.Failed, "Could not convert portrait model to table.");
             }
 
             // Disabled until portraits are used for testimonials rather than covers.
@@ -210,7 +210,7 @@ namespace Repository.ProfessionalTranslator.Net
 
             if (messages.Any())
             {
-                return new Result(SaveStatus.Failed, messages);
+                return new Result(ResultStatus.Failed, messages);
             }
 
             var saveItem = new Tables.dbo.Testimonial
@@ -225,7 +225,7 @@ namespace Repository.ProfessionalTranslator.Net
             };
 
             Result saveTestimonialResult = await dbWrite.Item(site, saveItem);
-            if (saveTestimonialResult.Status == SaveStatus.Failed)
+            if (saveTestimonialResult.Status == ResultStatus.Failed)
             {
                 return saveTestimonialResult;
             }
@@ -240,14 +240,15 @@ namespace Repository.ProfessionalTranslator.Net
                     Lcid = localizedPage.Lcid
                 };
                 Result localizedResult = await DatabaseOperations.Localization.Write.Testimonial.Item(site, saveLocalization);
-                if (localizedResult.Status != SaveStatus.Failed) continue;
-                saveStatus = SaveStatus.PartialSuccess;
+                if (localizedResult.Status != ResultStatus.Failed) continue;
+                saveStatus = ResultStatus.Failed;
                 messages.AddRange(localizedResult.Messages);
+                break;
             }
 
-            if (saveStatus == SaveStatus.Undetermined)
+            if (saveStatus == ResultStatus.Undetermined)
             {
-                saveStatus = SaveStatus.Succeeded;
+                saveStatus = ResultStatus.Succeeded;
             }
             
             return new Result(saveStatus, messages, inputItem.Id);

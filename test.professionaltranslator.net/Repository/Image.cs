@@ -17,7 +17,7 @@ namespace Test.ProfessionalTranslator.Net.Repository
         {
             models.Image item = WriteItem();
             Result result = await repository.Delete(Constants.Site, item.Id);
-            Assert.IsTrue(result.Status == SaveStatus.Succeeded);
+            Assert.IsTrue(result.Status == ResultStatus.Succeeded);
         }
 
         [TestMethod]
@@ -46,7 +46,7 @@ namespace Test.ProfessionalTranslator.Net.Repository
         {
             models.Image item = WriteItem();
             Result result = await repository.Save(string.Empty, item);
-            Assert.IsTrue(result.Status == SaveStatus.Failed);
+            Assert.IsTrue(result.Status == ResultStatus.Failed);
         }
 
         [TestMethod]
@@ -55,7 +55,7 @@ namespace Test.ProfessionalTranslator.Net.Repository
             models.Image item = WriteItem();
             item.Path = string.Empty;
             Result result = await repository.Save(Constants.Site, item);
-            Assert.IsTrue(result.Status == SaveStatus.Failed);
+            Assert.IsTrue(result.Status == ResultStatus.Failed);
         }
 
         [TestMethod]
@@ -64,7 +64,7 @@ namespace Test.ProfessionalTranslator.Net.Repository
             models.Image item = WriteItem();
             item.Path = "Bygt2SRCOY4h1UeLu4cvIM9l4lTcfPLRb8CZvny91uhMDoUoL6jdbuPjSQDeKo3Xz2cOkChLVrZPqLu2ZfgToCB3OnVqFgWY8wlK2p6fZ253g2Gp982wgVL30eSEeYzVVozCkaIoBvnie6Bgds947aUoTLg4XFOsqOGRg8EtMCq7gnDteCQVNpxOdD5LGcKXmhsLdcKbRhVcbLe2fagg07Sz19JzWDMdz9JlQNXmwvlPabjfAFbyF0TRWjU0nIwXEyk5CX6uF5lZ8sZVeLSIHOFlPiVluTkRmec6Z7VaFFr0s0V4LHj5C0SZU7DRB8Sn6WilO7XHO0xgnBnxAk2H4WKppY9wab4mh23CTHkyf5gxkJoQIuvtAnuvcoZPgGdjy0TP0KfKlE5s0o3wYySzX6z4ScBygt2SRCOY4h1UeLu4cvIM9l4lTcfPLRb8CZvny91uhMDoUoL6jdbuPjSQDeKo3Xz2cOkChLVrZPqLu2ZfgToCB3OnVqFgWY8wlK2p6fZ253g2Gp982wgVL30eSEeYzVVozCkaIoBvnie6Bgds947aUoTLg4XFOsqOGRg8EtMCq7gnDteCQVNpxOdD5LGcKXmhsLdcKbRhVcbLe2fagg07Sz19JzWDMdz9JlQNXmwvlPabjfAFbyF0TRWjU0nIwXEyk5CX6uF5lZ8sZVeLSIHOFlPiVluTkRmec6Z7VaFFr0s0V4LHj5C0SZU7DRB8Sn6WilO7XHO0xgnBnxAk2H4WKppY9wab4mh23CTHkyf5gxkJoQIuvtAnuvcoZPgGdjy0TP0KfKlE5s0o3wYySzX6z4Sc";
             Result result = await repository.Save(Constants.Site, item);
-            Assert.IsTrue(result.Status == SaveStatus.Failed);
+            Assert.IsTrue(result.Status == ResultStatus.Failed);
         }
 
         [TestMethod]
@@ -72,7 +72,7 @@ namespace Test.ProfessionalTranslator.Net.Repository
         {
             models.Image item = WriteItem();
             Result result = await repository.Save(Constants.Site, item);
-            Assert.IsTrue(result.Status == SaveStatus.Succeeded);
+            Assert.IsTrue(result.Status == ResultStatus.Succeeded);
         }
 
         internal static models.Image WriteItem()

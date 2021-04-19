@@ -1,110 +1,190 @@
-﻿$(document).ready(function() {
+﻿const resultRow = $("#result_row");
+
+const resultTextContainer = $("#result_text");
+
+const fileElementId = "file_upload_container";
+
+const uploadFilesButton = $("#upload_files");
+const filesContainer = $("#file_upload_container");
+
+let validEmailAddress = false;
+let validName = false;
+
+$(document).ready(function () {
     "use strict";
 
-    $("input").each(function () {
-        $(this).attr("autocomplete", randomString(5));
-    });
-    //$(".form-container").disableAutoFill();
+    uploadFilesButton.attr("disabled", true);
+    filesContainer.attr("disabled", true);
 
-    $(".validate-input .input-element").each(function () {
-        $(this).on("blur",
-            function () {
-                if (validate(this) == false) {
-                    showValidationMessage(this);
-                } else {
-                    $(this).parent().addClass("validated");
-                }
-            });
-    });
+    $("#client_name").on("change",
+        function () {
+            validName = $(this).val().length > 0;
+            refreshUploadAbility();
+        });
 
-    var input = $(".validate-input .input-element");
+    $("#client_email_address").on("change",
+        function() {
+            postEmailAddress("#client_email_address");
+        });
+
+    $("#collapse_instructions").on("show.bs.collapse",
+        function() {
+            $("#open_instructions").addClass("hide");
+            $("#close_instructions").removeClass("hide");
+        });
+
+    $("#collapse_instructions").on("hide.bs.collapse",
+        function () {
+            $("#open_instructions").removeClass("hide");
+            $("#close_instructions").addClass("hide");
+        });
 
     $("#send_message").on("click", function (e) {
         e.preventDefault();
-        let passed = true;
-
-        for (let i = 0; i < input.length; i++) {
-            if (validate(input[i]) === false) {
-                showValidationMessage(input[i]);
-                passed = false;
-            }
-        }
-
-        if (passed) {
-            $.ajax({
-                type: "POST",
-                url: "/Contact?handler=Send",
-                beforeSend: function (xhr) {
-                    xhr.setRequestHeader("XSRF-TOKEN",
-                        $('input:hidden[name="__RequestVerificationToken"]').val());
-                },
-                data: JSON.stringify({
-                    Name: $("#client_name").val(),
-                    EmailAddress: $("#client_email_address").val(),
-                    Title: $("#work_title").val(),
-                    TranslationType: $("input[name='translation-type']:checked").val(),
-                    Genre: $("#genre").val(),
-                    WordCount: $("#word_count").val(),
-                    Message: $("#message").val()
-                }),
-                contentType: "application/json; charset=utf-8",
-                dataType: "json",
-                success: function (response) {
-                    window.location.href = "/InquiryResult";
-                },
-                failure: function (response) {
-                    console.log(response);
-                }
-            });
-        }
+        sendMessage();
     });
 
-    $(".validate-form .input-element").each(function () {
-        $(this).focus(function () {
-            closeValidationMessage(this);
-            $(this).parent().removeClass("validated");
+    $("#file_upload_container").on("change",
+        function () {
+            const validExtensions = $(`#${fileElementId}`).attr("accept").split(",");
+            const validated = validateUploads(fileElementId, validExtensions, resultRow, resultTextContainer, 25);
+            uploadFilesButton.attr("disabled", !validated);
         });
-    });
+
+    $("#upload_files").on("click",
+        function(e) {
+            e.preventDefault();
+            uploadFiles();
+        });
 }); 
 
-function randomString(length) {
-    let result = "";
-    const characters = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
-    const charactersLength = characters.length;
-    for (let i = 0; i < length; i++) {
-        result += characters.charAt(Math.floor(Math.random() * charactersLength));
+function postEmailAddress(id) {
+    const input = $(id);
+
+    let passed = true;
+
+    validEmailAddress = true;
+
+    if (validate(input) === false) {
+        showValidationMessage(input);
+        passed = false;
+        validEmailAddress = false;
     }
-    return result;
-}
 
-function validate(element) {
-    if ($(element).attr("type") === "email") {
-        const regEx = /^([a-zA-Z0-9_\-\.]+)@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.)|(([a-zA-Z0-9\-]+\.)+))([a-zA-Z]{1,5}|[0-9]{1,3})(\]?)$/;
-        if ($(element).val().trim().match(regEx) == null) {
-            return false;
-        }
-    } else {
-        if ($(element).val().trim() == "") {
-            return false;
-        }
-    }
-}
-
-function showValidationMessage(element) {
-    const thisAlert = $(element).parent();
-
-    $(thisAlert).addClass("validation-message");
-
-    $(thisAlert).append('<span class="close-validation-message">&#xf136;</span>');
-    $(".close-validation-message").each(function () {
-        $(this).on("click", function () {
-            closeValidationMessage(this);
+    if (passed) {
+        $.ajax({
+            type: "POST",
+            url: "/Contact/EmailAddressChange",
+            beforeSend: function(xhr) {
+                xhr.setRequestHeader("XSRF-TOKEN",
+                    $('input:hidden[name="__RequestVerificationToken"]').val());
+            },
+            data: JSON.stringify({
+                Name: $("#client_name").val(),
+                EmailAddress: input.val()
+            }),
+            contentType: "application/json; charset=utf-8",
+            dataType: "json",
+            success: function(response) {
+                if (response.status === 0) {
+                    processResultMessages(0, resultRow, resultTextContainer, response.messages);
+                }
+            },
+            failure: function(xhr) {
+                processResultMessages(0, resultRow, resultTextContainer, xhr.statusText);
+            }
         });
-    });
+    }
+
+    refreshUploadAbility();
 }
 
-function closeValidationMessage(element) {
-    const thisAlert = $(element).parent();
-    $(thisAlert).removeClass("validation-message");
-    $(thisAlert).find(".close-validation-message").remove();
+function refreshUploadAbility() {
+    if ((validName) && (validEmailAddress)) {
+        filesContainer.attr("disabled", false);
+    } else {
+        filesContainer.attr("disabled", true);
+    }
+}
+
+function sendMessage() {
+
+    const input = $(".validate-input .input-element");
+
+    let passed = true;
+
+    for (let i = 0; i < input.length; i++) {
+        if (validate(input[i]) === false) {
+            showValidationMessage(input[i]);
+            passed = false;
+        }
+    }
+
+    if (passed) {
+        $.ajax({
+            type: "POST",
+            url: "/Contact/Send",
+            beforeSend: function (xhr) {
+                xhr.setRequestHeader("XSRF-TOKEN",
+                    $('input:hidden[name="__RequestVerificationToken"]').val());
+            },
+            data: JSON.stringify({
+                Name: $("#client_name").val(),
+                EmailAddress: $("#client_email_address").val(),
+                TranslationDirection: $("input[name='translation-direction']:checked").val(),
+                TranslationType: $("input[name='translation-type']:checked").val(),
+                SubjectMatter: $("#subject_matter").val(),
+                WordCount: $("#word_count").val(),
+                Message: $("#message").val()
+            }),
+            contentType: "application/json; charset=utf-8",
+            dataType: "json",
+            success: function () {
+                window.location.href = "/InquiryResult";
+            },
+            failure: function (xhr) {
+                processResultMessages(0, resultRow, resultTextContainer, xhr.statusText);
+            }
+        });
+    }
+}
+
+function uploadFiles() {
+    const files = filesContainer.prop("files");
+    
+    if (files.length > 0) {
+
+        toggleLoad(true);
+
+        const fileList = new FormData();
+        for (let i = 0; i < files.length; i++) {
+            fileList.append("files", files[i]);
+        }
+
+        $.ajax({
+            type: "POST",
+            url: "/Contact/Upload",
+            beforeSend: function (xhr) {
+                xhr.setRequestHeader("XSRF-TOKEN",
+                    $('input:hidden[name="__RequestVerificationToken"]').val());
+            },
+            data: fileList,
+            contentType: false,
+            processData: false,
+            success: function (response) {
+                if (response.status === 0) {
+                    processResultMessages(0, resultRow, resultTextContainer, response.messages);
+                } else {
+                    processResultMessages(1, resultRow, resultTextContainer, "Files uploaded.");
+                }
+                toggleLoad(false);
+                filesContainer.val("");
+            },
+            failure: function (xhr) {
+                processResultMessages(0, resultRow, resultTextContainer, xhr.statusText);
+                toggleLoad(false);
+                filesContainer.val("");
+            }
+        });
+    }
 }

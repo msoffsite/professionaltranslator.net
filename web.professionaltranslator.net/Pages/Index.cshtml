@@ -24,29 +24,36 @@
     <meta property="og:description"        content="I specialize in translating English/Spanish Fiction." />
     <meta property="og:image"              content="https://professionaltranslator.net/img/og/intro-16-9.png" />
     <meta property="og:image:alt"          content="Professional Translator - English & Spanish" />
+    <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png" />
+    <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png" />
+    <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png" />
+    <link rel="manifest" href="/manifest.json" />
+    <link rel="mask-icon" href="/safari-pinned-tab.svg" color="#5bbad5" />
+    <meta name="msapplication-TileColor" content="#603cba" />
+    <meta name="theme-color" content="#ffffff" />
     <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
-    <link rel="stylesheet" href="~/css/global.css" asp-append-version="true" />
-    <link rel="stylesheet" href="~/css/intro.css" asp-append-version="true" />
-    <link rel="stylesheet" href="~/css/animate.css" asp-append-version="true"  />
+    <link rel="stylesheet" href="~/css/global.min.css" asp-append-version="true" />
+    <link rel="stylesheet" href="~/css/intro.min.css" asp-append-version="true" />
+    <link rel="stylesheet" href="~/css/animate.min.css" asp-append-version="true"  />
 </head>
 <body>
     @await Component.InvokeAsync("Loading")
 <div class="container-fluid" style="height:  100vh;">
-    <main class="d-flex flex-column h-100">
-        <div class="row h-100 flex-grow-1">
+    <main class="d-flex flex-column h-100 justify-content-around">
+        <div class="row">
             <div class="col-12 text-center">
-                <img src="img/logo.png" alt="Cinta Garcia - Professional Translator" title="Cinta Garcia - Professional Translator" class="intro-logo fadeInDownBig animated" style="visibility: visible; animation-name: fadeInDownBig;" />
+                <img src="img/splash-logo.png" alt="Cinta Garcia - Professional Translator" title="Cinta Garcia - Professional Translator" class="intro-logo img-fluid fadeInDownBig animated" style="visibility: visible; animation-name: fadeInDownBig; max-height: 280px;" />
             </div>
         </div>
-        <div class="row h-100 flex-grow-1">
-            <div class="col-6 text-left">
-                <img src="img/hola.png" title="¡Hola!" alt="¡Hola!" class="img-fluid fadeInLeftBig animated" style="visibility: visible; animation-name: fadeInLeftBig; max-height: 300px;">
+        <div class="row justify-content-center">
+            <div class="col-3">
+                <img src="img/hola.png" title="¡Hola!" alt="¡Hola!" class="img-fluid fadeInLeftBig animated" style="visibility: visible; animation-name: fadeInLeftBig; max-height: 260px;">
             </div>
-            <div class="col-6 text-right">
-                <img src="img/hello.png" title="Hello!" alt="Hello!" class="img-fluid fadeInRightBig animated" style="visibility: visible; animation-name: fadeInRightBig; max-height: 300px;">
+            <div class="col-3 offset-3">
+                <img src="img/hello.png" title="Hello!" alt="Hello!" class="img-fluid fadeInRightBig animated" style="visibility: visible; animation-name: fadeInRightBig; max-height: 260px;">
             </div>
         </div>
-        <div class="row h-100 flex-grow-1">
+        <div class="row">
             <div class="col-10 offset-1">
                 <h1 class="h1-responsive fadeInUpBig animated medium-screen p-5" title="Fiction translation is an art that requires more than swapping one word for another." style="visibility: visible; animation-name: fadeInUpBig;">
                     Translating fiction is more than swapping native words for foreign ones. It's an art that requires intimate knowledge of both languages, creativity, and the ability to replicate style and tone.
@@ -68,9 +75,9 @@
 
     <script src="~/lib/jquery/dist/jquery.min.js"></script>
     <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
-    <script src="~/js/intro.js" asp-append-version="true"></script>
-    <script src="~/js/wow.js" asp-append-version="true"></script>
-    <script src="~/js/global.js" asp-append-version="true"></script>
+    <script src="~/js/intro.min.js" asp-append-version="true"></script>
+    <script src="~/js/wow.min.js" asp-append-version="true"></script>
+    <script src="~/js/global.min.js" asp-append-version="true"></script>
 
 </body>
 </html>
