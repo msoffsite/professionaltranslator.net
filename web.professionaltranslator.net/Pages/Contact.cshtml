@@ -23,8 +23,8 @@
 }
 @section Styles
 {
-    <link rel="stylesheet" type="text/css" href="~/css/material-design-iconic-font.css">
-    <link rel="stylesheet" href="~/css/contact.css" />
+    <link rel="stylesheet" type="text/css" href="~/css/material-design-iconic-font.min.css" />
+    <link rel="stylesheet" href="~/css/contact.min.css" asp-append-version="true" />
 }
 <div class="row mt-5 mb-4" style="display: none;">
     <div class="col-12 text-center page-header">
@@ -138,12 +138,16 @@
                     <div class="card border-bottom">
                         <div class="card-header" id="heading_upload_instructions">
                             <h2 class="mb-0">
-                                <button class="btn btn-link btn-block text-left collapsed" type="button" data-toggle="collapse" data-target="#collapse_instructions" aria-expanded="true" aria-controls="collapse_instructions">
-                                    Click for File Upload Instructions
+                                <button id="instructions_button" class="btn btn-link btn-block text-left collapsed" type="button" data-toggle="collapse" data-target="#collapse_instructions" aria-expanded="true" aria-controls="collapse_instructions">
+                                    <div id="open_instructions" class="d-flex flex-row justify-content-between align-items-center">
+                                        Open File Upload Instructions <i class="fa fa-chevron-down"></i>
+                                    </div>
+                                    <div id="close_instructions" class="d-flex flex-row justify-content-between align-items-center hide">
+                                        Close File Upload Instructions <i class="fa fa-chevron-up"></i>
+                                    </div>
                                 </button>
                             </h2>
                         </div>
-
                         <div id="collapse_instructions" class="collapse" aria-labelledby="heading_upload_instructions" data-parent="#upload_instructions_accordion">
                             <div class="card-body">
                                 <p>
@@ -192,6 +196,6 @@
 </div>
 @section Scripts
 {
-    <script src="~/js/form.js" asp-append-version="true"></script>
-    <script src="~/js/contact.js" asp-append-version="true"></script>
+    <script src="~/js/form.min.js" asp-append-version="true"></script>
+    <script src="~/js/contact.min.js" asp-append-version="true"></script>
 }

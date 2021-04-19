@@ -32,7 +32,6 @@
 
   <ItemGroup>
     <Content Remove="bundleconfig.json" />
-    <Content Remove="wwwroot\css\menu-borrowed.css" />
     <Content Remove="wwwroot\js\global.min.js" />
   </ItemGroup>
 

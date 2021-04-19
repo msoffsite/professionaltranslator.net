@@ -27,6 +27,18 @@ $(document).ready(function () {
             postEmailAddress("#client_email_address");
         });
 
+    $("#collapse_instructions").on("show.bs.collapse",
+        function() {
+            $("#open_instructions").addClass("hide");
+            $("#close_instructions").removeClass("hide");
+        });
+
+    $("#collapse_instructions").on("hide.bs.collapse",
+        function () {
+            $("#open_instructions").removeClass("hide");
+            $("#close_instructions").addClass("hide");
+        });
+
     $("#send_message").on("click", function (e) {
         e.preventDefault();
         sendMessage();

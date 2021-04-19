@@ -88,5 +88,17 @@
     "inputFiles": [
       "wwwroot/css/menu.css"
     ]
+  },
+  {
+    "outputFileName": "wwwroot/js/form.min.js",
+    "inputFiles": [
+      "wwwroot/js/form.js"
+    ]
+  },
+  {
+    "outputFileName": "wwwroot/js/wow.min.js",
+    "inputFiles": [
+      "wwwroot/js/wow.js"
+    ]
   }
 ]
