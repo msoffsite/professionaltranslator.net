@@ -163,7 +163,7 @@ namespace web.professionaltranslator.net.Pages
                     new MailAddress(obj.EmailAddress, obj.EmailAddress)
                 };
 
-                Smtp.SendMail(SiteSettings, toList, "Translation Inquiry", body.ToString(), Smtp.BodyType.Html, Smtp.SslSetting.Off);
+                //Smtp.SendMail(SiteSettings, toList, "Translation Inquiry", body.ToString(), Smtp.BodyType.Html, Smtp.SslSetting.Off);
             }
             catch (Exception ex)
             {

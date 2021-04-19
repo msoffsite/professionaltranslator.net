@@ -293,6 +293,10 @@ footer p {
     display: none !important;
 }
 
+.hide-soft {
+    display: none;
+}
+
 img.zoom {
     cursor: pointer;
     /*width: 100%;
