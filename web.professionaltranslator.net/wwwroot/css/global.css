@@ -682,12 +682,12 @@ sup.testimonial-sup:last-child {
         }
     }
 
-@media (max-width: 576px) {
+/*@media (max-width: 576px) {
     .btn-purple {
         max-width: 200px;
         min-width: 200px;
     }
-}
+}*/
 
 .row {
      margin-right: 0; 
