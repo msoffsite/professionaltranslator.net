@@ -1,4 +1,5 @@
-﻿using System;
+﻿#nullable enable
+using System;
 using System.Collections.Generic;
 using System.Globalization;
 using System.IO;
@@ -76,10 +77,10 @@ namespace web.professionaltranslator.net.Services
         public virtual Task<Post?> GetPostById(string id)
         {
             bool isAdmin = IsAdmin();
-            Post post = _cache.FirstOrDefault(p => p.Id.Equals(id, StringComparison.OrdinalIgnoreCase));
+            Post post = _cache.FirstOrDefault(p => p.Id.Equals(id, StringComparison.OrdinalIgnoreCase)) ?? throw new InvalidOperationException();
 
             return Task.FromResult(
-                post is null || post.PubDate > DateTime.UtcNow || (!post.IsPublished && !isAdmin)
+                post.PubDate > DateTime.UtcNow || (!post.IsPublished && !isAdmin)
                 ? null
                 : post);
         }

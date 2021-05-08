@@ -1,4 +1,5 @@
-﻿using System;
+﻿#nullable enable
+using System;
 using System.Linq;
 using System.Security.Claims;
 using System.Threading.Tasks;
@@ -82,7 +83,7 @@ namespace web.professionaltranslator.net.Services
         {
             ValidateUser(username);
 
-            Models.Post post = await _blog.GetPostById(postId).ConfigureAwait(false);
+            Models.Post? post = await _blog.GetPostById(postId).ConfigureAwait(false);
             if (post is null)
             {
                 return false;
@@ -105,7 +106,7 @@ namespace web.professionaltranslator.net.Services
 
             Models.Post? existing = await _blog.GetPostById(postId).ConfigureAwait(false);
 
-            if (existing is null || post is null)
+            if (existing is null)
             {
                 return false;
             }

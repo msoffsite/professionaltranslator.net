@@ -35,6 +35,11 @@ namespace Repository.ProfessionalTranslator.Net.Conversions
         /// <returns>Data Table That Represent List data</returns>
         internal static DataTable ToDataTable<T>(IEnumerable<T> iEnumerable, CreateRowDelegate<T> fn)
         {
+            if (fn is null)
+            {
+                throw new ArgumentNullException(nameof(fn));
+            }
+
             using var toReturn = new DataTable();
             // Could add a check to verify that there is an element 0
             IEnumerable<T> enumerable = iEnumerable.ToList();

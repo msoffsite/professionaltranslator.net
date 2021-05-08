@@ -1,4 +1,5 @@
-﻿using System;
+﻿#nullable enable
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -34,7 +35,7 @@ namespace web.professionaltranslator.net.Services
         public virtual Task<Post?> GetPostById(string id)
         {
             bool isAdmin = IsAdmin();
-            Post post = Cache.FirstOrDefault(p => p.Id.Equals(id, StringComparison.OrdinalIgnoreCase));
+            Post post = Cache.FirstOrDefault(p => p.Id.Equals(id, StringComparison.OrdinalIgnoreCase)) ?? throw new InvalidOperationException();
 
             return Task.FromResult(
                 post is null || !post.IsVisible() || !isAdmin
@@ -45,10 +46,10 @@ namespace web.professionaltranslator.net.Services
         public virtual Task<Post?> GetPostBySlug(string slug)
         {
             bool isAdmin = IsAdmin();
-            Post post = Cache.FirstOrDefault(p => p.Slug.Equals(slug, StringComparison.OrdinalIgnoreCase));
+            Post post = Cache.FirstOrDefault(p => p.Slug.Equals(slug, StringComparison.OrdinalIgnoreCase)) ?? throw new InvalidOperationException();
 
             return Task.FromResult(
-                post is null || !post.IsVisible() || !isAdmin
+                !post.IsVisible() || !isAdmin
                 ? null
                 : post);
         }
