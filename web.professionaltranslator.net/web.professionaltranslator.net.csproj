@@ -63,10 +63,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="wwwroot\uploads\" />
-  </ItemGroup>
-
-  <ItemGroup>
     <None Include="bundleconfig.json" />
     <None Include="wwwroot\js\global.min.js" />
   </ItemGroup>
