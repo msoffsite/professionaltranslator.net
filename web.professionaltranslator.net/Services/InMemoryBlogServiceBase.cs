@@ -35,7 +35,7 @@ namespace web.professionaltranslator.net.Services
         public virtual Task<Post?> GetPostById(string id)
         {
             bool isAdmin = this.IsAdmin();
-            Post post = this.Cache.FirstOrDefault(p => p.ID.Equals(id, StringComparison.OrdinalIgnoreCase));
+            Post post = this.Cache.FirstOrDefault(p => p.Id.Equals(id, StringComparison.OrdinalIgnoreCase));
 
             return Task.FromResult(
                 post is null || !post.IsVisible() || !isAdmin

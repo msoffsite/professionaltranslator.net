@@ -23,7 +23,7 @@ namespace web.professionaltranslator.net.Models
         public string Excerpt { get; set; } = string.Empty;
 
         [Required]
-        public string ID { get; set; } = DateTime.UtcNow.Ticks.ToString(CultureInfo.InvariantCulture);
+        public string Id { get; set; } = DateTime.UtcNow.Ticks.ToString(CultureInfo.InvariantCulture);
 
         public bool IsPublished { get; set; } = true;
 

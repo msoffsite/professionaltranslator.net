@@ -69,7 +69,7 @@ namespace web.professionaltranslator.net.Services
 
             await _blog.SavePost(newPost).ConfigureAwait(false);
 
-            return newPost.ID;
+            return newPost.Id;
         }
 
         public Task<bool> DeletePageAsync(string blogId, string username, string password, string pageId)
@@ -224,7 +224,7 @@ namespace web.professionaltranslator.net.Services
 
             return new Post
             {
-                postid = post.ID,
+                postid = post.Id,
                 title = post.Title,
                 wp_slug = post.Slug,
                 permalink = url + post.GetLink(),

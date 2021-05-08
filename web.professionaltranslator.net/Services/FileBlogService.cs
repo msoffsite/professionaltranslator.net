@@ -64,7 +64,7 @@ namespace web.professionaltranslator.net.Services
 
         public virtual IAsyncEnumerable<string> GetCategories()
         {
-            var isAdmin = IsAdmin();
+            bool isAdmin = IsAdmin();
 
             return _cache
                 .Where(p => p.IsPublished || isAdmin)
@@ -77,7 +77,7 @@ namespace web.professionaltranslator.net.Services
         public virtual Task<Post?> GetPostById(string id)
         {
             bool isAdmin = IsAdmin();
-            Post post = _cache.FirstOrDefault(p => p.ID.Equals(id, StringComparison.OrdinalIgnoreCase));
+            Post post = _cache.FirstOrDefault(p => p.Id.Equals(id, StringComparison.OrdinalIgnoreCase));
 
             return Task.FromResult(
                 post is null || post.PubDate > DateTime.UtcNow || (!post.IsPublished && !isAdmin)
@@ -181,13 +181,13 @@ namespace web.professionaltranslator.net.Services
                             ));
 
             XElement categories = doc.XPathSelectElement("post/categories");
-            foreach (var category in post.Categories)
+            foreach (string category in post.Categories)
             {
                 categories.Add(new XElement("category", category));
             }
 
             XElement comments = doc.XPathSelectElement("post/comments");
-            foreach (var comment in post.Comments)
+            foreach (Comment comment in post.Comments)
             {
                 comments.Add(
                     new XElement("comment",
@@ -237,7 +237,7 @@ namespace web.professionaltranslator.net.Services
 
         private static void LoadCategories(Post post, XElement doc)
         {
-            var categories = doc.Element("categories");
+            XElement categories = doc.Element("categories");
             if (categories is null)
             {
                 return;
@@ -256,7 +256,7 @@ namespace web.professionaltranslator.net.Services
                 return;
             }
 
-            foreach (var node in comments.Elements("comment"))
+            foreach (XElement node in comments.Elements("comment"))
             {
                 var comment = new Comment
                 {
@@ -279,7 +279,7 @@ namespace web.professionaltranslator.net.Services
         private static string ReadValue(XElement doc, XName name, string defaultValue = "") =>
             doc.Element(name) is null ? defaultValue : doc.Element(name)?.Value ?? defaultValue;
 
-        private string GetFilePath(Post post) => Path.Combine(_folder, $"{post.ID}.xml");
+        private string GetFilePath(Post post) => Path.Combine(_folder, $"{post.Id}.xml");
 
         private void Initialize()
         {
@@ -301,7 +301,7 @@ namespace web.professionaltranslator.net.Services
 
                 var post = new Post
                 {
-                    ID = Path.GetFileNameWithoutExtension(file),
+                    Id = Path.GetFileNameWithoutExtension(file),
                     Title = ReadValue(doc, "title"),
                     Excerpt = ReadValue(doc, "excerpt"),
                     Content = ReadValue(doc, "content"),
