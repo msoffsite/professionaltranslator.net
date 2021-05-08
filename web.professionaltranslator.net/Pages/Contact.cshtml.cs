@@ -160,10 +160,15 @@ namespace web.professionaltranslator.net.Pages
                 var toList = new List<MailAddress>
                 {
                     new MailAddress(SiteSettings.DefaultTo, SiteSettings.DefaultToDisplayName),
-                    new MailAddress(obj.EmailAddress, obj.EmailAddress)
+                    new MailAddress(obj.EmailAddress, obj.Name)
                 };
 
-                Smtp.SendMail(SiteSettings, toList, "Translation Inquiry", body.ToString(), Smtp.BodyType.Html, Smtp.SslSetting.Off);
+                var replyToList = new List<MailAddress>
+                {
+                    new MailAddress(obj.EmailAddress, obj.Name)
+                };
+
+                Smtp.SendMail(SiteSettings, replyToList, toList, "Translation Inquiry", body.ToString(), Smtp.BodyType.Html, Smtp.SslSetting.Off);
             }
             catch (Exception ex)
             {
