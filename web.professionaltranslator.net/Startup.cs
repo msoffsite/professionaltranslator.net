@@ -2,12 +2,19 @@ using System;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Http;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.DependencyInjection.Extensions;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Options;
 using web.professionaltranslator.net.Areas.Identity.Data;
+using web.professionaltranslator.net.Services;
+
+using WilderMinds.MetaWeblog;
+
+using MetaWeblogService = web.professionaltranslator.net.Services.MetaWeblogService;
 
 namespace web.professionaltranslator.net
 {
@@ -41,12 +48,17 @@ namespace web.professionaltranslator.net
                 .AddEntityFrameworkStores<EfContext>();
 
             services.AddRazorPages();
-                //.AddRazorPagesOptions(options =>
-                //{
-                //    options.Conventions.AddAreaPageRoute("Admin", "/Testimonial", "Testimonial/{currentPage?}/{withTestimonials?}");
-                //    options.Conventions.AddAreaPageRoute("Admin", "/Portfolio", "Portfolio/{currentPage?}/{showApproved?}");
 
-                //});
+            services.AddSingleton<IBlogService, FileBlogService>();
+            services.Configure<BlogSettings>(Configuration.GetSection("blog"));
+            services.TryAddSingleton<IHttpContextAccessor, HttpContextAccessor>();
+            services.AddMetaWeblog<MetaWeblogService>();
+            //.AddRazorPagesOptions(options =>
+            //{
+            //    options.Conventions.AddAreaPageRoute("Admin", "/Testimonial", "Testimonial/{currentPage?}/{withTestimonials?}");
+            //    options.Conventions.AddAreaPageRoute("Admin", "/Portfolio", "Portfolio/{currentPage?}/{showApproved?}");
+
+            //});
 
             services.AddSession();
             services.AddOptions();
