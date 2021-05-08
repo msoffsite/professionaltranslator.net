@@ -46,7 +46,7 @@ namespace Repository.ProfessionalTranslator.Net.Conversions
             // Use reflection to get property names, to create table
             // column names
 
-            PropertyInfo[] oProps = ((Type)topRec.GetType()).GetProperties();
+            PropertyInfo[] oProps = topRec.GetType().GetProperties();
 
             foreach (PropertyInfo pi in oProps)
             {
@@ -93,7 +93,7 @@ namespace Repository.ProfessionalTranslator.Net.Conversions
             // Use reflection to get property names, to create table
             // column names
 
-            PropertyInfo[] oProps = ((Type)topRec.GetType()).GetProperties();
+            PropertyInfo[] oProps = topRec.GetType().GetProperties();
 
             foreach (PropertyInfo pi in oProps)
             {
@@ -134,7 +134,7 @@ namespace Repository.ProfessionalTranslator.Net.Conversions
             {
                 List<string> columnsNames = (from DataColumn dataColumn in dataTable.Columns select dataColumn.ColumnName).ToList();
 
-                temp = dataTable.AsEnumerable().ToList().ConvertAll<T>(row => GetObject<T>(row, columnsNames));
+                temp = dataTable.AsEnumerable().ToList().ConvertAll(row => GetObject<T>(row, columnsNames));
                 return temp;
             }
             catch { return temp; }

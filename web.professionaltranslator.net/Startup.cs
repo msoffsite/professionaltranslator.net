@@ -1,8 +1,8 @@
 using System;
 using Microsoft.AspNetCore.Builder;
-using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -11,9 +11,7 @@ using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Options;
 using web.professionaltranslator.net.Areas.Identity.Data;
 using web.professionaltranslator.net.Services;
-
 using WilderMinds.MetaWeblog;
-
 using MetaWeblogService = web.professionaltranslator.net.Services.MetaWeblogService;
 
 namespace web.professionaltranslator.net

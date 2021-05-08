@@ -18,7 +18,7 @@ namespace Repository.ProfessionalTranslator.Net.DatabaseOperations.Log.Read
 
             cmd.Parameters.Add("@Id", SqlDbType.UniqueIdentifier).Value = id;
             using var sda = new SqlDataAdapter(cmd);
-            return Conversions.Object.GetItem<Tables.Log.Inquiry>(sda);
+            return Object.GetItem<Tables.Log.Inquiry>(sda);
         }
 
         internal static async Task<List<Tables.Log.Inquiry>> List(string site)

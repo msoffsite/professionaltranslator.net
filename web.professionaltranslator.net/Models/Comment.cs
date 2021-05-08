@@ -1,12 +1,8 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
-using System.Diagnostics.CodeAnalysis;
 using System.Globalization;
-using System.Linq;
 using System.Security.Cryptography;
 using System.Text;
-using System.Threading.Tasks;
 
 namespace web.professionaltranslator.net.Models
 {
@@ -32,7 +28,7 @@ namespace web.professionaltranslator.net.Models
         public string GetGravatar()
         {
             using var md5 = MD5.Create();
-            var inputBytes = Encoding.UTF8.GetBytes(this.Email.Trim().ToLowerInvariant());
+            var inputBytes = Encoding.UTF8.GetBytes(Email.Trim().ToLowerInvariant());
             var hashBytes = md5.ComputeHash(inputBytes);
 
             // Convert the byte array to hexadecimal string
@@ -45,6 +41,6 @@ namespace web.professionaltranslator.net.Models
             return $"https://www.gravatar.com/avatar/{sb.ToString().ToLowerInvariant()}?s=60&d=blank";
         }
 
-        public string RenderContent() => this.Content;
+        public string RenderContent() => Content;
     }
 }

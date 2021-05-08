@@ -1,6 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Text;
 
 namespace Repository.ProfessionalTranslator.Net.Tables.dbo
 {
@@ -8,7 +6,5 @@ namespace Repository.ProfessionalTranslator.Net.Tables.dbo
     {
         public new Guid Id { get; set; }
         public Guid SiteId { get; set; }
-
-        public Client() { }
     }
 }

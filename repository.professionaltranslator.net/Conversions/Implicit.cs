@@ -155,10 +155,10 @@ namespace Repository.ProfessionalTranslator.Net.Conversions
         /// <returns></returns>
         public static DateTime DateTime(object value)
         {
-            System.DateTime convertedValue = System.DateTime.MinValue;
+            DateTime convertedValue = System.DateTime.MinValue;
             if (value != null)
             {
-                System.DateTime testValue;
+                DateTime testValue;
                 if (System.DateTime.TryParse(value.ToString(), out testValue))
                 {
                     convertedValue = testValue;
@@ -281,7 +281,7 @@ namespace Repository.ProfessionalTranslator.Net.Conversions
         /// </summary>
         /// <param name="value"></param>
         /// <returns></returns>
-        public static System.Guid Guid(object value)
+        public static Guid Guid(object value)
         {
             Guid convertedValue;
             if (!Guid_TryParse(value.ToString(), out convertedValue))
@@ -292,7 +292,7 @@ namespace Repository.ProfessionalTranslator.Net.Conversions
             return convertedValue;
         }
 
-        public static System.Guid Guid(object value, Guid defaultTo)
+        public static Guid Guid(object value, Guid defaultTo)
         {
             Guid convertedValue = Guid(value);
             if (convertedValue == System.Guid.Empty)
@@ -316,11 +316,9 @@ namespace Repository.ProfessionalTranslator.Net.Conversions
                 result = new Guid(s);
                 return true;
             }
-            else
-            {
-                result = System.Guid.Empty;
-                return false;
-            }
+
+            result = System.Guid.Empty;
+            return false;
         }
 
         public static int Int32(object value)
@@ -385,7 +383,7 @@ namespace Repository.ProfessionalTranslator.Net.Conversions
 
         public static string StringTrim(object value, int characterLimit)
         {
-            string input = Implicit.String(value);
+            string input = String(value);
             if (input.Length > characterLimit)
             {
                 input = input.Substring(0, characterLimit - 3);

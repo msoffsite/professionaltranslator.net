@@ -62,7 +62,7 @@ namespace Repository.ProfessionalTranslator.Net.Conversions
                     decimal tryValue;
                     if (decimal.TryParse(value.ToString(), out tryValue))
                     {
-                        convertedValue = (decimal?)tryValue;
+                        convertedValue = tryValue;
                     }
                 }
             }
@@ -85,7 +85,7 @@ namespace Repository.ProfessionalTranslator.Net.Conversions
                     double tryValue;
                     if (double.TryParse(value.ToString(), out tryValue))
                     {
-                        convertedValue = (double?)tryValue;
+                        convertedValue = tryValue;
                     }
                 }
             }
@@ -108,7 +108,7 @@ namespace Repository.ProfessionalTranslator.Net.Conversions
                     float tryValue;
                     if (float.TryParse(value.ToString(), out tryValue))
                     {
-                        convertedValue = (float?)tryValue;
+                        convertedValue = tryValue;
                     }
                 }
             }

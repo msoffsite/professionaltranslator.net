@@ -1,6 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Text;
+using System.Net.Mail;
 
 namespace Repository.ProfessionalTranslator.Net
 {
@@ -65,7 +65,7 @@ namespace Repository.ProfessionalTranslator.Net
             try
             {
                 // ReSharper disable once ObjectCreationAsStatement
-                new System.Net.Mail.MailAddress(input);
+                new MailAddress(input);
             }
             catch
             {

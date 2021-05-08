@@ -1,12 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
-using System.Diagnostics.CodeAnalysis;
 using System.Globalization;
-using System.Linq;
+using System.Net;
 using System.Text;
 using System.Text.RegularExpressions;
-using System.Threading.Tasks;
 
 namespace web.professionaltranslator.net.Models
 {
@@ -47,17 +45,17 @@ namespace web.professionaltranslator.net.Models
         }
 
         public bool AreCommentsOpen(int commentsCloseAfterDays) =>
-            this.PubDate.AddDays(commentsCloseAfterDays) >= DateTime.UtcNow;
+            PubDate.AddDays(commentsCloseAfterDays) >= DateTime.UtcNow;
 
-        public string GetEncodedLink() => $"/blog/{System.Net.WebUtility.UrlEncode(this.Slug)}/";
+        public string GetEncodedLink() => $"/blog/{WebUtility.UrlEncode(Slug)}/";
 
-        public string GetLink() => $"/blog/{this.Slug}/";
+        public string GetLink() => $"/blog/{Slug}/";
 
-        public bool IsVisible() => this.PubDate <= DateTime.UtcNow && this.IsPublished;
+        public bool IsVisible() => PubDate <= DateTime.UtcNow && IsPublished;
 
         public string RenderContent()
         {
-            var result = this.Content;
+            var result = Content;
 
             // Set up lazy loading of images/iframes
             if (!string.IsNullOrEmpty(result))

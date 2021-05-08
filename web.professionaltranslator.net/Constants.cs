@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Diagnostics.CodeAnalysis;
-using System.Linq;
-using System.Threading.Tasks;
-
-namespace web.professionaltranslator.net
+﻿namespace web.professionaltranslator.net
 {
     public static class Constants
     {

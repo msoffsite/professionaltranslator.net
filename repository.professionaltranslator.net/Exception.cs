@@ -11,11 +11,11 @@ namespace Repository.ProfessionalTranslator.Net
 {
     public class Exception
     {
-        public static async Task<models.Log.Exception> Item(Guid id)
+        public static async Task<Models.ProfessionalTranslator.Net.Log.Exception> Item(Guid id)
         {
             Tables.Log.Exception exception = await dbReadLog.Item(id);
             if (exception == null) return null;
-            var output = new models.Log.Exception
+            var output = new Models.ProfessionalTranslator.Net.Log.Exception
             {
                 Id = exception.Id,
                 Message = exception.Message,
@@ -27,10 +27,10 @@ namespace Repository.ProfessionalTranslator.Net
             return output;
         }
         
-        public static async Task<List<models.Log.Exception>> List(string site)
+        public static async Task<List<Models.ProfessionalTranslator.Net.Log.Exception>> List(string site)
         {
             List<Tables.Log.Exception> list = await dbReadLog.List(site);
-            return list.Select(n => new models.Log.Exception
+            return list.Select(n => new Models.ProfessionalTranslator.Net.Log.Exception
             {
                 Id = n.Id,
                 Message = n.Message,
@@ -43,11 +43,11 @@ namespace Repository.ProfessionalTranslator.Net
 
         internal static async Task Save(string site, System.Exception inputItem, string className)
         {
-            var exception = new models.Log.Exception(inputItem, $"Repository.{className}");
+            var exception = new Models.ProfessionalTranslator.Net.Log.Exception(inputItem, $"Repository.{className}");
             await Save(site, exception);
         }
 
-        public static async Task<Result> Save(string site, models.Log.Exception inputItem)
+        public static async Task<Result> Save(string site, Models.ProfessionalTranslator.Net.Log.Exception inputItem)
         {
             var messages = new List<string>();
 

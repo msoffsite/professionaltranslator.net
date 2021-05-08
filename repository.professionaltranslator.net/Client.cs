@@ -42,7 +42,7 @@ namespace Repository.ProfessionalTranslator.Net
                     Id = client.Id,
                     Name = client.Name,
                     EmailAddress = client.EmailAddress,
-                    Uploads = uploads.Select(n => new models.Upload.Client
+                    Uploads = uploads.Select(n => new Models.ProfessionalTranslator.Net.Upload.Client
                     {
                         Id = n.Id,
                         GeneratedFilename = n.GeneratedFilename,
@@ -121,7 +121,7 @@ namespace Repository.ProfessionalTranslator.Net
                 Rules.ValidateEmailAddress(inputItem.EmailAddress, "Email Address", ref messages);
             }
 
-            foreach (models.Upload.Client uploads in inputItem.Uploads)
+            foreach (Models.ProfessionalTranslator.Net.Upload.Client uploads in inputItem.Uploads)
             {
                 Rules.StringRequiredMaxLength(uploads.GeneratedFilename, "Generated filename", 45, ref messages);
                 Rules.StringRequiredMaxLength(uploads.OriginalFilename, "Original filename", 256, ref messages);
@@ -147,7 +147,7 @@ namespace Repository.ProfessionalTranslator.Net
             }
 
             // ReSharper disable once ForeachCanBePartlyConvertedToQueryUsingAnotherGetEnumerator
-            foreach (models.Upload.Client uploads in inputItem.Uploads)
+            foreach (Models.ProfessionalTranslator.Net.Upload.Client uploads in inputItem.Uploads)
             {
                 var saveUpload = new Tables.Upload.Client
                 {

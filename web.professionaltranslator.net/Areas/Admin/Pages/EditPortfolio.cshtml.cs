@@ -1,22 +1,19 @@
 using System;
 using System.Collections.Generic;
 using System.IO;
-using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.Extensions.Hosting;
 using Newtonsoft.Json;
+using Repository.ProfessionalTranslator.Net;
 using SixLabors.ImageSharp;
 using SixLabors.ImageSharp.Processing;
-using ImageSharp = SixLabors.ImageSharp;
-
-using Repository.ProfessionalTranslator.Net;
 using web.professionaltranslator.net.Extensions;
 using DataModel = Models.ProfessionalTranslator.Net.Work;
 using ImageModel = Models.ProfessionalTranslator.Net.Image;
 using EditModel = web.professionaltranslator.net.Models.Admin.Work;
+using Exception = System.Exception;
 using Image = Repository.ProfessionalTranslator.Net.Image;
 
 namespace web.professionaltranslator.net.Areas.Admin.Pages
@@ -107,7 +104,7 @@ namespace web.professionaltranslator.net.Areas.Admin.Pages
                     Session.Set<Guid>(HttpContext.Session, Session.Key.InquiryResult, result.ReturnId);
                 }
             }
-            catch (System.Exception ex)
+            catch (Exception ex)
             {
                 result = new Result(ResultStatus.Failed, ex.Message, Guid.Empty);
             }
@@ -150,7 +147,7 @@ namespace web.professionaltranslator.net.Areas.Admin.Pages
                 fileStream.Close();
                 await fileStream.DisposeAsync();
 
-                using (ImageSharp.Image image = await ImageSharp.Image.LoadAsync(tempFilePath))
+                using (SixLabors.ImageSharp.Image image = await SixLabors.ImageSharp.Image.LoadAsync(tempFilePath))
                 {
                     image.Mutate(x => x.Resize(0, AdminPortfolioSettings.MaxHeight));
                     await image.SaveAsync(permanentFilePath);
@@ -168,7 +165,7 @@ namespace web.professionaltranslator.net.Areas.Admin.Pages
 
                 result = new Result(ResultStatus.Succeeded, imageWebPath, queryId.Value);
             }
-            catch (System.Exception ex)
+            catch (Exception ex)
             {
                 result = new Result(ResultStatus.Failed, ex.Message, QueryId);
             }

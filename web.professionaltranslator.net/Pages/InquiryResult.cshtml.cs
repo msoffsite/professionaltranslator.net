@@ -1,12 +1,8 @@
 using System;
-using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
-using Repository.ProfessionalTranslator.Net;
 using web.professionaltranslator.net.Extensions;
-using web.professionaltranslator.net.Models;
-using Client = Models.ProfessionalTranslator.Net.Upload.Client;
 using Model = web.professionaltranslator.net.Models.Inquiry;
 using Data = Repository.ProfessionalTranslator.Net;
 using DataModel = Models.ProfessionalTranslator.Net.Log.Inquiry;
@@ -46,7 +42,7 @@ namespace web.professionaltranslator.net.Pages
                 Uploads = clientModel.Uploads.Select(x => x.OriginalFilename).ToList()
             };
             if (InquiryItem == null) return BadRequest("InquiryItem couldn't be located.");
-            Item = await new Base().Get(SiteSettings, Area.Root, "InquiryResult");
+            Item = await new Base().Get(SiteSettings, Data.Area.Root, "InquiryResult");
             return Item == null ? NotFound() : (IActionResult)Page();
         }
     }

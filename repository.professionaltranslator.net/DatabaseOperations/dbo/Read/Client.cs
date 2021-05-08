@@ -1,10 +1,8 @@
-﻿using Microsoft.Data.SqlClient;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Data;
-using System.Text;
 using System.Threading.Tasks;
-
+using Microsoft.Data.SqlClient;
 using Object = Repository.ProfessionalTranslator.Net.Conversions.Object;
 
 namespace Repository.ProfessionalTranslator.Net.DatabaseOperations.dbo.Read

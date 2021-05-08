@@ -2,17 +2,15 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
-using System.Net.Mail;
-using System.Text;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.RazorPages;
 using Newtonsoft.Json;
 using Repository.ProfessionalTranslator.Net;
 using web.professionaltranslator.net.Extensions;
 using DataModel = Models.ProfessionalTranslator.Net.Testimonial;
 using LocalizedDataModel = Models.ProfessionalTranslator.Net.Localized.Testimonial;
 using EditModel = web.professionaltranslator.net.Models.Admin.Testimonial;
+using Exception = System.Exception;
 
 namespace web.professionaltranslator.net.Areas.Admin.Pages
 {
@@ -119,7 +117,7 @@ namespace web.professionaltranslator.net.Areas.Admin.Pages
                 }
                 Session.Set<Guid>(HttpContext.Session, Session.Key.InquiryResult, result.ReturnId);
             }
-            catch (System.Exception ex)
+            catch (Exception ex)
             {
                 result = new Result(ResultStatus.Failed, ex.Message, Guid.Empty);
             }

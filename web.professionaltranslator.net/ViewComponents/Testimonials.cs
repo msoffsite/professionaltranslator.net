@@ -1,9 +1,8 @@
 ﻿using System.Collections.Generic;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
-
+using Models.ProfessionalTranslator.Net;
 using Data = Repository.ProfessionalTranslator.Net.Testimonial;
-using Testimonial = Models.ProfessionalTranslator.Net.Testimonial;
 
 namespace web.professionaltranslator.net.ViewComponents
 {

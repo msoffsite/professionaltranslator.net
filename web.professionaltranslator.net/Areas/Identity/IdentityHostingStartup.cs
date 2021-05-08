@@ -1,13 +1,7 @@
-﻿using System;
-using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.Identity;
-using Microsoft.AspNetCore.Identity.UI;
-using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.Configuration;
-using Microsoft.Extensions.DependencyInjection;
-using web.professionaltranslator.net.Areas.Identity.Data;
+﻿using Microsoft.AspNetCore.Hosting;
+using web.professionaltranslator.net.Areas.Identity;
 
-[assembly: HostingStartup(typeof(web.professionaltranslator.net.Areas.Identity.IdentityHostingStartup))]
+[assembly: HostingStartup(typeof(IdentityHostingStartup))]
 namespace web.professionaltranslator.net.Areas.Identity
 {
     public class IdentityHostingStartup : IHostingStartup
