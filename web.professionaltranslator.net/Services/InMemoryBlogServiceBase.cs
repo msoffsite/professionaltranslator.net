@@ -18,15 +18,11 @@ namespace web.professionaltranslator.net.Services
 
         public abstract Task DeletePost(Post post);
 
-        [SuppressMessage(
-            "Globalization",
-            "CA1308:Normalize strings to uppercase",
-            Justification = "Consumer preference.")]
         public virtual IAsyncEnumerable<string> GetCategories()
         {
-            var isAdmin = this.IsAdmin();
+            bool isAdmin = this.IsAdmin();
 
-            var categories = this.Cache
+            IAsyncEnumerable<string> categories = this.Cache
                 .Where(p => p.IsPublished || isAdmin)
                 .SelectMany(post => post.Categories)
                 .Select(cat => cat.ToLowerInvariant())
@@ -38,8 +34,8 @@ namespace web.professionaltranslator.net.Services
 
         public virtual Task<Post?> GetPostById(string id)
         {
-            var isAdmin = this.IsAdmin();
-            var post = this.Cache.FirstOrDefault(p => p.ID.Equals(id, StringComparison.OrdinalIgnoreCase));
+            bool isAdmin = this.IsAdmin();
+            Post post = this.Cache.FirstOrDefault(p => p.ID.Equals(id, StringComparison.OrdinalIgnoreCase));
 
             return Task.FromResult(
                 post is null || !post.IsVisible() || !isAdmin
@@ -49,8 +45,8 @@ namespace web.professionaltranslator.net.Services
 
         public virtual Task<Post?> GetPostBySlug(string slug)
         {
-            var isAdmin = this.IsAdmin();
-            var post = this.Cache.FirstOrDefault(p => p.Slug.Equals(slug, StringComparison.OrdinalIgnoreCase));
+            bool isAdmin = this.IsAdmin();
+            Post post = this.Cache.FirstOrDefault(p => p.Slug.Equals(slug, StringComparison.OrdinalIgnoreCase));
 
             return Task.FromResult(
                 post is null || !post.IsVisible() || !isAdmin
@@ -61,15 +57,15 @@ namespace web.professionaltranslator.net.Services
         /// <remarks>Overload for getPosts method to retrieve all posts.</remarks>
         public virtual IAsyncEnumerable<Post> GetPosts()
         {
-            var isAdmin = this.IsAdmin();
+            bool isAdmin = this.IsAdmin();
             return this.Cache.Where(p => p.IsVisible() || isAdmin).ToAsyncEnumerable();
         }
 
         public virtual IAsyncEnumerable<Post> GetPosts(int count, int skip = 0)
         {
-            var isAdmin = this.IsAdmin();
+            bool isAdmin = this.IsAdmin();
 
-            var posts = this.Cache
+            IAsyncEnumerable<Post> posts = this.Cache
                 .Where(p => p.IsVisible() || isAdmin)
                 .Skip(skip)
                 .Take(count)
@@ -80,9 +76,9 @@ namespace web.professionaltranslator.net.Services
 
         public virtual IAsyncEnumerable<Post> GetPostsByCategory(string category)
         {
-            var isAdmin = this.IsAdmin();
+            bool isAdmin = this.IsAdmin();
 
-            var posts = from p in this.Cache
+            IEnumerable<Post> posts = from p in this.Cache
                         where p.IsVisible() || isAdmin
                         where p.Categories.Contains(category, StringComparer.OrdinalIgnoreCase)
                         select p;

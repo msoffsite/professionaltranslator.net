@@ -12,39 +12,39 @@ namespace web.professionaltranslator.net.Services
 {
     public class MetaWeblogService : IMetaWeblogProvider
     {
-        private readonly IBlogService blog;
+        private readonly IBlogService _blog;
 
-        private readonly IConfiguration config;
+        private readonly IConfiguration _config;
 
-        private readonly IHttpContextAccessor context;
+        private readonly IHttpContextAccessor _context;
 
         public MetaWeblogService(
             IBlogService blog,
             IConfiguration config,
             IHttpContextAccessor context)
         {
-            this.blog = blog;
-            this.config = config;
-            this.context = context;
+            _blog = blog;
+            _config = config;
+            _context = context;
         }
 
         public Task<int> AddCategoryAsync(string key, string username, string password, NewCategory category)
         {
-            this.ValidateUser(username, password);
+            ValidateUser(username);
 
             throw new NotImplementedException();
         }
 
-        public Task<string> AddPageAsync(string blogid, string username, string password, Page page, bool publish)
+        public Task<string> AddPageAsync(string blogId, string username, string password, Page page, bool publish)
         {
-            this.ValidateUser(username, password);
+            ValidateUser(username);
 
             throw new NotImplementedException();
         }
 
-        public async Task<string> AddPostAsync(string blogid, string username, string password, Post post, bool publish)
+        public async Task<string> AddPostAsync(string blogId, string username, string password, Post post, bool publish)
         {
-            this.ValidateUser(username, password);
+            ValidateUser(username);
 
             if (post is null)
             {
@@ -67,44 +67,44 @@ namespace web.professionaltranslator.net.Services
                 newPost.PubDate = post.dateCreated;
             }
 
-            await this.blog.SavePost(newPost).ConfigureAwait(false);
+            await _blog.SavePost(newPost).ConfigureAwait(false);
 
             return newPost.ID;
         }
 
-        public Task<bool> DeletePageAsync(string blogid, string username, string password, string pageid)
+        public Task<bool> DeletePageAsync(string blogId, string username, string password, string pageId)
         {
-            this.ValidateUser(username, password);
+            ValidateUser(username);
 
             throw new NotImplementedException();
         }
 
-        public async Task<bool> DeletePostAsync(string key, string postid, string username, string password, bool publish)
+        public async Task<bool> DeletePostAsync(string key, string postId, string username, string password, bool publish)
         {
-            this.ValidateUser(username, password);
+            ValidateUser(username);
 
-            var post = await this.blog.GetPostById(postid).ConfigureAwait(false);
+            Models.Post post = await _blog.GetPostById(postId).ConfigureAwait(false);
             if (post is null)
             {
                 return false;
             }
 
-            await this.blog.DeletePost(post).ConfigureAwait(false);
+            await _blog.DeletePost(post).ConfigureAwait(false);
             return true;
         }
 
-        public Task<bool> EditPageAsync(string blogid, string pageid, string username, string password, Page page, bool publish)
+        public Task<bool> EditPageAsync(string blogId, string pageId, string username, string password, Page page, bool publish)
         {
-            this.ValidateUser(username, password);
+            ValidateUser(username);
 
             throw new NotImplementedException();
         }
 
-        public async Task<bool> EditPostAsync(string postid, string username, string password, Post post, bool publish)
+        public async Task<bool> EditPostAsync(string postId, string username, string password, Post post, bool publish)
         {
-            this.ValidateUser(username, password);
+            ValidateUser(username);
 
-            var existing = await this.blog.GetPostById(postid).ConfigureAwait(false);
+            Models.Post? existing = await _blog.GetPostById(postId).ConfigureAwait(false);
 
             if (existing is null || post is null)
             {
@@ -124,19 +124,19 @@ namespace web.professionaltranslator.net.Services
                 existing.PubDate = post.dateCreated;
             }
 
-            await this.blog.SavePost(existing).ConfigureAwait(false);
+            await _blog.SavePost(existing).ConfigureAwait(false);
 
             return true;
         }
 
-        public Task<Author[]> GetAuthorsAsync(string blogid, string username, string password) =>
+        public Task<Author[]> GetAuthorsAsync(string blogId, string username, string password) =>
             throw new NotImplementedException();
 
-        public async Task<CategoryInfo[]> GetCategoriesAsync(string blogid, string username, string password)
+        public async Task<CategoryInfo[]> GetCategoriesAsync(string blogId, string username, string password)
         {
-            this.ValidateUser(username, password);
+            ValidateUser(username);
 
-            return await this.blog.GetCategories()
+            return await _blog.GetCategories()
                 .Select(
                     cat =>
                         new CategoryInfo
@@ -147,47 +147,47 @@ namespace web.professionaltranslator.net.Services
                 .ToArrayAsync();
         }
 
-        public Task<Page> GetPageAsync(string blogid, string pageid, string username, string password) =>
+        public Task<Page> GetPageAsync(string blogId, string pageId, string username, string password) =>
             throw new NotImplementedException();
 
-        public Task<Page[]> GetPagesAsync(string blogid, string username, string password, int numPages) =>
+        public Task<Page[]> GetPagesAsync(string blogId, string username, string password, int numPages) =>
             throw new NotImplementedException();
 
-        public async Task<Post?> GetPostAsync(string postid, string username, string password)
+        public async Task<Post?> GetPostAsync(string postId, string username, string password)
         {
-            this.ValidateUser(username, password);
+            ValidateUser(username);
 
-            var post = await this.blog.GetPostById(postid).ConfigureAwait(false);
+            Models.Post? post = await _blog.GetPostById(postId).ConfigureAwait(false);
 
-            return post is null ? null : this.ToMetaWebLogPost(post);
+            return post is null ? null : ToMetaWebLogPost(post);
         }
 
-        public async Task<Post[]> GetRecentPostsAsync(string blogid, string username, string password, int numberOfPosts)
+        public async Task<Post[]> GetRecentPostsAsync(string blogId, string username, string password, int numberOfPosts)
         {
-            this.ValidateUser(username, password);
+            ValidateUser(username);
 
-            return await this.blog.GetPosts(numberOfPosts)
-                .Select(this.ToMetaWebLogPost)
+            return await _blog.GetPosts(numberOfPosts)
+                .Select(ToMetaWebLogPost)
                 .ToArrayAsync();
         }
 
-        public Task<Tag[]> GetTagsAsync(string blogid, string username, string password)
+        public Task<Tag[]> GetTagsAsync(string blogId, string username, string password)
         {
             throw new NotImplementedException();
         }
 
         public Task<UserInfo> GetUserInfoAsync(string key, string username, string password)
         {
-            this.ValidateUser(username, password);
+            ValidateUser(username);
 
             throw new NotImplementedException();
         }
 
         public Task<BlogInfo[]> GetUsersBlogsAsync(string key, string username, string password)
         {
-            this.ValidateUser(username, password);
+            ValidateUser(username);
 
-            var request = this.context.HttpContext.Request;
+            HttpRequest request = _context.HttpContext.Request;
             var url = $"{request.Scheme}://{request.Host}";
 
             return Task.FromResult(
@@ -196,30 +196,30 @@ namespace web.professionaltranslator.net.Services
                     new BlogInfo
                     {
                         blogid ="1",
-                        blogName = this.config[Constants.Config.Blog.Name] ?? nameof(MetaWeblogService),
+                        blogName = _config[Constants.Config.Blog.Name] ?? nameof(MetaWeblogService),
                         url = url
                     }
                 });
         }
 
-        public async Task<MediaObjectInfo> NewMediaObjectAsync(string blogid, string username, string password, MediaObject mediaObject)
+        public async Task<MediaObjectInfo> NewMediaObjectAsync(string blogId, string username, string password, MediaObject mediaObject)
         {
-            this.ValidateUser(username, password);
+            ValidateUser(username);
 
             if (mediaObject is null)
             {
                 throw new ArgumentNullException(nameof(mediaObject));
             }
 
-            var bytes = Convert.FromBase64String(mediaObject.bits);
-            var path = await this.blog.SaveFile(bytes, mediaObject.name).ConfigureAwait(false);
+            byte[] bytes = Convert.FromBase64String(mediaObject.bits);
+            string path = await _blog.SaveFile(bytes, mediaObject.name).ConfigureAwait(false);
 
             return new MediaObjectInfo { url = path };
         }
 
         private Post ToMetaWebLogPost(Models.Post post)
         {
-            var request = this.context.HttpContext.Request;
+            HttpRequest request = _context.HttpContext.Request;
             var url = $"{request.Scheme}://{request.Host}";
 
             return new Post
@@ -235,12 +235,12 @@ namespace web.professionaltranslator.net.Services
             };
         }
 
-        private void ValidateUser(string username, string password)
+        private void ValidateUser(string username)
         {
             var identity = new ClaimsIdentity(CookieAuthenticationDefaults.AuthenticationScheme);
             identity.AddClaim(new Claim(ClaimTypes.Name, username));
 
-            this.context.HttpContext.User = new ClaimsPrincipal(identity);
+            _context.HttpContext.User = new ClaimsPrincipal(identity);
         }
     }
 }

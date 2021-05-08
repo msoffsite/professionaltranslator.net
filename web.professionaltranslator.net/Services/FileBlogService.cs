@@ -17,20 +17,16 @@ namespace web.professionaltranslator.net.Services
 {
     public class FileBlogService : IBlogService
     {
-        private const string FILES = "files";
+        private const string Files = "files";
 
-        private const string POSTS = "Posts";
+        private const string Posts = "Posts";
 
-        private readonly List<Post> cache = new List<Post>();
+        private readonly List<Post> _cache = new List<Post>();
 
-        private readonly IHttpContextAccessor contextAccessor;
+        private readonly IHttpContextAccessor _contextAccessor;
 
-        private readonly string folder;
+        private readonly string _folder;
 
-        [SuppressMessage(
-                "Usage",
-                "SecurityIntelliSenseCS:MS Security rules violation",
-                Justification = "Path not derived from user input.")]
         public FileBlogService(IWebHostEnvironment env, IHttpContextAccessor contextAccessor)
         {
             if (env is null)
@@ -38,10 +34,10 @@ namespace web.professionaltranslator.net.Services
                 throw new ArgumentNullException(nameof(env));
             }
 
-            this.folder = Path.Combine(env.WebRootPath, POSTS);
-            this.contextAccessor = contextAccessor;
+            _folder = Path.Combine(env.WebRootPath, Posts);
+            _contextAccessor = contextAccessor;
 
-            this.Initialize();
+            Initialize();
         }
 
         public Task DeletePost(Post post)
@@ -51,30 +47,26 @@ namespace web.professionaltranslator.net.Services
                 throw new ArgumentNullException(nameof(post));
             }
 
-            var filePath = this.GetFilePath(post);
+            string filePath = GetFilePath(post);
 
             if (File.Exists(filePath))
             {
                 File.Delete(filePath);
             }
 
-            if (this.cache.Contains(post))
+            if (_cache.Contains(post))
             {
-                this.cache.Remove(post);
+                _cache.Remove(post);
             }
 
             return Task.CompletedTask;
         }
 
-        [SuppressMessage(
-            "Globalization",
-            "CA1308:Normalize strings to uppercase",
-            Justification = "Consumer preference.")]
         public virtual IAsyncEnumerable<string> GetCategories()
         {
-            var isAdmin = this.IsAdmin();
+            var isAdmin = IsAdmin();
 
-            return this.cache
+            return _cache
                 .Where(p => p.IsPublished || isAdmin)
                 .SelectMany(post => post.Categories)
                 .Select(cat => cat.ToLowerInvariant())
@@ -84,8 +76,8 @@ namespace web.professionaltranslator.net.Services
 
         public virtual Task<Post?> GetPostById(string id)
         {
-            var isAdmin = this.IsAdmin();
-            var post = this.cache.FirstOrDefault(p => p.ID.Equals(id, StringComparison.OrdinalIgnoreCase));
+            bool isAdmin = IsAdmin();
+            Post post = _cache.FirstOrDefault(p => p.ID.Equals(id, StringComparison.OrdinalIgnoreCase));
 
             return Task.FromResult(
                 post is null || post.PubDate > DateTime.UtcNow || (!post.IsPublished && !isAdmin)
@@ -95,8 +87,8 @@ namespace web.professionaltranslator.net.Services
 
         public virtual Task<Post?> GetPostBySlug(string slug)
         {
-            var isAdmin = this.IsAdmin();
-            var post = this.cache.FirstOrDefault(p => p.Slug.Equals(slug, StringComparison.OrdinalIgnoreCase));
+            bool isAdmin = IsAdmin();
+            Post post = _cache.FirstOrDefault(p => p.Slug.Equals(slug, StringComparison.OrdinalIgnoreCase));
 
             return Task.FromResult(
                 post is null || post.PubDate > DateTime.UtcNow || (!post.IsPublished && !isAdmin)
@@ -107,9 +99,9 @@ namespace web.professionaltranslator.net.Services
         /// <remarks>Overload for getPosts method to retrieve all posts.</remarks>
         public virtual IAsyncEnumerable<Post> GetPosts()
         {
-            var isAdmin = this.IsAdmin();
+            bool isAdmin = IsAdmin();
 
-            var posts = this.cache
+            IAsyncEnumerable<Post> posts = _cache
                 .Where(p => p.PubDate <= DateTime.UtcNow && (p.IsPublished || isAdmin))
                 .ToAsyncEnumerable();
 
@@ -118,9 +110,9 @@ namespace web.professionaltranslator.net.Services
 
         public virtual IAsyncEnumerable<Post> GetPosts(int count, int skip = 0)
         {
-            var isAdmin = this.IsAdmin();
+            bool isAdmin = IsAdmin();
 
-            var posts = this.cache
+            IAsyncEnumerable<Post> posts = _cache
                 .Where(p => p.PubDate <= DateTime.UtcNow && (p.IsPublished || isAdmin))
                 .Skip(skip)
                 .Take(count)
@@ -131,9 +123,9 @@ namespace web.professionaltranslator.net.Services
 
         public virtual IAsyncEnumerable<Post> GetPostsByCategory(string category)
         {
-            var isAdmin = this.IsAdmin();
+            bool isAdmin = IsAdmin();
 
-            var posts = from p in this.cache
+            IEnumerable<Post> posts = from p in _cache
                         where p.PubDate <= DateTime.UtcNow && (p.IsPublished || isAdmin)
                         where p.Categories.Contains(category, StringComparer.OrdinalIgnoreCase)
                         select p;
@@ -141,10 +133,6 @@ namespace web.professionaltranslator.net.Services
             return posts.ToAsyncEnumerable();
         }
 
-        [SuppressMessage(
-            "Usage",
-            "SecurityIntelliSenseCS:MS Security rules violation",
-            Justification = "Caller must review file name.")]
         public async Task<string> SaveFile(byte[] bytes, string fileName, string? suffix = null)
         {
             if (bytes is null)
@@ -154,21 +142,19 @@ namespace web.professionaltranslator.net.Services
 
             suffix = CleanFromInvalidChars(suffix ?? DateTime.UtcNow.Ticks.ToString(CultureInfo.InvariantCulture));
 
-            var ext = Path.GetExtension(fileName);
-            var name = CleanFromInvalidChars(Path.GetFileNameWithoutExtension(fileName));
+            string? ext = Path.GetExtension(fileName);
+            string name = CleanFromInvalidChars(Path.GetFileNameWithoutExtension(fileName));
 
             var fileNameWithSuffix = $"{name}_{suffix}{ext}";
 
-            var absolute = Path.Combine(this.folder, FILES, fileNameWithSuffix);
-            var dir = Path.GetDirectoryName(absolute);
+            string absolute = Path.Combine(_folder, Files, fileNameWithSuffix);
+            string? dir = Path.GetDirectoryName(absolute);
 
             Directory.CreateDirectory(dir);
-            using (var writer = new FileStream(absolute, FileMode.CreateNew))
-            {
-                await writer.WriteAsync(bytes, 0, bytes.Length).ConfigureAwait(false);
-            }
+            await using var writer = new FileStream(absolute, FileMode.CreateNew);
+            await writer.WriteAsync(bytes, 0, bytes.Length).ConfigureAwait(false);
 
-            return $"/{POSTS}/{FILES}/{fileNameWithSuffix}";
+            return $"/{Posts}/{Files}/{fileNameWithSuffix}";
         }
 
         public async Task SavePost(Post post)
@@ -178,7 +164,7 @@ namespace web.professionaltranslator.net.Services
                 throw new ArgumentNullException(nameof(post));
             }
 
-            var filePath = this.GetFilePath(post);
+            string filePath = GetFilePath(post);
             post.LastModified = DateTime.UtcNow;
 
             var doc = new XDocument(
@@ -194,13 +180,13 @@ namespace web.professionaltranslator.net.Services
                                 new XElement("comments", string.Empty)
                             ));
 
-            var categories = doc.XPathSelectElement("post/categories");
+            XElement categories = doc.XPathSelectElement("post/categories");
             foreach (var category in post.Categories)
             {
                 categories.Add(new XElement("category", category));
             }
 
-            var comments = doc.XPathSelectElement("post/comments");
+            XElement comments = doc.XPathSelectElement("post/comments");
             foreach (var comment in post.Comments)
             {
                 comments.Add(
@@ -214,28 +200,28 @@ namespace web.professionaltranslator.net.Services
                     ));
             }
 
-            using (var fs = new FileStream(filePath, FileMode.Create, FileAccess.ReadWrite))
+            await using (var fs = new FileStream(filePath, FileMode.Create, FileAccess.ReadWrite))
             {
                 await doc.SaveAsync(fs, SaveOptions.None, CancellationToken.None).ConfigureAwait(false);
             }
 
-            if (!this.cache.Contains(post))
+            if (!_cache.Contains(post))
             {
-                this.cache.Add(post);
-                this.SortCache();
+                _cache.Add(post);
+                SortCache();
             }
         }
 
-        protected bool IsAdmin() => this.contextAccessor.HttpContext?.User?.Identity.IsAuthenticated == true;
+        protected bool IsAdmin() => _contextAccessor.HttpContext?.User?.Identity.IsAuthenticated == true;
 
-        protected void SortCache() => this.cache.Sort((p1, p2) => p2.PubDate.CompareTo(p1.PubDate));
+        protected void SortCache() => _cache.Sort((p1, p2) => p2.PubDate.CompareTo(p1.PubDate));
 
         private static string CleanFromInvalidChars(string input)
         {
             // ToDo: what we are doing here if we switch the blog from windows to unix system or
             // vice versa? we should remove all invalid chars for both systems
 
-            var regexSearch = Regex.Escape(new string(Path.GetInvalidFileNameChars()) + new string(Path.GetInvalidPathChars()));
+            string regexSearch = Regex.Escape(new string(Path.GetInvalidFileNameChars()) + new string(Path.GetInvalidPathChars()));
             var r = new Regex($"[{regexSearch}]");
             return r.Replace(input, string.Empty);
         }
@@ -263,7 +249,7 @@ namespace web.professionaltranslator.net.Services
 
         private static void LoadComments(Post post, XElement doc)
         {
-            var comments = doc.Element("comments");
+            XElement comments = doc.Element("comments");
 
             if (comments is null)
             {
@@ -293,33 +279,25 @@ namespace web.professionaltranslator.net.Services
         private static string ReadValue(XElement doc, XName name, string defaultValue = "") =>
             doc.Element(name) is null ? defaultValue : doc.Element(name)?.Value ?? defaultValue;
 
-        [SuppressMessage(
-            "Usage",
-            "SecurityIntelliSenseCS:MS Security rules violation",
-            Justification = "Path not derived from user input.")]
-        private string GetFilePath(Post post) => Path.Combine(this.folder, $"{post.ID}.xml");
+        private string GetFilePath(Post post) => Path.Combine(_folder, $"{post.ID}.xml");
 
         private void Initialize()
         {
-            this.LoadPosts();
-            this.SortCache();
+            LoadPosts();
+            SortCache();
         }
 
-        [SuppressMessage(
-            "Globalization",
-            "CA1308:Normalize strings to uppercase",
-            Justification = "The slug should be lower case.")]
         private void LoadPosts()
         {
-            if (!Directory.Exists(this.folder))
+            if (!Directory.Exists(_folder))
             {
-                Directory.CreateDirectory(this.folder);
+                Directory.CreateDirectory(_folder);
             }
 
             // Can this be done in parallel to speed it up?
-            foreach (var file in Directory.EnumerateFiles(this.folder, "*.xml", SearchOption.TopDirectoryOnly))
+            foreach (string file in Directory.EnumerateFiles(_folder, "*.xml", SearchOption.TopDirectoryOnly))
             {
-                var doc = XElement.Load(file);
+                XElement doc = XElement.Load(file);
 
                 var post = new Post
                 {
@@ -341,7 +319,7 @@ namespace web.professionaltranslator.net.Services
 
                 LoadCategories(post, doc);
                 LoadComments(post, doc);
-                this.cache.Add(post);
+                _cache.Add(post);
             }
         }
     }
