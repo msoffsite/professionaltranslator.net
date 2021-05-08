@@ -6,7 +6,7 @@ namespace Repository.ProfessionalTranslator.Net.Conversions
     {
         public static bool? Bool(object value)
         {
-            Boolean? convertedValue = null;
+            bool? convertedValue = null;
             try
             {
                 if ((value != DBNull.Value) &&
@@ -28,15 +28,7 @@ namespace Repository.ProfessionalTranslator.Net.Conversions
             DateTime? convertedValue;
             try
             {
-                if ((value == DBNull.Value) &&
-                    (value != null))
-                {
-                    convertedValue = System.DateTime.MinValue;
-                }
-                else
-                {
-                    convertedValue = Implicit.DateTime(value);
-                }
+                convertedValue = value == DBNull.Value ? System.DateTime.MinValue : Implicit.DateTime(value);
 
                 if (convertedValue == System.DateTime.MinValue)
                 {
@@ -59,8 +51,7 @@ namespace Repository.ProfessionalTranslator.Net.Conversions
                 if ((value != DBNull.Value) &&
                     (value != null))
                 {
-                    decimal tryValue;
-                    if (decimal.TryParse(value.ToString(), out tryValue))
+                    if (decimal.TryParse(value.ToString(), out decimal tryValue))
                     {
                         convertedValue = tryValue;
                     }
@@ -74,7 +65,7 @@ namespace Repository.ProfessionalTranslator.Net.Conversions
             return convertedValue;
         }
 
-        public static Double? Double(object value)
+        public static double? Double(object value)
         {
             double? convertedValue = null;
             try
@@ -82,8 +73,7 @@ namespace Repository.ProfessionalTranslator.Net.Conversions
                 if ((value != DBNull.Value) &&
                     (value != null))
                 {
-                    double tryValue;
-                    if (double.TryParse(value.ToString(), out tryValue))
+                    if (double.TryParse(value.ToString(), out double tryValue))
                     {
                         convertedValue = tryValue;
                     }
@@ -105,8 +95,7 @@ namespace Repository.ProfessionalTranslator.Net.Conversions
                 if ((value != DBNull.Value) &&
                     (value != null))
                 {
-                    float tryValue;
-                    if (float.TryParse(value.ToString(), out tryValue))
+                    if (float.TryParse(value.ToString(), out float tryValue))
                     {
                         convertedValue = tryValue;
                     }
@@ -151,8 +140,7 @@ namespace Repository.ProfessionalTranslator.Net.Conversions
                 if ((value != DBNull.Value) &&
                     (value != null))
                 {
-                    int tryValue;
-                    if (int.TryParse(value.ToString(), out tryValue))
+                    if (int.TryParse(value.ToString(), out int tryValue))
                     {
                         convertedValue = tryValue;
                     }
@@ -174,8 +162,7 @@ namespace Repository.ProfessionalTranslator.Net.Conversions
                 if ((value != DBNull.Value) &&
                     (value != null))
                 {
-                    long tryValue;
-                    if (long.TryParse(value.ToString(), out tryValue))
+                    if (long.TryParse(value.ToString(), out long tryValue))
                     {
                         convertedValue = tryValue;
                     }
