@@ -25,10 +25,6 @@ namespace web.professionaltranslator.net
         public static readonly string TotalPostCount = "TotalPostCount";
         public static readonly string ViewOption = "ViewOption";
 
-        [SuppressMessage(
-            "Design",
-            "CA1034:Nested types should not be visible",
-            Justification = "Constant classes are nested for easy intellisense.")]
         public static class Config
         {
             public static class Blog

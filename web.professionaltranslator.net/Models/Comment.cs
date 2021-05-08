@@ -29,11 +29,6 @@ namespace web.professionaltranslator.net.Models
         [Required]
         public DateTime PubDate { get; set; } = DateTime.UtcNow;
 
-        [SuppressMessage(
-            "Security",
-            "CA5351:Do Not Use Broken Cryptographic Algorithms",
-            Justification = "We aren't using it for encryption so we don't care.")]
-        [SuppressMessage("Globalization", "CA1308:Normalize strings to uppercase", Justification = "It is an email address.")]
         public string GetGravatar()
         {
             using var md5 = MD5.Create();
