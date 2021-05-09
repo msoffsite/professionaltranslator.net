@@ -48,7 +48,7 @@ namespace web.professionaltranslator.net
             services.AddRazorPages();
 
             services.AddSingleton<IBlogService, FileBlogService>();
-            services.Configure<BlogSettings>(Configuration.GetSection("blog"));
+            services.Configure<BlogSettings>(Configuration.GetSection("Blog"));
             services.TryAddSingleton<IHttpContextAccessor, HttpContextAccessor>();
             services.AddMetaWeblog<MetaWeblogService>();
             //.AddRazorPagesOptions(options =>

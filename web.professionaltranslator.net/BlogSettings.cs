@@ -8,7 +8,7 @@
 
         public PostListView ListView { get; set; } = PostListView.TitlesAndExcerpts;
 
-        public string Owner { get; set; } = "The Owner";
+        public string Owner { get; set; } = "Cinta Garcia de la Rosa";
 
         public int PostsPerPage { get; set; } = 4;
     }
