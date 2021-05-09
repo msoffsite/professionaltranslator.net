@@ -196,7 +196,7 @@ namespace web.professionaltranslator.net.Services
                         new XElement("date", FormatDateTime(comment.PubDate)),
                         new XElement("content", comment.Content),
                         new XAttribute("isAdmin", comment.IsAdmin),
-                        new XAttribute("id", comment.ID)
+                        new XAttribute("id", comment.Id)
                     ));
             }
 
@@ -260,7 +260,7 @@ namespace web.professionaltranslator.net.Services
             {
                 var comment = new Comment
                 {
-                    ID = ReadAttribute(node, "id"),
+                    Id = ReadAttribute(node, "id"),
                     Author = ReadValue(node, "author"),
                     Email = ReadValue(node, "email"),
                     IsAdmin = bool.Parse(ReadAttribute(node, "isAdmin", "false")),

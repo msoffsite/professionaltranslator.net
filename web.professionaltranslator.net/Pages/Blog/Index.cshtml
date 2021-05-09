@@ -1,0 +1,147 @@
+﻿@page "{slug?}"
+@using Microsoft.Extensions.Options
+@using web.professionaltranslator.net.Models
+@model web.professionaltranslator.net.Pages.Blog.IndexModel
+@inject IOptionsSnapshot<BlogSettings> Settings
+@{
+    ViewData[BlogConstants.Title] = Model.Data.Title;
+    ViewData[BlogConstants.Description] = Model.Data.Excerpt;
+    var host = $"{HttpContext.Request.Scheme}://{HttpContext.Request.Host}";
+    bool isCodePreview = Model.Data.Content.Contains("</code>");
+    string headerText = Model.Item.Header.Trim();
+    Layout = "~/Pages/Shared/_BlogLayout.cshtml";
+}
+@section Styles {
+    <link rel="canonical" href="@(host + Model.Data.GetLink())" />
+    @if (Model.ShowComments)
+    {
+        <link rel="preload" href="~/css/blog/comments.css" as="style" asp-append-version="true"/>
+        <noscript><link rel="stylesheet" href="~/css/blog/comments.css" asp-append-version="true"/></noscript>
+    }
+}
+<div class="row">
+    <div class="col-12">
+        <h3 class="h3-responsive page-header stay-visible mb-5">
+            <sup><i class="fas fa-quote-left"></i></sup>@Html.Raw(headerText)<sup><i class="fas fa-quote-right"></i></sup>
+        </h3>
+    </div>
+</div>
+<div class="row">
+    <div class="col-12 text-justify">
+        <article class="post entry container" itemscope itemtype="http://schema.org/BlogPosting" itemprop="blogPost">
+            <header>
+                <h1 itemprop="name headline" class="h1-responsive"><a href="@Model.Data.GetLink()" rel="canonical" itemprop="url">@Model.Data.Title</a></h1>
+                @if (Model.UserAuthenticated)
+                {
+                    @*<a asp-controller="Blog" asp-action="edit" asp-route-id="@Model.ID" title="Edit the post">Edit post</a>*@
+                }
+            </header>
+
+            <div itemprop="articleBody mainEntityOfPage" cdnify>
+                @Html.Raw(Model.Data.RenderContent())
+            </div>
+
+            <footer class="text-right">
+                @if (Model.HasCategories)
+                {
+                    <ul class="categories">
+                        <li> <time datetime="@Model.Data.PubDate.ToString("s")" itemprop="datePublished">Published @Model.Data.PubDate.ToString("MMM d, yyyy")</time> in </li>
+                        @foreach (string cat in Model.Data.Categories)
+                        {
+                            <li itemprop="articleSection"><a asp-controller="Blog" asp-action="Category" asp-route-category="@cat.ToLowerInvariant()" asp-route-page="">@cat</a></li>
+                        }
+                    </ul>
+                }
+
+                <meta itemprop="author" content="@Settings.Value.Owner" />
+                <meta itemprop="dateModified" content="@Model.Data.LastModified.ToString("s")" />
+                <meta itemprop="mainEntityOfPage" content="@(host + Model.Data.GetLink())" />
+            </footer>
+        </article>
+        @if (Model.ShowComments)
+        {
+            <section id="comments">
+                <div class="container">
+                    <h2>Comments</h2>
+                    @foreach (Comment comment in Model.Data.Comments)
+                    {
+                        <article id="@comment.Id" class="@(comment.IsAdmin ? "admin" : null)" itemprop="comment" itemscope itemtype="http://schema.org/Comment">
+                            <h3>
+                                <time datetime="@comment.PubDate.ToString("s")" itemprop="datePublished">
+                                    <a href="#@comment.Id" title="Permalink (#@comment.Id)">@comment.PubDate.ToString("MMMM d, yyyy")</a>
+                                </time>
+                            </h3>
+
+                            <figure class="gravatar">
+                                <img alt="@comment.Author" src="data:image/gif;base64,R0lGODlhAQABAIAAAP///wAAACH5BAEAAAAALAAAAAABAAEAAAICRAEAOw==" data-src="@comment.GetGravatar()" />
+                            </figure>
+
+                            <div class="content">
+                                <p itemprop="text">@comment.RenderContent()</p>
+                                <span itemprop="name">@comment.Author</span>
+
+                                @if (Model.UserAuthenticated)
+                                {
+                                    <a class="noline" href="mailto:@comment.Email" title="Send email to @comment.Email">&#x2709;</a>
+                                    @*<a class="delete noline" asp-controller="Blog" asp-Action="DeleteComment" asp-route-postid="@Model.ID" asp-route-commentid="@comment.ID" asp-route-afrt="@ViewData["afrt"]" title="Delete the comment...">Delete...</a>*@
+                                }
+                            </div>
+                        </article>
+                    }
+
+                    @if (!Model.CommentsAreOpen)
+                    {
+                        if (Model.BeFirstToComment)
+                        {
+                            <p>Be the first to post a comment</p>
+                        }
+
+                        <form method="post" asp-antiforgery="false">
+                            <h3>Post a comment</h3>
+                            <br />
+
+                            <label for="content">Comment</label>
+                            <textarea id="content" name="content" rows="5" cols="100" onfocus="" required placeholder="Enter your comment here..."></textarea>
+
+                            <div class="details">
+                                <label for="author">Name</label>
+                                <input id="author" name="author" placeholder="Your name" required />
+
+                                <label for="email">E-mail</label>
+                                <input id="email" name="email" placeholder="Example: mary@outlook.com" required />
+                                <br />
+
+                                <input type="submit" value="Post comment" />
+
+                                <!-- This element is being removed by site.js. It is to prevent comment spam-->
+                                <input type="hidden" name="website" />
+                            </div>
+                        </form>
+
+                        <noscript>
+                            <br />
+                            <p>Enable JavaScript to post comments on this blog.</p>
+                        </noscript>
+                    }
+                    else
+                    {
+                        <br />
+                        <p>Comments are closed</p>
+                    }
+                </div>
+            </section>
+        }
+    </div>
+</div>
+@section BlogScripts
+{
+    <script>
+        $(document).ready(function() {
+            $("p").each(function() {
+                if ($(this).has("img").length > 0) {
+                    $(this).addClass("d-flex justify-content-center");
+                }
+            });
+        });
+    </script>
+}

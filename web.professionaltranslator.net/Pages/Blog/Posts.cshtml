@@ -1,0 +1,96 @@
+﻿@page "{currentpage?}"
+@using Microsoft.Extensions.Options
+@model web.professionaltranslator.net.Pages.Blog.PostsModel
+@inject IOptionsSnapshot<BlogSettings> Settings
+@{
+    ViewData["Title"] = Model.Item.Title;
+    string body = Model.Item.Body.Trim().Replace("<p>", string.Empty).Replace("</p>", string.Empty);
+    string headerText = Model.Item.Header.Trim();
+
+    int pageCount = int.TryParse(ViewData[BlogConstants.TotalPostCount].ToString(), out pageCount) ? 0 : pageCount / 2;
+    var host = $"{HttpContext.Request.Scheme}://{HttpContext.Request.Host}";
+    Layout = "~/Pages/Shared/_BlogLayout.cshtml";
+}
+@*<div class="row mt-5 mb-4">
+    <div class="col-12 text-center page-header">
+        <h1>
+            @Html.Raw(Model.Item.Title)
+        </h1>
+    </div>
+</div>*@
+<div class="row">
+    <div class="col-12 text-column">
+        <h3 class="h3-responsive page-header stay-visible mb-5">
+            <sup><i class="fas fa-quote-left"></i></sup>@Html.Raw(body)<sup><i class="fas fa-quote-right"></i></sup>
+        </h3>
+    </div>
+</div>
+<div class="row">
+    <div class="col-12 text-justify">
+        @foreach (Models.Post dataItem in Model.Data)
+        {
+            <article class="post container" itemscope itemtype="http://schema.org/BlogPosting" itemprop="blogPost">
+                <header>
+                    <h1 itemprop="name headline"><a href="@dataItem.GetLink()" rel="canonical" itemprop="url">@dataItem.Title</a></h1>
+                </header>
+
+                <div itemprop="articleBody mainEntityOfPage" cdnify>
+                    @Html.Raw(dataItem.Excerpt) &ndash; <time datetime="@dataItem.PubDate.ToString("s")" itemprop="datePublished">Published @dataItem.PubDate.ToString("MMM d, yyyy")</time>
+                    @if (User.Identity.IsAuthenticated)
+                    {
+                        <span>&ndash;&nbsp;<a asp-page="/Blog/Edit" title="Edit @dataItem.Title"><i class="fa fa-edit"></i></a></span>
+                    }
+                </div>
+
+                <footer>
+                    @if (User.Identity.IsAuthenticated)
+                    {
+                        @if (dataItem.Categories.Any())
+                        {
+                            <ul class="categories">
+                                <li> Posted in </li>
+                                @foreach (string cat in dataItem.Categories)
+                                {
+                                    <li itemprop="articleSection">@cat</li>
+                                @*<li itemprop="articleSection"><a asp-controller="Blog" asp-action="Category" asp-route-category="@cat.ToLowerInvariant()" asp-route-page="">@cat</a></li>*@
+                                }
+                            </ul>
+                        }
+                        @if (Settings.Value.DisplayComments)
+                        {
+                            <text>and has</text>
+                            <a href="@dataItem.GetLink()#comments" itemprop="discussionUrl" title="Go to the comments section">
+                                <span itemprop="commentCount">@dataItem.Comments.Count</span> @(dataItem.Comments.Count == 1 ? "comment" : "comments")
+                            </a>
+                        }
+                    }
+                    <meta itemprop="author" content="@Settings.Value.Owner"/>
+                    <meta itemprop="dateModified" content="@dataItem.LastModified.ToString("s")"/>
+                    <meta itemprop="mainEntityOfPage" content="@(host + dataItem.GetLink())"/>
+                </footer>
+            </article>
+        }
+        <nav class="pagination container" aria-label="Pagination">
+            @if ((Model.Data.Any()) && Model.CurrentPage < pageCount)
+            {
+                <a rel="prev" href="@ViewData[BlogConstants.Previous]" title="Older posts">&laquo; Older</a>
+            }
+            @if (Model.CurrentPage > 0)
+            {
+                <a rel="next" href="@ViewData[BlogConstants.Next]" title="Newer posts">Newer &raquo;</a>
+            }
+            <br /><br />
+
+            @section Styles {
+                @if ((Model.Data.Any()) && Model.CurrentPage < pageCount)
+                {
+                    <link rel="prev" href="@ViewData[BlogConstants.Previous]" />
+                }
+                @if (Model.CurrentPage > 0)
+                {
+                    <link rel="next" href="@ViewData[BlogConstants.Next]" />
+                }
+            }
+        </nav>
+    </div>
+</div>

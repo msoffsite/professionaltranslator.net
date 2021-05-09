@@ -18,7 +18,7 @@ namespace web.professionaltranslator.net.Models
         public string Email { get; set; } = string.Empty;
 
         [Required]
-        public string ID { get; set; } = Guid.NewGuid().ToString();
+        public string Id { get; set; } = Guid.NewGuid().ToString();
 
         public bool IsAdmin { get; set; } = false;
 
@@ -28,14 +28,14 @@ namespace web.professionaltranslator.net.Models
         public string GetGravatar()
         {
             using var md5 = MD5.Create();
-            var inputBytes = Encoding.UTF8.GetBytes(Email.Trim().ToLowerInvariant());
-            var hashBytes = md5.ComputeHash(inputBytes);
+            byte[] inputBytes = Encoding.UTF8.GetBytes(Email.Trim().ToLowerInvariant());
+            byte[] hashBytes = md5.ComputeHash(inputBytes);
 
             // Convert the byte array to hexadecimal string
             var sb = new StringBuilder();
-            for (var i = 0; i < hashBytes.Length; i++)
+            foreach (byte t in hashBytes)
             {
-                sb.Append(hashBytes[i].ToString("X2", CultureInfo.InvariantCulture));
+                sb.Append(t.ToString("X2", CultureInfo.InvariantCulture));
             }
 
             return $"https://www.gravatar.com/avatar/{sb.ToString().ToLowerInvariant()}?s=60&d=blank";

@@ -1,6 +1,6 @@
 ﻿namespace web.professionaltranslator.net
 {
-    public static class Constants
+    public static class BlogConstants
     {
         public static readonly string AllCategories = "AllCategories";
         public static readonly string Categories = "Categories";

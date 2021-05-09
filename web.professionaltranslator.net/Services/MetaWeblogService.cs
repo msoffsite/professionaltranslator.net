@@ -196,7 +196,7 @@ namespace web.professionaltranslator.net.Services
                     new BlogInfo
                     {
                         blogid ="1",
-                        blogName = _config[Constants.Config.Blog.Name] ?? nameof(MetaWeblogService),
+                        blogName = _config[BlogConstants.Config.Blog.Name] ?? nameof(MetaWeblogService),
                         url = url
                     }
                 });
