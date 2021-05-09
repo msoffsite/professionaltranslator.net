@@ -2,18 +2,18 @@
 {
     public static class Constants
     {
-        public static readonly string AllCats = "AllCats";
-        public static readonly string categories = "categories";
+        public static readonly string AllCategories = "AllCategories";
+        public static readonly string Categories = "Categories";
         public static readonly string Dash = "-";
         public static readonly string Description = "Description";
         public static readonly string Head = "Head";
-        public static readonly string next = "next";
-        public static readonly string page = "page";
+        public static readonly string Next = "Next";
+        public static readonly string Page = "Page";
         public static readonly string Preload = "Preload";
-        public static readonly string prev = "prev";
+        public static readonly string Previous = "Previous";
         public static readonly string ReturnUrl = "ReturnUrl";
         public static readonly string Scripts = "Scripts";
-        public static readonly string slug = "slug";
+        public static readonly string Slug = "Slug";
         public static readonly string Space = " ";
         public static readonly string Title = "Title";
         public static readonly string TotalPostCount = "TotalPostCount";
