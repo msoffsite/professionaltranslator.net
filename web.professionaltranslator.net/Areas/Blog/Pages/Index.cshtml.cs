@@ -6,10 +6,10 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.Extensions.Options;
 using Repository.ProfessionalTranslator.Net;
-using web.professionaltranslator.net.Services;
-using DataModel = web.professionaltranslator.net.Models.Post;
+using web.professionaltranslator.net.Areas.Blog.Services;
+using DataModel = web.professionaltranslator.net.Areas.Blog.Models.Post;
 
-namespace web.professionaltranslator.net.Pages.Blog
+namespace web.professionaltranslator.net.Areas.Blog.Pages
 {
     public class IndexModel : Base
     {

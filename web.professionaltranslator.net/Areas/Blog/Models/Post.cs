@@ -6,7 +6,7 @@ using System.Net;
 using System.Text;
 using System.Text.RegularExpressions;
 
-namespace web.professionaltranslator.net.Models
+namespace web.professionaltranslator.net.Areas.Blog.Models
 {
     public class Post
     {
@@ -37,7 +37,7 @@ namespace web.professionaltranslator.net.Models
         public static string CreateSlug(string title)
         {
             title = title?.ToLowerInvariant().Replace(
-                BlogConstants.Space, BlogConstants.Dash, StringComparison.OrdinalIgnoreCase) ?? string.Empty;
+                Constants.Space, Constants.Dash, StringComparison.OrdinalIgnoreCase) ?? string.Empty;
             title = RemoveDiacritics(title);
             title = RemoveReservedUrlCharacters(title);
 

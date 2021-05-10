@@ -8,7 +8,7 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Configuration;
 using WilderMinds.MetaWeblog;
 
-namespace web.professionaltranslator.net.Services
+namespace web.professionaltranslator.net.Areas.Blog.Services
 {
     public class MetaWeblogService : IMetaWeblogProvider
     {
@@ -196,7 +196,7 @@ namespace web.professionaltranslator.net.Services
                     new BlogInfo
                     {
                         blogid ="1",
-                        blogName = _config[BlogConstants.Config.Blog.Name] ?? nameof(MetaWeblogService),
+                        blogName = _config[Constants.Config.Blog.Name] ?? nameof(MetaWeblogService),
                         url = url
                     }
                 });

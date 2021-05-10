@@ -1,15 +1,14 @@
 ﻿@page "{currentpage?}"
 @using Microsoft.Extensions.Options
-@model web.professionaltranslator.net.Pages.Blog.PostsModel
+@model web.professionaltranslator.net.Areas.Blog.Pages.PostsModel
 @inject IOptionsSnapshot<BlogSettings> Settings
 @{
     ViewData["Title"] = Model.Item.Title;
     string body = Model.Item.Body.Trim().Replace("<p>", string.Empty).Replace("</p>", string.Empty);
     string headerText = Model.Item.Header.Trim();
 
-    int pageCount = int.TryParse(ViewData[BlogConstants.TotalPostCount].ToString(), out pageCount) ? 0 : pageCount / 2;
+    int pageCount = int.TryParse(ViewData[Constants.TotalPostCount].ToString(), out pageCount) ? 0 : pageCount / 2;
     var host = $"{HttpContext.Request.Scheme}://{HttpContext.Request.Host}";
-    Layout = "~/Pages/Shared/_BlogLayout.cshtml";
 }
 @*<div class="row mt-5 mb-4">
     <div class="col-12 text-center page-header">
@@ -73,22 +72,22 @@
         <nav class="pagination container" aria-label="Pagination">
             @if ((Model.Data.Any()) && Model.CurrentPage < pageCount)
             {
-                <a rel="prev" href="@ViewData[BlogConstants.Previous]" title="Older posts">&laquo; Older</a>
+                <a rel="prev" href="@ViewData[Constants.Previous]" title="Older posts">&laquo; Older</a>
             }
             @if (Model.CurrentPage > 0)
             {
-                <a rel="next" href="@ViewData[BlogConstants.Next]" title="Newer posts">Newer &raquo;</a>
+                <a rel="next" href="@ViewData[Constants.Next]" title="Newer posts">Newer &raquo;</a>
             }
             <br /><br />
 
             @section Styles {
                 @if ((Model.Data.Any()) && Model.CurrentPage < pageCount)
                 {
-                    <link rel="prev" href="@ViewData[BlogConstants.Previous]" />
+                    <link rel="prev" href="@ViewData[Constants.Previous]" />
                 }
                 @if (Model.CurrentPage > 0)
                 {
-                    <link rel="next" href="@ViewData[BlogConstants.Next]" />
+                    <link rel="next" href="@ViewData[Constants.Next]" />
                 }
             }
         </nav>

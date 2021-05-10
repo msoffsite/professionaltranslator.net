@@ -4,7 +4,7 @@ using System.Globalization;
 using System.Security.Cryptography;
 using System.Text;
 
-namespace web.professionaltranslator.net.Models
+namespace web.professionaltranslator.net.Areas.Blog.Models
 {
     public class Comment
     {

@@ -8,11 +8,11 @@ using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.Extensions.Options;
 using Repository.ProfessionalTranslator.Net;
-using web.professionaltranslator.net.Services;
+using web.professionaltranslator.net.Areas.Blog.Services;
 using WebEssentials.AspNetCore.Pwa;
-using DataModel = web.professionaltranslator.net.Models.Post;
+using DataModel = web.professionaltranslator.net.Areas.Blog.Models.Post;
 
-namespace web.professionaltranslator.net.Pages.Blog
+namespace web.professionaltranslator.net.Areas.Blog.Pages
 {
     public class PostsModel : Base
     {
@@ -38,13 +38,13 @@ namespace web.professionaltranslator.net.Pages.Blog
         {
             Data = await BlogService.GetPosts().Skip(BlogSettings.Value.PostsPerPage * CurrentPage).Take(BlogSettings.Value.PostsPerPage).ToListAsync();
 
-            ViewData[BlogConstants.ViewOption] = BlogSettings.Value.ListView;
+            ViewData[Constants.ViewOption] = BlogSettings.Value.ListView;
 
-            ViewData[BlogConstants.TotalPostCount] = Data.Count();
-            ViewData[BlogConstants.Title] = Manifest.Name;
-            ViewData[BlogConstants.Description] = Manifest.Description;
-            ViewData[BlogConstants.Previous] = $"/{CurrentPage + 1}/";
-            ViewData[BlogConstants.Next] = $"/{(CurrentPage <= 1 ? null : $"{CurrentPage - 1}/")}";
+            ViewData[Constants.TotalPostCount] = Data.Count();
+            ViewData[Constants.Title] = Manifest.Name;
+            ViewData[Constants.Description] = Manifest.Description;
+            ViewData[Constants.Previous] = $"/{CurrentPage + 1}/";
+            ViewData[Constants.Next] = $"/{(CurrentPage <= 1 ? null : $"{CurrentPage - 1}/")}";
 
             Item = await new Base().Get(SiteSettings, Area.Root, "BlogPosts");
             return Item == null ? NotFound() : (IActionResult)Page();

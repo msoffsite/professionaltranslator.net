@@ -10,11 +10,11 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.DependencyInjection.Extensions;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Options;
+using web.professionaltranslator.net.Areas.Blog.Services;
 using web.professionaltranslator.net.Areas.Identity.Data;
-using web.professionaltranslator.net.Services;
 using WebEssentials.AspNetCore.OutputCaching;
 using WilderMinds.MetaWeblog;
-using MetaWeblogService = web.professionaltranslator.net.Services.MetaWeblogService;
+using MetaWeblogService = web.professionaltranslator.net.Areas.Blog.Services.MetaWeblogService;
 
 namespace web.professionaltranslator.net
 {

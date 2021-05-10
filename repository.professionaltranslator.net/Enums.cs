@@ -5,7 +5,8 @@ namespace Repository.ProfessionalTranslator.Net
     public enum Area
     {
         Root = 1,
-        Admin = 2
+        Admin = 2,
+        Blog = 3
     }
 
     public enum Display

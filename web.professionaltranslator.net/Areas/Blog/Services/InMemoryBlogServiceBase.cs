@@ -4,9 +4,10 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
+using web.professionaltranslator.net.Areas.Blog.Models;
 using web.professionaltranslator.net.Models;
 
-namespace web.professionaltranslator.net.Services
+namespace web.professionaltranslator.net.Areas.Blog.Services
 {
     public abstract class InMemoryBlogServiceBase : IBlogService
     {

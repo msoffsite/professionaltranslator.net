@@ -11,9 +11,10 @@ using System.Xml.Linq;
 using System.Xml.XPath;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
+using web.professionaltranslator.net.Areas.Blog.Models;
 using web.professionaltranslator.net.Models;
 
-namespace web.professionaltranslator.net.Services
+namespace web.professionaltranslator.net.Areas.Blog.Services
 {
     public class FileBlogService : IBlogService
     {
