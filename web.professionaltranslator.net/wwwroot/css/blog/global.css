@@ -135,6 +135,29 @@ ul, ol {
     padding-left: 2em
 }
 
+.card-body {
+    border: 0;
+}
+
+.card-body .row.post-index {
+    margin-top: 1rem;
+    margin-bottom: 1rem;
+}
+
+.row.post-index {
+    margin-top: 3rem;
+    margin-bottom: 3rem;
+}
+
+.post.index time {
+    background: #212529;
+    -ms-border-radius: .8rem;
+    border-radius: .8rem;
+    color: #fff;
+    font-size: inherit;
+    padding: .5rem 1rem;
+}
+
 time {
     color: #626262;
     font-size: .85em

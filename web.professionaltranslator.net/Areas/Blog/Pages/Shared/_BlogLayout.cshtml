@@ -5,7 +5,6 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>@ViewData["Title"] - Professional Translator Blog</title>
     <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
-    <link rel="stylesheet" href="~/css/fontawesome.all.min.css" />
     <link rel="stylesheet" href="~/css/global.min.css" asp-append-version="true" />
     <link rel="stylesheet" href="~/css/animate.min.css" asp-append-version="true" />
     <link rel="stylesheet" href="~/css/carousel.min.css" asp-append-version="true" />
@@ -18,16 +17,11 @@
     @await RenderSectionAsync("Styles", false)
     @await RenderSectionAsync(Constants.Preload, required: false)
 </head>
-<body style="background-position: center;">
-    <header>
+<body class="fadeInDownBig animated" style="visibility: visible; animation-name: fadeInDownBig;">
+    @await Component.InvokeAsync("Loading")
+    <header id="top">
         <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-white border-bottom box-shadow mb-3">
             <div class="container">
-
-                @*<button class="navbar-toggler" type="button" data-toggle="collapse" data-target=".navbar-collapse" aria-controls="navbarSupportedContent"
-                aria-expanded="false" aria-label="Toggle navigation">
-            <span class="navbar-toggler-icon"></span>
-        </button>*@
-
                 <div class="d-sm-inline-flex flex-sm-row-reverse">
                     <div class="list-group list-group-flush get-started">
                         <a class="list-group-item menu-link" asp-page="/Contact" title="Get your translation started today.">
@@ -49,43 +43,42 @@
             </div>
         </nav>
     </header>
-<div class="container">
-    <main role="main" class="pb-3">
-        @RenderBody()
-    </main>
-</div>
+    @await RenderSectionAsync("BlogDirectory", required: false)
+    <div class="container mt-5">
+        <main role="main" class="pb-3">
+            @RenderBody()
+        </main>
+    </div>
     @await RenderSectionAsync("Comments", required: false)
-    
+
     <footer class="border-top footer text-muted bg-white">
-        <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-white border-bottom box-shadow mb-3">
-            <div class="container">
-                <a class="navbar-brand" asp-area="Admin" asp-page="/Index">Admin</a>
-                <button class="navbar-toggler" type="button" data-toggle="collapse" data-target=".navbar-collapse" aria-controls="navbarSupportedContent"
-                        aria-expanded="false" aria-label="Toggle navigation">
-                    <span class="navbar-toggler-icon"></span>
-                </button>
-                <div class="navbar-collapse collapse d-sm-inline-flex flex-sm-row-reverse">
-                    <partial name="_LoginPartial" />
-                    <ul class="navbar-nav flex-grow-1">
-                        @*<li class="nav-item">
-                                <a class="nav-link" asp-area="Admin" asp-page="/EditPage">Page</a>
-                            </li>*@
-                        <li class="nav-item">
-                            <a class="nav-link" asp-area="Admin" asp-page="/Portfolio">Portfolio Editor</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link" asp-area="Admin" asp-page="/Testimonial">Testimonial Editor</a>
-                        </li>
-                        @*<li class="nav-item">
-                                <a class="nav-link text-dark" asp-area="" asp-page="/Privacy">Privacy</a>
-                            </li>*@
-                    </ul>
+        <div class="container">
+            <div class="row mt-4">
+                <div class="col-12">
+                    <div class="d-flex flex-row justify-content-between align-items-center">
+                        <a asp-area="" asp-page="/Home" title="Go the home page of professionaltranslator.net.">
+                            <img src="~/img/splash-logo.png" class="img-fluid" title="Cinta Garcia - Professional Translator" alt="Cinta Garcia - Professional Translator" style="max-height: 180px;" />
+                        </a>
+                        <a class="scroll-link" href="#top" title="Go to the top of the page."><i class="fas fa-chevron-up fa-2x"></i></a>
+                    </div>
+                </div>
+                <div class="col-12">
+                    <div class="d-flex flex-row justify-content-between align-items-center">
+                        <img src="~/img/Blog/footer-profile-pic.jpg" alt="Cinta Garcia - Professional Translator" title="Cinta Garcia - Professional Translator" class="img-fluid" style="max-height: 100px; margin-left: 10px;" />
+                        <p style="padding-left: 2rem; text-align: justify;">
+                            My BA is English Studies, and my field of expertise is Literature. Much of my Creative Writing Courses occurred at Oxford University in the UK. I rather miss England. But why wouldn't I?
+                            I'm a huge fan of Jane Austen. Find out more about me and my translation service at <a asp-area="" asp-page="/Home" title="Go the home page of professionaltranslator.net.">here</a>.
+                        </p>
+                    </div>
                 </div>
             </div>
-        </nav>
-        <div class="container text-center mt-1">
-            &copy; @Html.Raw(DateTime.Now.Year) - professionaltranslator.net - administrative area
-            @*<a asp-area="" asp-page="/Privacy">Privacy</a>*@
+            <div class="row">
+                <div class="col-12">
+                    <p class="text-center small">
+                        Copyright &copy; @Html.Raw(DateTime.Now.Year) Cinta Garcia, All Rights Reserved
+                    </p>
+                </div>
+            </div>
         </div>
     </footer>
 

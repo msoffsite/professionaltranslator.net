@@ -33,6 +33,11 @@
     }
 }
 
+a {
+    border: 0 !important;
+    outline: none !important;
+}
+
 a,
 a:visited,
 a.page-link,
