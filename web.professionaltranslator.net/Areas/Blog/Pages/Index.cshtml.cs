@@ -66,7 +66,7 @@ namespace web.professionaltranslator.net.Areas.Blog.Pages
             CommentsAreOpen = Data.AreCommentsOpen(BlogSettings.Value.CommentsCloseAfterDays);
             BeFirstToComment = Data.Comments.Count == 0;
 
-            Item = await new Base().Get(SiteSettings, Area.Root, "BlogEntry");
+            Item = await new Base().Get(SiteSettings, Blog, "BlogEntry");
             return Item == null ? NotFound() : (IActionResult)Page();
         }
     }

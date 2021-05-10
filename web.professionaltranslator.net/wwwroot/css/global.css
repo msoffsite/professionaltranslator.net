@@ -153,11 +153,11 @@ p {
     height: 100%;
 }
 
-@media(max-width: 576px) {
+/*@media(max-width: 576px) {
     .container {
         padding-right: 30px;
     }
-}
+}*/
 
 footer p {
     text-align: left;

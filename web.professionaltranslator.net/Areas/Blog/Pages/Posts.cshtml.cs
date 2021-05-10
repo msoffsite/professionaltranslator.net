@@ -46,7 +46,7 @@ namespace web.professionaltranslator.net.Areas.Blog.Pages
             ViewData[Constants.Previous] = $"/{CurrentPage + 1}/";
             ViewData[Constants.Next] = $"/{(CurrentPage <= 1 ? null : $"{CurrentPage - 1}/")}";
 
-            Item = await new Base().Get(SiteSettings, Area.Root, "BlogPosts");
+            Item = await new Base().Get(SiteSettings, Blog, "BlogPosts");
             return Item == null ? NotFound() : (IActionResult)Page();
         }
     }
