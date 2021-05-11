@@ -1,11 +1,59 @@
-﻿(function (window, document) {
+﻿let blogDirectoryOpen = false;
+let subscribeFormOpen = false;
+
+function toggleBlogDirectoryIcon() {
+    if (blogDirectoryOpen) {
+        $("#blog_directory_icon").removeClass("fa-folder");
+        $("#blog_directory_icon").addClass("fa-folder-open");
+    } else {
+        $("#blog_directory_icon").removeClass("fa-folder-open");
+        $("#blog_directory_icon").addClass("fa-folder");
+    }
+};
+
+function toggleSubscribeIcon() {
+    if (subscribeFormOpen) {
+        $("#subscribe_link_icon").removeClass("fa-bell");
+        $("#subscribe_link_icon").addClass("fa-bell-slash");
+    } else {
+        $("#subscribe_link_icon").removeClass("fa-bell-slash");
+        $("#subscribe_link_icon").addClass("fa-bell");
+    }
+};
+
+$(document).ready(function () {
+
+    $("#blog_directory").on("click",
+        function () {
+            if (subscribeFormOpen) {
+                $("#subscribe_form_container").removeClass("show");
+                subscribeFormOpen = false;
+                toggleSubscribeIcon();
+            }
+            blogDirectoryOpen = blogDirectoryOpen ? false : true;
+            toggleBlogDirectoryIcon();
+        });
+
+    $("#subscribe_link").on("click",
+        function () {
+            if (blogDirectoryOpen) {
+                $("#blog_directory_container").removeClass("show");
+                blogDirectoryOpen = false;
+                toggleBlogDirectoryIcon();
+            }
+            subscribeFormOpen = subscribeFormOpen ? false : true;
+            toggleSubscribeIcon();
+        });
+});
+
+(function (window, document) {
 
     // Lazy load stylesheets
     requestAnimationFrame(function () {
-        var stylesheets = document.querySelectorAll("link[as=style]");
+        const stylesheets = document.querySelectorAll("link[as=style]");
 
-        for (var i = 0; i < stylesheets.length; i++) {
-            var link = stylesheets[i];
+        for (let i = 0; i < stylesheets.length; i++) {
+            const link = stylesheets[i];
             link.setAttribute("rel", "stylesheet");
             link.removeAttribute("as");
         }
@@ -13,28 +61,28 @@
 
     // Show comment form. It's invisible by default in case visitor
     // has disabled javascript
-    var commentForm = document.querySelector("#comments form");
+    const commentForm = document.querySelector("#comments form");
     if (commentForm) {
         commentForm.classList.add("js-enabled");
 
         commentForm.addEventListener("submit", function (e) {
             this.querySelector("input[type=submit]").value = "Posting comment...";
-            var elements = this.elements;
-            for (var i = 0; i < elements.length; ++i) {
+            const elements = this.elements;
+            for (let i = 0; i < elements.length; ++i) {
                 elements[i].readOnly = true;
             }
         });
     }
 
     // Expand comment form
-    var content = document.querySelector("#comments textarea");
+    const content = document.querySelector("#comments textarea");
     if (content) {
         content.addEventListener("focus", function () {
             document.querySelector(".details").className += " show";
 
             // Removes the hidden website form field to fight spam
             setTimeout(function () {
-                var honeypot = document.querySelector("input[name=website]");
+                const honeypot = document.querySelector("input[name=website]");
                 honeypot.parentNode.removeChild(honeypot);
             }, 2000);
         }, false);
@@ -44,16 +92,16 @@
     var comments = document.querySelectorAll("#comments .content [itemprop=text]");
 
     requestAnimationFrame(function () {
-        for (var i = 0; i < comments.length; i++) {
-            var comment = comments[i];
+        for (let i = 0; i < comments.length; i++) {
+            const comment = comments[i];
             comment.innerHTML = urlify(comment.textContent) || "";
         }
     });
 
     function urlify(text) {
         return text && text.replace(/(((https?:\/\/)|(www\.))[^\s]+)/g, function (url, b, c) {
-            var url2 = c === 'www.' ? 'http://' + url : url;
-            return '<a href="' + url2 + '" rel="nofollow noreferrer">' + url + '</a>';
+            const url2 = c === "www." ? `http://${url}` : url;
+            return `<a href="${url2}" rel="nofollow noreferrer">${url}</a>`;
         });
     }
 
@@ -84,9 +132,9 @@
                 var changed = false;
 
                 requestAnimationFrame(function () {
-                    for (var i = 0; i < images.length; i++) {
-                        var img = images[i];
-                        var rect = img.getBoundingClientRect();
+                    for (let i = 0; i < images.length; i++) {
+                        const img = images[i];
+                        const rect = img.getBoundingClientRect();
 
                         if (!(rect.bottom < 0 || rect.top - 100 - viewHeight >= 0)) {
                             img.onload = function (e) {
@@ -113,7 +161,7 @@
             images = Array.prototype.filter.call(
                 images,
                 function (img) {
-                    return img.hasAttribute('data-src');
+                    return img.hasAttribute("data-src");
                 }
             );
 

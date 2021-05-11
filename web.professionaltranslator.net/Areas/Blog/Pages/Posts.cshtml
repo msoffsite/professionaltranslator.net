@@ -23,12 +23,9 @@
             <div class="row post-index">
                 <div class="col-12 text-justify">
                     <article class="post index container" itemscope itemtype="http://schema.org/BlogPosting" itemprop="blogPost">
-                        <div class="d-flex justify-content-between align-items-center">
-                            <header>
-                                <h1 itemprop="name headline"><a href="@dataItem.GetLink()" rel="canonical" itemprop="url">@dataItem.Title</a></h1>
-                            </header>
-                            <time datetime="@dataItem.PubDate.ToString("s")" itemprop="datePublished">Published @dataItem.PubDate.ToString("MMM d, yyyy")</time>
-                        </div>
+                        <header>
+                            <h1 itemprop="name headline" class="h1-responsive"><a href="@dataItem.GetLink()" rel="canonical" itemprop="url">@dataItem.Title</a></h1>
+                        </header>
                         <div itemprop="articleBody mainEntityOfPage" cdnify>
                             @Html.Raw(dataItem.Excerpt) 
                             @if (User.Identity.IsAuthenticated)
@@ -38,6 +35,7 @@
                         </div>
 
                         <footer>
+                            <time datetime="@dataItem.PubDate.ToString("s")" itemprop="datePublished">@dataItem.PubDate.ToShortDateString()</time>
                             @if (dataItem.Categories.Any())
                             {
                                 <ul class="categories float-right">
@@ -48,9 +46,9 @@
                                     }
                                 </ul>
                             }
-                            <meta itemprop="author" content="@Settings.Value.Owner"/>
-                            <meta itemprop="dateModified" content="@dataItem.LastModified.ToString("s")"/>
-                            <meta itemprop="mainEntityOfPage" content="@(host + dataItem.GetLink())"/>
+                            <meta itemprop="author" content="@Settings.Value.Owner" />
+                            <meta itemprop="dateModified" content="@dataItem.LastModified.ToString("s")" />
+                            <meta itemprop="mainEntityOfPage" content="@(host + dataItem.GetLink())" />
                         </footer>
                     </article>
                 </div>

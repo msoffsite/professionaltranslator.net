@@ -645,8 +645,8 @@ sup.testimonial-sup:last-child {
         margin-top: 30px;
         margin-bottom: 30px;
         box-shadow: 0 5px 15px rgba(0,0,0,0.20);
-        max-width: 400px;
-        min-width: 400px;
+        max-width: 300px;
+        min-width: 300px;
     }
 
         .btn-purple span {
@@ -665,8 +665,8 @@ sup.testimonial-sup:last-child {
             background: #642e84;
             -webkit-transition: all .5s ease-in-out;
             transition: all .5s ease-in-out;
-            -webkit-transform: translateX(-90%) translateY(-25%) rotate(45deg);
-            transform: translateX(-90%) translateY(-25%) rotate(45deg);
+            -webkit-transform: translateX(-98%) translateY(-25%) rotate(45deg);
+            transform: translateX(-98%) translateY(-25%) rotate(45deg);
         }
 
         .btn-purple:hover:after {

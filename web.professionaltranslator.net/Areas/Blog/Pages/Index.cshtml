@@ -14,35 +14,42 @@
 }
 @section Styles {
     <link rel="canonical" href="@(host + Model.Data.GetLink())" />
+    <link rel="stylesheet" type="text/css" href="~/css/material-design-iconic-font.min.css" />
+    <link rel="stylesheet" href="~/css/contact.min.css" asp-append-version="true" />
     @if (Model.ShowComments)
     {
-        <link rel="preload" href="~/css/blog/comments.css" as="style" asp-append-version="true"/>
-        <noscript><link rel="stylesheet" href="~/css/blog/comments.css" asp-append-version="true"/></noscript>
+        <link rel="preload" href="~/css/blog/comments.css" as="style" asp-append-version="true" />
+        <noscript><link rel="stylesheet" href="~/css/blog/comments.css" asp-append-version="true" /></noscript>
     }
 }
 @section BlogDirectory
 {
     <div class="container">
         <div class="row">
-            <div class="col-12">
-                <a id="blog_directory" data-toggle="collapse" href="#multiCollapseExample1" role="button" aria-expanded="false" aria-controls="multiCollapseExample1">
-                    <i class="fas fa-folder"></i>&nbsp;Blog Directory
+            <div class="col-6">
+                <a id="blog_directory" data-toggle="collapse" href="#blog_directory_container" role="button" aria-expanded="false" aria-controls="blog_directory_container">
+                    <i id="blog_directory_icon" class="fas fa-folder"></i>&nbsp;Blog Directory
                 </a>
-                <div class="collapse mt-3 fadeInRightBig animated" id="multiCollapseExample1" style="visibility: visible; animation-name: fadeInRightBig;">
+            </div>
+            <div class="col-6 text-right">
+                <a id="subscribe_link" data-toggle="collapse" href="#subscribe_form_container" role="button" aria-expanded="false" aria-controls="blog_directory_container">
+                    <i id="subscribe_link_icon" class="fas fa-bell"></i>&nbsp;Subscribe
+                </a>
+            </div>
+            <div class="col-12">
+                <div class="collapse mt-3 fadeInRightBig animated" id="blog_directory_container" style="visibility: visible; animation-name: fadeInRightBig;">
                     <div class="card card-body">
                         <div class="row post-index">
                             <div class="col-12 text-justify">
                                 <article class="post index container" itemscope="" itemtype="http://schema.org/BlogPosting" itemprop="blogPost">
-                                    <div class="d-flex justify-content-between align-items-center">
-                                        <header>
-                                            <h1 itemprop="name headline"><a href="/blog/welcome/" rel="canonical" itemprop="url">Welcome to your new blog</a></h1>
-                                        </header>
-                                        <time datetime="2017-10-13T22:59:01" itemprop="datePublished">Published Oct 13, 2017</time>
-                                    </div>
+                                    <header>
+                                        <h1 itemprop="name headline" class="h1-responsive"><a href="/blog/welcome/" rel="canonical" itemprop="url">Welcome to your new blog</a></h1>
+                                    </header>
                                     <div itemprop="articleBody mainEntityOfPage" cdnify="">
                                         Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer nec tristique sem. Etiam metus tortor, ultrices vitae tristique ut, congue at lorem. Lorem ipsum dolor sit amet, consectetur adipiscing elit.
                                     </div>
                                     <footer>
+                                        <time datetime="2017-10-13T22:59:01" itemprop="datePublished">10/13/2017</time>
                                         <ul class="categories float-right">
                                             <li> Posted in </li>
                                             <li itemprop="articleSection"><a href="/Blog/welcome">welcome</a></li>
@@ -58,16 +65,14 @@
                         <div class="row post-index">
                             <div class="col-12 text-justify">
                                 <article class="post index container" itemscope="" itemtype="http://schema.org/BlogPosting" itemprop="blogPost">
-                                    <div class="d-flex justify-content-between align-items-center">
-                                        <header>
-                                            <h1 itemprop="name headline"><a href="/blog/welcome/" rel="canonical" itemprop="url">Welcome to your new blog</a></h1>
-                                        </header>
-                                        <time datetime="2017-10-13T22:59:01" itemprop="datePublished">Published Oct 13, 2017</time>
-                                    </div>
+                                    <header>
+                                        <h1 itemprop="name headline" class="h1-responsive"><a href="/blog/welcome/" rel="canonical" itemprop="url">Welcome to your new blog</a></h1>
+                                    </header>
                                     <div itemprop="articleBody mainEntityOfPage" cdnify="">
                                         Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer nec tristique sem. Etiam metus tortor, ultrices vitae tristique ut, congue at lorem. Lorem ipsum dolor sit amet, consectetur adipiscing elit.
                                     </div>
                                     <footer>
+                                        <time datetime="2017-10-13T22:59:01" itemprop="datePublished">10/13/2017</time>
                                         <ul class="categories float-right">
                                             <li> Posted in </li>
                                             <li itemprop="articleSection"><a href="/Blog/welcome">welcome</a></li>
@@ -82,17 +87,15 @@
                         </div>
                         <div class="row post-index">
                             <div class="col-12 text-justify">
-                                <article class="post index container" itemscope="" itemtype="http://schema.org/BlogPosting" itemprop="blogPost">
-                                    <div class="d-flex justify-content-between align-items-center">
-                                        <header>
-                                            <h1 itemprop="name headline"><a href="/blog/welcome/" rel="canonical" itemprop="url">Welcome to your new blog</a></h1>
-                                        </header>
-                                        <time datetime="2017-10-13T22:59:01" itemprop="datePublished">Published Oct 13, 2017</time>
-                                    </div>
+                                <article class="post index container" itemscope="" itemtype="http://schema.org/BlogPost
+                                    <header>
+                                        <h1 itemprop="name headline" class="h1-responsive"><a href="/blog/welcome/" rel="canonical" itemprop="url">Welcome to your new blog</a></h1>
+                                    </header>
                                     <div itemprop="articleBody mainEntityOfPage" cdnify="">
                                         Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer nec tristique sem. Etiam metus tortor, ultrices vitae tristique ut, congue at lorem. Lorem ipsum dolor sit amet, consectetur adipiscing elit.
                                     </div>
                                     <footer>
+                                        <time datetime="2017-10-13T22:59:01" itemprop="datePublished">10/13/2017</time>
                                         <ul class="categories float-right">
                                             <li> Posted in </li>
                                             <li itemprop="articleSection"><a href="/Blog/welcome">welcome</a></li>
@@ -103,6 +106,36 @@
                                         <meta itemprop="mainEntityOfPage" content="https://localhost:44322/blog/welcome/">
                                     </footer>
                                 </article>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="collapse mt-3 fadeInLeftBig animated" id="subscribe_form_container" style="visibility: visible; animation-name: fadeInLeftBig;">
+                    <div class="card card-body">
+                        <div class="form-wrapper">
+                            <form class="form-container validate-form" autocomplete="off" method="post">
+                                <div class="form-row">
+                                    <div class="form-group col-lg-6 col-md-12 col-sm-12">
+                                        <div class="input-container validate-input light-gray-background" data-validate="Please type your name here." title="Your name goes here.">
+                                            <input id="client_name" class="input-element" type="text" placeholder="Your Name">
+                                        </div>
+                                    </div>
+                                    <div class="form-group col-lg-6 col-md-12 col-sm-12">
+                                        <div class="input-container validate-input light-gray-background" data-validate="Please type a valid email address here." title="A valid email address is required here.">
+                                            <input id="client_email_address" class="input-element" type="email" placeholder="Your Email Address">
+                                        </div>
+                                    </div>
+                                </div>
+                            </form>
+                            <div id="result_row" class="form-row hide-soft">
+                                <div class="form-group col-12">
+                                    <div id="result_text" role="alert"></div>
+                                </div>
+                            </div>
+                            <div class="form-row">
+                                <div class="form-group col-12">
+                                    <button id="confirm_subscription" class="btn btn-purple" role="button" title="Discover what a professional translation can do for you."><span>Sign Me Up!</span></button>
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -122,7 +155,7 @@
     <div class="col-12 text-justify">
         <article class="post entry container" itemscope itemtype="http://schema.org/BlogPosting" itemprop="blogPost">
             <header>
-                <h1 itemprop="name headline" class="h1-responsive"><a href="@Model.Data.GetLink()" rel="canonical" itemprop="url">@Model.Data.Title</a></h1>
+                <h1 itemprop="name headline" class="h1-responsive" class="h1-responsive"><a href="@Model.Data.GetLink()" rel="canonical" itemprop="url">@Model.Data.Title</a></h1>
                 @if (Model.UserAuthenticated)
                 {
                     @*<a asp-controller="Blog" asp-action="edit" asp-route-id="@Model.ID" title="Edit the post">Edit post</a>*@
@@ -153,85 +186,87 @@
         @if (Model.ShowComments)
         {
             @section Comments {
-                    <section id="comments">
-                        <div class="container">
-                            <h2>Comments</h2>
-                            @foreach (Comment comment in Model.Data.Comments)
+                <section id="comments">
+                    <div class="container">
+                        <h2>Comments</h2>
+                        @foreach (Comment comment in Model.Data.Comments)
+                        {
+                            <article id="@comment.Id" class="@(comment.IsAdmin ? "admin" : null)" itemprop="comment" itemscope itemtype="http://schema.org/Comment">
+                                <h3>
+                                    <time datetime="@comment.PubDate.ToString("s")" itemprop="datePublished">
+                                        <a href="#@comment.Id" title="Permalink (#@comment.Id)">@comment.PubDate.ToString("MMMM d, yyyy")</a>
+                                    </time>
+                                </h3>
+
+                                <figure class="gravatar">
+                                    <img alt="@comment.Author" src="data:image/gif;base64,R0lGODlhAQABAIAAAP///wAAACH5BAEAAAAALAAAAAABAAEAAAICRAEAOw==" data-src="@comment.GetGravatar()" />
+                                </figure>
+
+                                <div class="content">
+                                    <p itemprop="text">@comment.RenderContent()</p>
+                                    <span itemprop="name">@comment.Author</span>
+
+                                    @if (Model.UserAuthenticated)
+                                    {
+                                        <a class="noline" href="mailto:@comment.Email" title="Send email to @comment.Email">&#x2709;</a>
+                                        @*<a class="delete noline" asp-controller="Blog" asp-Action="DeleteComment" asp-route-postid="@Model.ID" asp-route-commentid="@comment.ID" asp-route-afrt="@ViewData["afrt"]" title="Delete the comment...">Delete...</a>*@
+                                    }
+                                </div>
+                            </article>
+                        }
+
+                        @if (!Model.CommentsAreOpen)
+                        {
+                            if (Model.BeFirstToComment)
                             {
-                                <article id="@comment.Id" class="@(comment.IsAdmin ? "admin" : null)" itemprop="comment" itemscope itemtype="http://schema.org/Comment">
-                                    <h3>
-                                        <time datetime="@comment.PubDate.ToString("s")" itemprop="datePublished">
-                                            <a href="#@comment.Id" title="Permalink (#@comment.Id)">@comment.PubDate.ToString("MMMM d, yyyy")</a>
-                                        </time>
-                                    </h3>
-
-                                    <figure class="gravatar">
-                                        <img alt="@comment.Author" src="data:image/gif;base64,R0lGODlhAQABAIAAAP///wAAACH5BAEAAAAALAAAAAABAAEAAAICRAEAOw==" data-src="@comment.GetGravatar()" />
-                                    </figure>
-
-                                    <div class="content">
-                                        <p itemprop="text">@comment.RenderContent()</p>
-                                        <span itemprop="name">@comment.Author</span>
-
-                                        @if (Model.UserAuthenticated)
-                                        {
-                                            <a class="noline" href="mailto:@comment.Email" title="Send email to @comment.Email">&#x2709;</a>
-                                            @*<a class="delete noline" asp-controller="Blog" asp-Action="DeleteComment" asp-route-postid="@Model.ID" asp-route-commentid="@comment.ID" asp-route-afrt="@ViewData["afrt"]" title="Delete the comment...">Delete...</a>*@
-                                        }
-                                    </div>
-                                </article>
+                                <p>Be the first to post a comment</p>
                             }
 
-                            @if (!Model.CommentsAreOpen)
-                            {
-                                if (Model.BeFirstToComment)
-                                {
-                                    <p>Be the first to post a comment</p>
-                                }
-
-                                <form method="post" asp-antiforgery="false">
-                                    <h3>Post a comment</h3>
-                                    <br />
-
-                                    <label for="content">Comment</label>
-                                    <textarea id="content" name="content" rows="5" cols="100" onfocus="" required placeholder="Enter your comment here..."></textarea>
-
-                                    <div class="details">
-                                        <label for="author">Name</label>
-                                        <input id="author" name="author" placeholder="Your name" required />
-
-                                        <label for="email">E-mail</label>
-                                        <input id="email" name="email" placeholder="Example: mary@outlook.com" required />
-                                        <br />
-
-                                        <input type="submit" value="Post comment" />
-
-                                        <!-- This element is being removed by site.js. It is to prevent comment spam-->
-                                        <input type="hidden" name="website" />
-                                    </div>
-                                </form>
-
-                                <noscript>
-                                    <br />
-                                    <p>Enable JavaScript to post comments on this blog.</p>
-                                </noscript>
-                            }
-                            else
-                            {
+                            <form method="post" asp-antiforgery="false">
+                                <h3>Post a comment</h3>
                                 <br />
-                                <p>Comments are closed</p>
-                            }
-                        </div>
-                    </section>   
+
+                                <label for="content">Comment</label>
+                                <textarea id="content" name="content" rows="5" cols="100" onfocus="" required placeholder="Enter your comment here..."></textarea>
+
+                                <div class="details">
+                                    <label for="author">Name</label>
+                                    <input id="author" name="author" placeholder="Your name" required />
+
+                                    <label for="email">E-mail</label>
+                                    <input id="email" name="email" placeholder="Example: mary@outlook.com" required />
+                                    <br />
+
+                                    <input type="submit" value="Post comment" />
+
+                                    <!-- This element is being removed by site.js. It is to prevent comment spam-->
+                                    <input type="hidden" name="website" />
+                                </div>
+                            </form>
+
+                            <noscript>
+                                <br />
+                                <p>Enable JavaScript to post comments on this blog.</p>
+                            </noscript>
+                        }
+                        else
+                        {
+                            <br />
+                            <p>Comments are closed</p>
+                        }
+                    </div>
+                </section>
             }
         }
     </div>
 </div>
 @section Scripts
 {
+    <script src="~/js/form.min.js" asp-append-version="true"></script>
+
     <script>
-        $(document).ready(function() {
-            $("p").each(function() {
+        $(document).ready(function () {
+            $("p").each(function () {
                 if ($(this).has("img").length > 0) {
                     $(this).addClass("d-flex justify-content-center");
                 }

@@ -149,14 +149,14 @@ ul, ol {
     margin-bottom: 3rem;
 }
 
-.post.index time {
+/*.post.index time {
     background: #212529;
     -ms-border-radius: .8rem;
     border-radius: .8rem;
     color: #fff;
     font-size: inherit;
     padding: .5rem 1rem;
-}
+}*/
 
 time {
     color: #626262;
