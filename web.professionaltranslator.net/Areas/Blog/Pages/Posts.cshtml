@@ -18,42 +18,45 @@
     </div>
 </div>
 
-        @foreach (Models.Post dataItem in Model.Data)
-        {
-            <div class="row post-index">
-                <div class="col-12 text-justify">
-                    <article class="post index container" itemscope itemtype="http://schema.org/BlogPosting" itemprop="blogPost">
-                        <header>
-                            <h1 itemprop="name headline" class="h1-responsive"><a href="@dataItem.GetLink()" rel="canonical" itemprop="url">@dataItem.Title</a></h1>
-                        </header>
-                        <div itemprop="articleBody mainEntityOfPage" cdnify>
-                            @Html.Raw(dataItem.Excerpt) 
-                            @if (User.Identity.IsAuthenticated)
-                            {
-                                <span>&ndash;&nbsp;<a asp-page="/Blog/Edit" title="Edit @dataItem.Title"><i class="fa fa-edit"></i></a></span>
-                            }
-                        </div>
+@*Remove repeater before publishing to prod*@
+@for (var i = 0; i < 3; i++) {
+    @foreach (Models.Post dataItem in Model.Data)
+    {
+        <div class="row post-index">
+            <div class="col-12 text-justify">
+                <article class="post index container" itemscope itemtype="http://schema.org/BlogPosting" itemprop="blogPost">
+                    <header>
+                        <h1 itemprop="name headline" class="h1-responsive"><a href="@dataItem.GetLink()" rel="canonical" itemprop="url">@dataItem.Title</a></h1>
+                    </header>
+                    <div itemprop="articleBody mainEntityOfPage" cdnify>
+                        @Html.Raw(dataItem.Excerpt)
+                        @if (User.Identity.IsAuthenticated)
+                        {
+                            <span>&ndash;&nbsp;<a asp-page="/Blog/Edit" title="Edit @dataItem.Title"><i class="fa fa-edit"></i></a></span>
+                        }
+                    </div>
 
-                        <footer>
-                            <time datetime="@dataItem.PubDate.ToString("s")" itemprop="datePublished">@dataItem.PubDate.ToShortDateString()</time>
-                            @if (dataItem.Categories.Any())
-                            {
-                                <ul class="categories float-right">
-                                    <li> Posted in </li>
-                                    @foreach (string cat in dataItem.Categories)
-                                    {
-                                        <li itemprop="articleSection"><a asp-area="Blog" asp-page="/Index" asp-route-slug="@cat.ToLowerInvariant()">@cat</a></li>
-                                    }
-                                </ul>
-                            }
-                            <meta itemprop="author" content="@Settings.Value.Owner" />
-                            <meta itemprop="dateModified" content="@dataItem.LastModified.ToString("s")" />
-                            <meta itemprop="mainEntityOfPage" content="@(host + dataItem.GetLink())" />
-                        </footer>
-                    </article>
-                </div>
+                    <footer>
+                        <time datetime="@dataItem.PubDate.ToString("s")" itemprop="datePublished">@dataItem.PubDate.ToShortDateString()</time>
+                        @if (dataItem.Categories.Any())
+                        {
+                            <ul class="categories float-right">
+                                <li> Posted in </li>
+                                @foreach (string cat in dataItem.Categories)
+                                {
+                                    <li itemprop="articleSection"><a asp-area="Blog" asp-page="/Index" asp-route-slug="@cat.ToLowerInvariant()">@cat</a></li>
+                                }
+                            </ul>
+                        }
+                        <meta itemprop="author" content="@Settings.Value.Owner" />
+                        <meta itemprop="dateModified" content="@dataItem.LastModified.ToString("s")" />
+                        <meta itemprop="mainEntityOfPage" content="@(host + dataItem.GetLink())" />
+                    </footer>
+                </article>
             </div>
-        }
+        </div>
+    }
+}
 <div class="row">
     <div class="col-12">
         <nav class="pagination container" aria-label="Pagination">
