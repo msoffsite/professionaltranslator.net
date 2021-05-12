@@ -58,7 +58,7 @@ namespace web.professionaltranslator.net.Areas.Blog.Pages
 
                 Data = new PostDataModel
                 {
-                    Content = "&lt;p&gt;" + notFound + "&lt;/p&gt;",
+                    Content = notFound,
                     Excerpt = notFound,
                     Title = "Not Found",
                     Categories = { },
