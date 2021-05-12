@@ -32,7 +32,7 @@
                         @Html.Raw(dataItem.Excerpt)
                         @if (User.Identity.IsAuthenticated)
                         {
-                            <span>&ndash;&nbsp;<a asp-area="Blog" asp-page="/Edit" asp-route-slug="@dataItem.Slug.ToLowerInvariant()" title="Edit @dataItem.Title"><i class="fa fa-edit"></i></a></span>
+                            <span>&ndash;&nbsp;<a asp-area="Blog" asp-page="/Edit" asp-route-slug="@dataItem.Slug" title="Edit @dataItem.Title"><i class="fa fa-edit"></i></a></span>
                         }
                     </div>
 
