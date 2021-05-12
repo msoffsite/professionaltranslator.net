@@ -8,7 +8,7 @@ using dbRead = Repository.ProfessionalTranslator.Net.DatabaseOperations.dbo.Read
 using dbLocalizedRead = Repository.ProfessionalTranslator.Net.DatabaseOperations.Localization.Read;
 using dbWrite = Repository.ProfessionalTranslator.Net.DatabaseOperations.dbo.Write.Subscriber;
 using models = Models.ProfessionalTranslator.Net;
-using Nullable = Repository.ProfessionalTranslator.Net.Conversions.Nullable;
+using Implicit = Repository.ProfessionalTranslator.Net.Conversions.Implicit;
 
 namespace Repository.ProfessionalTranslator.Net
 {
@@ -26,8 +26,7 @@ namespace Repository.ProfessionalTranslator.Net
                 return new Result(ResultStatus.Failed, messages);
             }
 
-            // ReSharper disable once PossibleInvalidOperationException
-            return await dbWrite.Delete(site, id.Value);
+            return await dbWrite.Delete(site, Implicit.Guid(id));
         }
 
         public static async Task<Result> Delete(string site, string emailAddress)
