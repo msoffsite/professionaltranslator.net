@@ -21,14 +21,18 @@ function toggleSubscribeIcon() {
     }
 };
 
+function closeSubscribe() {
+    $("#subscribe_form_container").removeClass("show");
+    subscribeFormOpen = false;
+    toggleSubscribeIcon();
+}
+
 $(document).ready(function () {
 
     $("#blog_directory").on("click",
         function () {
             if (subscribeFormOpen) {
-                $("#subscribe_form_container").removeClass("show");
-                subscribeFormOpen = false;
-                toggleSubscribeIcon();
+                closeSubscribe();
             }
             blogDirectoryOpen = blogDirectoryOpen ? false : true;
             toggleBlogDirectoryIcon();

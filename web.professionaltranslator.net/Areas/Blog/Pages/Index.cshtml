@@ -116,20 +116,25 @@
                             <form class="form-container validate-form" autocomplete="off" method="post">
                                 <div class="form-row">
                                     <div class="form-group col-lg-6 col-md-12 col-sm-12">
-                                        <div class="input-container validate-input light-gray-background" data-validate="Please type your name here." title="Your name goes here.">
-                                            <input id="client_name" class="input-element" type="text" placeholder="Your Name">
+                                        <div class="input-container validate-input light-gray-background" data-validate="Please type your first name here." title="Your first name goes here.">
+                                            <input id="subscriber_first_name" class="input-element" type="text" placeholder="Your First Name">
                                         </div>
                                     </div>
                                     <div class="form-group col-lg-6 col-md-12 col-sm-12">
+                                        <div class="input-container validate-input light-gray-background" data-validate="Please type your last name here." title="Your last name goes here.">
+                                            <input id="subscriber_last_name" class="input-element" type="text" placeholder="Your Last Name">
+                                        </div>
+                                    </div>
+                                    <div class="form-group col-12">
                                         <div class="input-container validate-input light-gray-background" data-validate="Please type a valid email address here." title="A valid email address is required here.">
-                                            <input id="client_email_address" class="input-element" type="email" placeholder="Your Email Address">
+                                            <input id="subscriber_email_address" class="input-element" type="email" placeholder="Your Email Address">
                                         </div>
                                     </div>
                                 </div>
                             </form>
-                            <div id="result_row" class="form-row hide-soft">
+                            <div id="subscriber_result_row" class="form-row hide-soft">
                                 <div class="form-group col-12">
-                                    <div id="result_text" role="alert"></div>
+                                    <div id="subscriber_result_text" role="alert"></div>
                                 </div>
                             </div>
                             <div class="form-row">
@@ -263,7 +268,7 @@
 @section Scripts
 {
     <script src="~/js/form.min.js" asp-append-version="true"></script>
-
+    <script src="~/js/blog/subscribe.js" asp-append-version="true"></script>
     <script>
         $(document).ready(function () {
             $("p").each(function () {

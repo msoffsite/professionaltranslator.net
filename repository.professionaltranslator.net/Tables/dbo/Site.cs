@@ -2,8 +2,5 @@
 
 namespace Repository.ProfessionalTranslator.Net.Tables.dbo
 {
-    public class Site : Models.ProfessionalTranslator.Net.Site
-    {
-        public new Guid Id { get; set; }
-    }
+    public class Site : Models.ProfessionalTranslator.Net.Site { }
 }

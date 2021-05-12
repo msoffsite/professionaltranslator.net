@@ -12,6 +12,12 @@ namespace Repository.ProfessionalTranslator.Net
             No
         }
 
+        internal static Passed GuidHasValue(Guid? input, string name, ref List<string> messages)
+        {
+            Passed output = input.HasValue ? Passed.Yes : Passed.No;
+            return output;
+        }
+
         internal static Passed MinIntValue(int input, string name, int minValue, ref List<string> messages)
         {
             var output = Passed.Yes;
@@ -31,7 +37,7 @@ namespace Repository.ProfessionalTranslator.Net
             var output = Passed.Yes;
 
             // ReSharper disable once InvertIf
-            if (string.IsNullOrEmpty(input))
+            if (string.IsNullOrWhiteSpace(input))
             {
                 output = Passed.No;
                 messages.Add($"{name} cannot be empty.");
