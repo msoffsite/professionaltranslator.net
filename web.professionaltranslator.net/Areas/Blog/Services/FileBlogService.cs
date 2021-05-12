@@ -78,18 +78,18 @@ namespace web.professionaltranslator.net.Areas.Blog.Services
         public virtual Task<Post?> GetPostById(string id)
         {
             bool isAdmin = IsAdmin();
-            Post post = _cache.FirstOrDefault(p => p.Id.Equals(id, StringComparison.OrdinalIgnoreCase)) ?? throw new InvalidOperationException();
+            Post? post = _cache.FirstOrDefault(p => p.Id.Equals(id, StringComparison.OrdinalIgnoreCase));
 
             return Task.FromResult(
-                post.PubDate > DateTime.UtcNow || (!post.IsPublished && !isAdmin)
-                ? null
-                : post);
+                post is null || post.PubDate > DateTime.UtcNow || (!post.IsPublished && !isAdmin)
+                    ? null
+                    : post);
         }
 
         public virtual Task<Post?> GetPostBySlug(string slug)
         {
             bool isAdmin = IsAdmin();
-            Post post = _cache.FirstOrDefault(p => p.Slug.Equals(slug, StringComparison.OrdinalIgnoreCase));
+            Post? post = _cache.FirstOrDefault(p => p.Slug.Equals(slug, StringComparison.OrdinalIgnoreCase));
 
             return Task.FromResult(
                 post is null || post.PubDate > DateTime.UtcNow || (!post.IsPublished && !isAdmin)
@@ -151,7 +151,7 @@ namespace web.professionaltranslator.net.Areas.Blog.Services
             string absolute = Path.Combine(_folder, Files, fileNameWithSuffix);
             string? dir = Path.GetDirectoryName(absolute);
 
-            Directory.CreateDirectory(dir);
+            System.IO.Directory.CreateDirectory(dir);
             await using var writer = new FileStream(absolute, FileMode.CreateNew);
             await writer.WriteAsync(bytes, 0, bytes.Length).ConfigureAwait(false);
 
@@ -290,13 +290,13 @@ namespace web.professionaltranslator.net.Areas.Blog.Services
 
         private void LoadPosts()
         {
-            if (!Directory.Exists(_folder))
+            if (!System.IO.Directory.Exists(_folder))
             {
-                Directory.CreateDirectory(_folder);
+                System.IO.Directory.CreateDirectory(_folder);
             }
 
             // Can this be done in parallel to speed it up?
-            foreach (string file in Directory.EnumerateFiles(_folder, "*.xml", SearchOption.TopDirectoryOnly))
+            foreach (string file in System.IO.Directory.EnumerateFiles(_folder, "*.xml", SearchOption.TopDirectoryOnly))
             {
                 XElement doc = XElement.Load(file);
 

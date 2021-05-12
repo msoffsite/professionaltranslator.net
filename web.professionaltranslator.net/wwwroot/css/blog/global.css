@@ -289,24 +289,6 @@ time {
         height: 24px;
     }
 
-.pagination a {
-    border: 1px solid #bbb;
-    background: #f1f1f1;
-    color: #222;
-    display: inline-block;
-    padding: 4px 15px;
-    text-decoration: none
-}
-
-.pagination a[rel=next] {
-    float: right
-}
-
-.pagination a:hover,
-.pagination a:focus {
-    background: #dfdfdf
-}
-
 .sitefooter {
     position: absolute;
     bottom: 0;

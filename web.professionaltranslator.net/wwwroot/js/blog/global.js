@@ -1,6 +1,13 @@
 ﻿let blogDirectoryOpen = false;
 let subscribeFormOpen = false;
 
+function openBlogDirectory() {
+    $("#blog_directory_container").addClass("show");
+    $("#blog_directory_icon").removeClass("fa-folder");
+    $("#blog_directory_icon").addClass("fa-folder-open");
+    blogDirectoryOpen = true;
+}
+
 function toggleBlogDirectoryIcon() {
     if (blogDirectoryOpen) {
         $("#blog_directory_icon").removeClass("fa-folder");
@@ -8,6 +15,7 @@ function toggleBlogDirectoryIcon() {
     } else {
         $("#blog_directory_icon").removeClass("fa-folder-open");
         $("#blog_directory_icon").addClass("fa-folder");
+        localStorage.setItem("open-directory", "0");
     }
 };
 
@@ -28,6 +36,15 @@ function closeSubscribe() {
 }
 
 $(document).ready(function () {
+
+    let reopenDirectory = localStorage.getItem("open-directory");
+    if (reopenDirectory === undefined) {
+        reopenDirectory = "0";
+    }
+
+    if (reopenDirectory === "1") {
+        openBlogDirectory();
+    }
 
     $("#blog_directory").on("click",
         function () {

@@ -21,12 +21,14 @@ namespace web.professionaltranslator.net.Areas.Blog.Pages
         internal readonly WebManifest Manifest;
 
         [BindProperty(SupportsGet = true)]
-        public int CurrentPage { get; set; } = 0;
+        public int CurrentPage { get; set; } = 1;
 
         [BindProperty(SupportsGet = true)]
         public string Category { get; set; } = string.Empty;
 
         public List<DataModel> Data { get; set; }
+
+        public int PageCount { get; set; }
 
         public PostsModel(SiteSettings siteSettings, IOptionsSnapshot<BlogSettings> blogSettings, IBlogService blogService, WebManifest webManifest)
         {
@@ -41,17 +43,33 @@ namespace web.professionaltranslator.net.Areas.Blog.Pages
         {
             if (string.IsNullOrWhiteSpace(Category))
             {
-                Data = await BlogService.GetPosts().Skip(BlogSettings.Value.PostsPerPage * CurrentPage).Take(BlogSettings.Value.PostsPerPage).ToListAsync();
+                Data = await BlogService.GetPosts().ToListAsync();
             }
             else
             {
-                Data = await BlogService.GetPostsByCategory(Category).Skip(BlogSettings.Value.PostsPerPage * CurrentPage).Take(BlogSettings.Value.PostsPerPage).ToListAsync();
+                Data = await BlogService.GetPostsByCategory(Category).ToListAsync();
             }
-            
+
+            int postsPerPage = BlogSettings.Value.PostsPerPage;
+            int dataCount = Data.Count();
+
+            if (dataCount <= postsPerPage)
+            {
+                PageCount = 1;
+            }
+            else
+            {
+                int pageCount = (dataCount + BlogSettings.Value.PostsPerPage - 1) / BlogSettings.Value.PostsPerPage;
+                PageCount = pageCount;
+            }
+
+            int pageIndex = CurrentPage - 1;
+            Data = Data.Skip(BlogSettings.Value.PostsPerPage * pageIndex).Take(BlogSettings.Value.PostsPerPage).ToList();
+
+            Data = Data.OrderByDescending(p => p.PubDate).ToList();
 
             ViewData[Constants.ViewOption] = BlogSettings.Value.ListView;
 
-            ViewData[Constants.TotalPostCount] = Data.Count();
             ViewData[Constants.Title] = Manifest.Name;
             ViewData[Constants.Description] = Manifest.Description;
             ViewData[Constants.Previous] = $"/{CurrentPage + 1}/";

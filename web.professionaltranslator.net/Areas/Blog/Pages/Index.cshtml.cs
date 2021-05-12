@@ -40,7 +40,16 @@ namespace web.professionaltranslator.net.Areas.Blog.Pages
         public bool ShowComments { get; set; }
 
         public bool UserAuthenticated { get; set; }
-        
+
+        [BindProperty(SupportsGet = true)]
+        public int CurrentPage { get; set; } = 1;
+
+        [BindProperty(SupportsGet = true)]
+        public string Category { get; set; } = string.Empty;
+
+        public List<PostDataModel> Directory { get; set; }
+
+        public int PageCount { get; set; }
 
         public IndexModel(SiteSettings siteSettings, IBlogService blogService, IOptionsSnapshot<BlogSettings> blogSettings)
         {
@@ -68,6 +77,34 @@ namespace web.professionaltranslator.net.Areas.Blog.Pages
                     Slug = this.Slug
                 };
             }
+
+            if (string.IsNullOrWhiteSpace(Category))
+            {
+                Directory = await BlogService.GetPosts().ToListAsync();
+            }
+            else
+            {
+                Directory = await BlogService.GetPostsByCategory(Category).ToListAsync();
+            }
+
+            int postsPerPage = BlogSettings.Value.PostsPerPage;
+            int dataCount = Directory.Count();
+
+            if (dataCount <= postsPerPage)
+            {
+                PageCount = 1;
+                CurrentPage = 1;
+            }
+            else
+            {
+                int pageCount = (dataCount + BlogSettings.Value.PostsPerPage - 1) / BlogSettings.Value.PostsPerPage;
+                PageCount = pageCount;
+            }
+
+            int pageIndex = CurrentPage - 1;
+            Directory = Directory.Skip(BlogSettings.Value.PostsPerPage * pageIndex).Take(BlogSettings.Value.PostsPerPage).ToList();
+
+            Directory = Directory.OrderByDescending(p => p.PubDate).ToList();
 
             UserAuthenticated = User.Identity.IsAuthenticated;
             HasCategories = Data.Categories.Count > 0;
