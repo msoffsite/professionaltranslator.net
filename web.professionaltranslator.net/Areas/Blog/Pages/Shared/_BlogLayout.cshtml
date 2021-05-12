@@ -84,10 +84,9 @@
                             </p>
                             <p class="text-center small">
                                 <a asp-area="" asp-page="Home" title="Go to the home area."><i class="fas fa-home fa-2x"></i></a>
-                                <span class="pl-4">
+                                <span class="pl-4 pr-4">
                                     <a asp-area="Admin" asp-page="Index" title="Go to the admin area."><i class="fas fa-wrench fa-2x"></i></a>
                                 </span>
-                                <span class="pl-4"></span>
                                 @if (!User.Identity.IsAuthenticated)
                                 {
                                     <a href="@returnUrl" title="Administrator sign-in."><i class="fas fa-sign-in-alt fa-2x"></i></a>
