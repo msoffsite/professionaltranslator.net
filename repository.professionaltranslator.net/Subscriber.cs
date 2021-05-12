@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Threading.Tasks;
 using Repository.ProfessionalTranslator.Net.Tables.Localization;
@@ -15,11 +16,17 @@ namespace Repository.ProfessionalTranslator.Net
     {
         public static async Task<Result> Delete(string site, Guid? id)
         {
-            if (!id.HasValue)
+            var messages = new List<string>();
+
+            Rules.StringRequired(site, "Site", ref messages);
+            Rules.GuidHasValue(id, "Id", ref messages);
+
+            if (messages.Any())
             {
-                return new Result(ResultStatus.Failed, "Id must be a valid GUID.", null);
+                return new Result(ResultStatus.Failed, messages);
             }
 
+            // ReSharper disable once PossibleInvalidOperationException
             return await dbWrite.Delete(site, id.Value);
         }
 
