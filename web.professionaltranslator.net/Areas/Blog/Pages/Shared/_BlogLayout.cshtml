@@ -88,14 +88,12 @@
                                     <a asp-area="Admin" asp-page="Index" title="Go to the admin area."><i class="fas fa-wrench fa-2x"></i></a>
                                 </span>
                                 <span class="pl-4"></span>
-
                                 @if (!User.Identity.IsAuthenticated)
                                 {
                                     <a href="@returnUrl" title="Administrator sign-in."><i class="fas fa-sign-in-alt fa-2x"></i></a>
                                 }
                                 else
                                 {
-
                                     <button type="submit" class="btn btn-link fas fa-sign-out-alt fa-2x" title="Administrator sign-out."></button>
                                 }
                             </p>
