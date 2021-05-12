@@ -75,6 +75,17 @@ body {
     font-size: 1.1rem;
 }
 
+footer.blog .btn-link {
+    border: 0;
+    -ms-border-radius: 0;
+    border-radius: 0;
+    color: #642e84;
+    font-weight: 600;
+    padding: 0;
+    text-decoration: none;
+    vertical-align: inherit;
+}
+
 .btn-link:active, .btn-link.active,
 .btn-link:focus, .btn-link.focus {
     text-decoration: none;

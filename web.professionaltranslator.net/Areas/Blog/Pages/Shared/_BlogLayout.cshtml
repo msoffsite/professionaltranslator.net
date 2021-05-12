@@ -51,7 +51,7 @@
     </div>
     @await RenderSectionAsync("Comments", required: false)
 
-    <footer class="border-top footer text-muted bg-white">
+    <footer class="border-top footer text-muted bg-white blog">
         <div class="container">
             <div class="row mt-4">
                 <div class="col-12">
@@ -73,11 +73,35 @@
                 </div>
             </div>
             <div class="row">
-                <div class="col-12 mb-5rem">
-                    <p class="text-center small">
-                        Copyright &copy; @Html.Raw(DateTime.Now.Year) Cinta Garcia, All Rights Reserved
-                    </p>
-                </div>
+                @{
+                    const string baseUrl = "/Identity/Account/Login?ReturnUrl=";
+                    string routeUrl = Url.RouteUrl(ViewContext.RouteData.Values);
+                    string returnUrl = baseUrl + routeUrl;
+                    <div class="col-12 mb-5rem">
+                        <form asp-area="Identity" asp-page="/Account/Logout" asp-route-returnUrl="@routeUrl" method="post">
+                            <p class="text-center small">
+                                Copyright &copy; @Html.Raw(DateTime.Now.Year) Cinta Garcia, All Rights Reserved
+                            </p>
+                            <p class="text-center small">
+                                <a asp-area="" asp-page="Home" title="Go to the home area."><i class="fas fa-home fa-2x"></i></a>
+                                <span class="pl-4">
+                                    <a asp-area="Admin" asp-page="Index" title="Go to the admin area."><i class="fas fa-wrench fa-2x"></i></a>
+                                </span>
+                                <span class="pl-4"></span>
+
+                                @if (!User.Identity.IsAuthenticated)
+                                {
+                                    <a href="@returnUrl" title="Administrator sign-in."><i class="fas fa-sign-in-alt fa-2x"></i></a>
+                                }
+                                else
+                                {
+
+                                    <button type="submit" class="btn btn-link fas fa-sign-out-alt fa-2x" title="Administrator sign-out."></button>
+                                }
+                            </p>
+                        </form>
+                    </div>
+            }
             </div>
         </div>
     </footer>
