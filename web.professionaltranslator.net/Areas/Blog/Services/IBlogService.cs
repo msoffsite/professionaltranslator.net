@@ -12,6 +12,8 @@ namespace web.professionaltranslator.net.Areas.Blog.Services
 
         IAsyncEnumerable<string> GetCategories();
 
+        IAsyncEnumerable<Comment> GetComments(string postId);
+
         Task<Post?> GetPostById(string id);
 
         Task<Post?> GetPostBySlug(string slug);

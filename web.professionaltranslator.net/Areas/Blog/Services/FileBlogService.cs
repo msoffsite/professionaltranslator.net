@@ -75,6 +75,15 @@ namespace web.professionaltranslator.net.Areas.Blog.Services
                 .ToAsyncEnumerable();
         }
 
+        public virtual IAsyncEnumerable<Comment> GetComments(string postId)
+        {
+            return _cache
+                .Where(p => p.Id.Equals(postId, StringComparison.OrdinalIgnoreCase))
+                .SelectMany(post => post.Comments)
+                .Distinct()
+                .ToAsyncEnumerable();
+        }
+
         public virtual Task<Post?> GetPostById(string id)
         {
             bool isAdmin = IsAdmin();
@@ -195,7 +204,7 @@ namespace web.professionaltranslator.net.Areas.Blog.Services
                         new XElement("author", comment.Author),
                         new XElement("email", comment.Email),
                         new XElement("date", FormatDateTime(comment.PubDate)),
-                        new XElement("content", comment.Content),
+                        new XElement("content", comment.Text),
                         new XAttribute("isAdmin", comment.IsAdmin),
                         new XAttribute("id", comment.Id)
                     ));
@@ -229,16 +238,16 @@ namespace web.professionaltranslator.net.Areas.Blog.Services
 
         private static string FormatDateTime(DateTime dateTime)
         {
-            const string UTC = "yyyy'-'MM'-'dd'T'HH':'mm':'ss'.'fff'Z'";
+            const string utc = "yyyy'-'MM'-'dd'T'HH':'mm':'ss'.'fff'Z'";
 
             return dateTime.Kind == DateTimeKind.Utc
-                ? dateTime.ToString(UTC, CultureInfo.InvariantCulture)
-                : dateTime.ToUniversalTime().ToString(UTC, CultureInfo.InvariantCulture);
+                ? dateTime.ToString(utc, CultureInfo.InvariantCulture)
+                : dateTime.ToUniversalTime().ToString(utc, CultureInfo.InvariantCulture);
         }
 
-        private static void LoadCategories(Post post, XElement doc)
+        private static void LoadCategories(Post post, XContainer doc)
         {
-            XElement categories = doc.Element("categories");
+            XElement? categories = doc.Element("categories");
             if (categories is null)
             {
                 return;
@@ -248,9 +257,9 @@ namespace web.professionaltranslator.net.Areas.Blog.Services
             categories.Elements("category").Select(node => node.Value).ToList().ForEach(post.Categories.Add);
         }
 
-        private static void LoadComments(Post post, XElement doc)
+        private static void LoadComments(Post post, XContainer doc)
         {
-            XElement comments = doc.Element("comments");
+            XElement? comments = doc.Element("comments");
 
             if (comments is null)
             {
@@ -265,7 +274,7 @@ namespace web.professionaltranslator.net.Areas.Blog.Services
                     Author = ReadValue(node, "author"),
                     Email = ReadValue(node, "email"),
                     IsAdmin = bool.Parse(ReadAttribute(node, "isAdmin", "false")),
-                    Content = ReadValue(node, "content"),
+                    Text = ReadValue(node, "text"),
                     PubDate = DateTime.Parse(ReadValue(node, "date", "2000-01-01"),
                         CultureInfo.InvariantCulture, DateTimeStyles.AdjustToUniversal),
                 };
@@ -277,7 +286,7 @@ namespace web.professionaltranslator.net.Areas.Blog.Services
         private static string ReadAttribute(XElement element, XName name, string defaultValue = "") =>
             element.Attribute(name) is null ? defaultValue : element.Attribute(name)?.Value ?? defaultValue;
 
-        private static string ReadValue(XElement doc, XName name, string defaultValue = "") =>
+        private static string ReadValue(XContainer doc, XName name, string defaultValue = "") =>
             doc.Element(name) is null ? defaultValue : doc.Element(name)?.Value ?? defaultValue;
 
         private string GetFilePath(Post post) => Path.Combine(_folder, $"{post.Id}.xml");

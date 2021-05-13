@@ -112,6 +112,11 @@ namespace web.professionaltranslator.net.Areas.Blog.Pages
             CommentsAreOpen = Data.AreCommentsOpen(BlogSettings.Value.CommentsCloseAfterDays);
             BeFirstToComment = Data.Comments.Count == 0;
 
+            Session.Set<string>(HttpContext.Session, Session.Key.PostId, Data.Id);
+            Session.Set<string>(HttpContext.Session, Session.Key.ShowComments, ShowComments.ToString());
+            Session.Set<string>(HttpContext.Session, Session.Key.CommentsAreOpen, CommentsAreOpen.ToString());
+            Session.Set<string>(HttpContext.Session, Session.Key.UserAuthenticated, UserAuthenticated.ToString());
+
             Item = await new Base().Get(SiteSettings, Blog, "BlogEntry");
             return Item == null ? NotFound() : (IActionResult)Page();
         }
@@ -175,9 +180,28 @@ namespace web.professionaltranslator.net.Areas.Blog.Pages
             return new JsonResult(result);
         }
 
+        public IActionResult OnPostComments()
+        {
+            return ViewComponent("Comments");
+        }
+
         public async Task<IActionResult> OnPostComment()
         {
+            return null;
+        }
+    }
 
+    public static class PageModelExtensions
+    {
+        public static ViewComponentResult ViewComponent(this PageModel pageModel, string componentName, object arguments)
+        {
+            return new ViewComponentResult
+            {
+                ViewComponentName = componentName,
+                Arguments = arguments,
+                ViewData = pageModel.ViewData,
+                TempData = pageModel.TempData
+            };
         }
     }
 }

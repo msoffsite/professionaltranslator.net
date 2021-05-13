@@ -33,6 +33,11 @@ namespace web.professionaltranslator.net.Areas.Blog.Services
             return categories;
         }
 
+        public IAsyncEnumerable<Comment> GetComments(string postId)
+        {
+            throw new NotImplementedException();
+        }
+
         public virtual Task<Post?> GetPostById(string id)
         {
             bool isAdmin = IsAdmin();
