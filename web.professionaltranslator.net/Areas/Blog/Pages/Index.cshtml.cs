@@ -108,7 +108,7 @@ namespace web.professionaltranslator.net.Areas.Blog.Pages
 
             UserAuthenticated = User.Identity.IsAuthenticated;
             HasCategories = Data.Categories.Count > 0;
-            ShowComments = BlogSettings.Value.DisplayComments && Data.Comments.Any();
+            ShowComments = BlogSettings.Value.DisplayComments;
             CommentsAreOpen = Data.AreCommentsOpen(BlogSettings.Value.CommentsCloseAfterDays);
             BeFirstToComment = Data.Comments.Count == 0;
 
@@ -173,6 +173,11 @@ namespace web.professionaltranslator.net.Areas.Blog.Pages
             }
 
             return new JsonResult(result);
+        }
+
+        public async Task<IActionResult> OnPostComment()
+        {
+
         }
     }
 }

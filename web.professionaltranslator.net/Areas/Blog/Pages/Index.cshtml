@@ -15,7 +15,7 @@
 @section Styles {
     <link rel="canonical" href="@(host + Model.Data.GetLink())" />
     <link rel="stylesheet" type="text/css" href="~/css/material-design-iconic-font.min.css" />
-    <link rel="stylesheet" href="~/css/contact.min.css" asp-append-version="true" />
+    <link rel="stylesheet" href="~/css/form.min.css" asp-append-version="true" />
     @if (Model.ShowComments)
     {
         <link rel="preload" href="~/css/blog/comments.css" as="style" asp-append-version="true" />
@@ -136,7 +136,7 @@
                                     @if (Model.CurrentPage != 1)
                                     {
                                         int nextPage = Model.CurrentPage - 1;
-                                        <a rel="prev" class="directory-link 3x" data-url="/Blog/Index/@Model.Slug/@nextPage/@Model.Category"  title="View newer posts.">
+                                        <a rel="prev" class="directory-link 3x" data-url="/Blog/Index/@Model.Slug/@nextPage/@Model.Category" title="View newer posts.">
                                             <h3>Newer Posts <i class="fas fa-hand-point-right"></i></h3>
                                         </a>
                                     }
@@ -195,40 +195,50 @@
     <div class="col-12 text-justify">
         <article class="post entry container" itemscope itemtype="http://schema.org/BlogPosting" itemprop="blogPost">
             <header>
-                <h1 itemprop="name headline" class="h1-responsive" class="h1-responsive"><a href="@Model.Data.GetLink()" rel="canonical" itemprop="url">@Model.Data.Title</a></h1>
-                @if (Model.UserAuthenticated)
-                {
-                    @*<a asp-controller="Blog" asp-action="edit" asp-route-id="@Model.ID" title="Edit the post">Edit post</a>*@
-                }
+                <h1 itemprop="name headline" class="h1-responsive"><a href="@Model.Data.GetLink()" rel="canonical" itemprop="url">@Model.Data.Title</a></h1>
             </header>
-
             <div itemprop="articleBody mainEntityOfPage" cdnify>
                 @Html.Raw(Model.Data.RenderContent())
             </div>
-
-            <footer class="text-right">
-                @if (Model.HasCategories)
-                {
-                    <ul class="categories">
-                        <li> <time datetime="@Model.Data.PubDate.ToString("s")" itemprop="datePublished">Published @Model.Data.PubDate.ToString("MMM d, yyyy")</time> in </li>
-                        @foreach (string cat in Model.Data.Categories)
+            <footer>
+                <div class="row">
+                    <div class="col-6">
+                        @if (Model.UserAuthenticated)
                         {
-                            <li itemprop="articleSection"><a asp-controller="Blog" asp-action="Category" asp-route-category="@cat.ToLowerInvariant()" asp-route-page="">@cat</a></li>
+                            <a asp-area="Blog" asp-page="/Edit" asp-route-postid="@Model.Data.Id" title="Edit @Model.Data.Title"><i class="fa fa-edit"></i> Edit Post</a>
                         }
-                    </ul>
-                }
-
+                    </div>
+                    <div class="col-6 text-right">
+                        @if (Model.HasCategories)
+                        {
+                            <ul class="categories">
+                                <li> <time datetime="@Model.Data.PubDate.ToString("s")" itemprop="datePublished">Published @Model.Data.PubDate.ToString("MMM d, yyyy")</time> in </li>
+                                @foreach (string categories in Model.Data.Categories)
+                                {
+                                    <li itemprop="articleSection"><a asp-area="Blog" asp-page="Posts" asp-route-currentpage="1" asp-route-category="@categories.ToLowerInvariant()">@categories</a></li>
+                                }
+                            </ul>
+                        }
+                    </div>
+                </div>
                 <meta itemprop="author" content="@Settings.Value.Owner" />
                 <meta itemprop="dateModified" content="@Model.Data.LastModified.ToString("s")" />
                 <meta itemprop="mainEntityOfPage" content="@(host + Model.Data.GetLink())" />
             </footer>
         </article>
-        @if (Model.ShowComments)
-        {
-            @section Comments {
-                <section id="comments">
-                    <div class="container">
-                        <h2>Comments</h2>
+
+        @section Comments {
+            <section id="comments">
+                <div class="container">
+                    @if (Model.ShowComments)
+                    {
+                        <h2>
+                            <i class="fas fa-comments" title="Comments"></i>
+                            @if ((Model.CommentsAreOpen) && (Model.BeFirstToComment))
+                            {
+                                <span>Be the first commenter!</span>
+                            }
+                        </h2>
                         @foreach (Comment comment in Model.Data.Comments)
                         {
                             <article id="@comment.Id" class="@(comment.IsAdmin ? "admin" : null)" itemprop="comment" itemscope itemtype="http://schema.org/Comment">
@@ -254,49 +264,65 @@
                                 </div>
                             </article>
                         }
-
-                        @if (!Model.CommentsAreOpen)
-                        {
-                            if (Model.BeFirstToComment)
-                            {
-                                <p>Be the first to post a comment</p>
-                            }
-
-                            <form method="post" asp-antiforgery="false">
-                                <h3>Post a comment</h3>
-                                <br />
-
-                                <label for="content">Comment</label>
-                                <textarea id="content" name="content" rows="5" cols="100" onfocus="" required placeholder="Enter your comment here..."></textarea>
-
-                                <div class="details">
-                                    <label for="author">Name</label>
-                                    <input id="author" name="author" placeholder="Your name" required />
-
-                                    <label for="email">E-mail</label>
-                                    <input id="email" name="email" placeholder="Example: mary@outlook.com" required />
-                                    <br />
-
-                                    <input type="submit" value="Post comment" />
-
-                                    <!-- This element is being removed by site.js. It is to prevent comment spam-->
-                                    <input type="hidden" name="website" />
+                    }
+                    @if (Model.CommentsAreOpen)
+                    {
+                        <form method="post" asp-antiforgery="false">
+                            <div class="form-row">
+                                <div class="form-group col-12">
+                                    <div class="input-container validate-input" data-validate="Enter your comments here." title="Enter your comments here.">
+                                        <textarea id="content" name="content" class="input-element" placeholder="Enter your comment here..."></textarea>
+                                    </div>
                                 </div>
-                            </form>
+                            </div>
+                            <div class="details">
+                                <div class="form-row">
+                                    <div class="form-group col-lg-6 col-md-6 col-sm-12">
+                                        <div class="input-container validate-input" data-validate="Enter your name here." title="Your name goes here.">
+                                            <input id="author" name="author" placeholder="Your Name" class="input-element" />
+                                        </div>
+                                    </div>
+                                    <div class="form-group col-lg-6 col-md-6 col-sm-12">
+                                        <div class="input-container validate-input" data-validate="Valid email address required." title="Valid email address required.">
+                                            <input id="email" name="email" placeholder="Your Email Address" class="input-element" />
+                                        </div>
+                                    </div>
+                                </div>
+                                <div id="comment_result_row" class="form-row hide-soft">
+                                    <div class="form-group col-12">
+                                        <div id="comment_result_text" role="alert"></div>
+                                    </div>
+                                </div>
+                                <div class="form-row">
+                                    <div class="form-group col-12 text-center">
+                                        <button id="save_comment" type="submit" class="btn btn-link text-larger">
+                                            <i class="fas fa-comment"></i>
+                                            Add Comment
+                                        </button>
 
-                            <noscript>
-                                <br />
-                                <p>Enable JavaScript to post comments on this blog.</p>
-                            </noscript>
-                        }
-                        else
-                        {
-                            <br />
-                            <p>Comments are closed</p>
-                        }
-                    </div>
-                </section>
-            }
+                                        <!-- This element is being removed by site.js. It is to prevent comment spam-->
+                                        <input type="hidden" name="website" />
+                                    </div>
+                                </div>
+                            </div>
+                        </form>
+                        <noscript>
+                            <div class="row">
+                                <div class="col-12">
+                                    <h3>
+                                        You must enable JavaScript to post comments.
+                                    </h3>
+                                </div>
+                            </div>
+                        </noscript>
+                    }
+                    else
+                    {
+                        <br />
+                        <p>Comments are closed</p>
+                    }
+                </div>
+            </section>
         }
     </div>
 </div>
@@ -305,16 +331,16 @@
     <script src="~/js/form.min.js" asp-append-version="true"></script>
     <script src="~/js/blog/subscribe.js" asp-append-version="true"></script>
     <script>
-        $(document).ready(function() {
+        $(document).ready(function () {
 
             $(".directory-link").on("click",
-                function() {
+                function () {
                     localStorage.setItem("open-directory", "1");
                     const reload = $(this).data("url");
                     window.location.href = reload;
                 });
 
-            $("p").each(function() {
+            $("p").each(function () {
                 if ($(this).has("img").length > 0) {
                     $(this).addClass("d-flex justify-content-center");
                 }

@@ -54,6 +54,12 @@ a.page-link:visited,
     a.page-link:active,
     a.page-link:focus,
     a.page-link:hover,
+    .btn-link:active,
+    .btn-link.active,
+    .btn-link:focus,
+    .btn-link.focus,
+    .btn-link:hover,
+    .btn-link.hover,
     .directory-link:active,
     .directory-link:focus,
     .directory-link:hover {
@@ -85,7 +91,7 @@ body {
     font-size: 1.1rem;
 }
 
-footer.blog .btn-link {
+.btn-link {
     border: 0;
     -ms-border-radius: 0;
     border-radius: 0;
@@ -94,15 +100,6 @@ footer.blog .btn-link {
     padding: 0;
     text-decoration: none;
     vertical-align: inherit;
-}
-
-.btn-link:active, .btn-link.active,
-.btn-link:focus, .btn-link.focus {
-    text-decoration: none;
-}
-
-.btn-link:hover, .btn-link.hover {
-    text-decoration: underline;
 }
 
 p {
@@ -410,6 +407,18 @@ img.zoom {
 
 .sentence-case {
     text-transform: capitalize;
+}
+
+.text-larger {
+    font-size: larger;
+}
+
+.text-x-large {
+    font-size: x-large
+}
+
+.text-xx-large {
+    font-size: xx-large;
 }
 
 .two-column-row {

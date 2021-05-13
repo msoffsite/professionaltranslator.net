@@ -21,17 +21,20 @@
             outline: none
         }
 
+#comments .input-container {
+    background: #fff;
+}
     #comments .details {
         max-height: 0;
         overflow: hidden;
         padding: 2px;
         margin: -2px;
         transition: max-height .5s .5s ease-in-out;
-        will-change: auto
+        will-change: auto;
     }
 
         #comments .details.show {
-            max-height: 250px
+            max-height: 1000px;
         }
 
     #comments label {
@@ -61,11 +64,6 @@
         -webkit-appearance: none
     }
 
-    #comments input {
-        max-width: 400px;
-        text-indent: 5px
-    }
-
         #comments input[type=submit] {
             width: auto;
             margin: 1em 0;
@@ -76,7 +74,10 @@
         padding: 5px
     }
 
-    #comments article {
+    #comments .validation-message::before {
+        background-color: #fff;
+    }
+        #comments article {
         margin-top: 1.5em
     }
 
