@@ -29,6 +29,9 @@
         }, false);
     }
 
+    // Convert URL to links in comments
+    var comments = document.querySelectorAll("#comments .content [itemprop=text]");
+
     requestAnimationFrame(function () {
         for (let i = 0; i < comments.length; i++) {
             const comment = comments[i];

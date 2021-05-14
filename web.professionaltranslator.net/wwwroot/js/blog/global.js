@@ -80,23 +80,6 @@ $(document).ready(function () {
         }
     });
 
-    // Convert URL to links in comments
-    var comments = document.querySelectorAll("#comments .content [itemprop=text]");
-
-    requestAnimationFrame(function () {
-        for (let i = 0; i < comments.length; i++) {
-            const comment = comments[i];
-            comment.innerHTML = urlify(comment.textContent) || "";
-        }
-    });
-
-    function urlify(text) {
-        return text && text.replace(/(((https?:\/\/)|(www\.))[^\s]+)/g, function (url, b, c) {
-            const url2 = c === "www." ? `http://${url}` : url;
-            return `<a href="${url2}" rel="nofollow noreferrer">${url}</a>`;
-        });
-    }
-
     // Lazy load images/iframes
     window.addEventListener("load", function () {
 
@@ -108,14 +91,14 @@ $(document).ready(function () {
             images = document.body.querySelectorAll("[data-src]");
             viewHeight = Math.max(document.documentElement.clientHeight, window.innerHeight);
 
-            lazyload(0);
+            lazyLoad(0);
         }
 
         function scroll() {
-            lazyload(200);
+            lazyLoad(200);
         }
 
-        function lazyload(delay) {
+        function lazyLoad(delay) {
             if (timer) {
                 return;
             }
