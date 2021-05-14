@@ -39,11 +39,11 @@
         }
         @if (Model.CommentsAreOpen)
         {
-            <form method="post" asp-antiforgery="false">
+            <form id="comments_form" method="post" asp-antiforgery="false">
                 <div class="form-row">
                     <div class="form-group col-12">
                         <div class="input-container validate-input" data-validate="Enter your comments here." title="Enter your comments here.">
-                            <textarea id="content" name="content" class="input-element" placeholder="Enter your comment here..."></textarea>
+                            <textarea id="content" name="content" onfocus="" class="input-element" placeholder="Enter your comment here..."></textarea>
                         </div>
                     </div>
                 </div>
@@ -87,6 +87,7 @@
                     </div>
                 </div>
             </noscript>
+            <script src="~/js/blog/components/comments.js" asp-append-version="true"></script>
         }
         else
         {
