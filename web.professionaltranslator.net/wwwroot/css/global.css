@@ -42,6 +42,7 @@ a,
 a:visited,
 a.page-link,
 a.page-link:visited,
+.category-link,
 .directory-link {
     color: #642e84 !important;
     font-weight: 600;
@@ -60,6 +61,9 @@ a.page-link:visited,
     .btn-link.focus,
     .btn-link:hover,
     .btn-link.hover,
+    .category-link:active,
+    .category-link:focus,
+    .category-link:hover
     .directory-link:active,
     .directory-link:focus,
     .directory-link:hover {

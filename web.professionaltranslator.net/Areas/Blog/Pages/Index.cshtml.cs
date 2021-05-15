@@ -11,12 +11,16 @@ using Microsoft.Extensions.Options;
 using Newtonsoft.Json;
 using Repository.ProfessionalTranslator.Net;
 using web.professionaltranslator.net.Areas.Blog.Services;
+using web.professionaltranslator.net.Areas.Blog.ViewComponents;
 using web.professionaltranslator.net.Extensions;
 using PostDataModel = web.professionaltranslator.net.Areas.Blog.Models.Post;
 
 using SubscriberModel = web.professionaltranslator.net.Areas.Blog.Models.Subscriber;
 using SubscriberDataModel = Models.ProfessionalTranslator.Net.Subscriber;
 using SubscriberRepository = Repository.ProfessionalTranslator.Net.Subscriber;
+
+using CommentComponentModel = web.professionaltranslator.net.Areas.Blog.Models.Components.Comments;
+using DirectoryComponentModel = web.professionaltranslator.net.Areas.Blog.Models.Components.Directory;
 
 namespace web.professionaltranslator.net.Areas.Blog.Pages
 {
@@ -33,23 +37,9 @@ namespace web.professionaltranslator.net.Areas.Blog.Pages
 
         public bool HasCategories { get; set; }
 
-        public bool CommentsAreOpen { get; set; }
-
-        public bool BeFirstToComment { get; set; }
-
         public bool ShowComments { get; set; }
 
         public bool UserAuthenticated { get; set; }
-
-        [BindProperty(SupportsGet = true)]
-        public int CurrentPage { get; set; } = 1;
-
-        [BindProperty(SupportsGet = true)]
-        public string Category { get; set; } = string.Empty;
-
-        public List<PostDataModel> Directory { get; set; }
-
-        public int PageCount { get; set; }
 
         public IndexModel(SiteSettings siteSettings, IBlogService blogService, IOptionsSnapshot<BlogSettings> blogSettings)
         {
@@ -78,44 +68,28 @@ namespace web.professionaltranslator.net.Areas.Blog.Pages
                 };
             }
 
-            if (string.IsNullOrWhiteSpace(Category))
-            {
-                Directory = await BlogService.GetPosts().ToListAsync();
-            }
-            else
-            {
-                Directory = await BlogService.GetPostsByCategory(Category).ToListAsync();
-            }
-
-            int postsPerPage = BlogSettings.Value.PostsPerPage;
-            int dataCount = Directory.Count();
-
-            if (dataCount <= postsPerPage)
-            {
-                PageCount = 1;
-                CurrentPage = 1;
-            }
-            else
-            {
-                int pageCount = (dataCount + BlogSettings.Value.PostsPerPage - 1) / BlogSettings.Value.PostsPerPage;
-                PageCount = pageCount;
-            }
-
-            int pageIndex = CurrentPage - 1;
-            Directory = Directory.Skip(BlogSettings.Value.PostsPerPage * pageIndex).Take(BlogSettings.Value.PostsPerPage).ToList();
-
-            Directory = Directory.OrderByDescending(p => p.PubDate).ToList();
-
             UserAuthenticated = User.Identity.IsAuthenticated;
             HasCategories = Data.Categories.Count > 0;
             ShowComments = BlogSettings.Value.DisplayComments;
-            CommentsAreOpen = Data.AreCommentsOpen(BlogSettings.Value.CommentsCloseAfterDays);
-            BeFirstToComment = Data.Comments.Count == 0;
 
-            Session.Set<string>(HttpContext.Session, Session.Key.PostId, Data.Id);
-            Session.Set<string>(HttpContext.Session, Session.Key.ShowComments, ShowComments.ToString());
-            Session.Set<string>(HttpContext.Session, Session.Key.CommentsAreOpen, CommentsAreOpen.ToString());
-            Session.Set<string>(HttpContext.Session, Session.Key.UserAuthenticated, UserAuthenticated.ToString());
+            var commentComponentModel = new CommentComponentModel
+            {
+                PostId = Data.Id,
+                CommentsAreOpen = Data.AreCommentsOpen(BlogSettings.Value.CommentsCloseAfterDays),
+                ShowComments = ShowComments,
+                UserAuthenticated = UserAuthenticated
+            };
+
+            Session.Json.SetObject(HttpContext.Session, Session.Key.CommentsComponentModel, commentComponentModel);
+
+            var directoryModel = new DirectoryComponentModel
+            {
+                AspPage = "/Index",
+                Category = string.Empty,
+                Host = $"{HttpContext.Request.Scheme}://{HttpContext.Request.Host}"
+            };
+
+            Session.Json.SetObject(HttpContext.Session, Session.Key.DirectoryComponentModel, directoryModel);
 
             Item = await new Base().Get(SiteSettings, Blog, "BlogEntry");
             return Item == null ? NotFound() : (IActionResult)Page();
@@ -178,30 +152,6 @@ namespace web.professionaltranslator.net.Areas.Blog.Pages
             }
 
             return new JsonResult(result);
-        }
-
-        public IActionResult OnPostComments()
-        {
-            return ViewComponent("Comments");
-        }
-
-        public async Task<IActionResult> OnPostComment()
-        {
-            return null;
-        }
-    }
-
-    public static class PageModelExtensions
-    {
-        public static ViewComponentResult ViewComponent(this PageModel pageModel, string componentName, object arguments)
-        {
-            return new ViewComponentResult
-            {
-                ViewComponentName = componentName,
-                Arguments = arguments,
-                ViewData = pageModel.ViewData,
-                TempData = pageModel.TempData
-            };
         }
     }
 }

@@ -9,71 +9,38 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.Extensions.Options;
 using Repository.ProfessionalTranslator.Net;
 using web.professionaltranslator.net.Areas.Blog.Services;
+using web.professionaltranslator.net.Extensions;
 using WebEssentials.AspNetCore.Pwa;
 using DataModel = web.professionaltranslator.net.Areas.Blog.Models.Post;
+
+using DirectoryComponentModel = web.professionaltranslator.net.Areas.Blog.Models.Components.Directory;
 
 namespace web.professionaltranslator.net.Areas.Blog.Pages
 {
     public class PostsModel : Base
     {
-        internal readonly IBlogService BlogService;
-        internal readonly IOptionsSnapshot<BlogSettings> BlogSettings;
         internal readonly WebManifest Manifest;
 
-        [BindProperty(SupportsGet = true)]
-        public int CurrentPage { get; set; } = 1;
-
-        [BindProperty(SupportsGet = true)]
-        public string Category { get; set; } = string.Empty;
-
-        public List<DataModel> Data { get; set; }
-
-        public int PageCount { get; set; }
-
-        public PostsModel(SiteSettings siteSettings, IOptionsSnapshot<BlogSettings> blogSettings, IBlogService blogService, WebManifest webManifest)
+        public PostsModel(SiteSettings siteSettings, WebManifest webManifest)
         {
             SiteSettings = siteSettings;
-            BlogSettings = blogSettings;
-            BlogService = blogService;
             Manifest = webManifest;
         }
 
         //[OutputCache(Profile = "default")]
         public async Task<IActionResult> OnGet()
         {
-            if (string.IsNullOrWhiteSpace(Category))
+            var directoryModel = new DirectoryComponentModel
             {
-                Data = await BlogService.GetPosts().ToListAsync();
-            }
-            else
-            {
-                Data = await BlogService.GetPostsByCategory(Category).ToListAsync();
-            }
+                AspPage = "/Posts",
+                Category = string.Empty,
+                Host = $"{HttpContext.Request.Scheme}://{HttpContext.Request.Host}"
+            };
 
-            int postsPerPage = BlogSettings.Value.PostsPerPage;
-            int dataCount = Data.Count();
-
-            if (dataCount <= postsPerPage)
-            {
-                PageCount = 1;
-            }
-            else
-            {
-                int pageCount = (dataCount + BlogSettings.Value.PostsPerPage - 1) / BlogSettings.Value.PostsPerPage;
-                PageCount = pageCount;
-            }
-
-            int pageIndex = CurrentPage - 1;
-            Data = Data.Skip(BlogSettings.Value.PostsPerPage * pageIndex).Take(BlogSettings.Value.PostsPerPage).ToList();
-
-            Data = Data.OrderByDescending(p => p.PubDate).ToList();
-
-            ViewData[Constants.ViewOption] = BlogSettings.Value.ListView;
+            Session.Json.SetObject(HttpContext.Session, Session.Key.DirectoryComponentModel, directoryModel);
 
             ViewData[Constants.Title] = Manifest.Name;
             ViewData[Constants.Description] = Manifest.Description;
-            ViewData[Constants.Previous] = $"/{CurrentPage + 1}/";
-            ViewData[Constants.Next] = $"/{(CurrentPage <= 1 ? null : $"{CurrentPage - 1}/")}";
 
             Item = await new Base().Get(SiteSettings, Blog, "BlogPosts");
             return Item == null ? NotFound() : (IActionResult)Page();

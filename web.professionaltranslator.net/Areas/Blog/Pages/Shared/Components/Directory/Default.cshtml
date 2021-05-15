@@ -1,0 +1,179 @@
+﻿@using Microsoft.Extensions.Options
+@model web.professionaltranslator.net.Areas.Blog.Models.Components.Directory
+@inject IOptionsSnapshot<BlogSettings> Settings
+@if (!string.IsNullOrWhiteSpace(Model.Category))
+{
+    <div class="row">
+        <div class="col-lg-6 col-sm-12">
+            <b>
+                @if ((!Model.Data.Any()) && (!string.IsNullOrWhiteSpace(Model.Category)))
+                {
+                    <span>There are no posts for this category.</span>
+                }
+                else
+                {
+                    <span>*Posts filtered by @Model.Category category.</span>
+                }
+            </b>
+        </div>
+        <div class="col-lg-6 col-sm-12 text-right">
+            <div class="mt-2">
+                <a class="2x sentence-case category-link" data-category=""><i class="fas fa-eraser"></i> Clear @Model.Category Filter</a>
+            </div>
+        </div>
+    </div>
+}
+
+@if (!Model.Data.Any() && (string.IsNullOrWhiteSpace(Model.Category)))
+{
+    <div class="row">
+        <div class="col-12 mt-3">
+            <p class="bold">
+                Blog is empty.
+            </p>
+        </div>
+    </div>
+}
+else
+{
+    @foreach (Models.Post dataItem in Model.Data)
+    {
+        <div class="row post-index">
+            <div class="col-12 text-justify">
+                <article class="post index" itemscope itemtype="http://schema.org/BlogPosting" itemprop="blogPost">
+                    <header>
+                        <h1 itemprop="name headline" class="h1-responsive"><a href="@dataItem.GetLink()" rel="canonical" itemprop="url"><i class="fas fa-book-reader">&nbsp;</i>@dataItem.Title</a></h1>
+                    </header>
+                    <div itemprop="articleBody mainEntityOfPage" cdnify>
+                        @Html.Raw(dataItem.Excerpt)
+                        @if (User.Identity.IsAuthenticated)
+                        {
+                            <span>&ndash;&nbsp;<a asp-area="Blog" asp-page="/Edit" asp-route-postid="@dataItem.Id" title="Edit @dataItem.Title"><i class="fa fa-edit"></i></a></span>
+                        }
+                    </div>
+                    <footer>
+                        <time datetime="@dataItem.PubDate.ToString("s")" itemprop="datePublished">@dataItem.PubDate.ToShortDateString() @dataItem.PubDate.ToShortTimeString()</time>
+                        @if (dataItem.Categories.Any())
+                        {
+                            <ul class="categories float-right">
+                                <li> Posted in </li>
+                                @foreach (string category in dataItem.Categories)
+                                {
+                                    <li itemprop="articleSection"><a class="category-link" data-category="@category.ToLowerInvariant()">@category</a></li>
+                                }
+                            </ul>
+                        }
+                        <meta itemprop="author" content="@Settings.Value.Owner" />
+                        <meta itemprop="dateModified" content="@dataItem.LastModified.ToString("s")" />
+                        <meta itemprop="mainEntityOfPage" content="@(Model.Host + dataItem.GetLink())" />
+                    </footer>
+                </article>
+            </div>
+        </div>
+    }
+}
+
+@if (Model.PageCount > 1)
+{
+    <div class="row">
+        <div class="col-6">
+            @if ((Model.Data.Any()) && Model.CurrentPage < Model.PageCount)
+            {
+                int previousPage = Model.CurrentPage + 1;
+                <a id="blog_directory_previous_href" rel="prev" class="3x" title="View older posts.">
+                    <h3><i class="fas fa-hand-point-left"></i> Older Posts</h3>
+                </a>
+            }
+        </div>
+        <div class="col-6 text-right">
+            @if (Model.CurrentPage != 1)
+            {
+                int nextPage = Model.CurrentPage - 1;
+                <a id="blog_directory_next_href" rel="next" class="3x" title="View newer posts.">
+                    <h3>Newer Posts <i class="fas fa-hand-point-right"></i></h3>
+                </a>
+            }
+        </div>
+    </div>
+}
+<script>
+
+    function directoryTop() {
+        const top = document.getElementById("directoryTop").offsetTop;
+        window.scrollTo(0, top);
+    }
+
+    function filterDirectory(category) {
+
+        const aspPage = $("#blog_asp_page").val();
+
+        $.ajax({
+            type: "POST",
+            url: `/Blog/${aspPage}?handler=FilterDirectory`,
+            data: {
+                category: category
+            },
+            beforeSend: function (xhr) {
+                xhr.setRequestHeader("XSRF-TOKEN",
+                    $('input:hidden[name="__RequestVerificationToken"]').val());
+            }
+        }).done(function (result) {
+            $("#blog_directory_container").html(result);
+            directoryTop();
+        });
+    }
+
+    function showNextDirectoryPage() {
+
+        const aspPage = $("#blog_asp_page").val();
+
+        $.ajax({
+            type: "POST",
+            url: `/Blog/${aspPage}?handler=ShowDirectoryNextPage`,
+            beforeSend: function (xhr) {
+                xhr.setRequestHeader("XSRF-TOKEN",
+                    $('input:hidden[name="__RequestVerificationToken"]').val());
+            }
+        }).done(function (result) {
+            $("#blog_directory_container").html(result);
+            directoryTop();
+        });
+    }
+
+    function showPreviousDirectoryPage() {
+
+        const aspPage = $("#blog_asp_page").val();
+
+        $.ajax({
+            type: "POST",
+            url: `/Blog/${aspPage}?handler=ShowDirectoryPreviousPage`,
+            beforeSend: function (xhr) {
+                xhr.setRequestHeader("XSRF-TOKEN",
+                    $('input:hidden[name="__RequestVerificationToken"]').val());
+            }
+        }).done(function (result) {
+            $("#blog_directory_container").html(result);
+            directoryTop();
+        });
+    }
+
+    $(document).ready(function () {
+
+        $("#blog_directory_next_href").on("click",
+            function () {
+                showNextDirectoryPage();
+            });
+
+        $("#blog_directory_previous_href").on("click",
+            function() {
+                showPreviousDirectoryPage();
+            });
+
+        $(".category-link").on("click",
+            function () {
+                const category = $(this).data("category");
+                filterDirectory(category);
+            });
+
+    });
+</script>

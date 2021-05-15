@@ -1,13 +1,8 @@
-﻿@page "{currentpage?}/{category?}"
-@using Microsoft.Extensions.Options
+﻿@page 
 @model web.professionaltranslator.net.Areas.Blog.Pages.PostsModel
-@inject IOptionsSnapshot<BlogSettings> Settings
 @{
     ViewData["Title"] = Model.Item.Title;
     string body = Model.Item.Body.Trim().Replace("<p>", string.Empty).Replace("</p>", string.Empty);
-    string headerText = Model.Item.Header.Trim();
-
-    var host = $"{HttpContext.Request.Scheme}://{HttpContext.Request.Host}";
 }
 <div class="row">
     <div class="col-12 text-column">
@@ -17,107 +12,10 @@
     </div>
 </div>
 
-@if (!string.IsNullOrWhiteSpace(Model.Category))
-{
-    <div class="row">
-        <div class="col-lg-6 col-sm-12">
-            <b>
-                @if ((!Model.Data.Any()) && (!string.IsNullOrWhiteSpace(Model.Category)))
-                {
-                    <span>There are no posts for this category.</span>
-                }
-                else
-                {
-                    <span>*Posts filtered by @Model.Category category.</span>
-                }
-            </b>
-        </div>
-        <div class="col-lg-6 col-sm-12 text-right">
-            <div class="mt-2">
-                <a class="2x sentence-case" href="/Blog/Posts/@Model.CurrentPage"><i class="fas fa-eraser"></i> Clear @Model.Category Filter</a>
-            </div>
-        </div>
-    </div>
-}
+<input id="blog_asp_page" value="/Index" type="hidden"/>
+<span id="directoryTop"></span>
+<div id="blog_directory_container"></div>
 
-@if (!Model.Data.Any() && (string.IsNullOrWhiteSpace(Model.Category)))
-{
-    <div class="row">
-        <div class="col-12 mt-3">
-            <p class="bold">
-                Blog is empty.
-            </p>
-        </div>
-    </div>
-}
-else
-{   
-    @foreach (Models.Post dataItem in Model.Data)
-    {
-        <div class="row post-index">
-            <div class="col-12 text-justify">
-                <article class="post index" itemscope itemtype="http://schema.org/BlogPosting" itemprop="blogPost">
-                    <header>
-                        <h1 itemprop="name headline" class="h1-responsive"><a href="@dataItem.GetLink()" rel="canonical" itemprop="url"><i class="fas fa-book-reader">&nbsp;</i>@dataItem.Title</a></h1>
-                    </header>
-                    <div itemprop="articleBody mainEntityOfPage" cdnify>
-                        @Html.Raw(dataItem.Excerpt)
-                        @if (User.Identity.IsAuthenticated)
-                        {
-                            <span>&ndash;&nbsp;<a asp-area="Blog" asp-page="/Edit" asp-route-postid="@dataItem.Id" title="Edit @dataItem.Title"><i class="fa fa-edit"></i></a></span>
-                        }
-                    </div>
-                    <footer>
-                        <time datetime="@dataItem.PubDate.ToString("s")" itemprop="datePublished">@dataItem.PubDate.ToShortDateString() @dataItem.PubDate.ToShortTimeString()</time>
-                        @if (dataItem.Categories.Any())
-                        {
-                            <ul class="categories float-right">
-                                <li> Posted in </li>
-                                @foreach (string cat in dataItem.Categories)
-                                {
-                                    <li itemprop="articleSection"><a href="/Blog/Posts/@Model.CurrentPage/@cat.ToLowerInvariant()">@cat</a></li>
-                                }
-                            </ul>
-                        }
-                        <meta itemprop="author" content="@Settings.Value.Owner" />
-                        <meta itemprop="dateModified" content="@dataItem.LastModified.ToString("s")" />
-                        <meta itemprop="mainEntityOfPage" content="@(host + dataItem.GetLink())" />
-                    </footer>
-                </article>
-            </div>
-        </div>
-    }
-}
-
-@if (Model.PageCount > 1)
-{
-    <div class="row">
-        <div class="col-6">
-            @if ((Model.Data.Any()) && Model.CurrentPage < Model.PageCount)
-            {
-                int previousPage = Model.CurrentPage + 1;
-                <a rel="prev" class="3x" asp-area="Blog" asp-page="/Posts" asp-route-currentpage="@previousPage" asp-route-category="@Model.Category" title="View older posts.">
-                    <h3><i class="fas fa-hand-point-left"></i> Older Posts</h3></a>
-            }
-        </div>
-        <div class="col-6 text-right">
-            @if (Model.CurrentPage != 1)
-            {
-                int nextPage = Model.CurrentPage - 1;
-                <a rel="prev" class="3x" asp-area="Blog" asp-page="/Posts" asp-route-currentpage="@nextPage" asp-route-category="@Model.Category" title="View newer posts.">
-                    <h3>Newer Posts <i class="fas fa-hand-point-right"></i></h3></a>
-            }
-        </div>
-    </div>
-}
-
-@section Styles {
-    @if ((Model.Data.Any()) && Model.CurrentPage < Model.PageCount)
-    {
-        <link rel="prev" href="@ViewData[Constants.Previous]"/>
-    }
-    @if (Model.CurrentPage > 0)
-    {
-        <link rel="next" href="@ViewData[Constants.Next]"/>
-    }
+@section Scripts {
+    <script src="~/js/blog/directory-loader.js" asp-append-version="true"></script>
 }

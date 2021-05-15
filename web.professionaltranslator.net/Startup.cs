@@ -56,7 +56,10 @@ namespace web.professionaltranslator.net
 
             //});
 
-            services.AddSession();
+            services.AddSession(options => {
+                options.IdleTimeout = TimeSpan.FromMinutes(30);
+            });
+
             services.AddOptions();
             services.AddAntiforgery(o => o.HeaderName = "XSRF-TOKEN");
             services.AddConfiguration<SiteSettings>(Configuration, "SiteSettings");

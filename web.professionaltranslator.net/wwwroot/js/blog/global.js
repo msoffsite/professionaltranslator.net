@@ -1,13 +1,6 @@
 ﻿let blogDirectoryOpen = false;
 let subscribeFormOpen = false;
 
-function openBlogDirectory() {
-    $("#blog_directory_container").addClass("show");
-    $("#blog_directory_icon").removeClass("fa-folder");
-    $("#blog_directory_icon").addClass("fa-folder-open");
-    blogDirectoryOpen = true;
-}
-
 function toggleBlogDirectoryIcon() {
     if (blogDirectoryOpen) {
         $("#blog_directory_icon").removeClass("fa-folder");
@@ -15,7 +8,6 @@ function toggleBlogDirectoryIcon() {
     } else {
         $("#blog_directory_icon").removeClass("fa-folder-open");
         $("#blog_directory_icon").addClass("fa-folder");
-        localStorage.setItem("open-directory", "0");
     }
 };
 
@@ -30,21 +22,12 @@ function toggleSubscribeIcon() {
 };
 
 function closeSubscribe() {
-    $("#subscribe_form_container").removeClass("show");
+    $("#subscribe_form_toggle").removeClass("show");
     subscribeFormOpen = false;
     toggleSubscribeIcon();
 }
 
 $(document).ready(function () {
-
-    let reopenDirectory = localStorage.getItem("open-directory");
-    if (reopenDirectory === undefined) {
-        reopenDirectory = "0";
-    }
-
-    if (reopenDirectory === "1") {
-        openBlogDirectory();
-    }
 
     $("#blog_directory").on("click",
         function () {
@@ -55,10 +38,10 @@ $(document).ready(function () {
             toggleBlogDirectoryIcon();
         });
 
-    $("#subscribe_link").on("click",
+    $("#subscribe_link").on("click", 
         function () {
             if (blogDirectoryOpen) {
-                $("#blog_directory_container").removeClass("show");
+                $("#blog_directory_toggle").removeClass("show");
                 blogDirectoryOpen = false;
                 toggleBlogDirectoryIcon();
             }

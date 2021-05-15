@@ -7,6 +7,8 @@ using web.professionaltranslator.net.Areas.Blog.Models;
 using web.professionaltranslator.net.Areas.Blog.Services;
 using web.professionaltranslator.net.Extensions;
 
+using CommentsComponentModel = web.professionaltranslator.net.Areas.Blog.Models.Components.Comments;
+
 namespace web.professionaltranslator.net.Areas.Blog.ViewComponents
 {
     public class Comments : ViewComponent
@@ -20,20 +22,9 @@ namespace web.professionaltranslator.net.Areas.Blog.ViewComponents
 
         public async Task<IViewComponentResult> InvokeAsync()
         {
-            var postId = Session.Get<string>(HttpContext.Session, Session.Key.PostId);
-            var showComments = Session.Get<bool>(HttpContext.Session, Session.Key.ShowComments);
-            var commentsAreOpen = Session.Get<bool>(HttpContext.Session, Session.Key.CommentsAreOpen);
-            var userAuthenticated = Session.Get<bool>(HttpContext.Session, Session.Key.UserAuthenticated);
-
-            List<Comment> comments = await BlogService.GetComments(postId).ToListAsync();
-            var model = new Models.Components.Comments
-            {
-                ShowComments = showComments,
-                CommentsAreOpen = commentsAreOpen,
-                UserAuthenticated = userAuthenticated,
-                BeFirstToComment = !comments.Any(),
-                List = comments
-            };
+            var model = Session.Json.GetObject<CommentsComponentModel>(HttpContext.Session, Session.Key.CommentsComponentModel);
+            List<Comment> comments = await BlogService.GetComments(model.PostId).ToListAsync();
+            model.List = comments;
             return View(model);
         }
     }

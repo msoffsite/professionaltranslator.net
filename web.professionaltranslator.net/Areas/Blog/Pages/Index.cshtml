@@ -22,132 +22,30 @@
         <link rel="preload" href="~/css/blog/comments.css" as="style" asp-append-version="true" />
         <noscript><link rel="stylesheet" href="~/css/blog/comments.css" asp-append-version="true" /></noscript>
     }
-
-    @if ((Model.Directory.Any()) && Model.CurrentPage < Model.PageCount)
-    {
-        <link rel="prev" href="@ViewData[Constants.Previous]" />
-    }
-    @if (Model.CurrentPage > 0)
-    {
-        <link rel="next" href="@ViewData[Constants.Next]" />
-    }
 }
 @section BlogDirectory
 {
-    @*Turn this into a view component using session variables, ala comments view component. To be shared between index.cshtml and posts.cshtml*@
     <div class="container">
         <div class="row">
             <div class="col-6">
-                <a id="blog_directory" data-toggle="collapse" href="#blog_directory_container" role="button" aria-expanded="false" aria-controls="blog_directory_container">
+                <a id="blog_directory" data-toggle="collapse" href="#blog_directory_toggle" role="button" aria-expanded="false" aria-controls="blog_directory_toggle">
                     <i id="blog_directory_icon" class="fas fa-folder"></i>&nbsp;Blog Directory
                 </a>
             </div>
             <div class="col-6 text-right">
-                <a id="subscribe_link" data-toggle="collapse" href="#subscribe_form_container" role="button" aria-expanded="false" aria-controls="blog_directory_container">
+                <a id="subscribe_link" data-toggle="collapse" href="#subscribe_form_toggle" role="button" aria-expanded="false" aria-controls="blog_directory_toggle">
                     <i id="subscribe_link_icon" class="fas fa-bell"></i>&nbsp;Subscribe
                 </a>
             </div>
             <div class="col-12">
-                <div class="collapse mt-3 fadeInRightBig animated" id="blog_directory_container" style="visibility: visible; animation-name: fadeInRightBig;">
+                <div class="collapse mt-3 fadeInRightBig animated" id="blog_directory_toggle" style="visibility: visible; animation-name: fadeInRightBig;">
                     <div class="card card-body">
-                        @if (!string.IsNullOrWhiteSpace(Model.Category))
-                        {
-                            <div class="row">
-                                <div class="col-lg-6 col-sm-12">
-                                    <b>
-                                        @if ((!Model.Directory.Any()) && (!string.IsNullOrWhiteSpace(Model.Category)))
-                                        {
-                                            <span>There are no posts for this category.</span>
-                                        }
-                                        else
-                                        {
-                                            <span>*Posts filtered by @Model.Category category.</span>
-                                        }
-                                    </b>
-                                </div>
-                                <div class="col-lg-6 col-sm-12 text-right">
-                                    <div class="mt-2">
-                                        <a class="2x sentence-case" href="/Blog/Index/@Model.Slug/@Model.CurrentPage"><i class="fas fa-eraser"></i> Clear @Model.Category Filter</a>
-                                    </div>
-                                </div>
-                            </div>
-                        }
-
-                        @if (!Model.Directory.Any() && (string.IsNullOrWhiteSpace(Model.Category)))
-                        {
-                            <div class="row">
-                                <div class="col-12 mt-3">
-                                    <p class="bold">
-                                        Blog is empty.
-                                    </p>
-                                </div>
-                            </div>
-                        }
-                        else
-                        {
-                            @foreach (Models.Post dataItem in Model.Directory)
-                            {
-                                <div class="row post-index">
-                                    <div class="col-12 text-justify">
-                                        <article class="post index" itemscope itemtype="http://schema.org/BlogPosting" itemprop="blogPost">
-                                            <header>
-                                                <h1 itemprop="name headline" class="h1-responsive"><a href="@dataItem.GetLink()" rel="canonical" itemprop="url"><i class="fas fa-book-reader">&nbsp;</i>@dataItem.Title</a></h1>
-                                            </header>
-                                            <div itemprop="articleBody mainEntityOfPage" cdnify>
-                                                @Html.Raw(dataItem.Excerpt)
-                                                @if (User.Identity.IsAuthenticated)
-                                                {
-                                                    <span>&ndash;&nbsp;<a asp-area="Blog" asp-page="/Edit" asp-route-postid="@dataItem.Id" title="Edit @dataItem.Title"><i class="fa fa-edit"></i></a></span>
-                                                }
-                                            </div>
-                                            <footer>
-                                                <time datetime="@dataItem.PubDate.ToString("s")" itemprop="datePublished">@dataItem.PubDate.ToShortDateString() @dataItem.PubDate.ToShortTimeString()</time>
-                                                @if (dataItem.Categories.Any())
-                                                {
-                                                    <ul class="categories float-right">
-                                                        <li> Posted in </li>
-                                                        @foreach (string cat in dataItem.Categories)
-                                                        {
-                                                            <li itemprop="articleSection"><a data-url="/Blog/Index/@Model.Slug/1/@cat.ToLowerInvariant()" class="directory-link">@cat</a></li>
-                                                        }
-                                                    </ul>
-                                                }
-                                                <meta itemprop="author" content="@Settings.Value.Owner" />
-                                                <meta itemprop="dateModified" content="@dataItem.LastModified.ToString("s")" />
-                                                <meta itemprop="mainEntityOfPage" content="@(host + dataItem.GetLink())" />
-                                            </footer>
-                                        </article>
-                                    </div>
-                                </div>
-                            }
-                        }
-
-                        @if (Model.PageCount > 1)
-                        {
-                            <div class="row">
-                                <div class="col-6">
-                                    @if ((Model.Directory.Any()) && Model.CurrentPage < Model.PageCount)
-                                    {
-                                        int previousPage = Model.CurrentPage + 1;
-                                        <a rel="prev" class="directory-link 3x" data-url="/Blog/Index/@Model.Slug/@previousPage/@Model.Category" title="View older posts.">
-                                            <h3><i class="fas fa-hand-point-left"></i> Older Posts</h3>
-                                        </a>
-                                    }
-                                </div>
-                                <div class="col-6 text-right">
-                                    @if (Model.CurrentPage != 1)
-                                    {
-                                        int nextPage = Model.CurrentPage - 1;
-                                        <a rel="prev" class="directory-link 3x" data-url="/Blog/Index/@Model.Slug/@nextPage/@Model.Category" title="View newer posts.">
-                                            <h3>Newer Posts <i class="fas fa-hand-point-right"></i></h3>
-                                        </a>
-                                    }
-                                </div>
-                            </div>
-                        }
+                        <input id="blog_asp_page" value="/Index" type="hidden" />
+                        <span id="directoryTop"></span>
+                        <div id="blog_directory_container"></div>
                     </div>
                 </div>
-                <div class="collapse mt-3 fadeInLeftBig animated" id="subscribe_form_container" style="visibility: visible; animation-name: fadeInLeftBig;">
+                <div class="collapse mt-3 fadeInLeftBig animated" id="subscribe_form_toggle" style="visibility: visible; animation-name: fadeInLeftBig;">
                     <div class="card card-body">
                         <div class="form-wrapper">
                             <form class="form-container validate-form" autocomplete="off" method="post">
@@ -186,11 +84,6 @@
         </div>
     </div>
 }
-
-<input id="post_id" value="@Model.Data.Id" type="hidden"/>
-<input id="show_comments" value="@Model.ShowComments.ToString().ToLowerInvariant()" type="hidden"/>
-<input id="comments_open" value="@Model.CommentsAreOpen.ToString().ToLowerInvariant()" type="hidden"/>
-<input id="user_authenticated" value="@Model.UserAuthenticated.ToString().ToLowerInvariant()" type="hidden"/>
 
 <div class="row">
     <div class="col-12">
@@ -234,7 +127,7 @@
                 <meta itemprop="mainEntityOfPage" content="@(host + Model.Data.GetLink())" />
             </footer>
         </article>
-            <button id="test_comments" class="btn btn-default">Test Reload Comments</button>
+        <button id="test_comments" class="btn btn-default">Test Reload Comments</button>
         @section Comments {
             <div id="comments_container"></div>
         }
@@ -244,48 +137,6 @@
 {
     <script src="~/js/form.min.js" asp-append-version="true"></script>
     <script src="~/js/blog/subscribe.js" asp-append-version="true"></script>
-    <script>
-        function loadComments() {
-
-            const hiddenPostId = $("#post_id").val();
-            const hiddenShowComments = $("#show_comments").val();
-            const hiddenCommentsAreOpen = $("#comments_open").val();;
-            const hiddenUserAuthenticated = $("#user_authenticated").val();
-
-            $.ajax({
-                type: "POST",
-                url: "/Blog/Index?handler=Comments",
-                beforeSend: function(xhr) {
-                    xhr.setRequestHeader("XSRF-TOKEN",
-                        $('input:hidden[name="__RequestVerificationToken"]').val());
-                }
-            }).done(function(result) {
-                $("#comments_container").html(result);
-            });
-        }
-
-        $(document).ready(function() {
-
-            $("#test_comments").on("click",
-                function (e) {
-                    e.preventDefault();
-                    loadComments();
-                });
-
-            loadComments();
-
-            $(".directory-link").on("click",
-                function() {
-                    localStorage.setItem("open-directory", "1");
-                    const reload = $(this).data("url");
-                    window.location.href = reload;
-                });
-
-            $("p").each(function() {
-                if ($(this).has("img").length > 0) {
-                    $(this).addClass("d-flex justify-content-center");
-                }
-            });
-        });
-    </script>
+    <script src="~/js/blog/index.js" asp-append-version="true"></script>
+    <script src="~/js/blog/directory-loader.js" asp-append-version="true"></script>
 }

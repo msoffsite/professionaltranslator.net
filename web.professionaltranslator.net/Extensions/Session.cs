@@ -85,10 +85,8 @@ namespace web.professionaltranslator.net.Extensions
             internal const string QueryId = "QueryId";
             internal const string TestimonialDataModel = "TestimonialDataModel";
             internal const string UploadId = "UploadId";
-            internal const string PostId = "PostId";
-            internal const string CommentsAreOpen = "CommentsAreOpen";
-            internal const string ShowComments = "ShowComments";
-            internal const string UserAuthenticated = "UserAuthenticated";
+            internal const string CommentsComponentModel = "CommentsComponentModel";
+            internal const string DirectoryComponentModel = "DirectoryComponentModel";
         }
     }
 }

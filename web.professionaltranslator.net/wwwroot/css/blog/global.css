@@ -145,8 +145,8 @@ ul, ol {
 }
 
 .row.post-index {
-    margin-top: 3rem;
-    margin-bottom: 3rem;
+    margin-top: 1rem;
+    margin-bottom: 1rem;
 }
 
 /*.post.index time {
@@ -164,7 +164,7 @@ time {
 }
 
 .post {
-    padding-bottom: 2em
+    padding-bottom: .5rem;
 }
 
     .post header h1 {
