@@ -4,6 +4,7 @@ using Newtonsoft.Json;
 using Repository.ProfessionalTranslator.Net;
 using System;
 using System.IO;
+using System.Linq;
 using System.Threading.Tasks;
 using Repository.ProfessionalTranslator.Net.Conversions;
 using web.professionaltranslator.net.Areas.Blog.Services;
@@ -26,6 +27,28 @@ namespace web.professionaltranslator.net.Areas.Blog.Pages
         internal IOptionsSnapshot<BlogSettings> BlogSettings;
 
         //ViewComponent Methods
+        public async Task<IActionResult> OnPostDeleteComment(string commentId)
+        {
+            if (string.IsNullOrWhiteSpace(commentId)) return ViewComponent("Comments");
+
+            var commentsComponentModel =
+                Session.Json.GetObject<CommentsComponentModel>(HttpContext.Session, Session.Key.CommentsComponentModel);
+
+            PostDataModel post = await BlogService.GetPostById(commentsComponentModel.PostId).ConfigureAwait(true);
+            if (post == null) throw new NullReferenceException("Post could not be derived from session.");
+
+            CommentModel comment = post.Comments.FirstOrDefault(c => c.Id.Equals(commentId, StringComparison.OrdinalIgnoreCase));
+            if (comment == null)
+            {
+                return ViewComponent("Comments");
+            }
+
+            post.Comments.Remove(comment);
+            await BlogService.SavePost(post).ConfigureAwait(false);
+
+            return ViewComponent("Comments");
+        }
+
         public async Task<IActionResult> OnPostSaveComment(string author, string email, string text, string exists)
         {
             if ((string.IsNullOrWhiteSpace(author)) || (string.IsNullOrWhiteSpace(email)) ||
@@ -53,11 +76,11 @@ namespace web.professionaltranslator.net.Areas.Blog.Pages
             {
                 post.Comments.Add(commentModel);
                 await BlogService.SavePost(post).ConfigureAwait(false);
-                Session.Json.SetObject(HttpContext.Session, Session.Key.CommentsComponentModel, commentsComponentModel);
             }
 
             return ViewComponent("Comments");
         }
+
         public async Task<IActionResult> OnPostShowComments()
         {
             return ViewComponent("Comments");

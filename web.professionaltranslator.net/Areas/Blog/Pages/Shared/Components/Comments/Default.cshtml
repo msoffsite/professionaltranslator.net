@@ -30,8 +30,8 @@
 
                         @if (Model.UserAuthenticated)
                         {
-                            <a class="noline" href="mailto:@comment.Email" title="Send email to @comment.Email">&#x2709;</a>
-                            @*<a class="delete noline" asp-controller="Blog" asp-Action="DeleteComment" asp-route-postid="@Model.ID" asp-route-commentid="@comment.ID" asp-route-afrt="@ViewData["afrt"]" title="Delete the comment...">Delete...</a>*@
+                            <a href="mailto:@comment.Email" title="Send email to @comment.Email"><i class="fas fa-envelope"></i></a>
+                            <a class="delete-comment float-right" data-comment-id="@comment.Id" title="Delete this comment."><i class="fas fa-eraser"></i></a>
                         }
                     </div>
                 </article>

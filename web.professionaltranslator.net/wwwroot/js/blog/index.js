@@ -2,6 +2,49 @@
 
 const addCommentResultTextContainer = $("#addComment_result_text");
 
+$(document).on("click",
+    "#save_add_comment",
+    function (e) {
+        e.preventDefault();
+        saveComment();
+    });
+
+$(document).on("click",
+    ".delete-comment",
+    function () {
+        const commentId = $(this).data("comment-id");
+        deleteComment(commentId);
+    });
+
+$(document).ready(function () {
+
+    loadComments();
+
+    $("p").each(function () {
+        if ($(this).has("img").length > 0) {
+            $(this).addClass("d-flex justify-content-center");
+        }
+    });
+});
+
+function deleteComment(commentId) {
+    $.ajax({
+        type: "POST",
+        url: "/Blog/Index?handler=DeleteComment",
+        beforeSend: function (xhr) {
+            xhr.setRequestHeader("XSRF-TOKEN",
+                $('input:hidden[name="__RequestVerificationToken"]').val());
+        },
+        data: {
+            commentId: commentId
+        }
+    }).done(function (result) {
+        $("#comments_container").html(result);
+    }).fail(function (xhr) {
+        processResultMessages(0, addCommentResultRow, addCommentResultTextContainer, xhr.statusText);
+    });
+}
+
 function loadComments() {
 
     $.ajax({
@@ -30,13 +73,10 @@ function saveComment() {
     }
 
     if (passed) {
-
-        //window.onbeforeunload = null;
-
         $.ajax({
             type: "POST",
             url: "/Blog/Index?handler=SaveComment",
-            beforeSend: function(xhr) {
+            beforeSend: function (xhr) {
                 xhr.setRequestHeader("XSRF-TOKEN",
                     $('input:hidden[name="__RequestVerificationToken"]').val());
             },
@@ -53,32 +93,3 @@ function saveComment() {
         });
     }
 }
-
-$(document).on("click",
-    "#save_add_comment",
-    function (e) {
-        e.preventDefault();
-        saveComment();
-    });
-$(document).ready(function () {
-
-    //$("#save_add_comment").on("click",
-    //    function () {
-    //        alert("save comment");
-    //        //saveComment();
-    //    });
-
-    $("#test_comments").on("click",
-        function (e) {
-            e.preventDefault();
-            loadComments();
-        });
-
-    loadComments();
-
-    $("p").each(function () {
-        if ($(this).has("img").length > 0) {
-            $(this).addClass("d-flex justify-content-center");
-        }
-    });
-});
