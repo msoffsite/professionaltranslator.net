@@ -19,17 +19,13 @@ using SubscriberModel = web.professionaltranslator.net.Areas.Blog.Models.Subscri
 using SubscriberDataModel = Models.ProfessionalTranslator.Net.Subscriber;
 using SubscriberRepository = Repository.ProfessionalTranslator.Net.Subscriber;
 
-using CommentComponentModel = web.professionaltranslator.net.Areas.Blog.Models.Components.Comments;
+using CommentsComponentModel = web.professionaltranslator.net.Areas.Blog.Models.Components.Comments;
 using DirectoryComponentModel = web.professionaltranslator.net.Areas.Blog.Models.Components.Directory;
-
+using CommentModel = web.professionaltranslator.net.Areas.Blog.Models.Comment;
 namespace web.professionaltranslator.net.Areas.Blog.Pages
 {
     public class IndexModel : Base
     {
-        internal readonly IBlogService BlogService;
-
-        internal readonly IOptionsSnapshot<BlogSettings> BlogSettings;
-
         [BindProperty(SupportsGet = true)]
         public string Slug { get; set; } = string.Empty;
 
@@ -72,7 +68,7 @@ namespace web.professionaltranslator.net.Areas.Blog.Pages
             HasCategories = Data.Categories.Count > 0;
             ShowComments = BlogSettings.Value.DisplayComments;
 
-            var commentComponentModel = new CommentComponentModel
+            var commentComponentModel = new CommentsComponentModel
             {
                 PostId = Data.Id,
                 CommentsAreOpen = Data.AreCommentsOpen(BlogSettings.Value.CommentsCloseAfterDays),

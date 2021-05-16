@@ -1,6 +1,6 @@
-﻿const resultRow = $("#subscriber_result_row");
+﻿const subscriberResultRow = $("#subscriber_result_row");
 
-const resultTextContainer = $("#subscriber_result_text");
+const subscriberResultTextContainer = $("#subscriber_result_text");
 
 $(document).ready(function () {
     "use strict";
@@ -19,7 +19,7 @@ function clearSubscriberInfo() {
 
 function saveSubscriber() {
 
-    const input = $(".validate-input .input-element");
+    const input = $("#subscriber_form .validate-input .input-element");
 
     let passed = true;
 
@@ -47,13 +47,13 @@ function saveSubscriber() {
             dataType: "json",
             success: function (response) {
                 console.log(JSON.stringify(response));
-                processResultMessages(response.status, resultRow, resultTextContainer, response.messages);
+                processResultMessages(response.status, subscriberResultRow, subscriberResultTextContainer, response.messages);
                 if (response.status === 2) {
                     clearSubscriberInfo();
                 }
             },
             failure: function (xhr) {
-                processResultMessages(0, resultRow, resultTextContainer, xhr.statusText);
+                processResultMessages(0, subscriberResultRow, subscriberResultTextContainer, xhr.statusText);
             }
         });
     }

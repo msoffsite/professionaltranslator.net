@@ -204,7 +204,7 @@ namespace web.professionaltranslator.net.Areas.Blog.Services
                         new XElement("author", comment.Author),
                         new XElement("email", comment.Email),
                         new XElement("date", FormatDateTime(comment.PubDate)),
-                        new XElement("content", comment.Text),
+                        new XElement("text", comment.Text),
                         new XAttribute("isAdmin", comment.IsAdmin),
                         new XAttribute("id", comment.Id)
                     ));

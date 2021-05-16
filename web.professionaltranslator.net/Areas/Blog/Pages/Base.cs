@@ -1,11 +1,19 @@
-﻿using System;
-using System.Linq;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Options;
+using Newtonsoft.Json;
 using Repository.ProfessionalTranslator.Net;
+using System;
+using System.IO;
+using System.Threading.Tasks;
+using Repository.ProfessionalTranslator.Net.Conversions;
+using web.professionaltranslator.net.Areas.Blog.Services;
 using web.professionaltranslator.net.Extensions;
+
+using CommentModel = web.professionaltranslator.net.Areas.Blog.Models.Comment;
+using CommentsComponentModel = web.professionaltranslator.net.Areas.Blog.Models.Components.Comments;
 using DirectoryComponentModel = web.professionaltranslator.net.Areas.Blog.Models.Components.Directory;
+using PostDataModel = web.professionaltranslator.net.Areas.Blog.Models.Post;
+
 
 namespace web.professionaltranslator.net.Areas.Blog.Pages
 {
@@ -13,7 +21,44 @@ namespace web.professionaltranslator.net.Areas.Blog.Pages
     {
         internal Area Blog = Area.Blog;
 
-        public IActionResult OnPostShowComments()
+        internal IBlogService BlogService;
+
+        internal IOptionsSnapshot<BlogSettings> BlogSettings;
+
+        //ViewComponent Methods
+        public async Task<IActionResult> OnPostSaveComment(string author, string email, string text, string exists)
+        {
+            if ((string.IsNullOrWhiteSpace(author)) || (string.IsNullOrWhiteSpace(email)) ||
+                (string.IsNullOrWhiteSpace(text)) ||
+                (string.IsNullOrWhiteSpace(exists))) return ViewComponent("Comments");
+            
+            var commentsComponentModel =
+                Session.Json.GetObject<CommentsComponentModel>(HttpContext.Session, Session.Key.CommentsComponentModel);
+
+            PostDataModel post = await BlogService.GetPostById(commentsComponentModel.PostId).ConfigureAwait(true);
+            if (post == null) throw new NullReferenceException("Post could not be derived from session.");
+
+            var commentModel = new CommentModel
+            {
+                Author = author,
+                Email = email,
+                IsAdmin = User.Identity.IsAuthenticated,
+                Text = text
+            };
+
+            bool elementExists = Implicit.Bool(exists);
+            // the website form key should have been removed by javascript unless the comment was posted by a spam robot
+            // ReSharper disable once InvertIf
+            if (!elementExists)
+            {
+                post.Comments.Add(commentModel);
+                await BlogService.SavePost(post).ConfigureAwait(false);
+                Session.Json.SetObject(HttpContext.Session, Session.Key.CommentsComponentModel, commentsComponentModel);
+            }
+
+            return ViewComponent("Comments");
+        }
+        public async Task<IActionResult> OnPostShowComments()
         {
             return ViewComponent("Comments");
         }
@@ -73,11 +118,6 @@ namespace web.professionaltranslator.net.Areas.Blog.Pages
             }
             
             return ViewComponent("Directory");
-        }
-
-        public async Task<IActionResult> OnPostSaveComment()
-        {
-            return null;
         }
     }
 }

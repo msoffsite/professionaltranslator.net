@@ -26,8 +26,6 @@ namespace web.professionaltranslator.net.Areas.Blog.Pages
     [Authorize(Roles = "Administrator")]
     public class EditModel : Base
     {
-        internal readonly IBlogService BlogService;
-        internal readonly IOptionsSnapshot<BlogSettings> BlogSettings;
         internal readonly WebManifest Manifest;
 
         [BindProperty(SupportsGet = true)]

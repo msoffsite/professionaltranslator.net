@@ -43,7 +43,7 @@
                 <div class="form-row">
                     <div class="form-group col-12">
                         <div class="input-container validate-input" data-validate="Enter your comments here." title="Enter your comments here.">
-                            <textarea id="content" name="content" onfocus="" class="input-element" placeholder="Enter your comment here..."></textarea>
+                            <textarea id="comment_text" name="comment_text" onfocus="" class="input-element" placeholder="Enter your comment here..."></textarea>
                         </div>
                     </div>
                 </div>
@@ -51,29 +51,28 @@
                     <div class="form-row">
                         <div class="form-group col-lg-6 col-md-6 col-sm-12">
                             <div class="input-container validate-input" data-validate="Enter your name here." title="Your name goes here.">
-                                <input id="author" name="author" placeholder="Your Name" class="input-element" />
+                                <input id="comment_author" name="comment_author" placeholder="Your Name" class="input-element" />
                             </div>
                         </div>
                         <div class="form-group col-lg-6 col-md-6 col-sm-12">
                             <div class="input-container validate-input" data-validate="Valid email address required." title="Valid email address required.">
-                                <input id="email" name="email" placeholder="Your Email Address" class="input-element" />
+                                <input id="comment_email" name="comment_email" placeholder="Your Email Address" class="input-element" />
                             </div>
                         </div>
                     </div>
-                    <div id="comment_result_row" class="form-row hide-soft">
+                    <div id="addComment_result_row" class="form-row hide-soft">
                         <div class="form-group col-12">
-                            <div id="comment_result_text" role="alert"></div>
+                            <div id="addComment_result_text" role="alert"></div>
                         </div>
                     </div>
                     <div class="form-row">
                         <div class="form-group col-12 text-center">
-                            <button id="save_comment" type="submit" class="btn btn-link text-larger">
+                            <button id="save_add_comment" type="submit" class="btn btn-link text-larger">
                                 <i class="fas fa-comment"></i>
                                 Add Comment
                             </button>
-
-                            <!-- This element is being removed by site.js. It is to prevent comment spam-->
-                            <input type="hidden" name="website" />
+                            <!-- This element is to prevent comment spam-->
+                            <input id="website" type="hidden" name="website" />
                         </div>
                     </div>
                 </div>

@@ -32,6 +32,7 @@
 
   <ItemGroup>
     <Content Remove="bundleconfig.json" />
+    <Content Remove="wwwroot\js\blog\post.js" />
     <Content Remove="wwwroot\js\global.min.js" />
   </ItemGroup>
 

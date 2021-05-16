@@ -1,25 +1,23 @@
 ﻿using System;
-using System.ComponentModel.DataAnnotations;
 using System.Globalization;
 using System.Security.Cryptography;
 using System.Text;
-using Microsoft.AspNetCore.Mvc.RazorPages;
 
 namespace web.professionaltranslator.net.Areas.Blog.Models
 {
     public class Comment
     {
+        public string Id { get; set; } = Guid.NewGuid().ToString();
+
         public string Author { get; set; } = string.Empty;
 
-        public string Text { get; set; } = string.Empty;
-
         public string Email { get; set; } = string.Empty;
-
-        public string Id { get; set; } = Guid.NewGuid().ToString();
 
         public bool IsAdmin { get; set; } = false;
 
         public DateTime PubDate { get; set; } = DateTime.UtcNow;
+
+        public string Text { get; set; } = string.Empty;
 
         public string GetGravatar()
         {
