@@ -158,8 +158,11 @@ namespace web.professionaltranslator.net.Areas.Admin.Pages
                 string imageWebPath = AdminPortfolioSettings.ImageWebPath + filename;
 
                 var dataModel = Session.Json.GetObject<DataModel>(HttpContext.Session, Session.Key.PortfolioDataModel);
-                ImageModel cover = dataModel.Cover;
-                cover.Path = imageWebPath;
+                var cover = new ImageModel
+                {
+                    Id = Guid.NewGuid(),
+                    Path = imageWebPath
+                };
                 dataModel.Cover = cover;
                 Session.Json.SetObject(HttpContext.Session, Session.Key.PortfolioDataModel, dataModel);
 
