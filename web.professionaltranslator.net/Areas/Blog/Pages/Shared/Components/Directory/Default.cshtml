@@ -1,4 +1,6 @@
-﻿@using Microsoft.Extensions.Options
+﻿@using Microsoft.AspNetCore.Http
+@using Microsoft.AspNetCore.Http.Extensions
+@using Microsoft.Extensions.Options
 @model web.professionaltranslator.net.Areas.Blog.Models.Components.Directory
 @inject IOptionsSnapshot<BlogSettings> Settings
 @if (!string.IsNullOrWhiteSpace(Model.Category))
@@ -48,10 +50,17 @@ else
                         @Html.Raw(dataItem.Excerpt)
                         @if (User.Identity.IsAuthenticated)
                         {
-                            <span>&ndash;&nbsp;<a asp-area="Blog" asp-page="/Edit" asp-route-postid="@dataItem.Id" title="Edit @dataItem.Title"><i class="fa fa-edit"></i></a></span>
+                            <span>&ndash;&nbsp;<a asp-area="Blog" asp-page="/Edit" asp-route-postid="@dataItem.Id" title="Edit @dataItem.Title"><i class="fas fa-edit"></i></a></span>
                         }
                     </div>
                     <footer>
+                        @if (User.Identity.IsAuthenticated)
+                        {
+                            <span>
+                                <a class="delete-post" data-post-id="@dataItem.Id" data-post-title="@dataItem.Title" title="Delete @dataItem.Title"><i class="fas fa-trash-alt"></i></a>
+                                &nbsp;&nbsp;
+                            </span>
+                        }
                         <time datetime="@dataItem.PubDate.ToString("s")" itemprop="datePublished">@dataItem.PubDate.ToShortDateString() @dataItem.PubDate.ToShortTimeString()</time>
                         @if (dataItem.Categories.Any())
                         {

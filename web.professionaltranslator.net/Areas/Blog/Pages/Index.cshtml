@@ -1,4 +1,4 @@
-﻿@page "{slug?}/{currentpage?}/{category?}"
+﻿@page "{slug?}"
 @using Microsoft.Extensions.Options
 @using web.professionaltranslator.net
 @using web.professionaltranslator.net.Areas.Blog
@@ -107,6 +107,7 @@
                         @if (Model.UserAuthenticated)
                         {
                             <a asp-area="Blog" asp-page="/Edit" asp-route-postid="@Model.Data.Id" title="Edit @Model.Data.Title"><i class="fa fa-edit"></i> Edit Post</a>
+                            <span>&nbsp;&ndash;&nbsp;</span>
                         }
                     </div>
                     <div class="col-6 text-right">

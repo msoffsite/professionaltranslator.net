@@ -49,6 +49,16 @@ namespace web.professionaltranslator.net.Areas.Blog.Pages
             return ViewComponent("Comments");
         }
 
+        public async Task<IActionResult> OnPostDeletePost(string postId)
+        {
+            PostDataModel? existing = await BlogService.GetPostById(postId).ConfigureAwait(false);
+            if (existing != null)
+            {
+                await BlogService.DeletePost(existing).ConfigureAwait(false);
+            }
+            return ViewComponent("Directory");
+        }
+
         public async Task<IActionResult> OnPostSaveComment(string author, string email, string text, string exists)
         {
             if ((string.IsNullOrWhiteSpace(author)) || (string.IsNullOrWhiteSpace(email)) ||

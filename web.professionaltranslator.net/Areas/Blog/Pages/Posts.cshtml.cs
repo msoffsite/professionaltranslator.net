@@ -45,26 +45,5 @@ namespace web.professionaltranslator.net.Areas.Blog.Pages
             Item = await new Base().Get(SiteSettings, Blog, "BlogPosts");
             return Item == null ? NotFound() : (IActionResult)Page();
         }
-
-        /*
-        public async Task<IActionResult> GetCategory(string category, int page = 0)
-        {
-            // get posts for the selected category.
-            var posts = this.blog.GetPostsByCategory(category);
-
-            // apply paging filter.
-            var filteredPosts = posts.Skip(this.settings.Value.PostsPerPage * page).Take(this.settings.Value.PostsPerPage);
-
-            // set the view option
-            this.ViewData["ViewOption"] = this.settings.Value.ListView;
-
-            this.ViewData[Constants.TotalPostCount] = await posts.CountAsync().ConfigureAwait(true);
-            this.ViewData[Constants.Title] = $"{this.manifest.Name} {category}";
-            this.ViewData[Constants.Description] = $"Articles posted in the {category} category";
-            this.ViewData[Constants.prev] = $"/blog/category/{category}/{page + 1}/";
-            this.ViewData[Constants.next] = $"/blog/category/{category}/{(page <= 1 ? null : page - 1 + "/")}";
-            return this.View("~/Views/Blog/Index.cshtml", filteredPosts.AsAsyncEnumerable());
-        }
-        */
     }
 }
