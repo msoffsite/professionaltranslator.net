@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using web.professionaltranslator.net.Areas.Blog.Models;
-using web.professionaltranslator.net.Models;
 
 namespace web.professionaltranslator.net.Areas.Blog.Services
 {

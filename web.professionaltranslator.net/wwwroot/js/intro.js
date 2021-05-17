@@ -7,11 +7,8 @@ $(window).on("load resize",
         if (originalImageHeight === 0) {
             originalImageHeight = imageHeight;
         }
-        console.log("windowHeight: " + windowHeight);
-        console.log("imageHeight: " + imageHeight);
         if (windowHeight < 1080) {
             imageHeight = windowHeight * .70;
-            console.log("adjusted imageHeight: " + imageHeight);
             $(".intro-hola-hello").height(imageHeight);
             console.log('$(".intro-hola-hello").height(): ' + $(".intro-hola-hello").height());
         } else {

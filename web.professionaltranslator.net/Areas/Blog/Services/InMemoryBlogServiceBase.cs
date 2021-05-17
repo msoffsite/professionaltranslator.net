@@ -1,11 +1,10 @@
 ﻿#nullable enable
+using Microsoft.AspNetCore.Http;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using Microsoft.AspNetCore.Http;
 using web.professionaltranslator.net.Areas.Blog.Models;
-using web.professionaltranslator.net.Models;
 
 namespace web.professionaltranslator.net.Areas.Blog.Services
 {
@@ -41,7 +40,7 @@ namespace web.professionaltranslator.net.Areas.Blog.Services
         public virtual Task<Post?> GetPostById(string id)
         {
             bool isAdmin = IsAdmin();
-            Post post = Cache.FirstOrDefault(p => p.Id.Equals(id, StringComparison.OrdinalIgnoreCase)) ?? throw new InvalidOperationException();
+            Post? post = Cache.FirstOrDefault(p => p.Id.Equals(id, StringComparison.OrdinalIgnoreCase));
 
             return Task.FromResult(
                 post is null || !post.IsVisible() || !isAdmin
@@ -52,12 +51,12 @@ namespace web.professionaltranslator.net.Areas.Blog.Services
         public virtual Task<Post?> GetPostBySlug(string slug)
         {
             bool isAdmin = IsAdmin();
-            Post post = Cache.FirstOrDefault(p => p.Slug.Equals(slug, StringComparison.OrdinalIgnoreCase)) ?? throw new InvalidOperationException();
+            Post? post = Cache.FirstOrDefault(p => p.Slug.Equals(slug, StringComparison.OrdinalIgnoreCase));
 
             return Task.FromResult(
-                !post.IsVisible() || !isAdmin
-                ? null
-                : post);
+                post is null || !post.IsVisible() || !isAdmin
+                    ? null
+                    : post);
         }
 
         /// <remarks>Overload for getPosts method to retrieve all posts.</remarks>

@@ -1,6 +1,4 @@
-﻿@using Microsoft.AspNetCore.Http
-@using Microsoft.AspNetCore.Http.Extensions
-@using Microsoft.Extensions.Options
+﻿@using Microsoft.Extensions.Options
 @model web.professionaltranslator.net.Areas.Blog.Models.Components.Directory
 @inject IOptionsSnapshot<BlogSettings> Settings
 @if (!string.IsNullOrWhiteSpace(Model.Category))
@@ -105,4 +103,4 @@ else
         </div>
     </div>
 }
-<script src="~/js/blog/components/directory.js" asp-append-version="true"></script>
+<script src="~/js/blog/components/directory.min.js" asp-append-version="true"></script>

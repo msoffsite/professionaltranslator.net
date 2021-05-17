@@ -1,11 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-
-namespace web.professionaltranslator.net.Areas.Blog.Models
+﻿namespace web.professionaltranslator.net.Areas.Blog.Models.Forms
 {
-    public class PostForm
+    public class Post
     {
         public string Id { get; set; }
         public string Title { get; set; }

@@ -40,7 +40,6 @@ function savePost() {
             contentType: "application/json; charset=utf-8",
             dataType: "json",
             success: function (response) {
-                console.log(JSON.stringify(response));
                 processResultMessages(response.status, commentResultRow, commentResultTextContainer, response.messages);
                 if (response.status === 2) {
                     clearSubscriberInfo();

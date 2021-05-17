@@ -46,7 +46,6 @@ function saveSubscriber() {
             contentType: "application/json; charset=utf-8",
             dataType: "json",
             success: function (response) {
-                console.log(JSON.stringify(response));
                 processResultMessages(response.status, subscriberResultRow, subscriberResultTextContainer, response.messages);
                 if (response.status === 2) {
                     clearSubscriberInfo();

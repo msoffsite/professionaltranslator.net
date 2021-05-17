@@ -1,4 +1,6 @@
 ﻿#nullable enable
+using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Http;
 using System;
 using System.Collections.Generic;
 using System.Globalization;
@@ -9,10 +11,7 @@ using System.Threading;
 using System.Threading.Tasks;
 using System.Xml.Linq;
 using System.Xml.XPath;
-using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.Http;
 using web.professionaltranslator.net.Areas.Blog.Models;
-using web.professionaltranslator.net.Models;
 
 namespace web.professionaltranslator.net.Areas.Blog.Services
 {

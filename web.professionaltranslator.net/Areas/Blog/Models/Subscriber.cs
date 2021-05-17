@@ -1,7 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 using BaseModel = Models.ProfessionalTranslator.Net.Subscriber;
 
 namespace web.professionaltranslator.net.Areas.Blog.Models
