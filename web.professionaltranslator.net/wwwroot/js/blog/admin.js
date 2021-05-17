@@ -69,6 +69,7 @@ function savePost() {
                 Content: postContentValidator.val(),
                 Categories: $("#post_categories").val(),
                 Slug: slug,
+                PubDate: $("#post_pub_date").datepicker("getDate"),
                 IsPublished: publish
             }),
             contentType: "application/json; charset=utf-8",

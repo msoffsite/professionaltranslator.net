@@ -1,4 +1,4 @@
-﻿@page "{slug?}"
+﻿@page "{slug?}/{referrer?}"
 @using Microsoft.Extensions.Options
 @using web.professionaltranslator.net
 @using web.professionaltranslator.net.Areas.Blog
@@ -10,7 +10,16 @@
     ViewData[Constants.Description] = Model.Data.Excerpt;
     var host = $"{HttpContext.Request.Scheme}://{HttpContext.Request.Host}";
     bool isCodePreview = Model.Data.Content.Contains("</code>");
+    var currentUrl = $"{Request.Scheme}://{Request.Host}{Request.Path}";
+    currentUrl = currentUrl.Replace("localhost:44322", "professionaltranslator.net");
     string headerText = Model.Item.Header.Trim();
+}
+@section Head {
+    <meta property="og:url"           content="@currentUrl" />
+    <meta property="og:type"          content="website" />
+    <meta property="og:title"         content="@Model.Data.Title" />
+    <meta property="og:description"   content="@Model.Data.Excerpt" />
+    <meta property="og:image"         content="https://professionaltranslator.net/img/og/intro-16-9.png" />
 }
 @section Styles {
     <link rel="canonical" href="@(host + Model.Data.GetLink())" />
@@ -106,7 +115,6 @@
                         @if (Model.UserAuthenticated)
                         {
                             <a asp-area="Blog" asp-page="/Edit" asp-route-postid="@Model.Data.Id" title="Edit @Model.Data.Title"><i class="fa fa-edit"></i> Edit Post</a>
-                            <span>&nbsp;&ndash;&nbsp;</span>
                         }
                     </div>
                     <div class="col-6 text-right">
@@ -127,7 +135,7 @@
                 <meta itemprop="mainEntityOfPage" content="@(host + Model.Data.GetLink())" />
             </footer>
         </article>
-        <button id="test_comments" class="btn btn-default">Test Reload Comments</button>
+        @{await Html.RenderPartialAsync("_SocialSharing", Model.Data.Title);}
         @section Comments {
             <div id="comments_container"></div>
         }

@@ -89,9 +89,10 @@ namespace web.professionaltranslator.net.Areas.Blog.Services
             Post? post = _cache.FirstOrDefault(p => p.Id.Equals(id, StringComparison.OrdinalIgnoreCase));
 
             return Task.FromResult(
-                post is null || post.PubDate > DateTime.UtcNow || (!post.IsPublished && !isAdmin)
+                post is null || (post.PubDate > DateTime.UtcNow && !isAdmin) || (!post.IsPublished && !isAdmin)
                     ? null
                     : post);
+
         }
 
         public virtual Task<Post?> GetPostBySlug(string slug)
@@ -100,7 +101,7 @@ namespace web.professionaltranslator.net.Areas.Blog.Services
             Post? post = _cache.FirstOrDefault(p => p.Slug.Equals(slug, StringComparison.OrdinalIgnoreCase));
 
             return Task.FromResult(
-                post is null || post.PubDate > DateTime.UtcNow || (!post.IsPublished && !isAdmin)
+                post is null || (post.PubDate > DateTime.UtcNow && !isAdmin) || (!post.IsPublished && !isAdmin)
                 ? null
                 : post);
         }
@@ -110,9 +111,20 @@ namespace web.professionaltranslator.net.Areas.Blog.Services
         {
             bool isAdmin = IsAdmin();
 
-            IAsyncEnumerable<Post> posts = _cache
-                .Where(p => p.PubDate <= DateTime.UtcNow && (p.IsPublished || isAdmin))
-                .ToAsyncEnumerable();
+            IAsyncEnumerable<Post> posts;
+
+            if (isAdmin)
+            {
+                posts = _cache
+                    .Where(p => p.IsPublished || isAdmin)
+                    .ToAsyncEnumerable();
+            }
+            else
+            {
+                posts = _cache
+                    .Where(p => p.PubDate <= DateTime.UtcNow && (p.IsPublished || isAdmin))
+                    .ToAsyncEnumerable();
+            }
 
             return posts;
         }
@@ -134,10 +146,22 @@ namespace web.professionaltranslator.net.Areas.Blog.Services
         {
             bool isAdmin = IsAdmin();
 
-            IEnumerable<Post> posts = from p in _cache
-                        where p.PubDate <= DateTime.UtcNow && (p.IsPublished || isAdmin)
-                        where p.Categories.Contains(category, StringComparer.OrdinalIgnoreCase)
-                        select p;
+            IEnumerable<Post> posts;
+
+            if (isAdmin)
+            {
+                posts = from p in _cache
+                    where p.IsPublished || isAdmin
+                    where p.Categories.Contains(category, StringComparer.OrdinalIgnoreCase)
+                    select p;
+            }
+            else
+            {
+                posts = from p in _cache
+                    where p.PubDate <= DateTime.UtcNow && (p.IsPublished || isAdmin)
+                    where p.Categories.Contains(category, StringComparer.OrdinalIgnoreCase)
+                    select p;
+            }
 
             return posts.ToAsyncEnumerable();
         }

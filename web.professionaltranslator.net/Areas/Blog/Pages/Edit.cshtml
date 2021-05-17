@@ -77,17 +77,22 @@
             </div>
         </div>
         <div class="form-row">
-            <div class="form-group col-12">
-                <div class="input-container light-gray-background d-flex justify-content-around align-content-center radio-container-flex">
+            <div class="form-group col-6">
+                <div class="input-container light-gray-background d-flex justify-content-around align-content-center radio-container-flex" data-valitdate="Enter publication date." title="Enter publication date.">
+                    <input id="post_pub_date" class="input-element" type="text" placeholder="Publication Date" value="@Model.Data.PubDate.ToShortDateString()">
+                </div>
+            </div>
+            <div class="form-group col-6">
+                <div class="input-container light-gray-background d-flex justify-content-around align-content-center radio-container-flex form-check-fill-row">
                     <div class="form-check-inline-flex">
                         <label class="form-check-label" title="Choose whether to publish the post.">
                             @if (Model.Data.IsPublished)
                             {
-                                <span><input type="radio" class="form-check-input" name="publish-post" value="show" checked aria-checked="True"/>Published</span>
+                                <span><input type="radio" class="form-check-input" name="publish-post" value="show" checked aria-checked="True" />Published</span>
                             }
                             else
                             {
-                                <span><input type="radio" class="form-check-input" name="publish-post" value="show" aria-checked="False"/>Published</span>
+                                <span><input type="radio" class="form-check-input" name="publish-post" value="show" aria-checked="False" />Published</span>
                             }
                         </label>
                     </div>
@@ -121,6 +126,12 @@
 @section Scripts
 {
     <script src="~/js/form.min.js" asp-append-version="true"></script>
-    <script src="//@host/lib/tinymce/tinymce.min.js"></script> @*with enabled CDN tinymce is not able to find some files*@
+    <script src="~/lib/tinymce/tinymce.min.js"></script> 
     <script src="~/js/blog/admin.min.js" async></script>
+    
+    <script>
+        $(function() {
+            $( "#post_pub_date" ).datepicker();
+        });
+    </script>
 }

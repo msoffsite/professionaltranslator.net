@@ -2,30 +2,27 @@
 @inject UserManager<IdentityUser> UserManager
 
 <ul class="navbar-nav">
-@if (SignInManager.IsSignedIn(User))
-{
-    <li class="nav-item">
-        <a  class="nav-link" asp-area="Identity" asp-page="/Account/Manage/Index" title="Manage">Hello @User.Identity.Name!</a>
-    </li>
-    <li class="nav-item">
-        <a class="nav-link" asp-area="" asp-page="/Home" title="Return to public website without signing out."><i class="fas fa-home" title="Return to public website without signing out."></i></a>
-    </li>
-    <li class="nav-item">
-        <form class="form-inline" asp-area="Identity" asp-page="/Account/Logout" asp-route-returnUrl="@Url.Page("/Home", new { area = "" })" method="post">
-            <button type="submit" class="nav-link btn btn-link" title="Sign out and return to public website."><i class="fas fa-sign-out-alt" title="Sign out and return to public website."></i></button>
-        </form>
-    </li>
-}
-else
-{
-    <li class="nav-item">
-        <a class="nav-link" asp-area="" asp-page="/Home" title="Return to public website."><i class="fas fa-home" title="Return to public website."></i></a>
-    </li>
-    @*<li class="nav-item">
-        <a class="nav-link" asp-area="Identity" asp-page="/Account/Register">Register</a>
-    </li>
-    <li class="nav-item">
-        <a class="nav-link" asp-area="Identity" asp-page="/Account/Login">Login</a>
-    </li>*@
-}
+    @if (SignInManager.IsSignedIn(User))
+    {
+        <li class="nav-item">
+            <a class="nav-link" asp-area="Identity" asp-page="/Account/Manage/Index" title="Manage">Hello @User.Identity.Name!</a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link" asp-area="Blog" asp-page="/Posts" title="Go to blog area."><i class="fas fa-blog" title="Go to blog area."></i></a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link" asp-area="" asp-page="/Home" title="Return to public website without signing out."><i class="fas fa-home" title="Return to public website without signing out."></i></a>
+        </li>
+        <li class="nav-item">
+            <form class="form-inline" asp-area="Identity" asp-page="/Account/Logout" asp-route-returnUrl="@Url.Page("/Home", new { area = "" })" method="post">
+                <button type="submit" class="nav-link btn btn-link" title="Sign out and return to public website."><i class="fas fa-sign-out-alt" title="Sign out and return to public website."></i></button>
+            </form>
+        </li>
+    }
+    else
+    {
+        <li class="nav-item">
+            <a class="nav-link" asp-area="" asp-page="/Home" title="Return to public website."><i class="fas fa-home" title="Return to public website."></i></a>
+        </li>
+    }
 </ul>

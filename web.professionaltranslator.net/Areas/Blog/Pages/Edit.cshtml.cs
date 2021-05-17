@@ -74,10 +74,10 @@ namespace web.professionaltranslator.net.Areas.Blog.Pages
 
                 Data = await BlogService.GetPostById(obj.Id).ConfigureAwait(false) ?? new DataModel
                 {
-                    Id = obj.Id,
-                    PubDate = DateTime.Now
+                    Id = obj.Id
                 };
 
+                Data.PubDate = obj.PubDate ?? DateTime.Now;
                 Data.Content = obj.Content.Trim();
                 Data.Excerpt = obj.Excerpt.Trim();
                 Data.IsPublished = obj.IsPublished;
