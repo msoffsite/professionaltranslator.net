@@ -2,8 +2,7 @@
 using System.Data;
 using System.Threading.Tasks;
 using Microsoft.Data.SqlClient;
-
-using Object = Repository.ProfessionalTranslator.Net.Conversions.Object;
+using Repository.ProfessionalTranslator.Net.Conversions;
 
 namespace Repository.ProfessionalTranslator.Net.DatabaseOperations.dbo.Read
 {

@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics.CodeAnalysis;
 using System.Linq;
 using System.Threading.Tasks;
 using dbRead = Repository.ProfessionalTranslator.Net.DatabaseOperations.dbo.Read;
@@ -40,7 +41,7 @@ namespace Repository.ProfessionalTranslator.Net
 
 
         // ReSharper disable once UnusedMember.Local
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("CodeQuality", "IDE0051:Remove unused private members", Justification = "<Pending>")]
+        [SuppressMessage("CodeQuality", "IDE0051:Remove unused private members", Justification = "<Pending>")]
         private static async Task<Tables.dbo.Testimonial> Item(Guid siteId, Guid workId)
         {
             Tables.dbo.Testimonial testimonial = await dbRead.Testimonial.Item(siteId, workId);
@@ -67,7 +68,7 @@ namespace Repository.ProfessionalTranslator.Net
                     EmailAddress = testimonial.EmailAddress,
                     DateCreated = testimonial.DateCreated,
                     Approved = testimonial.Approved,
-                    Entries = localizedList.Select(n => new models.Localized.Testimonial
+                    Entries = localizedList.Select(n => new Models.ProfessionalTranslator.Net.Localized.Testimonial
                     {
                         Lcid = n.Lcid,
                         Html = n.Html.Trim()
@@ -231,7 +232,7 @@ namespace Repository.ProfessionalTranslator.Net
             }
 
             // ReSharper disable once ForeachCanBePartlyConvertedToQueryUsingAnotherGetEnumerator
-            foreach (models.Localized.Testimonial localizedPage in inputItem.Entries)
+            foreach (Models.ProfessionalTranslator.Net.Localized.Testimonial localizedPage in inputItem.Entries)
             {
                 var saveLocalization = new Tables.Localization.Testimonial
                 {

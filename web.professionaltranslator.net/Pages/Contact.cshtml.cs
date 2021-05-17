@@ -7,21 +7,16 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore.Internal;
-using Microsoft.EntityFrameworkCore.Scaffolding.Metadata;
-using Models.ProfessionalTranslator.Net;
 using Newtonsoft.Json;
 using Repository.ProfessionalTranslator.Net;
 using web.professionaltranslator.net.Extensions;
 using web.professionaltranslator.net.Models;
-using Client = Repository.ProfessionalTranslator.Net.Client;
 using ClientModel = Models.ProfessionalTranslator.Net.Client;
 using UploadModel = Models.ProfessionalTranslator.Net.Upload.Client;
 using DataModel = Models.ProfessionalTranslator.Net.Log.Inquiry;
 using Model = web.professionaltranslator.net.Models.Inquiry;
 using Data = Repository.ProfessionalTranslator.Net.Inquiry;
 using Exception = System.Exception;
-using Result = Repository.ProfessionalTranslator.Net.Result;
 
 namespace web.professionaltranslator.net.Pages
 {

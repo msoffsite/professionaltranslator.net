@@ -2,7 +2,7 @@
     "use strict";
 
     $("input").each(function () {
-        console.log("input found.");
+        //console.log("input found.");
         $(this).attr("autocomplete", randomString(5));
     });
     //$(".form-container").disableAutoFill();
@@ -33,7 +33,7 @@ function randomString(length) {
     for (let i = 0; i < length; i++) {
         result += characters.charAt(Math.floor(Math.random() * charactersLength));
     }
-    console.log("random string: " + result);
+    //console.log("random string: " + result);
     return result;
 }
 

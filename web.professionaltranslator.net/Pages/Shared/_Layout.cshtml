@@ -4,20 +4,20 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>@ViewData["Title"] - Cinta Garcia - Professional Translator</title>
-    @await RenderSectionAsync("MetaTags", true)
+    @await RenderSectionAsync("MetaTags", false)
     <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png" />
     <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png" />
     <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png" />
     <link rel="manifest" href="/manifest.json" />
     <link rel="mask-icon" href="/safari-pinned-tab.svg" color="#5bbad5" />
     <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
-    <link rel="stylesheet" href="~/css/fontawesome.all.min.css" />
     <link rel="stylesheet" href="~/css/global.min.css" asp-append-version="true" />
     <link rel="stylesheet" href="~/css/animate.min.css" asp-append-version="true" />
     <link rel="stylesheet" href="~/css/carousel.min.css" asp-append-version="true" />
     <link rel="stylesheet" href="~/css/menu.min.css" asp-append-version="true" />
     <link rel="stylesheet" href="~/css/banner.min.css" asp-append-version="true" />
     @await RenderSectionAsync("Styles", false)
+    <script src="~/lib/jquery/dist/jquery.min.js"></script>
 </head>
 <body class="fadeInLeftBig animated" style="visibility: visible; animation-name: fadeInLeftBig;">
 @await Component.InvokeAsync("Loading")
@@ -96,6 +96,20 @@
                     Get in touch
                 </h6>
             </a>
+
+            <a class="list-group-item menu-link" asp-area="Blog" asp-page="/Posts" title="Read what I've been up to and enjoyed!">
+                <h3 class="menu-title">Blog</h3>
+
+                <div class="menu-icon">
+                    <span class="line"></span>
+                    <span class="fas fa-blog" aria-hidden="true"></span>
+                    <span class="line"></span>
+                </div>
+
+                <h6 class="menu-subtitle subtitle">
+                    Musings &amp; Whatnot
+                </h6>
+            </a>
         </div>
     </div>
     <div id="page-content-wrapper">
@@ -151,11 +165,11 @@
                             </div>
                         </div>
                         <div class="col-12 col-md-6 banner">
-                            <img src="img/laurel-muted.png" title="Over 5,700,000 words translated." alt="Over 5,700,000 words translated." />
+                            <img src="~/img/laurel-muted.png" title="Over 5,700,000 words translated." alt="Over 5,700,000 words translated." />
                             <h1 class="text">
                                 5,700,000+ words translated
                             </h1>
-                            <img src="img/laurel-muted.png" class="flip-img" title="5,700,000 words translated." alt="Over 5,700,000 words translated." />
+                            <img src="~/img/laurel-muted.png" class="flip-img" title="5,700,000 words translated." alt="Over 5,700,000 words translated." />
                         </div>
                     </div>
                 </div>
@@ -170,9 +184,8 @@
 </div>
 <partial name="_Footer"/>
 
-    <script src="~/lib/jquery/dist/jquery.min.js"></script>
     <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
-    <script src="~/js/fontawesome.all.min.js"></script>
+    <script src="https://kit.fontawesome.com/9229d0271e.js" crossorigin="anonymous"></script>
     <script src="~/js/wow.min.js" asp-append-version="true"></script>
     <script src="~/js/global.min.js" asp-append-version="true"></script>
     <script src="~/js/layout.min.js" asp-append-version="true"></script>

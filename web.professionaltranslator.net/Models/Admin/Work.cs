@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-
-namespace web.professionaltranslator.net.Models.Admin
+﻿namespace web.professionaltranslator.net.Models.Admin
 {
     public class Work
     {

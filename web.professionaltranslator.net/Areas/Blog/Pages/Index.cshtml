@@ -1,0 +1,143 @@
+﻿@page "{slug?}"
+@using Microsoft.Extensions.Options
+@using web.professionaltranslator.net
+@using web.professionaltranslator.net.Areas.Blog
+@using web.professionaltranslator.net.Areas.Blog.Models
+@model web.professionaltranslator.net.Areas.Blog.Pages.IndexModel
+@inject IOptionsSnapshot<BlogSettings> Settings
+@inject IJsonHelper Json;
+@{
+    ViewData[Constants.Title] = Model.Data.Title;
+    ViewData[Constants.Description] = Model.Data.Excerpt;
+    var host = $"{HttpContext.Request.Scheme}://{HttpContext.Request.Host}";
+    bool isCodePreview = Model.Data.Content.Contains("</code>");
+    string headerText = Model.Item.Header.Trim();
+}
+@section Styles {
+    <link rel="canonical" href="@(host + Model.Data.GetLink())" />
+    <link rel="stylesheet" type="text/css" href="~/css/material-design-iconic-font.min.css" />
+    <link rel="stylesheet" href="~/css/form.min.css" asp-append-version="true" />
+    @if (Model.ShowComments)
+    {
+        <link rel="preload" href="~/css/blog/comments.css" as="style" asp-append-version="true" />
+        <noscript><link rel="stylesheet" href="~/css/blog/comments.css" asp-append-version="true" /></noscript>
+    }
+}
+@section BlogDirectory
+{
+    <div class="container">
+        <div class="row">
+            <div class="col-6">
+                <a id="blog_directory" data-toggle="collapse" href="#blog_directory_toggle" role="button" aria-expanded="false" aria-controls="blog_directory_toggle">
+                    <i id="blog_directory_icon" class="fas fa-folder"></i>&nbsp;Blog Directory
+                </a>
+            </div>
+            <div class="col-6 text-right">
+                <a id="subscribe_link" data-toggle="collapse" href="#subscribe_form_toggle" role="button" aria-expanded="false" aria-controls="blog_directory_toggle">
+                    <i id="subscribe_link_icon" class="fas fa-bell"></i>&nbsp;Subscribe
+                </a>
+            </div>
+            <div class="col-12">
+                <div class="collapse mt-3 fadeInRightBig animated" id="blog_directory_toggle" style="visibility: visible; animation-name: fadeInRightBig;">
+                    <div class="card card-body">
+                        <input id="blog_asp_page" value="/Index" type="hidden" />
+                        <span id="directoryTop"></span>
+                        <div id="blog_directory_container"></div>
+                    </div>
+                </div>
+                <div class="collapse mt-3 fadeInLeftBig animated" id="subscribe_form_toggle" style="visibility: visible; animation-name: fadeInLeftBig;">
+                    <div class="card card-body">
+                        <div class="form-wrapper">
+                            <form id="subscriber_form" class="form-container validate-form" autocomplete="off" method="post">
+                                <div class="form-row">
+                                    <div class="form-group col-lg-6 col-md-12 col-sm-12">
+                                        <div class="input-container validate-input light-gray-background" data-validate="Please type your first name here." title="Your first name goes here.">
+                                            <input id="subscriber_first_name" class="input-element" type="text" placeholder="Your First Name">
+                                        </div>
+                                    </div>
+                                    <div class="form-group col-lg-6 col-md-12 col-sm-12">
+                                        <div class="input-container validate-input light-gray-background" data-validate="Please type your last name here." title="Your last name goes here.">
+                                            <input id="subscriber_last_name" class="input-element" type="text" placeholder="Your Last Name">
+                                        </div>
+                                    </div>
+                                    <div class="form-group col-12">
+                                        <div class="input-container validate-input light-gray-background" data-validate="Please type a valid email address here." title="A valid email address is required here.">
+                                            <input id="subscriber_email_address" class="input-element" type="email" placeholder="Your Email Address">
+                                        </div>
+                                    </div>
+                                </div>
+                            </form>
+                            <div id="subscriber_result_row" class="form-row hide-soft">
+                                <div class="form-group col-12">
+                                    <div id="subscriber_result_text" role="alert"></div>
+                                </div>
+                            </div>
+                            <div class="form-row">
+                                <div class="form-group col-12">
+                                    <button id="confirm_subscription" class="btn btn-purple" role="button" title="Discover what a professional translation can do for you."><span>Subscribe!</span></button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+}
+
+<div class="row">
+    <div class="col-12">
+        <h3 class="h3-responsive page-header stay-visible mb-5">
+            <sup><i class="fas fa-quote-left"></i></sup>@Html.Raw(headerText)<sup><i class="fas fa-quote-right"></i></sup>
+        </h3>
+    </div>
+</div>
+<div class="row">
+    <div class="col-12 text-justify">
+        <article class="post entry container" itemscope itemtype="http://schema.org/BlogPosting" itemprop="blogPost">
+            <header>
+                <h1 itemprop="name headline" class="h1-responsive"><a href="@Model.Data.GetLink()" rel="canonical" itemprop="url">@Model.Data.Title</a></h1>
+            </header>
+            <div itemprop="articleBody mainEntityOfPage" cdnify>
+                @Html.Raw(Model.Data.RenderContent())
+            </div>
+            <footer>
+                <div class="row">
+                    <div class="col-6">
+                        @if (Model.UserAuthenticated)
+                        {
+                            <a asp-area="Blog" asp-page="/Edit" asp-route-postid="@Model.Data.Id" title="Edit @Model.Data.Title"><i class="fa fa-edit"></i> Edit Post</a>
+                            <span>&nbsp;&ndash;&nbsp;</span>
+                        }
+                    </div>
+                    <div class="col-6 text-right">
+                        @if (Model.HasCategories)
+                        {
+                            <ul class="categories">
+                                <li> <time datetime="@Model.Data.PubDate.ToString("s")" itemprop="datePublished">Published @Model.Data.PubDate.ToString("MMM d, yyyy")</time> in </li>
+                                @foreach (string categories in Model.Data.Categories)
+                                {
+                                    <li itemprop="articleSection"><a asp-area="Blog" asp-page="Posts" asp-route-currentpage="1" asp-route-category="@categories.ToLowerInvariant()">@categories</a></li>
+                                }
+                            </ul>
+                        }
+                    </div>
+                </div>
+                <meta itemprop="author" content="@Settings.Value.Owner" />
+                <meta itemprop="dateModified" content="@Model.Data.LastModified.ToString("s")" />
+                <meta itemprop="mainEntityOfPage" content="@(host + Model.Data.GetLink())" />
+            </footer>
+        </article>
+        <button id="test_comments" class="btn btn-default">Test Reload Comments</button>
+        @section Comments {
+            <div id="comments_container"></div>
+        }
+    </div>
+</div>
+@section Scripts
+{
+    <script src="~/js/form.min.js" asp-append-version="true"></script>
+    <script src="~/js/blog/subscribe.js" asp-append-version="true"></script>
+    <script src="~/js/blog/index.js" asp-append-version="true"></script>
+    <script src="~/js/blog/directory-loader.js" asp-append-version="true"></script>
+}

@@ -40,8 +40,7 @@ namespace Repository.ProfessionalTranslator.Net.Conversions
                             convertedValue = true;
                             break;
                         default:
-                            bool bValue;
-                            if (bool.TryParse(value.ToString(), out bValue))
+                            if (bool.TryParse(value.ToString(), out bool bValue))
                             {
                                 convertedValue = bValue;
                             }
@@ -74,7 +73,7 @@ namespace Repository.ProfessionalTranslator.Net.Conversions
         /// <returns></returns>
         public static string BoolYesNo(object value)
         {
-            DefaultYesNo convertedValue = DefaultYesNo.No;
+            var convertedValue = DefaultYesNo.No;
 
             if (Bool(value))
             {
@@ -103,8 +102,7 @@ namespace Repository.ProfessionalTranslator.Net.Conversions
                             convertedValue = true;
                             break;
                         default:
-                            bool bValue;
-                            if (bool.TryParse(value.ToString(), out bValue))
+                            if (bool.TryParse(value.ToString(), out bool bValue))
                             {
                                 convertedValue = bValue;
                             }
@@ -112,27 +110,25 @@ namespace Repository.ProfessionalTranslator.Net.Conversions
                     }
                 }
             }
-            catch { }
-
-            if (convertedValue != null)
+            catch
             {
-                switch (convertedValue)
-                {
-                    case true:
-                        returnValue = DefaultYesNo.Yes;
-                        break;
-                    case false:
-                        returnValue = DefaultYesNo.No;
-                        break;
-                }
+                // ignored
             }
+
+            if (convertedValue == null) return returnValue.ToString();
+            returnValue = convertedValue switch
+            {
+                true => DefaultYesNo.Yes,
+                false => DefaultYesNo.No,
+                _ => returnValue
+            };
 
             return returnValue.ToString();
         }
 
         public static string Currency(object value)
         {
-            String currency = "$0.00";
+            var currency = "$0.00";
             double? convertedValue = Nullable.Double(value);
             if (convertedValue != null)
             {
@@ -155,14 +151,11 @@ namespace Repository.ProfessionalTranslator.Net.Conversions
         /// <returns></returns>
         public static DateTime DateTime(object value)
         {
-            System.DateTime convertedValue = System.DateTime.MinValue;
-            if (value != null)
+            var convertedValue = System.DateTime.MinValue;
+            if (value == null) return convertedValue;
+            if (System.DateTime.TryParse(value.ToString(), out DateTime testValue))
             {
-                System.DateTime testValue;
-                if (System.DateTime.TryParse(value.ToString(), out testValue))
-                {
-                    convertedValue = testValue;
-                }
+                convertedValue = testValue;
             }
 
 
@@ -188,7 +181,7 @@ namespace Repository.ProfessionalTranslator.Net.Conversions
 
         public static string DateTimeShort(object value)
         {
-            string shortenedDate = string.Empty;
+            var shortenedDate = string.Empty;
             DateTime? convertedValue = Nullable.DateTime(value);
             if (convertedValue != null)
             {
@@ -281,10 +274,9 @@ namespace Repository.ProfessionalTranslator.Net.Conversions
         /// </summary>
         /// <param name="value"></param>
         /// <returns></returns>
-        public static System.Guid Guid(object value)
+        public static Guid Guid(object value)
         {
-            Guid convertedValue;
-            if (!Guid_TryParse(value.ToString(), out convertedValue))
+            if (!Guid_TryParse(value.ToString(), out Guid convertedValue))
             {
                 convertedValue = System.Guid.Empty;
             };
@@ -292,7 +284,7 @@ namespace Repository.ProfessionalTranslator.Net.Conversions
             return convertedValue;
         }
 
-        public static System.Guid Guid(object value, Guid defaultTo)
+        public static Guid Guid(object value, Guid defaultTo)
         {
             Guid convertedValue = Guid(value);
             if (convertedValue == System.Guid.Empty)
@@ -306,27 +298,24 @@ namespace Repository.ProfessionalTranslator.Net.Conversions
         private static bool Guid_TryParse(string s, out Guid result)
         {
             if (s == null)
-                throw new ArgumentNullException("s");
-            Regex format = new Regex("^[A-Fa-f0-9]{32}$|" +
-                "^({|\\()?[A-Fa-f0-9]{8}-([A-Fa-f0-9]{4}-){3}[A-Fa-f0-9]{12}(}|\\))?$|" +
-                "^({)?[0xA-Fa-f0-9]{3,10}(, {0,1}[0xA-Fa-f0-9]{3,6}){2}, {0,1}({)([0xA-Fa-f0-9]{3,4}, {0,1}){7}[0xA-Fa-f0-9]{3,4}(}})$");
+                throw new ArgumentNullException(nameof(s));
+            var format = new Regex("^[A-Fa-f0-9]{32}$|" +
+                                   "^({|\\()?[A-Fa-f0-9]{8}-([A-Fa-f0-9]{4}-){3}[A-Fa-f0-9]{12}(}|\\))?$|" +
+                                   "^({)?[0xA-Fa-f0-9]{3,10}(, {0,1}[0xA-Fa-f0-9]{3,6}){2}, {0,1}({)([0xA-Fa-f0-9]{3,4}, {0,1}){7}[0xA-Fa-f0-9]{3,4}(}})$");
             Match match = format.Match(s);
             if (match.Success)
             {
                 result = new Guid(s);
                 return true;
             }
-            else
-            {
-                result = System.Guid.Empty;
-                return false;
-            }
+
+            result = System.Guid.Empty;
+            return false;
         }
 
         public static int Int32(object value)
         {
-            int convertedValue;
-            if (!int.TryParse(value.ToString(), out convertedValue))
+            if (!int.TryParse(value.ToString(), out int convertedValue))
             {
                 convertedValue = -1;
             };
@@ -346,8 +335,7 @@ namespace Repository.ProfessionalTranslator.Net.Conversions
 
         public static long Long(object value)
         {
-            long convertedValue;
-            if (!long.TryParse(value.ToString(), out convertedValue))
+            if (!long.TryParse(value.ToString(), out long convertedValue))
             {
                 convertedValue = -1;
             };
@@ -367,7 +355,7 @@ namespace Repository.ProfessionalTranslator.Net.Conversions
 
         public static string String(object value)
         {
-            string convertedValue = string.Empty;
+            var convertedValue = string.Empty;
             try
             {
                 if (value != null)
@@ -385,12 +373,10 @@ namespace Repository.ProfessionalTranslator.Net.Conversions
 
         public static string StringTrim(object value, int characterLimit)
         {
-            string input = Implicit.String(value);
-            if (input.Length > characterLimit)
-            {
-                input = input.Substring(0, characterLimit - 3);
-                input += "...";
-            }
+            string input = String(value);
+            if (input.Length <= characterLimit) return input;
+            input = input.Substring(0, characterLimit - 3);
+            input += "...";
             return input;
         }
     }

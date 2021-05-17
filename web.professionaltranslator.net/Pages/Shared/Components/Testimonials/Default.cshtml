@@ -1,0 +1,77 @@
+﻿@using global::Models.ProfessionalTranslator.Net
+@model System.Collections.Generic.List<global::Models.ProfessionalTranslator.Net.Testimonial>
+@{
+    Guid firstId = Model[0].Id;
+}
+@*For inset on pages<div class="col-lg-10 offset-lg-2 col-md-10 offset-md-2 col-sm-12 testimonial-container">*@
+<div class="testimonial-container">
+    <section class="text-center my-5">
+        <div class="wrapper-carousel-fix">
+            <div id="carousel-1" class="carousel no-flex testimonial-carousel slide carousel-fade" data-ride="carousel"
+                 data-interval="false">
+                <!--Slides-->
+                <div class="carousel-inner" role="listbox">
+                    <!--First slide-->
+                    <div class="carousel-item active">
+                        <div class="testimonial">
+                            <!--Avatar-->
+                            <div class="avatar mx-auto mb-4">
+                                <img src="@Model[0].Work.Cover.Path" class="img-fluid" alt="@Model[0].Work.Title" title="@Model[0].Work.Title">
+                            </div>
+                            <!--Content-->
+                            <p style="font-size: 1rem;">
+                                <sup class="testimonial-sup"><i class="fas fa-quote-left"></i></sup>@Html.Raw(Model[0].Entries[0].Html.Replace("<p>", string.Empty).Replace("</p>", string.Empty))<sup class="testimonial-sup"><i class="fas fa-quote-right"></i></sup>
+                            </p>
+                            <h4 class="font-weight-bold" title="@Model[0].Name">
+                                @Model[0].Name
+                            </h4>
+                            <a class="font-weight-bold my-3" href="@Model[0].Work.Href" target="_blank" title="@Model[0].Work.Title">
+                                @Model[0].Work.Title
+                            </a>
+                        </div>
+                    </div>
+                    <!--First slide-->
+                    <!-- Other Slides -->
+                    @foreach (Testimonial item in Model)
+                    {
+                        if (item.Id != firstId)
+                        {
+                            <div class="carousel-item">
+                                <div id="@item.Id" class="testimonial">
+                                    <!--Avatar-->
+                                    <div class="avatar mx-auto mb-4">
+                                        <img src="@item.Work.Cover.Path" class="img-fluid" alt="@item.Work.Title" title="@item.Work.Title">
+                                    </div>
+                                    <!--Content-->
+                                    <p style="font-size: 1rem;">
+                                        <sup class="testimonial-sup"><i class="fas fa-quote-left"></i></sup>@Html.Raw(item.Entries[0].Html.Replace("<p>", string.Empty).Replace("</p>", string.Empty))<sup class="testimonial-sup"><i class="fas fa-quote-right"></i></sup>
+                                    </p>
+                                    <h4 class="font-weight-bold" title="@item.Name">
+                                        @item.Name
+                                    </h4>
+                                    <a class="font-weight-bold my-3" href="@item.Work.Href" target="_blank" title="@item.Work.Title">
+                                        @item.Work.Title
+                                    </a>
+                                </div>
+                            </div>
+                        }
+                    }
+                </div>
+                <!--Controls-->
+                <a class="carousel-control-prev left carousel-control" href="#carousel-1" role="button"
+                   data-slide="prev" title="Go to the previous testimonial.">
+                    <span class="icon-prev" aria-hidden="true"></span>
+                    <span class="sr-only">Previous</span>
+                </a>
+                <a class="carousel-control-next right carousel-control" href="#carousel-1" role="button"
+                   data-slide="next" alt="Go to the next testimonial.">
+                    <span class="icon-next" aria-hidden="true"></span>
+                    <span class="sr-only">Next</span>
+                </a>
+            </div>
+            <!-- Carousel Wrapper -->
+        </div>
+
+    </section>
+    <!-- Section: Testimonials v.2 -->
+</div>

@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics.CodeAnalysis;
 using System.Linq;
 using System.Threading.Tasks;
 using dbRead = Repository.ProfessionalTranslator.Net.DatabaseOperations.dbo.Read;
@@ -73,7 +74,7 @@ namespace Repository.ProfessionalTranslator.Net
 
 
         // ReSharper disable once UnusedMember.Local
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("CodeQuality", "IDE0051:Remove unused private members", Justification = "<Pending>")]
+        [SuppressMessage("CodeQuality", "IDE0051:Remove unused private members", Justification = "<Pending>")]
         private static async Task<Tables.dbo.Work> Item(string site, string title, string authors)
         {
             Tables.dbo.Work output = await dbRead.Work.Item(site, title, authors);

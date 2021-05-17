@@ -1,0 +1,117 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>@ViewData["Title"] - Professional Translator Blog</title>
+    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="~/css/global.css" asp-append-version="true" />
+    <link rel="stylesheet" href="~/css/animate.min.css" asp-append-version="true" />
+    <link rel="stylesheet" href="~/css/carousel.min.css" asp-append-version="true" />
+    <link rel="stylesheet" href="~/css/menu.min.css" asp-append-version="true" />
+    <link rel="prelaod" as="style" href="~/css/blog/global.css" asp-append-version="true" />
+    <noscript>
+        <link rel="stylesheet" href="~/css/blog/global.css" asp-append-version="true" />
+    </noscript>
+    <script src="~/lib/jquery/dist/jquery.min.js"></script>
+    @await RenderSectionAsync("Styles", false)
+    @await RenderSectionAsync(Constants.Preload, required: false)
+</head>
+<body class="fadeInDownBig animated" style="visibility: visible; animation-name: fadeInDownBig;">
+    @await Component.InvokeAsync("Loading")
+    <header id="top">
+        <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-white border-bottom box-shadow mb-3">
+            <div class="container">
+                <div class="d-sm-inline-flex flex-sm-row-reverse">
+                    <div class="list-group list-group-flush get-started">
+                        <a class="list-group-item menu-link" asp-page="/Contact" title="Get your translation started today.">
+                            <h3 class="menu-title">
+                                Why Wait?
+                            </h3>
+                            <div class="menu-icon">
+                                <span class="line"></span>
+                                <span class="fas fa-exclamation-circle" aria-hidden="true"></span>
+                                <span class="line"></span>
+                            </div>
+                            <h6 class="menu-subtitle subtitle">
+                                Start Your Translation Today!
+                            </h6>
+                        </a>
+                    </div>
+                </div>
+                <a class="navbar-brand" asp-area="" asp-page="/Home"><img src="~/img/at-your-service.png" class="img-fluid" alt="Professional translator at your service!" title="Professional translator at your service!" /></a>
+            </div>
+        </nav>
+    </header>
+    @await RenderSectionAsync("BlogDirectory", required: false)
+    <div class="container mt-5">
+        <main role="main" class="pb-3">
+            @RenderBody()
+        </main>
+    </div>
+    @await RenderSectionAsync("Comments", required: false)
+
+    <footer class="border-top footer text-muted bg-white blog">
+        <div class="container">
+            <div class="row mt-4">
+                <div class="col-12">
+                    <div class="d-flex flex-row justify-content-between align-items-center">
+                        <a asp-area="" asp-page="/Home" title="Go the home page of professionaltranslator.net.">
+                            <img src="~/img/splash-logo.png" class="img-fluid" title="Cinta Garcia - Professional Translator" alt="Cinta Garcia - Professional Translator" style="max-height: 180px;" />
+                        </a>
+                        <a class="scroll-link" href="#top" title="Go to the top of the page."><i class="fas fa-chevron-up fa-2x"></i></a>
+                    </div>
+                </div>
+                <div class="col-12">
+                    <div class="d-flex flex-row justify-content-between align-items-center">
+                        <img src="~/img/Blog/footer-profile-pic.jpg" alt="Cinta Garcia - Professional Translator" title="Cinta Garcia - Professional Translator" class="img-fluid" style="max-height: 100px; margin-left: 10px;" />
+                        <p style="padding-left: 2rem; text-align: justify;">
+                            My BA is English Studies, and my field of expertise is Literature. Much of my Creative Writing Courses occurred at Oxford University in the UK. I rather miss England. But why wouldn't I?
+                            I'm a huge fan of Jane Austen. Find out more about me and my translation service at <a asp-area="" asp-page="/Home" title="Go the home page of professionaltranslator.net.">here</a>.
+                        </p>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                @{
+                    const string baseUrl = "/Identity/Account/Login?ReturnUrl=";
+                    string routeUrl = Url.RouteUrl(ViewContext.RouteData.Values);
+                    string returnUrl = baseUrl + routeUrl;
+                    <div class="col-12 mb-5rem">
+                        <form asp-area="Identity" asp-page="/Account/Logout" asp-route-returnUrl="@routeUrl" method="post">
+                            <p class="text-center small">
+                                Copyright &copy; @Html.Raw(DateTime.Now.Year) Cinta Garcia, All Rights Reserved
+                            </p>
+                            <p class="text-center small">
+                                <a asp-area="" asp-page="Home" title="Go to the home area."><i class="fas fa-home fa-2x"></i></a>
+                                <span class="pl-4 pr-4">
+                                    <a asp-area="Admin" asp-page="Index" title="Go to the admin area."><i class="fas fa-wrench fa-2x"></i></a>
+                                </span>
+                                @if (!User.Identity.IsAuthenticated)
+                                {
+                                    <a href="@returnUrl" title="Administrator sign-in."><i class="fas fa-sign-in-alt fa-2x"></i></a>
+                                }
+                                else
+                                {
+                                    <button type="submit" class="btn btn-link fas fa-sign-out-alt fa-2x" title="Administrator sign-out."></button>
+                                    <span class="pl-4">
+                                        <a asp-area="Blog" asp-page="/Edit" asp-route-slug="" title="Create a new blog post."><i class="fas fa-plus fa-2x"></i></a>
+                                    </span>
+                                }
+                            </p>
+                        </form>
+                    </div>
+                }
+            </div>
+        </div>
+    </footer>
+
+    <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://kit.fontawesome.com/9229d0271e.js" crossorigin="anonymous"></script>
+    <script src="~/js/wow.min.js" asp-append-version="true"></script>
+    <script src="~/js/global.min.js" asp-append-version="true"></script>
+    <script src="~/js/layout.min.js" asp-append-version="true"></script>
+    <script src="~/js/blog/global.js" asp-append-version="true"></script>
+    @await RenderSectionAsync("Scripts", required: false)
+</body>
+</html>

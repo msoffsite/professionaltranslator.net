@@ -1,10 +1,7 @@
-﻿using System;
-using System.ComponentModel;
-using System.ComponentModel.DataAnnotations;
-using System.Collections.Generic;
+﻿using System.ComponentModel.DataAnnotations;
+using System.Linq;
 using System.Text;
 using System.Text.Encodings.Web;
-using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
@@ -105,10 +102,8 @@ namespace web.professionaltranslator.net.Areas.Identity.Pages.Account.Manage
                 RecoveryCodes = recoveryCodes.ToArray();
                 return RedirectToPage("./ShowRecoveryCodes");
             }
-            else
-            {
-                return RedirectToPage("./TwoFactorAuthentication");
-            }
+
+            return RedirectToPage("./TwoFactorAuthentication");
         }
 
         private async Task LoadSharedKeyAndQrCodeUriAsync(IdentityUser user)

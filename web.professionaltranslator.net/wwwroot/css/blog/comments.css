@@ -1,0 +1,148 @@
+﻿#comments {
+    background: #f7f7f7;
+    padding: 1.3em 0;
+    word-wrap: break-word;
+    -webkit-hyphens: auto;
+    -ms-hyphens: auto;
+    -moz-hyphens: auto
+}
+
+    #comments form {
+        margin-top: 2em;
+        display: none
+    }
+
+        #comments form.js-enabled {
+            display: block
+        }
+
+        #comments form [readonly] {
+            background: #d3d3d3;
+            outline: none
+        }
+
+#comments .input-container {
+    background: #fff;
+}
+    #comments .details {
+        max-height: 0;
+        overflow: hidden;
+        padding: 2px;
+        margin: -2px;
+        transition: max-height .5s .5s ease-in-out;
+        will-change: auto;
+    }
+
+        #comments .details.show {
+            max-height: 1000px;
+        }
+
+    #comments label {
+        display: block;
+        margin-top: 1em
+    }
+
+        #comments label span {
+            font-weight: normal
+        }
+
+        #comments label[for=content] {
+            position: absolute !important;
+            height: 1px;
+            width: 1px;
+            overflow: hidden;
+            clip: rect(1px, 1px, 1px, 1px)
+        }
+
+    #comments input,
+    #comments textarea {
+        font: inherit;
+        border: 1px solid #bbb;
+        border-radius: 0;
+        padding: 5px 0;
+        width: 100%;
+        -webkit-appearance: none
+    }
+
+        #comments input[type=submit] {
+            width: auto;
+            margin: 1em 0;
+            padding: 5px 10px
+        }
+
+    #comments textarea {
+        padding: 5px
+    }
+
+    #comments .validation-message::before {
+        background-color: #fff;
+    }
+        #comments article {
+        margin-top: 1.5em
+    }
+
+        #comments article.admin .content,
+        #comments article.admin .gravatar {
+            box-shadow: 5px 5px 5px #939393
+        }
+
+    #comments .gravatar {
+        float: left;
+        box-shadow: 5px 5px 5px #dfdfdf;
+        background: url('data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAxMDAgMTAwIj48cGF0aCBzdHlsZT0iZmlsbDojZmNmY2ZjIiBkPSJNNTAuNzA4IDg3LjY2YzExLjgzNiAwIDIzLjE2Ni00LjM5NSAzMS45MDMtMTIuMzc2bC4yNjgtLjI0Mi0uMTQ1LS4zMjhjLS43NzMtMS43Ni0xLjYzNS0zLjU2Ny0yLjU2LTUuMzgtMy43MjctNy4yMy04LjgyNy0xMy40ODMtMTUuMTY0LTE4LjU5LS43NTgtLjYwNi0xLjU1Ni0xLjE2OC0yLjM4LTEuNjc2IDMuOTgzLTMuMDEgNi42NDUtNy4zNDUgNy41MjctMTIuMjg2LjkyNy01LjE5NS0uMjI3LTEwLjQ0LTMuMjQ2LTE0Ljc3LTMuNjktNS4zLTkuNzU0LTguNDYyLTE2LjIyLTguNDYyLTQuMDQ2IDAtNy45NDYgMS4yMjctMTEuMjggMy41NS04LjkzNCA2LjIzLTExLjE0IDE4LjU3LTQuOTEzIDI3LjUwOCAxLjE5MyAxLjcwOCAyLjYzNCAzLjIwNSA0LjI5IDQuNDYtLjgxMy41LTEuNjEyIDEuMDYtMi4zOCAxLjY3Ni02LjM0NCA1LjEwNi0xMS40NDYgMTEuMzYtMTUuMTYzIDE4LjU5LS45MyAxLjgwNy0xLjc5MiAzLjYxNy0yLjU2IDUuMzhsLS4xNDQuMzMuMjYzLjI0YzguNzQgNy45ODIgMjAuMDcgMTIuMzc3IDMxLjkwNSAxMi4zNzd6Ii8+PC9zdmc+') no-repeat #dfdfdf;
+        background-size: cover;
+        height: 60px;
+        width: 60px
+    }
+
+        #comments .gravatar img {
+            width: 100%;
+            height: auto
+        }
+
+    #comments .content {
+        margin-left: calc(60px + .6em);
+        background: #f1f1f1;
+        border: 1px solid #dfdfdf;
+        box-shadow: 5px 5px 5px #dfdfdf;
+        padding: 0 .4em
+    }
+
+        #comments .content p {
+            white-space: pre-wrap;
+            margin-bottom: .5em
+        }
+
+    #comments span {
+        font-size: .8em;
+        font-weight: bold
+    }
+
+    #comments h3 {
+        text-align: right;
+        font-size: .9em;
+        font-weight: normal
+    }
+
+        #comments h3 a {
+            text-decoration: none
+        }
+
+    #comments :target .content {
+        animation: target 3s ease-in-out
+    }
+
+    #comments ul,
+    #comments ol {
+        padding-left: 2em
+    }
+
+@keyframes target {
+    from {
+        background-color: #ffec82
+    }
+
+    to {
+        background-color: #f1f1f1
+    }
+}

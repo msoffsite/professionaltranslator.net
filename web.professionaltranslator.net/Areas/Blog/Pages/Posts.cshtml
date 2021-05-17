@@ -1,0 +1,21 @@
+﻿@page 
+@model web.professionaltranslator.net.Areas.Blog.Pages.PostsModel
+@{
+    ViewData["Title"] = Model.Item.Title;
+    string body = Model.Item.Body.Trim().Replace("<p>", string.Empty).Replace("</p>", string.Empty);
+}
+<div class="row">
+    <div class="col-12 text-column">
+        <h3 class="h3-responsive page-header stay-visible mb-5">
+            <sup><i class="fas fa-quote-left"></i></sup>@Html.Raw(body)<sup><i class="fas fa-quote-right"></i></sup>
+        </h3>
+    </div>
+</div>
+
+<input id="blog_asp_page" value="/Index" type="hidden"/>
+<span id="directoryTop"></span>
+<div id="blog_directory_container"></div>
+
+@section Scripts {
+    <script src="~/js/blog/directory-loader.js" asp-append-version="true"></script>
+}

@@ -2,8 +2,8 @@ using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
+using Models.ProfessionalTranslator.Net;
 using Data = Repository.ProfessionalTranslator.Net.Work;
-using Work = Models.ProfessionalTranslator.Net.Work;
 
 namespace web.professionaltranslator.net.Areas.Admin.Pages
 {

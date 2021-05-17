@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using Models.ProfessionalTranslator.Net.Localized;
 
 namespace Models.ProfessionalTranslator.Net
 {
@@ -10,7 +11,7 @@ namespace Models.ProfessionalTranslator.Net
         public bool CanHaveImage { get; set; }
         public Image Image { get; set; }
         public List<Localized.Page> Bodies { get; set; }
-        public List<Localized.PageHeader> Headers { get; set; }
+        public List<PageHeader> Headers { get; set; }
         public DateTime DateCreated { get; set; }
         public DateTime LastModified { get; set; }
     }

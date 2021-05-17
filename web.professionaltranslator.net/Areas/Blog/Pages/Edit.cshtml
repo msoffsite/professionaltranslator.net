@@ -1,0 +1,132 @@
+﻿@page "{postid?}"
+@model web.professionaltranslator.net.Areas.Blog.Pages.EditModel
+@{
+    ViewData["Title"] = "Post Editor";
+    string headerText = Model.Item.Header.Trim();
+    string body = Model.Item.Body;
+    var host = HttpContext.Request.Host.ToString();
+    var allCategories = ViewData[Constants.AllCategories] as List<string> ?? new List<string>();
+}
+@section Styles
+{
+    <link rel="stylesheet" type="text/css" href="~/css/material-design-iconic-font.min.css" />
+    <link rel="stylesheet" href="~/css/form.min.css" asp-append-version="true" />
+}
+<div class="row">
+    <div class="col-12">
+        <h3 class="h3-responsive page-header stay-visible mb-5">
+            @Html.Raw(headerText)
+        </h3>
+    </div>
+</div>
+<div class="row mb-4">
+    @if (Model.Item.Image != null)
+    {
+        <div class="col-lg-2 col-md-3 col-sm-12">
+            <img src="@Model.Item.Image.Path" class="img-fluid img-inset" alt="@Model.Item.Name" title="@Model.Item.Name">
+        </div>
+        <div class="col-lg-9 col-md-8 col-sm-12 text-justify">
+            @Html.Raw(body)
+        </div>
+    }
+    else
+    {
+        <div class="col-12 text-justify">
+            @Html.Raw(body)
+        </div>
+    }
+</div>
+<div class="form-wrapper">
+    <form id="edit_post" class="form-container validate-form" autocomplete="off" method="post">
+        <input id="post_id" type="hidden" value="@Model.Data.Id"/>
+        <div class="form-row">
+            <div class="form-group col-12">
+                <div class="input-container validate-input light-gray-background" data-validate="Post title goes here." title="Post title goes here.">
+                    <input id="post_title" class="input-element" type="text" placeholder="Post Title" value="@Model.Data.Title">
+                </div>
+            </div>
+        </div>
+        <div class="form-row">
+            <div class="form-group col-12">
+                <div class="input-container validate-input light-gray-background" data-validate="Excerpt goes here." title="Excerpt goes here.">
+                    <textarea id="post_excerpt" class="input-element" placeholder="Excerpt.">@Model.Data.Excerpt</textarea>
+                </div>
+            </div>
+        </div>
+        <div class="form-row">
+            <div class="form-group col-12">
+                <div class="input-container light-gray-background">
+                    <div class="text-center mb-4" id="desc_categories">Select or enter a comma separated list of keywords. Double-click a category in the dropdown to remove it from this post.</div>
+                    <input class="input-element blog-select" type="text" name="select_category" id="select_category" aria-describedby="desc_categories" list="taglist" placeholder="@string.Join(", ", Model.Data.Categories)"/>
+                    <input type="text" name="post_categories" id="post_categories" value="@string.Join(", ", Model.Data.Categories)" hidden/>
+                    <datalist id="taglist">
+                        @foreach (string category in allCategories)
+                        {
+                            <option value="@category"/>
+                        }
+                    </datalist>
+                </div>
+            </div>
+        </div>
+        <div class="form-row">
+            <div class="form-group col-12">
+                <div id="post_content_validator_container" class="input-container validate-input light-gray-background" data-validate="Enter the post content here." title="Enter the post content here.">
+                    <input id="post_content_validator" class="input-element"/>
+                    <textarea id="post_content" name="Content" rows="20" aria-label="Content">@Model.Data.Content</textarea>
+                </div>
+            </div>
+        </div>
+        <div class="form-row">
+            <div class="form-group col-12">
+                <div class="input-container light-gray-background d-flex justify-content-around align-content-center radio-container-flex">
+                    <div class="form-check-inline-flex">
+                        <label class="form-check-label" title="Choose whether to publish the post.">
+                            @if (Model.Data.IsPublished)
+                            {
+                                <span><input type="radio" class="form-check-input" name="publish-post" value="show" checked aria-checked="True"/>Published</span>
+                            }
+                            else
+                            {
+                                <span><input type="radio" class="form-check-input" name="publish-post" value="show" aria-checked="False"/>Published</span>
+                            }
+                        </label>
+                    </div>
+                    <div class="form-check-inline-flex">
+                        <label class="form-check-label" title="Localization is for a website or application.">
+                            @if (Model.Data.IsPublished)
+                            {
+                                <span><input type="radio" class="form-check-input" name="publish-post" value="hide" aria-checked="False">Unpublished</span>
+                            }
+                            else
+                            {
+                                <span><input type="radio" class="form-check-input" name="publish-post" checked aria-checked="True" value="hide">Unpublished</span>
+                            }
+                        </label>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </form>
+    <div id="post_result_row" class="form-row hide-soft">
+        <div class="form-group col-12">
+            <div id="post_result_text" role="alert"></div>
+        </div>
+    </div>
+    <div class="form-row">
+        <div class="form-group col-12">
+            <button id="save_post" class="btn btn-purple" role="button" title="Discover what a professional translation can do for you."><span>Save</span></button>
+        </div>
+    </div>
+</div>
+@section Scripts
+{
+    <script src="~/js/form.js" asp-append-version="true"></script>
+    <script src="//@host/lib/tinymce/tinymce.min.js"></script> @*with enabled CDN tinymce is not able to find some files*@
+    <script src="~/js/blog/admin.js" async></script>
+ 
+    <script>
+        var str = "Blog Post Title";
+        str = str.replace(/\s+/g, '-').toLowerCase();
+        console.log(str); // "blog-post-title"
+    </script>
+}

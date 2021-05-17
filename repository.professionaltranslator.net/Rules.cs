@@ -1,6 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Text;
+using System.Net.Mail;
 
 namespace Repository.ProfessionalTranslator.Net
 {
@@ -10,6 +10,12 @@ namespace Repository.ProfessionalTranslator.Net
         {
             Yes,
             No
+        }
+
+        internal static Passed GuidHasValue(Guid? input, string name, ref List<string> messages)
+        {
+            Passed output = input.HasValue ? Passed.Yes : Passed.No;
+            return output;
         }
 
         internal static Passed MinIntValue(int input, string name, int minValue, ref List<string> messages)
@@ -31,7 +37,7 @@ namespace Repository.ProfessionalTranslator.Net
             var output = Passed.Yes;
 
             // ReSharper disable once InvertIf
-            if (string.IsNullOrEmpty(input))
+            if (string.IsNullOrWhiteSpace(input))
             {
                 output = Passed.No;
                 messages.Add($"{name} cannot be empty.");
@@ -65,7 +71,7 @@ namespace Repository.ProfessionalTranslator.Net
             try
             {
                 // ReSharper disable once ObjectCreationAsStatement
-                new System.Net.Mail.MailAddress(input);
+                new MailAddress(input);
             }
             catch
             {

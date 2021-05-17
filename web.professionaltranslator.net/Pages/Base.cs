@@ -1,11 +1,10 @@
-﻿using System;
-using System.Linq;
+﻿using System.Linq;
 using System.Threading.Tasks;
-using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Repository.ProfessionalTranslator.Net;
 using GlobalModel = Models.ProfessionalTranslator.Net.Page;
 using Data = Repository.ProfessionalTranslator.Net.Page;
+using Page = web.professionaltranslator.net.Models.Page;
 
 namespace web.professionaltranslator.net.Pages
 {
@@ -13,11 +12,11 @@ namespace web.professionaltranslator.net.Pages
     {
         internal SiteSettings SiteSettings;
 
-        public Models.Page Item { get; set; }
+        public Page Item { get; set; }
 
-        internal async Task<Models.Page> Get(SiteSettings configuration, Area area, string page)
+        internal async Task<Page> Get(SiteSettings configuration, Area area, string page)
         {
-            var output = new Models.Page();
+            var output = new Page();
             GlobalModel basePage = await Data.Item(configuration.Site, area, page);
             if ((basePage == null) || (!basePage.Bodies.Any()) || (!basePage.Headers.Any())) return output;
 
