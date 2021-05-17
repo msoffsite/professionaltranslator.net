@@ -100,5 +100,65 @@
     "inputFiles": [
       "wwwroot/js/wow.js"
     ]
+  },
+  {
+    "outputFileName": "wwwroot/css/blog/comments.min.css",
+    "inputFiles": [
+      "wwwroot/css/blog/comments.css"
+    ]
+  },
+  {
+    "outputFileName": "wwwroot/css/blog/global.min.css",
+    "inputFiles": [
+      "wwwroot/css/blog/global.css"
+    ]
+  },
+  {
+    "outputFileName": "wwwroot/js/blog/admin.min.js",
+    "inputFiles": [
+      "wwwroot/js/blog/admin.js"
+    ]
+  },
+  {
+    "outputFileName": "wwwroot/js/blog/comments.min.js",
+    "inputFiles": [
+      "wwwroot/js/blog/comments.js"
+    ]
+  },
+  {
+    "outputFileName": "wwwroot/js/blog/directory-loader.min.js",
+    "inputFiles": [
+      "wwwroot/js/blog/directory-loader.js"
+    ]
+  },
+  {
+    "outputFileName": "wwwroot/js/blog/global.min.js",
+    "inputFiles": [
+      "wwwroot/js/blog/global.js"
+    ]
+  },
+  {
+    "outputFileName": "wwwroot/js/blog/index.min.js",
+    "inputFiles": [
+      "wwwroot/js/blog/index.js"
+    ]
+  },
+  {
+    "outputFileName": "wwwroot/js/blog/subscribe.min.js",
+    "inputFiles": [
+      "wwwroot/js/blog/subscribe.js"
+    ]
+  },
+  {
+    "outputFileName": "wwwroot/js/blog/components/comments.min.js",
+    "inputFiles": [
+      "wwwroot/js/blog/components/comments.js"
+    ]
+  },
+  {
+    "outputFileName": "wwwroot/js/blog/components/directory.min.js",
+    "inputFiles": [
+      "wwwroot/js/blog/components/directory.js"
+    ]
   }
 ]

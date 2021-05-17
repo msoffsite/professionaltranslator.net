@@ -14,7 +14,6 @@ $(document).ready(function () {
     $(".get-started").toggleGetStarted();
 
     $(window).on("load resize", function () {
-        //console.log("sidebar toggle.");
         const documentWidth = $(document).width();
         if ((documentWidth <= 1600) && ($("#wrapper").hasClass("toggled"))) {
             $("#wrapper").removeClass("toggled");

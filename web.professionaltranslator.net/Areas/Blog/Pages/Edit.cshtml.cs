@@ -1,4 +1,9 @@
 #nullable enable
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Options;
+using Newtonsoft.Json;
+using Repository.ProfessionalTranslator.Net;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -6,18 +11,9 @@ using System.Linq;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using System.Xml;
-using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.RazorPages;
-using Microsoft.Extensions.Options;
-using Newtonsoft.Json;
-using Repository.ProfessionalTranslator.Net;
 using web.professionaltranslator.net.Areas.Blog.Models;
 using web.professionaltranslator.net.Areas.Blog.Services;
-using web.professionaltranslator.net.Extensions;
-using web.professionaltranslator.net.Models;
 using WebEssentials.AspNetCore.Pwa;
-
 using DataModel = web.professionaltranslator.net.Areas.Blog.Models.Post;
 using Exception = System.Exception;
 
@@ -73,7 +69,7 @@ namespace web.professionaltranslator.net.Areas.Blog.Pages
 
                 if (requestBody.Length <= 0) throw new IndexOutOfRangeException("requestBody is empty.");
 
-                var obj = JsonConvert.DeserializeObject<PostForm>(requestBody);
+                var obj = JsonConvert.DeserializeObject<Models.Forms.Post>(requestBody);
                 if (obj == null) throw new NullReferenceException("Model could not be derived from JSON object.");
 
                 Data = await BlogService.GetPostById(obj.Id).ConfigureAwait(false) ?? new DataModel

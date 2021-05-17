@@ -1,27 +1,22 @@
-using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Linq;
-using System.Net.Mail;
-using System.Text;
-using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.Extensions.Options;
 using Newtonsoft.Json;
 using Repository.ProfessionalTranslator.Net;
+using System;
+using System.Collections.Generic;
+using System.IO;
+using System.Net.Mail;
+using System.Text;
+using System.Threading.Tasks;
 using web.professionaltranslator.net.Areas.Blog.Services;
-using web.professionaltranslator.net.Areas.Blog.ViewComponents;
 using web.professionaltranslator.net.Extensions;
-using PostDataModel = web.professionaltranslator.net.Areas.Blog.Models.Post;
-
-using SubscriberModel = web.professionaltranslator.net.Areas.Blog.Models.Subscriber;
-using SubscriberDataModel = Models.ProfessionalTranslator.Net.Subscriber;
-using SubscriberRepository = Repository.ProfessionalTranslator.Net.Subscriber;
-
 using CommentsComponentModel = web.professionaltranslator.net.Areas.Blog.Models.Components.Comments;
 using DirectoryComponentModel = web.professionaltranslator.net.Areas.Blog.Models.Components.Directory;
-using CommentModel = web.professionaltranslator.net.Areas.Blog.Models.Comment;
+using PostDataModel = web.professionaltranslator.net.Areas.Blog.Models.Post;
+using SubscriberDataModel = Models.ProfessionalTranslator.Net.Subscriber;
+using SubscriberModel = web.professionaltranslator.net.Areas.Blog.Models.Subscriber;
+using SubscriberRepository = Repository.ProfessionalTranslator.Net.Subscriber;
+
 namespace web.professionaltranslator.net.Areas.Blog.Pages
 {
     public class IndexModel : Base

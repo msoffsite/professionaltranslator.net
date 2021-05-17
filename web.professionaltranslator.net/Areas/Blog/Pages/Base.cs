@@ -1,15 +1,12 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Options;
-using Newtonsoft.Json;
 using Repository.ProfessionalTranslator.Net;
+using Repository.ProfessionalTranslator.Net.Conversions;
 using System;
-using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
-using Repository.ProfessionalTranslator.Net.Conversions;
 using web.professionaltranslator.net.Areas.Blog.Services;
 using web.professionaltranslator.net.Extensions;
-
 using CommentModel = web.professionaltranslator.net.Areas.Blog.Models.Comment;
 using CommentsComponentModel = web.professionaltranslator.net.Areas.Blog.Models.Components.Comments;
 using DirectoryComponentModel = web.professionaltranslator.net.Areas.Blog.Models.Components.Directory;
@@ -91,7 +88,7 @@ namespace web.professionaltranslator.net.Areas.Blog.Pages
             return ViewComponent("Comments");
         }
 
-        public async Task<IActionResult> OnPostShowComments()
+        public IActionResult OnPostShowComments()
         {
             return ViewComponent("Comments");
         }

@@ -71,11 +71,11 @@ namespace web.professionaltranslator.net
             services.AddMetaWeblog<MetaWeblogService>();
 
             // Progressive Web Apps https://github.com/madskristensen/WebEssentials.AspNetCore.ServiceWorker
-            services.AddProgressiveWebApp(
-                new WebEssentials.AspNetCore.Pwa.PwaOptions
-                {
-                    OfflineRoute = "/shared/offline/"
-                });
+            //services.AddProgressiveWebApp(
+            //    new WebEssentials.AspNetCore.Pwa.PwaOptions
+            //    {
+            //        OfflineRoute = "/shared/offline/"
+            //    });
 
             // Output caching (https://github.com/madskristensen/WebEssentials.AspNetCore.OutputCaching)
             services.AddOutputCaching(

@@ -1,30 +1,24 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading;
-using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.RazorPages;
-using Microsoft.AspNetCore.Mvc.Rendering;
-using Microsoft.Extensions.Options;
-using Repository.ProfessionalTranslator.Net;
-using web.professionaltranslator.net.Areas.Blog.Services;
+using System.Threading.Tasks;
 using web.professionaltranslator.net.Extensions;
 using WebEssentials.AspNetCore.Pwa;
-using DataModel = web.professionaltranslator.net.Areas.Blog.Models.Post;
-
 using DirectoryComponentModel = web.professionaltranslator.net.Areas.Blog.Models.Components.Directory;
 
 namespace web.professionaltranslator.net.Areas.Blog.Pages
 {
     public class PostsModel : Base
     {
-        internal readonly WebManifest Manifest;
+        //internal readonly WebManifest Manifest;
 
-        public PostsModel(SiteSettings siteSettings, WebManifest webManifest)
+        //public PostsModel(SiteSettings siteSettings, WebManifest webManifest)
+        //{
+        //    SiteSettings = siteSettings;
+        //    Manifest = webManifest;
+        //}
+
+        public PostsModel(SiteSettings siteSettings)
         {
             SiteSettings = siteSettings;
-            Manifest = webManifest;
         }
 
         //[OutputCache(Profile = "default")]
@@ -39,8 +33,11 @@ namespace web.professionaltranslator.net.Areas.Blog.Pages
 
             Session.Json.SetObject(HttpContext.Session, Session.Key.DirectoryComponentModel, directoryModel);
 
-            ViewData[Constants.Title] = Manifest.Name;
-            ViewData[Constants.Description] = Manifest.Description;
+            //ViewData[Constants.Title] = Manifest.Name;
+            //ViewData[Constants.Description] = Manifest.Description;
+
+            ViewData[Constants.Title] = "Cinta Garcia - Professional Translator";
+            ViewData[Constants.Description] = "Blog for Cinta Garica, Professional Translator. English to Spanish and vice versa.";
 
             Item = await new Base().Get(SiteSettings, Blog, "BlogPosts");
             return Item == null ? NotFound() : (IActionResult)Page();
