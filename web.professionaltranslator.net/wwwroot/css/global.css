@@ -34,7 +34,6 @@
 }
 
 a {
-    border: 0 !important;
     outline: none !important;
 }
 
@@ -44,7 +43,7 @@ a.page-link,
 a.page-link:visited,
 .category-link,
 .directory-link {
-    color: #642e84 !important;
+    color: #642e84;
     font-weight: 600;
     cursor: pointer;
 }
@@ -52,6 +51,9 @@ a.page-link:visited,
     a:active,
     a:focus,
     a:hover,
+    a.active,
+    a.focus,
+    a.hover,
     a.page-link:active,
     a.page-link:focus,
     a.page-link:hover,
@@ -67,9 +69,11 @@ a.page-link:visited,
     .directory-link:active,
     .directory-link:focus,
     .directory-link:hover {
-        color: #9142bf !important;
+        color: #9142bf;
         text-decoration: none;
         cursor: pointer;
+        border: 0 !important;
+        outline: none !important;
     }
 
 .background-light-semi-transparent {
@@ -101,7 +105,6 @@ body {
     border-radius: 0;
     color: #642e84;
     font-weight: 600;
-    padding: 0;
     text-decoration: none;
     vertical-align: inherit;
 }
