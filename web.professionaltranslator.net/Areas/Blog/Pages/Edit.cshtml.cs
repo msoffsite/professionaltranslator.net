@@ -29,7 +29,8 @@ namespace web.professionaltranslator.net.Areas.Blog.Pages
 
         public DataModel? Data { get; set; }
 
-        public EditModel(SiteSettings siteSettings, IOptionsSnapshot<BlogSettings> blogSettings, IBlogService blogService, WebManifest webManifest)
+        public EditModel(SiteSettings siteSettings, IOptionsSnapshot<BlogSettings> blogSettings, 
+            IBlogService blogService, WebManifest webManifest)
         {
             SiteSettings = siteSettings;
             BlogSettings = blogSettings;
