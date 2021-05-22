@@ -29,7 +29,8 @@ namespace web.professionaltranslator.net.Areas.Blog.Pages
 
         public DataModel? Data { get; set; }
 
-        public EditModel(SiteSettings siteSettings, IOptionsSnapshot<BlogSettings> blogSettings, IBlogService blogService, WebManifest webManifest)
+        public EditModel(SiteSettings siteSettings, IOptionsSnapshot<BlogSettings> blogSettings, 
+            IBlogService blogService, WebManifest webManifest)
         {
             SiteSettings = siteSettings;
             BlogSettings = blogSettings;
@@ -74,10 +75,10 @@ namespace web.professionaltranslator.net.Areas.Blog.Pages
 
                 Data = await BlogService.GetPostById(obj.Id).ConfigureAwait(false) ?? new DataModel
                 {
-                    Id = obj.Id,
-                    PubDate = DateTime.Now
+                    Id = obj.Id
                 };
 
+                Data.PubDate = obj.PubDate ?? DateTime.Now;
                 Data.Content = obj.Content.Trim();
                 Data.Excerpt = obj.Excerpt.Trim();
                 Data.IsPublished = obj.IsPublished;

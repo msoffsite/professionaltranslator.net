@@ -54,7 +54,7 @@
         </form>
     </div>
 </div>
-<div class="row mb-4">
+<div class="row mb-2">
     <div class="col-lg-2 col-md-3 col-sm-12">
         <img id="displayed_cover" src="@Model.Data.Cover" class="img-fluid img-inset" alt="@Model.Data.Title" title="@Model.Data.Title">
     </div>
@@ -98,6 +98,13 @@
                 </div>
             </form>
         </div>
+    </div>
+</div>
+<div class="row mb-4">
+    <div class="col-12 text-right">
+        <a asp-area="Admin" asp-page="/EditPortfolio" asp-route-QueryId="@Guid.NewGuid()" title="Add new work.">
+            <i class="fas fa-plus fa-2x"></i>
+        </a>
     </div>
 </div>
 @section Scripts

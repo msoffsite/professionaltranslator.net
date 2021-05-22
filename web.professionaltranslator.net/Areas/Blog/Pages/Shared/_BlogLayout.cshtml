@@ -4,16 +4,19 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>@ViewData["Title"] - Professional Translator Blog</title>
+    @await RenderSectionAsync("Head", required: false)
     <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
+    <link href="https://code.jquery.com/ui/1.10.4/themes/ui-lightness/jquery-ui.css" rel="stylesheet">
     <link rel="stylesheet" href="~/css/global.min.css" asp-append-version="true" />
     <link rel="stylesheet" href="~/css/animate.min.css" asp-append-version="true" />
     <link rel="stylesheet" href="~/css/carousel.min.css" asp-append-version="true" />
     <link rel="stylesheet" href="~/css/menu.min.css" asp-append-version="true" />
-    <link rel="prelaod" as="style" href="~/css/blog/global.min.css" asp-append-version="true" />
+    <link rel="prelaod" as="style" href="~/css/blog/global.css" asp-append-version="true" />
     <noscript>
         <link rel="stylesheet" href="~/css/blog/global.min.css" asp-append-version="true" />
     </noscript>
     <script src="~/lib/jquery/dist/jquery.min.js"></script>
+    <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
     @await RenderSectionAsync("Styles", false)
     @await RenderSectionAsync(Constants.Preload, required: false)
 </head>
@@ -95,7 +98,7 @@
                                 {
                                     <button type="submit" class="btn btn-link fas fa-sign-out-alt fa-2x" title="Administrator sign-out."></button>
                                     <span class="pl-4">
-                                        <a asp-area="Blog" asp-page="/Edit" asp-route-slug="" title="Create a new blog post."><i class="fas fa-plus fa-2x"></i></a>
+                                        <a href="/Blog/Edit" title="Create a new blog post."><i class="fas fa-plus fa-2x"></i></a>
                                     </span>
                                 }
                             </p>
