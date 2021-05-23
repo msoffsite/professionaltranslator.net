@@ -66,11 +66,7 @@ namespace Test.ProfessionalTranslator.Net.Repository
             var output = new models.Page
             {
                 Id = Guid.Empty,
-                Name = "Test",
-                CanHaveImage = true,
-                Image = Image.WriteItem(),
-                IsService = true,
-                Bodies = LocalizedList()
+                Name = "Test"
             };
             return output;
         }

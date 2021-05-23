@@ -9,9 +9,9 @@ namespace web.professionaltranslator.net.Models
         public string Title { get; set; }
         public string Header { get; set; }
         public string Body { get; set; }
-        // ReSharper disable once UnusedMember.Local
-        private new List<global::Models.ProfessionalTranslator.Net.Localized.Page> Bodies { get; set; }
-        // ReSharper disable once UnusedMember.Local
-        private new List<PageHeader> Headers { get; set; }
+        public Enumeration.HeaderType HeaderType { get; set; }
+#pragma warning disable IDE0051 // Remove unused private members
+        private new List<global::Models.ProfessionalTranslator.Net.Localized.Pages.Quote> Contents { get; set; }
+#pragma warning restore IDE0051 // Remove unused private members
     }
 }

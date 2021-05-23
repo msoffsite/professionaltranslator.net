@@ -57,7 +57,7 @@ namespace web.professionaltranslator.net
             //});
 
             services.AddSession(options => {
-                options.IdleTimeout = TimeSpan.FromMinutes(30);
+                options.IdleTimeout = TimeSpan.FromHours(3);
             });
 
             services.AddOptions();

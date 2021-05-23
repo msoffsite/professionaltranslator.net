@@ -7,11 +7,8 @@ namespace Models.ProfessionalTranslator.Net
     public class Page : Base
     {
         public string Name { get; set; }
-        public bool IsService { get; set; }
-        public bool CanHaveImage { get; set; }
-        public Image Image { get; set; }
-        public List<Localized.Page> Bodies { get; set; }
-        public List<PageHeader> Headers { get; set; }
+        public List<Localized.Page> Contents { get; set; }
+        public List<Localized.Pages.Quote> Quotes { get; set; }
         public DateTime DateCreated { get; set; }
         public DateTime LastModified { get; set; }
     }

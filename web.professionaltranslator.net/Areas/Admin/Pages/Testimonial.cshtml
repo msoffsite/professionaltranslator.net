@@ -13,21 +13,9 @@
     </div>
 </div>
 <div class="row mb-4">
-    @if (Model.Item.Image != null)
-    {
-        <div class="col-lg-2 col-md-3 col-sm-12">
-            <img src="@Model.Item.Image.Path" class="img-fluid img-inset" alt="@Model.Item.Name" title="@Model.Item.Name">
-        </div>
-        <div class="col-lg-9 col-md-8 col-sm-12 text-justify">
-            @Html.Raw(body)
-        </div>
-    }
-    else
-    {
-        <div class="col-12 text-justify">
-            @Html.Raw(body)
-        </div>
-    }
+    <div class="col-12 text-justify">
+        @Html.Raw(body)
+    </div>
 </div>
 <div id="gallery" class="row mb-2">
     <div class="col-6 text-center">

@@ -11,7 +11,7 @@ namespace Repository.ProfessionalTranslator.Net.DatabaseOperations.Localization.
     {
         internal static async Task<List<Tables.Localization.Testimonial>> List(Guid testimonialId)
         {
-            await using var cmd = new SqlCommand("[dbo].[GetLocalizedTestimonials]", new Base().SqlConnection)
+            await using var cmd = new SqlCommand("[Localization].[GetTestimonials]", new Base().SqlConnection)
             {
                 CommandType = CommandType.StoredProcedure
             };
@@ -22,7 +22,7 @@ namespace Repository.ProfessionalTranslator.Net.DatabaseOperations.Localization.
 
         internal static async Task<List<Tables.Localization.Testimonial>> List(string site)
         {
-            await using var cmd = new SqlCommand("[dbo].[GetLocalizedTestimonialsForSite]", new Base().SqlConnection)
+            await using var cmd = new SqlCommand("[Localization].[GetTestimonialsForSite]", new Base().SqlConnection)
             {
                 CommandType = CommandType.StoredProcedure
             };
@@ -33,7 +33,7 @@ namespace Repository.ProfessionalTranslator.Net.DatabaseOperations.Localization.
 
         internal static async Task<List<Tables.Localization.Testimonial>> List(string site, bool approved)
         {
-            await using var cmd = new SqlCommand("[dbo].[GetLocalizedTestimonialsForSiteApproved]", new Base().SqlConnection)
+            await using var cmd = new SqlCommand("[Localization].[GetTestimonialsForSiteApproved]", new Base().SqlConnection)
             {
                 CommandType = CommandType.StoredProcedure
             };

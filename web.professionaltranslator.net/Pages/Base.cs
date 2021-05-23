@@ -18,15 +18,14 @@ namespace web.professionaltranslator.net.Pages
         {
             var output = new Page();
             GlobalModel basePage = await Data.Item(configuration.Site, area, page);
-            if ((basePage == null) || (!basePage.Bodies.Any()) || (!basePage.Headers.Any())) return output;
+            if ((basePage == null) || (!basePage.Contents.Any())) return output;
 
-            basePage.Bodies = basePage.Bodies.Where(x => x.Lcid == configuration.Lcid).ToList();
-            basePage.Headers = basePage.Headers.Where(x => x.Lcid == configuration.Lcid).ToList();
+            basePage.Quotes = basePage.Quotes.Where(x => x.Lcid == configuration.Lcid).ToList();
             
-            output.Body = basePage.Bodies.Any() ? basePage.Bodies[0].Html : "Missing Body";
-            output.Title = basePage.Bodies.Any() ? basePage.Bodies[0].Title : "Missing Title";
-            output.Header = basePage.Headers.Any() ? basePage.Headers[0].Html : "Missing Header";
-            output.Image = basePage.Image;
+            output.Title = basePage.Contents[0].Title.Trim();
+            output.Header = basePage.Quotes.Any() ? basePage.Quotes[0].Text.Trim() : output.Title;
+            output.HeaderType = basePage.Quotes.Any() ? Enumeration.HeaderType.Quote : Enumeration.HeaderType.Title;
+            output.Body = basePage.Contents[0].Html.Trim();
             output.LastModified = basePage.LastModified;
             return output;
         }

@@ -21,19 +21,17 @@
     <meta property="og:image" content="https://professionaltranslator.net/img/og/intro-16-9.png" />
     <meta property="og:image:alt" content="Professional Translator - English & Spanish" />
 }
-<div class="row mt-7 mb-4" style="display: none;">
-    <!--<div class="col-12 page-header">
-    <h1 class="h1-responsive text-center mx-auto">-->
-    @*@Html.Raw(Model.Item.Header)*@
-    <!--English/Spanish Specialization
-    </h1>
-    <img src="img/welcome-illustration.png" class="float-right" style="width: 200px; display: none;" title="Welcome! I'm glad you're here." alt="Welcome! I'm glad you're here."/>
-    </div>-->
-</div>
 <div class="row mb-4 two-column-row">
     <div class="col-12 col-lg-8 text-column">
         <h2 class="h2-responsive page-header mb-5">
-            <sup><i class="fas fa-quote-left"></i></sup>@Html.Raw(Model.Item.Header.Trim())<sup><i class="fas fa-quote-right"></i></sup>
+            @if (Model.Item.HeaderType == Enumeration.HeaderType.Quote)
+            {
+                <sup><i class="fas fa-quote-left"></i></sup>@Model.Item.Header<sup><i class="fas fa-quote-right"></i></sup>
+            }
+            else
+            {
+                @Model.Item.Header
+            }
         </h2>
         <h2 class="h2-responsive">
             High Quality Translations
@@ -61,55 +59,6 @@
     </div>
     <div class="col-lg-4 graphic-column">
         <img src="img/welcome-standing-md.png" title="Welcome! I'm glad you're here." alt="Welcome! I'm glad you're here." />
-    </div>
-</div>
-<div class="row mt-5 mb-4" style="display: none;">
-    @if (Model.Item.Image != null)
-    {
-        <div class="col-lg-3 col-md-4 col-sm-12">
-            <img src="@Model.Item.Image.Path" class="img-fluid img-inset" alt="@Model.Item.Name" title="@Model.Item.Name">
-        </div>
-        <div class="col-lg-9 col-md-8 col-sm-12 text-justify">
-            @Html.Raw(body)
-        </div>
-    }
-    else
-    {
-        <div class="col-12 text-justify">
-            <h2 class="h2-responsive">
-                High Quality Translations
-            </h2>
-            <p>
-                It's imperative a translator respects the voice of the original material while adapting the text into something that reads natural, as if a native speaker had written it. This 
-                is something at which I excel. Not only am I a native Spanish speaker and writer, but I am also a natural English speaker and writer. In fact, I do what few translators must. I 
-                write and speak both languages every single day and have for years. This extends me the unique ability to grasp the linguistic and extra-linguistic characteristics of each. I 
-                offer direct and reverse translations.
-            </p>
-        </div>
-
-        @*<div class="col-12 text-justify">
-                @Html.Raw(body)
-            </div>*@
-    }
-</div>
-<div class="row mb-4" style="display: none;">
-    <div class="col-12">
-        <h3 class="h3-responsive">
-            Direct Translation
-        </h3>
-        <p>
-            A direct translation is where a translator takes a work in a foreign language and puts it into their native language. This is the simplest type of translation and what most translators do.
-        </p>
-    </div>
-</div>
-<div class="row mb-4" style="display: none;">
-    <div class="col-12">
-        <h3 class="h3-responsive">
-            Reverse Translation
-        </h3>
-        <p>
-            A reverse translation is where the translator takes a work from their native language and puts it into a foreign language. Few translators can manage reverse translations because of the idiomatic demand reverse translations place on them.
-        </p>
     </div>
 </div>
 <div class="row mb-4">

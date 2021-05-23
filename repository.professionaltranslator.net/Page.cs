@@ -2,12 +2,14 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using Repository.ProfessionalTranslator.Net.Tables.Localization;
+
+using ContentsTable = Repository.ProfessionalTranslator.Net.Tables.Localization.Page;
 using dbRead = Repository.ProfessionalTranslator.Net.DatabaseOperations.dbo.Read;
-using dbLocalizedRead = Repository.ProfessionalTranslator.Net.DatabaseOperations.Localization.Read;
 using dbWrite = Repository.ProfessionalTranslator.Net.DatabaseOperations.dbo.Write.Page;
 using models = Models.ProfessionalTranslator.Net;
-using Nullable = Repository.ProfessionalTranslator.Net.Conversions.Nullable;
+using QuotesTable = Repository.ProfessionalTranslator.Net.Tables.Localization.Pages.Quote;
+using FetchContents = Repository.ProfessionalTranslator.Net.DatabaseOperations.Localization.Read.Page;
+using FetchQuotes = Repository.ProfessionalTranslator.Net.DatabaseOperations.Localization.Pages.Read.Quote;
 
 namespace Repository.ProfessionalTranslator.Net
 {
@@ -47,28 +49,24 @@ namespace Repository.ProfessionalTranslator.Net
 
             try
             {
-                models.Image image = page.ImageId.HasValue ? await Image.Item(page.ImageId.Value) : null;
-                List<Tables.Localization.Page> bodies = await dbLocalizedRead.Page.List(page.Id);
-                List<PageHeader> headers = await dbLocalizedRead.PageHeader.List(page.Id);
+                List<QuotesTable> quotes = await FetchQuotes.List(page.Id);
+                List<ContentsTable> contents = await FetchContents.List(page.Id);
                 var output = new models.Page
                 {
                     Id = page.Id,
-                    CanHaveImage = page.CanHaveImage,
-                    IsService = page.IsService,
                     Name = page.Name,
-                    Image = image,
                     DateCreated = page.DateCreated,
                     LastModified = page.LastModified,
-                    Bodies = bodies.Select(n => new Models.ProfessionalTranslator.Net.Localized.Page
+                    Contents = contents.Select(n => new models.Localized.Page
                     {
                         Lcid = n.Lcid,
-                        Title = n.Title,
-                        Html = n.Html
+                        Html = n.Html,
+                        Title = n.Title
                     }).ToList(),
-                    Headers = headers.Select(n => new Models.ProfessionalTranslator.Net.Localized.PageHeader
+                    Quotes = quotes.Select(n => new models.Localized.Pages.Quote
                     {
                         Lcid = n.Lcid,
-                        Html = n.Html
+                        Text = n.Text
                     }).ToList()
                 };
                 return output;
@@ -109,10 +107,7 @@ namespace Repository.ProfessionalTranslator.Net
             return inputList.Select(async n => new models.Page
             {
                 Id = n.Id,
-                Name = n.Name,
-                IsService = n.IsService,
-                CanHaveImage = n.CanHaveImage,
-                Image = n.ImageId.HasValue ? await Image.Item(n.ImageId.Value) : null,
+                Name = n.Name
             }).ToList();
         }
 
@@ -142,18 +137,6 @@ namespace Repository.ProfessionalTranslator.Net
                 return new Result(ResultStatus.Failed, "No site was found with that name.");
             }
 
-            Tables.dbo.Image saveImage = Image.Convert(inputItem.Image, siteItem.Id);
-            if (saveImage != null)
-            {
-                inputItem.Image.Id = saveImage.Id;
-                Result imageSaveResult = await Image.Save(site, inputItem.Image);
-                if (imageSaveResult.Status == ResultStatus.Failed)
-                {
-                    messages = imageSaveResult.Messages;
-                    saveStatus = ResultStatus.PartialSuccess;
-                }
-            }
-
             Rules.StringRequiredMaxLength(inputItem.Name, "Name", 50, ref messages);
 
             if (messages.Any())
@@ -169,9 +152,6 @@ namespace Repository.ProfessionalTranslator.Net
                 Id = returnId,
                 SiteId = siteItem.Id,
                 AreaId = areaId,
-                CanHaveImage = inputItem.CanHaveImage,
-                ImageId = saveImage?.Id ?? Nullable.Guid(null),
-                IsService = inputItem.IsService,
                 Name = inputItem.Name
             };
 
@@ -179,20 +159,20 @@ namespace Repository.ProfessionalTranslator.Net
             if (savePageResult.Status == ResultStatus.Failed) return new Result(savePageResult.Status, savePageResult.Messages);
 
             // ReSharper disable once ForeachCanBePartlyConvertedToQueryUsingAnotherGetEnumerator
-            foreach (Models.ProfessionalTranslator.Net.Localized.Page localizedPage in inputItem.Bodies)
-            {
-                var saveLocalization = new Tables.Localization.Page
-                {
-                    Id = saveItem.Id,
-                    Html = localizedPage.Html,
-                    Title = localizedPage.Title,
-                    Lcid = localizedPage.Lcid
-                };
-                Result localizedResult = await DatabaseOperations.Localization.Write.Page.Item(site, saveLocalization);
-                if (localizedResult.Status != ResultStatus.Failed) continue;
-                saveStatus = ResultStatus.PartialSuccess;
-                messages.AddRange(localizedResult.Messages);
-            }
+            //foreach (Models.ProfessionalTranslator.Net.Localized.Page localizedPage in inputItem.Bodies)
+            //{
+            //    var saveLocalization = new Tables.Localization.Page
+            //    {
+            //        Id = saveItem.Id,
+            //        Html = localizedPage.Html,
+            //        Title = localizedPage.Title,
+            //        Lcid = localizedPage.Lcid
+            //    };
+            //    Result localizedResult = await DatabaseOperations.Localization.Write.Page.Item(site, saveLocalization);
+            //    if (localizedResult.Status != ResultStatus.Failed) continue;
+            //    saveStatus = ResultStatus.PartialSuccess;
+            //    messages.AddRange(localizedResult.Messages);
+            //}
 
             if (saveStatus == ResultStatus.Undetermined)
             {

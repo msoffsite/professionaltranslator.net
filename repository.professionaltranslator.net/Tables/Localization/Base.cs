@@ -1,4 +1,6 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.Text;
 
 namespace Repository.ProfessionalTranslator.Net.Tables.Localization
 {
@@ -6,6 +8,5 @@ namespace Repository.ProfessionalTranslator.Net.Tables.Localization
     {
         public Guid Id { get; set; }
         public int Lcid { get; set; }
-        public string Html { get; set; }
     }
 }

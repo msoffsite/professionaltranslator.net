@@ -2,8 +2,7 @@
 @model AboutModel
 @{
     ViewData["Title"] = Model.Item.Title;
-    string body = Model.Item.Body.Trim();
-    string headerText = Model.Item.Header.Trim();
+    string body = Model.Item.Body;
 }
 @section MetaTags
 {
@@ -37,23 +36,6 @@
         @Html.Raw(body)
     </div>
     <div class="col-12 col-lg-4 graphic-column about">
-        <img src="@Model.Item.Image.Path" alt="@headerText" title="@headerText">
+        <img src="~/img/0541F989-9475-4CE9-AC85-2FB727A69446.png" alt="Cinta Garcia" title="Cinta Garcia">
     </div>
-</div>
-<div class="row mt-5 mb-4" style="display: none;">
-    @if (Model.Item.Image != null)
-    {
-        <div class="col-lg-3 col-md-4 col-sm-12">
-            <img src="@Model.Item.Image.Path" class="img-fluid img-inset" alt="@Model.Item.Name" title="@Model.Item.Name">
-        </div>
-        <div class="col-lg-9 col-md-8 col-sm-12 text-justify">
-            @Html.Raw(body)
-        </div>
-    }
-    else
-    {
-        <div class="col-12 text-justify">
-            @Html.Raw(body)
-        </div>
-    }
 </div>
