@@ -11,7 +11,7 @@ namespace Repository.ProfessionalTranslator.Net.DatabaseOperations.Localization.
     {
         internal static async Task<List<Tables.Localization.Page>> List(Guid pageId)
         {
-            await using var cmd = new SqlCommand("[dbo].[GetLocalizedPages]", new Base().SqlConnection)
+            await using var cmd = new SqlCommand("[Localization].[GetPages]", new Base().SqlConnection)
             {
                 CommandType = CommandType.StoredProcedure
             };

@@ -2,7 +2,7 @@
 @model web.professionaltranslator.net.Areas.Blog.Pages.PostsModel
 @{
     ViewData["Title"] = Model.Item.Title;
-    string body = Model.Item.Body.Trim().Replace("<p>", string.Empty).Replace("</p>", string.Empty);
+    string body = Model.Item.Body.Replace("<p>", string.Empty).Replace("</p>", string.Empty);
 }
 <div class="row">
     <div class="col-12 text-column">
