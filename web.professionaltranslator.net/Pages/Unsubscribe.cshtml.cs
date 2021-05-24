@@ -40,7 +40,7 @@ namespace web.professionaltranslator.net.Pages
                 SubscriberModel subscriber = await Data.Item(SiteSettings.Site, Area.Blog, emailAddress);
                 if (subscriber == null)
                 {
-                    throw new NullReferenceException($"No subscriber found for '{emailAddress}.");
+                    throw new NullReferenceException($"No subscriber found for {emailAddress}.");
                 }
 
                 result = await Data.Delete(SiteSettings.Site, subscriber.Id);
