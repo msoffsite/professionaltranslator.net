@@ -19,7 +19,9 @@ namespace web.professionaltranslator.net.Extensions
             On
         }
 
-        internal static void SendMail(SiteSettings configuration, List<MailAddress> replyToList, List<MailAddress> toList, string subject, string body, BodyType bodyType, SslSetting sslSetting)
+        internal static void SendMail(SiteSettings configuration, List<MailAddress> replyToList, List<MailAddress> toList,
+            List<MailAddress> ccList, List<MailAddress> bccList, string subject, string body, BodyType bodyType, 
+            SslSetting sslSetting)
         {
             var mail = new MailMessage
             {
@@ -29,6 +31,16 @@ namespace web.professionaltranslator.net.Extensions
             foreach (MailAddress mailAddress in toList)
             {
                 mail.To.Add(mailAddress);
+            }
+
+            foreach (MailAddress mailAddress in ccList)
+            {
+                mail.CC.Add(mailAddress);
+            }
+
+            foreach (MailAddress mailAddress in bccList)
+            {
+                mail.Bcc.Add(mailAddress);
             }
 
             foreach (MailAddress replyToItem in replyToList)

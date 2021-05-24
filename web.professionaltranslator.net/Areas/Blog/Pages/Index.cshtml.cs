@@ -119,15 +119,33 @@ namespace web.professionaltranslator.net.Areas.Blog.Pages
 
                 string fullName = obj.FirstName + " " + obj.LastName;
                 var body = new StringBuilder();
-                body.Append("<b>Name:</b> " + fullName);
-                body.Append("<br/>");
-                body.Append("<b>Email Address:</b> " + obj.EmailAddress);
-                body.Append("<br/>");
-
+                body.Append($"Thank you for subscribing to my blog, {obj.FirstName}.");
+                body.Append("<p>");
+                body.Append("You can expect an email or two per week announcing my latest blog post(s). ");
+                body.Append("Please feel free to comment whenever you feel the urge. ");
+                body.Append("Also, please be aware subscribers will be the first to know about any giveaways I might offer in the future. ");
+                body.Append("Until next time...");
+                body.Append("</p>");
+                body.Append("<p>");
+                body.Append("Happy reading!");
+                body.Append("</p>");
+                body.Append("<p>&nbsp;</p>");
+                body.Append("<p>");
+                body.Append("Cinta Garcia, <a href=\"https://professionaltranslator.net\">Professional Translator</a>");
+                body.Append("</p>");
+                body.Append("<p>&nbsp;</p>");
+                body.Append("<p>");
+                body.Append("P.S. You can unsubscribe from my blog at any time by visiting <a href=\"https://professionaltranslator.net/unsubscribe\">professionaltranslator.net/unsubscribe</a>.");
+                body.Append("</p>");
+                
                 var toList = new List<MailAddress>
                 {
-                    new MailAddress(SiteSettings.DefaultTo, SiteSettings.DefaultToDisplayName),
                     new MailAddress(obj.EmailAddress, fullName)
+                };
+
+                var ccList = new List<MailAddress>
+                {
+                    new MailAddress(SiteSettings.DefaultTo, SiteSettings.DefaultToDisplayName)
                 };
 
                 var replyToList = new List<MailAddress>
@@ -135,7 +153,8 @@ namespace web.professionaltranslator.net.Areas.Blog.Pages
                     new MailAddress(obj.EmailAddress, fullName)
                 };
 
-                Smtp.SendMail(SiteSettings, replyToList, toList, "New Blog Subscriber", body.ToString(), Smtp.BodyType.Html, Smtp.SslSetting.Off);
+                Smtp.SendMail(SiteSettings, replyToList, toList, ccList, new List<MailAddress>(), 
+                    $"Welcome, {fullName}!", body.ToString(), Smtp.BodyType.Html, Smtp.SslSetting.Off);
             }
             catch (System.Exception ex)
             {
