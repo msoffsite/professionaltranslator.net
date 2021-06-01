@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿#nullable enable
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Options;
 using Repository.ProfessionalTranslator.Net;
 using Repository.ProfessionalTranslator.Net.Conversions;
@@ -19,9 +20,9 @@ namespace web.professionaltranslator.net.Areas.Blog.Pages
     {
         internal Area Blog = Area.Blog;
 
-        internal IBlogService BlogService;
+        internal IBlogService BlogService = null!;
 
-        internal IOptionsSnapshot<BlogSettings> BlogSettings;
+        internal IOptionsSnapshot<BlogSettings> BlogSettings = null!;
 
         //ViewComponent Methods
         public async Task<IActionResult> OnPostDeleteComment(string commentId)
@@ -31,10 +32,10 @@ namespace web.professionaltranslator.net.Areas.Blog.Pages
             var commentsComponentModel =
                 Session.Json.GetObject<CommentsComponentModel>(HttpContext.Session, Session.Key.CommentsComponentModel);
 
-            PostDataModel post = await BlogService.GetPostById(commentsComponentModel.PostId).ConfigureAwait(true);
+            PostDataModel? post = await BlogService.GetPostById(commentsComponentModel.PostId).ConfigureAwait(true);
             if (post == null) throw new NullReferenceException("Post could not be derived from session.");
 
-            CommentModel comment = post.Comments.FirstOrDefault(c => c.Id.Equals(commentId, StringComparison.OrdinalIgnoreCase));
+            CommentModel? comment = post.Comments.FirstOrDefault(c => c.Id.Equals(commentId, StringComparison.OrdinalIgnoreCase));
             if (comment == null)
             {
                 return ViewComponent("Comments");
@@ -65,7 +66,7 @@ namespace web.professionaltranslator.net.Areas.Blog.Pages
             var commentsComponentModel =
                 Session.Json.GetObject<CommentsComponentModel>(HttpContext.Session, Session.Key.CommentsComponentModel);
 
-            PostDataModel post = await BlogService.GetPostById(commentsComponentModel.PostId).ConfigureAwait(true);
+            PostDataModel? post = await BlogService.GetPostById(commentsComponentModel.PostId).ConfigureAwait(true);
             if (post == null) throw new NullReferenceException("Post could not be derived from session.");
 
             var commentModel = new CommentModel

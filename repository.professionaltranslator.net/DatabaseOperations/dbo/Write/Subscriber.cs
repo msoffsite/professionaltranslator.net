@@ -48,8 +48,8 @@ namespace Repository.ProfessionalTranslator.Net.DatabaseOperations.dbo.Write
                     CommandType = CommandType.StoredProcedure
                 };
 
-                cmd.Parameters.Add("@Site", SqlDbType.NVarChar, 255).Value = site;
-                cmd.Parameters.Add("@Id", SqlDbType.NVarChar, 255).Value = emailAddress;
+                cmd.Parameters.Add("@Site", SqlDbType.NVarChar, 25).Value = site;
+                cmd.Parameters.Add("@EmailAddress", SqlDbType.NVarChar, 255).Value = emailAddress;
                 await cmd.Connection.OpenAsync();
                 await cmd.ExecuteNonQueryAsync();
                 await cmd.Connection.CloseAsync();
