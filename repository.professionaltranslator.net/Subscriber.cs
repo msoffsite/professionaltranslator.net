@@ -14,6 +14,12 @@ namespace Repository.ProfessionalTranslator.Net
 {
     public class Subscriber
     {
+        public static async Task<int> PagingCount(string site, Area area)
+        {
+            int areaId = Enumerators.Values.Area(area);
+            return await dbRead.Subscriber.PagingCount(site, areaId);
+        }
+
         public static async Task<Result> Delete(string site, Guid? id)
         {
             var messages = new List<string>();
@@ -107,6 +113,31 @@ namespace Repository.ProfessionalTranslator.Net
         {
             if (string.IsNullOrEmpty(site)) return new List<Task<models.Subscriber>>();
             List<Tables.dbo.Subscriber> list = await dbRead.Subscriber.List(site, areaId);
+            return Complete(list);
+        }
+
+        public static async Task<List<models.Subscriber>> List(string site, Area area, int pageIndex, int pageSize)
+        {
+            int areaId = Enumerators.Values.Area(area);
+            List<Task<models.Subscriber>> taskList = await TaskList(site, areaId, pageIndex, pageSize);
+            if (taskList.Count == 0) return new List<models.Subscriber>();
+            var output = new List<models.Subscriber>();
+            for (var i = 0; 0 < taskList.Count; i++)
+            {
+                if (i == taskList.Count) break;
+                models.Subscriber item = taskList[i].Result;
+                if (!output.Contains(item))
+                {
+                    output.Add(item);
+                }
+            }
+            return output;
+        }
+
+        private static async Task<List<Task<models.Subscriber>>> TaskList(string site, int areaId, int pageIndex, int pageSize)
+        {
+            if (string.IsNullOrEmpty(site)) return new List<Task<models.Subscriber>>();
+            List<Tables.dbo.Subscriber> list = await dbRead.Subscriber.List(site, areaId, pageIndex, pageSize);
             return Complete(list);
         }
 

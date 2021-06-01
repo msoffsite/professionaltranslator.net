@@ -104,7 +104,9 @@ namespace Repository.ProfessionalTranslator.Net
 
         private static List<Task<models.Page>> Complete(IEnumerable<Tables.dbo.Page> inputList)
         {
+#pragma warning disable 1998
             return inputList.Select(async n => new models.Page
+#pragma warning restore 1998
             {
                 Id = n.Id,
                 Name = n.Name

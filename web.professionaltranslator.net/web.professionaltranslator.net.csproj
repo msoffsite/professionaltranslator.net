@@ -34,10 +34,12 @@
     <Content Remove="bundleconfig.json" />
     <Content Remove="wwwroot\js\blog\post.js" />
     <Content Remove="wwwroot\js\global.min.js" />
+    <Content Remove="wwwroot\js\unsubscribe.min.js" />
   </ItemGroup>
 
   <ItemGroup>
     <_ContentIncludedByDefault Remove="wwwroot\js\global.min.js" />
+    <_ContentIncludedByDefault Remove="wwwroot\js\unsubscribe.min.js" />
   </ItemGroup>
 
   <ItemGroup>
@@ -71,6 +73,7 @@
   <ItemGroup>
     <None Include="bundleconfig.json" />
     <None Include="wwwroot\js\global.min.js" />
+    <None Include="wwwroot\js\unsubscribe.min.js" />
   </ItemGroup>
 
   <ItemGroup>

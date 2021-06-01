@@ -42,7 +42,9 @@ a:visited,
 a.page-link,
 a.page-link:visited,
 .category-link,
-.directory-link {
+.directory-link,
+.email-subscriber-link,
+.remove-subscriber-link {
     color: #642e84;
     font-weight: 600;
     cursor: pointer;
@@ -68,7 +70,13 @@ a.page-link:visited,
     .category-link:hover
     .directory-link:active,
     .directory-link:focus,
-    .directory-link:hover {
+    .directory-link:hover,
+    .email-subscriber-link:active,
+    .email-subscriber-link:focus,
+    .email-subscriber-link:hover
+    .remove-subscriber-link:active,
+    .remove-subscriber-link:focus,
+    .remove-subscriber-link:hover {
         color: #9142bf;
         text-decoration: none;
         cursor: pointer;
@@ -107,6 +115,11 @@ body {
     font-weight: 600;
     text-decoration: none;
     vertical-align: inherit;
+}
+
+.btn-link.email-subscriber-link,
+.btn-link.remove-subscriber-link {
+    padding: 0;
 }
 
 p {
@@ -414,6 +427,12 @@ img.zoom {
 
 .mt-7, .my-7 {
     margin-top: 5rem !important;
+}
+
+.offscreen-input {
+    position: absolute;
+    top: -1000px;
+    left: -1000px;
 }
 
 .sentence-case {

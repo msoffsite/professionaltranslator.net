@@ -1,0 +1,103 @@
+﻿@page "{currentpage?}"
+@using global::Models.ProfessionalTranslator.Net
+@model SubscribersModel
+@{
+    ViewData["Title"] = Model.Item.Title;
+    string body = Model.Item.Body;
+}
+<div class="row mb-4">
+    <div class="col-12 text-center page-header">
+        <h1>
+            @Html.Raw(Model.Item.Header)
+        </h1>
+    </div>
+</div>
+<div class="row mb-4">
+    <div class="col-12 text-justify">
+        @Html.Raw(body)
+    </div>
+</div>
+<div id="gallery" class="row mb-2">
+    <div class="col-12 text-right">
+        <input id="email_list" class="offscreen-input" value="@Model.EmailAddresses" />
+        <button id="copy_email_addresses" class="btn btn-link" title="Copy all email addresses.">
+            <i class="fa fa-users fa-3x"></i>
+        </button>
+    </div>
+</div>
+<div id="list" class="row">
+    <div class="col-12">
+        <table class="table table-striped">
+            <thead class="thead-dark">
+                <tr>
+                    <th scope="col">
+                        Last Name
+                    </th>
+                    <th scope="col">
+                        First Name
+                    </th>
+                    <th scope="col">
+                        Email Address
+                    </th>
+                    <th scope="col">
+                        &nbsp;
+                    </th>
+                    <th scope="col">
+                        &nbsp;
+                    </th>
+                </tr>
+            </thead>
+            <tbody>
+            @foreach (Subscriber item in Model.List)
+            {
+                <tr>
+                    <td>
+                        @item.LastName
+                    </td>
+                    <td>
+                        @item.FirstName
+                    </td>
+                    <td>
+                        @item.EmailAddress
+                    </td>
+                    <td class="text-center">
+                        <input id="emailaddress_@item.Id" class="offscreen-input" value="@item.EmailAddress"/>
+                        <button class="btn btn-link email-subscriber-link" data-input-id="emailaddress_@item.Id" title="Send an email to @item.FirstName @item.LastName.">
+                            <i class="fa fa-envelope fa-2x"></i>
+                        </button>
+                    </td>
+                    <td class="text-center">
+                        <button class="btn btn-link remove-subscriber-link" data-subscriber-email-address="@item.EmailAddress" title="Remove @item.FirstName @item.LastName.">
+                            <i class="fa fa-trash fa-2x"></i>
+                        </button>
+                    </td>
+                </tr>
+            }
+            </tbody>
+        </table>
+    </div>
+</div>
+<div class="row">
+    <div class="col-12">
+        <ul class="pagination justify-content-center">
+            <li class="page-item @(!Model.ShowFirst ? "disabled" : "")">
+                <a asp-area="Admin" asp-page="/Subscribers" asp-fragment="list" asp-route-CurrentPage="1" class="page-link" title="Go to the beginning."><i class="fas fa-fast-backward"></i></a>
+            </li>
+
+            <li class="page-item @(!Model.ShowPrevious ? "disabled" : "")">
+                <a asp-area="Admin" asp-page="/Subscribers" asp-fragment="list" asp-route-CurrentPage="@(Model.CurrentPage - 1)" title="Go to the previous page." class="page-link"><i class="fas fa-step-backward"></i></a>
+            </li>
+            <li class="page-item  @(!Model.ShowNext ? "disabled" : "")">
+                <a asp-area="Admin" asp-page="/Subscribers" asp-fragment="list" asp-route-CurrentPage="@(Model.CurrentPage + 1)" title="Go to the next page." class="page-link"><i class="fas fa-step-forward"></i></a>
+            </li>
+
+            <li class="page-item  @(!Model.ShowLast ? "disabled" : "")">
+                <a asp-area="Admin" asp-page="/Subscribers" asp-fragment="list" asp-route-CurrentPage="@Model.TotalPages" title="Go to the end." class="page-link"><i class="fas fa-fast-forward"></i></a>
+            </li>
+        </ul>
+    </div>
+</div>
+@section Scripts
+{
+    <script src="~/js/admin/subscribers.js" asp-append-version="true"></script>
+}

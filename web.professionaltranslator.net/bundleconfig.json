@@ -160,5 +160,11 @@
     "inputFiles": [
       "wwwroot/js/blog/components/directory.js"
     ]
+  },
+  {
+    "outputFileName": "wwwroot/js/unsubscribe.min.js",
+    "inputFiles": [
+      "wwwroot/js/unsubscribe.js"
+    ]
   }
 ]

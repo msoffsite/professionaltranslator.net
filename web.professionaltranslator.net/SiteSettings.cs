@@ -15,5 +15,6 @@
         public string SmtpPassword { get; set; }
         public int SmtpPort { get; set; } 
         public int SmtpPortSsl { get; set; }
+        public int AdminSubscriberPagingSize { get; set; }
     }
 }
