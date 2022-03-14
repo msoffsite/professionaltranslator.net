@@ -11,6 +11,7 @@
 {
     <link rel="stylesheet" type="text/css" href="~/css/material-design-iconic-font.min.css" />
     <link rel="stylesheet" href="~/css/form.min.css" asp-append-version="true" />
+    <link rel="stylesheet" href="~/css/jquery-ui-timepicker-addon.css" />
 }
 <div class="row">
     <div class="col-12">
@@ -26,7 +27,7 @@
 </div>
 <div class="form-wrapper">
     <form id="edit_post" class="form-container validate-form" autocomplete="off" method="post">
-        <input id="post_id" type="hidden" value="@Model.Data.Id"/>
+        <input id="post_id" type="hidden" value="@Model.Data.Id" />
         <div class="form-row">
             <div class="form-group col-12">
                 <div class="input-container validate-input light-gray-background" data-validate="Post title goes here." title="Post title goes here.">
@@ -45,12 +46,12 @@
             <div class="form-group col-12">
                 <div class="input-container light-gray-background">
                     <div class="text-center mb-4" id="desc_categories">Select or enter a comma separated list of keywords. Double-click a category in the dropdown to remove it from this post.</div>
-                    <input class="input-element blog-select" type="text" name="select_category" id="select_category" aria-describedby="desc_categories" list="taglist" placeholder="@string.Join(", ", Model.Data.Categories)"/>
-                    <input type="text" name="post_categories" id="post_categories" value="@string.Join(", ", Model.Data.Categories)" hidden/>
+                    <input class="input-element blog-select" type="text" name="select_category" id="select_category" aria-describedby="desc_categories" list="taglist" placeholder="@string.Join(", ", Model.Data.Categories)" />
+                    <input type="text" name="post_categories" id="post_categories" value="@string.Join(", ", Model.Data.Categories)" hidden />
                     <datalist id="taglist">
                         @foreach (string category in allCategories)
                         {
-                            <option value="@category"/>
+                            <option value="@category" />
                         }
                     </datalist>
                 </div>
@@ -59,7 +60,7 @@
         <div class="form-row">
             <div class="form-group col-12">
                 <div id="post_content_validator_container" class="input-container validate-input light-gray-background" data-validate="Enter the post content here." title="Enter the post content here.">
-                    <input id="post_content_validator" class="input-element"/>
+                    <input id="post_content_validator" class="input-element" />
                     <textarea id="post_content" name="Content" rows="20" aria-label="Content">@Model.Data.Content</textarea>
                 </div>
             </div>
@@ -67,7 +68,7 @@
         <div class="form-row">
             <div class="form-group col-6">
                 <div class="input-container light-gray-background d-flex justify-content-around align-content-center radio-container-flex" data-valitdate="Enter publication date." title="Enter publication date.">
-                    <input id="post_pub_date" class="input-element" type="text" placeholder="Publication Date" value="@Model.Data.PubDate.ToShortDateString()">
+                    <input id="post_pub_date" class="input-element" type="text" placeholder="Publication Date" value="@Model.Data.PubDate">
                 </div>
             </div>
             <div class="form-group col-6">
@@ -114,12 +115,12 @@
 @section Scripts
 {
     <script src="~/js/form.min.js" asp-append-version="true"></script>
-    <script src="~/lib/tinymce/tinymce.min.js"></script> 
+    <script src="~/lib/tinymce/tinymce.min.js"></script>
     <script src="~/js/blog/admin.min.js" async></script>
-    
+    <script src="~/js/jquery-ui-timepicker-addon.js"></script>
     <script>
-        $(function() {
-            $( "#post_pub_date" ).datepicker();
+        $(function () {
+            $("#post_pub_date").datetimepicker();
         });
     </script>
 }

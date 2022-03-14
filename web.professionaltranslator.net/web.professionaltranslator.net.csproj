@@ -32,7 +32,10 @@
 
   <ItemGroup>
     <Content Remove="bundleconfig.json" />
+    <Content Remove="wwwroot\css\bootstrap-datetimepicker.css" />
+    <Content Remove="wwwroot\css\bootstrap-datetimepicker.css.map" />
     <Content Remove="wwwroot\js\blog\post.js" />
+    <Content Remove="wwwroot\js\bootstrap-datetimepicker.js" />
     <Content Remove="wwwroot\js\global.min.js" />
     <Content Remove="wwwroot\js\unsubscribe.min.js" />
   </ItemGroup>
@@ -46,6 +49,7 @@
     <PackageReference Include="bootstrap" Version="4.5.3" />
     <PackageReference Include="Font.Awesome" Version="5.15.3" />
     <PackageReference Include="jQuery" Version="3.5.1" />
+    <PackageReference Include="jQuery-Timepicker-Addon" Version="1.6.3" />
     <PackageReference Include="Microsoft.AspNetCore.Diagnostics.EntityFrameworkCore" Version="3.1.9" />
     <PackageReference Include="Microsoft.AspNetCore.Identity.EntityFrameworkCore" Version="3.1.13" />
     <PackageReference Include="Microsoft.AspNetCore.Identity.UI" Version="3.1.13" />
