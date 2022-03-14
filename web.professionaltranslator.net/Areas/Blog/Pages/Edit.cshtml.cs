@@ -78,7 +78,13 @@ namespace web.professionaltranslator.net.Areas.Blog.Pages
                     Id = obj.Id
                 };
 
-                Data.PubDate = obj.PubDate ?? DateTime.Now;
+                DateTime pubDate = DateTime.Now;
+                if (obj.PubDate.HasValue)
+                {
+                    pubDate = obj.PubDate.Value.AddHours(-4);
+                }
+
+                Data.PubDate = pubDate;
                 Data.Content = obj.Content.Trim();
                 Data.Excerpt = obj.Excerpt.Trim();
                 Data.IsPublished = obj.IsPublished;
@@ -92,7 +98,8 @@ namespace web.professionaltranslator.net.Areas.Blog.Pages
                     .ToList()
                     .ForEach(Data.Categories.Add);
 
-                await SaveFilesToDisk(Data).ConfigureAwait(false);
+                string ogImage = await SaveFilesToDisk(Data).ConfigureAwait(false);
+                Data.OgImage = ogImage;
 
                 await BlogService.SavePost(Data).ConfigureAwait(false);
 
@@ -106,8 +113,10 @@ namespace web.professionaltranslator.net.Areas.Blog.Pages
             return new JsonResult(result);
         }
 
-        private async Task SaveFilesToDisk(Post post)
+        private async Task<string> SaveFilesToDisk(Post post)
         {
+            string ogImage = string.Empty;
+
             var imgRegex = new Regex("<img[^>]+ />", RegexOptions.IgnoreCase | RegexOptions.Compiled);
             var base64Regex = new Regex("data:[^/]+/(?<ext>[a-z]+);base64,(?<base64>.+)", RegexOptions.IgnoreCase);
             var allowedExtensions = new[] {
@@ -165,11 +174,19 @@ namespace web.professionaltranslator.net.Areas.Blog.Pages
                 }
 
                 byte[] bytes = Convert.FromBase64String(base64Match.Groups["base64"].Value);
-                srcNode.Value = await BlogService.SaveFile(bytes, fileNameNode.Value).ConfigureAwait(false);
+                string imgUrl = await BlogService.SaveFile(bytes, fileNameNode.Value).ConfigureAwait(false);
+                srcNode.Value = imgUrl;
+
+                if (string.IsNullOrEmpty(ogImage))
+                {
+                    ogImage = imgUrl;
+                }
 
                 img.Attributes.Remove(fileNameNode);
                 post.Content = post.Content.Replace(match.Value, img.OuterXml, StringComparison.OrdinalIgnoreCase);
             }
+
+            return ogImage;
         }
     }
 }

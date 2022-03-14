@@ -13,13 +13,15 @@
     var currentUrl = $"{Request.Scheme}://{Request.Host}{Request.Path}";
     currentUrl = currentUrl.Replace("localhost:44322", "professionaltranslator.net");
     string headerText = Model.Item.Header.Trim();
+    string ogImage = string.IsNullOrEmpty(Model.Data.OgImage) ? "https://professionaltranslator.net/img/og/intro-16-9.png" : "https://professionaltranslator.net" + Model.Data.OgImage;
 }
 @section Head {
+    
     <meta property="og:url"           content="@currentUrl" />
     <meta property="og:type"          content="website" />
     <meta property="og:title"         content="@Model.Data.Title" />
     <meta property="og:description"   content="@Model.Data.Excerpt" />
-    <meta property="og:image"         content="https://professionaltranslator.net/img/og/intro-16-9.png" />
+    <meta property="og:image"         content="@ogImage" />
 }
 @section Styles {
     <link rel="canonical" href="@(host + Model.Data.GetLink())" />

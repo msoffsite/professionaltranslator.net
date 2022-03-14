@@ -29,6 +29,8 @@ namespace web.professionaltranslator.net.Areas.Blog.Models
 
         public string Title { get; set; } = string.Empty;
 
+        public string OgImage { get; set; } = string.Empty;
+
         public static string CreateSlug(string title)
         {
             title = title?.ToLowerInvariant().Replace(
